@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MatchBX</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Bootstrap -->
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/css/animate.css">
+    <link href="~/Content/css/animate.min.css" rel="stylesheet">
+    <link href="~/Content/css/style.css" rel="stylesheet">
+    @*<link rel="icon" href="~/Content/images/favicon.ico" type="image/x-icon">*@
+    <link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/x-icon">
+    <style></style>
+    <script type='text/javascript'>
+(function (d, t) {
+  var bh = d.createElement(t), s = d.getElementsByTagName(t)[0];
+  bh.type = 'text/javascript';
+  bh.src = 'https://www.bugherd.com/sidebarv2.js?apikey=1sxow0t6swmo3wydqddx3a';
+  s.parentNode.insertBefore(bh, s);
+  })(document, 'script');
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117453064-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-117453064-1');
+    </script>
+
+
+</head>
+
+<body style="">
+    <header id="" class="login_header_bg">
+        <nav class="navbar navbar-default navbar-static-top" role="banner">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <div class="logo_bg">
+                        <a href="@Url.Action("Home","Dashboard")" class=""><img src="@Url.Content("~/Content/images/MatchBX-logo-black.svg")" alt=""></a>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.container-->
+        </nav>
+        <!--/nav-->
+    </header>
+    <!--/header-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/Content/js/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script src="~/Content/js/wow.min.js"></script>
+    <!--<script src="js/lightbox.min.js"></script> -->
+    <script src="~/Content/js/lightbox-form.js" type="text/javascript"></script>
+    <div class="smallbox_middile_full clearfix">
+
+        <div class="container">
+            @RenderBody()
+            @Scripts.Render("~/bundles/jqueryval")
+            @RenderSection("scripts", required: false)
+            
+        </div>
+    </div>
+    <!--/#slider-->
+    <!--<footer id="contact_block">
+        <div class="container">
+
+        </div>
+    </footer>-->
+    <!--lightbox popup section-->
+    <div id="shadowing" class="shadowing_overlay myshadow"></div>
+    <div id="reset_pass_pop" class="popup_box clearfix myshadow">
+        <span id="" class="col-md-12 popup_box_title popup_box_title_small clearfix">
+            Reset my password
+            <p>We will send a special link to your email address. Click on this to regain access to your account</p>
+            <a href="#" onclick="closebox('reset_pass_pop')" class="popup_close_bg" title="Close"></a>
+        </span>
+        <div class="col-md-12 pop_container_bg">
+            <div class="form-group clearfix">
+                <label for="email_pop" class="input_label_style">Email Address</label>
+                <input type="email" class="form-control form_input" value="" id="email_pop">
+            </div>
+            <div class="form-group clearfix">
+                <img src="~/Content/images/chapcha.jpg" alt="">
+            </div>
+            <div class="form-group clearfix">
+                <a href="#" onclick="closebox('reset_pass_pop')" class="btn btn-default register_small_button secondary_color_bg" title="SUBMIT">SUBMIT</a>
+            </div>
+        </div>
+    </div>
+    <!-- // lightbox popup section-->
+
+    <script>
+        wow = new WOW({}).init();
+
+
+        $(document).on('click', 'a[href^="#"].smothscroll', function (event) {
+            event.preventDefault();
+
+            $('html, body').animate({
+                scrollTop: $($.attr(this, 'href')).offset().top
+            }, 700);
+        });
+
+    </script>
+</body>
+</html>

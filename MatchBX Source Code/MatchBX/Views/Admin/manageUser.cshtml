@@ -1,0 +1,261 @@
+﻿@model IEnumerable<Business.AdminFeatures>
+
+<script type="text/javascript">
+
+    localStorage.setItem("FromPage", "MngUser");
+    function popupconfirm(UserId) {
+      
+        localStorage.setItem("adminUserId", UserId);
+
+        openbox(1, 'offer_comfirmation_id');
+
+    }
+    function innerpopUp() {
+   
+        var dropdwnval = $("#ddlBlock").val();
+
+        if (dropdwnval != null && dropdwnval != 0 && dropdwnval != "") {
+            $("#errorMsgBlkReason").empty();
+            $("#offer_comfirmation_id").hide();
+            openbox(1, 'offer_blockcomfirmation_id');
+
+        }
+        else {
+            $("#errorMsgBlkReason").html("Please select reason for blocking the user.");
+            event.preventDefault();
+        }
+
+
+    }
+    //function popupconfirm2(UserId) {
+    //    debugger
+    //    localStorage.setItem("adminUserId", UserId);
+
+    //    openbox(1, 'UnBlockcomfirmation_id');
+
+    //}
+    function innerpopUp2(UserId) {
+       
+
+        localStorage.setItem("adminUserId", UserId);
+        openbox(1, 'FinUnBlockcomfirmation_id');
+
+
+    }
+    function SucessPop(id) {
+        if (id == 1) {
+            $("#sucesslbl").html("The user is blocked.");
+        }
+        else {
+            $("#sucesslbl").html("The user is unblocked.")
+        }
+        openbox(1, 'Success');
+    }
+    function Load() {
+     
+        //var _Id = $('#manageUserTbl tr:last-child').attr('id');// $('#Action.selected td:last-child').att("id")
+
+        var _Id = $('#manageUserTbl tr:last').attr('id');
+       // alert(_Id);
+           // $('#Action').find('td').last("id");//$('#manageUserTbl tr:last').find('td:last').attr("id");// $('#manageUserTbl tr:last.children()').last().attr("id");
+        LoadMore(_Id);
+    }
+
+
+    function LoadMore(id) {
+
+   
+        $.ajax({
+
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("LoadMoreUser", "Admin")',
+            data: { 'id': id },
+            success: function (response) {
+               
+                var _morebutton = response[0].Value;
+                if (response[1] != null) {
+               
+                    $.each(response[1].Value, function (key, value) {
+                    
+                        
+                        var elem = " ";
+                        elem += "<tr id=" + response[1].Value[key].UserId + " >";
+                        elem += "<td><a href='#'>" + response[1].Value[key].UserName + "</a></td>";
+                        elem += "<td>" + response[1].Value[key].FullName + "</td>";
+                        elem += "<td>" + response[1].Value[key].Email + "</td>";
+                        if (response[1].Value[key].SkillsList == null)
+                        { elem += "<td></td>"; }
+                        else
+                        { elem += "<td>" + response[1].Value[key].SkillsList + "</td>"; }
+                      
+
+                        elem += "<td>" + response[1].Value[key].Role + "</td>";
+                        if (response[1].Value[key].JobsListed == "-1") {
+                            elem += "<td>" + "N/A" + "</td>";
+                        }
+                        else {
+                            elem += "<td>" + response[1].Value[key].JobsListed + "</td>";
+                        }
+                        if (response[1].Value[key].JobsBidon == "-1")
+                        { elem += "<td>" + "N/A" + "</td>"; }
+                        else
+                        {
+                            elem += "<td>" + response[1].Value[key].JobsBidon + "</td>";
+                        }
+
+                        elem += "<td>" + response[1].Value[key].JobsCompleted + "</td>";
+                        elem += "<td>" + response[1].Value[key].JobsinProgress + "</td>";
+                        if (response[1].Value[key].UserStatus == "Block") {
+                            elem += "<td><a href='#' onclick='popupconfirm(" + response[1].Value[key].UserId + ")'>" + response[1].Value[key].UserStatus + "</a></td>";
+                        }
+                        else {
+                            elem += "<td><a href='#' onclick='innerpopUp2(" + response[1].Value[key].UserId + ")'>" + response[1].Value[key].UserStatus + "</a></td>";
+                        }
+                        elem += "</tr>";
+                        $('#manageUserTbl').find('tbody').append(elem);
+                                    });
+                  
+                    if ($('#manageUserTbl tr').length < _morebutton - 1) {
+                        var _elment2 = " ";
+                        _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadmore'>";
+                        _elment2 = _elment2 + " <a href='#' class='btn button_all secondary_color_bg' id='btnloadmore'>Load more</a></div></div>";
+
+                    }
+                    else { $("#divloadmore").remove(); }
+                }
+               
+             },
+
+            error: function (jqXHR, exception) {
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+    }
+    </script>
+<div id="job_complete_id_dash" class="tab-pane fade clearfix active in">
+    <div class="col-md-12 dash_tab_con_heading_bg padd_left_right_o">
+        @*<h3 class="dash_tab_con_heading_h3">Manage User </h3>*@
+    </div>
+@if (Model != null)
+{
+    <div class="col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix" id="divManguser">
+        <div class="admin_mang_table_bg">
+            <div class="admin_mang_table_bg_scroll">
+
+                <table class="table admin_mang_table" id="manageUserTbl">
+                    <thead>
+                        <tr>
+                            <th class="mngusr_Username_th" id="userName">Username</th>
+                            <th class="mnguser_UsrFullName_th" id="Fullname">User Full Name</th>
+                            <th class="mnguser_Emailid_th" id="EmailId">Email Id</th>
+                            <th class="mnguser_Skills_th" id="Skills">Skills</th>
+                            <th class="mngusr_Role_th" id="Role">Role</th>
+                            <th class="mngusr_JobsListed_th" id="JobsListed">Jobs Listed</th>
+                            <th class="mngusr_JobsBidon_th" id="JobsBidon">Jobs Bid on</th>
+                            <th class="mngusr_JobsCompleted_th" id="JobsCompleted">Jobs Completed</th>
+                            <th class="mngusr_JobsinProgress_th" id="JobsInProgress">Jobs In Progress</th>
+                            <th class="mngusr_Action_th" id="Action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+
+
+                            <tr id="@item.UserId">
+                                <td><a href="#">@item.UserName</a></td>
+                                <td>@item.FullName</td>
+                                <td>@item.Email</td>
+
+                                @*@if (@item.SkillsList.Length > 0)
+                                {
+                                    <td><span>@item.SkillsList.Remove(item.SkillsList.Length - 1)</span></td>
+                                }
+                                else
+                                {*@
+                                @if (item.SkillsList == null)
+                                {
+                                    <td></td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <p>
+                                            @Html.Raw("<p>" + @item.SkillsList + "</p>")
+                                        </p>
+                                    </td>
+                                }
+
+
+
+
+                                @* } *@
+                                <td>@item.Role</td>
+
+                                @if (item.JobsListed == "-1")
+                                {
+                                    <td>N/A</td>
+                                }
+                                else
+                                {
+                                    <td> @item.JobsListed </td>
+                                }
+
+                                @if (item.JobsBidon == "-1")
+                                {
+                                    <td>N/A</td>
+                                }
+                                else
+                                {
+                                    <td>@item.JobsBidon</td>
+                                }
+
+                                <td>@item.JobsCompleted</td>
+
+
+                                <td>@item.JobsinProgress</td>
+
+
+                                @if (item.UserStatus == "Block")
+                                {
+                                    <td><a href="#" onclick="popupconfirm(@item.UserId)">@item.UserStatus</a></td> }
+                                else
+                                {
+                                    <td><a href="#" onclick="innerpopUp2(@item.UserId)">@item.UserStatus</a></td>}
+
+
+                            </tr>
+
+
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        </div>
+}
+@if (Convert.ToInt32(ViewData["jobinTbl"]) < Convert.ToInt32(TempData["RecordstotCount"].ToString()))
+{
+
+            <div class="col-md-12 category_loadmore_bg clearfix" id="divloadmore">
+                <a href="#" class="btn button_all secondary_color_bg" id="btnloadmore" onclick="Load()">Load more</a>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-10 home_left_8" id="divmsg">
+                <div class="col-md-12 category_nojob_bg clearfix">
+                    <h3>There are no users to display yet.</h3>
+                </div>
+            </div>
+        }
+
+
+
+
+
+
+</div>

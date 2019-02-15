@@ -1,0 +1,478 @@
+﻿@model IEnumerable<Business.Gig>
+@{
+    var IsLoadMore = Model != null && Model.Count() > 0 ? Model.FirstOrDefault().Isloadmore : 0;
+    var Type = Model != null && Model.Count() > 0 ?  Model.FirstOrDefault().Category : "";
+    var html = ""; var h = "";
+}
+@if (Model != null)
+{
+    if (Type == "library")
+    {
+        foreach (var item in Model)
+        {
+            <div class="gigcol col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix">
+                <div class="dash_jobs_box_1_inner">
+                    <a href="@Url.Action("Details", "Gigs", new { id = item.GigId, subid = 0 })">
+                        <h3>@item.GigTitle</h3>
+                    </a>
+                    <div class="timeframe_budget_small clearfix">
+                        <div class="timeframe_only"><span>Duration:</span>&nbsp;<span>@item.GigDuration Days</span></div>
+                        <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span></div>
+                        <div class="axp_star_only">
+                            <ul>
+                                @if (item.BadgeCount == 1)
+                                {
+                                    <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 2)
+                                {
+                                    <li><i></i></li>
+                                    <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 3)
+                                {
+                                    <li><i></i></li>
+                                    <li><i></i></li>
+                                    <li><i></i></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="home_client_discription_small clearfix">
+                        @*<p>@item.GigDescription/p>*@<
+                        <div class="readmoretext more">
+                            @if (item.GigDescription.Length > 100)
+                            {
+                                html = item.GigDescription.Substring(0, 100);
+                                h = item.GigDescription.Substring(100 - 1, item.GigDescription.Length - 100);
+                            }
+                            else
+                            {
+                                html = item.GigDescription;
+                            }
+
+                            @html
+                            @if (item.GigDescription.Length > 100)
+                            {
+                                <span class="moreellipses">...&nbsp;</span><span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0 })" class="morelink">Read More</a></span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="border_buttom_only"></div>
+                <div class="dash_timeremaining_box_bg clearfix">
+                    <div class="pull-right dash_time_allmenus">
+                        @if (item.Role == "C" && (item.GigSubscriptionStatus == "J" || String.IsNullOrEmpty(item.GigSubscriptionStatus)))
+                        {
+                            <a href="#" class="btn button_all secondary_color_bg acptenabled" id="@item.GigId" onclick="EditGig(@item.GigId);">Edit GIG</a>
+                        }
+                    </div>
+                    <div class="pull-left dash_time_allmenus">
+                        <div class="btn-group gig_swich_bg" id="status" data-toggle="buttons">
+                            @if (item.IsGigEnabled == "Y")
+                            {
+                                <label class="btn btn-default btn-on btn-sm active">
+                                    <input type="radio" value="1" name="multifeatured_module[module_id][status]" checked="checked">Enable
+                                </label>
+                                <label class="btn btn-default btn-off btn-sm">
+                                    <input type="radio" value="0" name="multifeatured_module[module_id][status]">Disable
+                                </label>
+                            }
+                            else
+                            {
+                                <label class="btn btn-default btn-on btn-sm">
+                                    <input type="radio" value="1" name="multifeatured_module[module_id][status]">Enable
+                                </label>
+                                <label class="btn btn-default btn-off btn-sm active">
+                                    <input type="radio" value="0" name="multifeatured_module[module_id][status]" checked="checked">Disable
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-left">
+                    <input type="hidden" id="hfGigTitle_@item.GigTitle" value="@item.GigTitle" />
+                    <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
+                </div>
+            </div>
+        }
+    }
+    else if (Type == "pending")
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix">
+                <div class="dash_jobs_box_1_inner">
+                    <a href="@Url.Action("Details", "Gigs", new { id = item.GigId, subid = 0 })">
+                        <h3>@item.GigTitle</h3>
+                    </a>
+                    <div class="timeframe_budget_small clearfix">
+                        <div class="timeframe_only"><span>Duration:</span>&nbsp;<span>@item.GigDuration Days</span></div>
+                        <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span></div>
+                        <div class="axp_star_only">
+                            <ul>
+                                @if (item.BadgeCount == 1)
+                                {
+                                    <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 2)
+                                {
+                                    <li><i></i></li>
+                                        <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 3)
+                                {
+                                    <li><i></i></li>
+                                        <li><i></i></li>
+                                        <li><i></i></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="home_client_discription_small clearfix">
+                        @*<p>@item.GigDescription</p>*@
+                        <div class="readmoretext more">
+                            @if (item.GigDescription.Length > 100)
+                            {
+                                html = item.GigDescription.Substring(0, 100);
+                                h = item.GigDescription.Substring(100 - 1, item.GigDescription.Length - 100);
+                            }
+                            else
+                            {
+                                html = item.GigDescription;
+                            }
+
+                            @html
+                            @if (item.GigDescription.Length > 100)
+                            {
+                                <span class="moreellipses">...&nbsp;</span><span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0 })" class="morelink">Read More</a></span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="border_buttom_only"></div>
+                <div class="pull-left">
+                    <input type="hidden" id="hfGigTitle_@item.GigTitle" value="@item.GigTitle" />
+                    <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
+                </div>
+            </div>
+        }
+    }
+    else if (Type == "subreq")
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix">
+                <div class="dash_jobs_box_1_inner">
+                    <a href="@Url.Action("Details", "Gigs", new { id = item.GigId, subid = 0 })">
+                        <h3>@item.GigTitle</h3>
+                    </a>
+                    <div class="timeframe_budget_small clearfix">
+                        <div class="timeframe_only"><span>Duration:</span>&nbsp;<span>@item.GigDuration Days</span></div>
+                        <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span></div>
+                        <div class="axp_star_only">
+                            <ul>
+                                @if (item.BadgeCount == 1)
+                                {
+                                    <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 2)
+                                {
+                                    <li><i></i></li>
+                                    <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 3)
+                                {
+                                    <li><i></i></li>
+                                    <li><i></i></li>
+                                    <li><i></i></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="home_client_discription_small clearfix">
+                        @*<p>@item.GigDescription</p>*@
+                        <div class="readmoretext">
+                            @if (item.GigDescription.Length > 100)
+                            {
+                                html = item.GigDescription.Substring(0, 100);
+                                h = item.GigDescription.Substring(100 - 1, item.GigDescription.Length - 100);
+                            }
+                            else
+                            {
+                                html = item.GigDescription;
+                            }
+
+                            @html
+                            @if (item.GigDescription.Length > 100)
+                            {
+                                <span class="moreellipses">...&nbsp;</span><span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0 })" class="moreUrl">Read More</a></span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="border_buttom_only"></div>
+
+                <!--CURRENT OFFERS 1-->
+                @if (item.GigSubscriptionList.Count > 0)
+                {
+                    <div class="dash_timeremain_corrent_offer_box_bg clearfix">
+                        <h4 class="dash_time_corrent_offh3 clearfix">CURRENT OFFERS</h4>
+                        @foreach (var itemloop in item.GigSubscriptionList)
+                        {
+                            <div id="div_offers_accept" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix">
+                                <div class="pull-left">
+                                    <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="@Url.Content("~/" + itemloop.PosterProfilePic.ToString().Replace("..", ""))" alt="">
+                                            </div>
+                                            <i class="profile_pic_star"></i>
+                                        </div>
+                                        <a href="@Url.Action("Index", "Profile", new { @id = itemloop.JobPosterId })">
+                                            <div class="client_profile_name">
+
+                                                <h4>@itemloop.PosterFullName</h4>
+                                                <span>@itemloop.JobsCompleted jobs completed</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="pull-right dash_time_allmenus">
+                                    <a href="#" onclick="LoadMessages('GigsRequest',@itemloop.JobPosterId,'@itemloop.PosterFullName','@itemloop.PosterProfilePic' )" class="dash_time_right_menu">Send message</a>
+                                    <a href="#" id="btnDecline" class="dash_time_right_menu decenabled" title="Decline offer">Decline</a>
+                                    <a href="#" id="btnAccept" class="btn button_all secondary_color_bg acptenabled">Accept</a>
+
+                                    <input type="hidden" id="hfGigSubId_@itemloop.GigSubscriptionId" value="@itemloop.GigSubscriptionId" />
+                                    <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
+                                    <input type="hidden" id="hfReqName_@itemloop.PosterFullName" value="@itemloop.PosterFullName" />
+                                    <input type="hidden" id="hfReqId_@itemloop.JobPosterId" value="@itemloop.JobPosterId" />
+                                </div>
+                                <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
+                                    <div class="timeframe_budget_small clearfix">
+                                        <div class="timeframe_only">
+                                            <span class="dash_time_span_label">Subscribed on: @itemloop.SubscribedDateDisplay</span>&nbsp;&nbsp;
+                                            <span class="dash_time_span_label">Job completion date: @itemloop.JobCompletionDateDisplay</span>
+                                        </div>
+                                    </div>
+                                    <h4 class="gig_sub_titleh4">@itemloop.Title</h4>
+                                    <div class="readmoretext comment more clearfix">
+                                        @if (itemloop.Description.Length > 100)
+                                        {
+                                            html = itemloop.Description.Substring(0, 100);
+                                            h = itemloop.Description.Substring(100 - 1, itemloop.Description.Length - 100);
+                                        }
+                                        else
+                                        {
+                                            html = itemloop.Description;
+                                        }
+                                        
+                                        @html
+                                        @if (itemloop.Description.Length > 100)
+                                        {
+                                            <span class="moreellipses">...&nbsp;</span><span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="#" class="morelink">Read More</a></span>
+                                        }
+                                    </div>
+                                    <div class="coment_readmore_bgg">
+                                        <input type="hidden" id="hfbidmessage_@itemloop.Description" value="@itemloop.Description" />
+                                        @if (itemloop.Description != "" && itemloop.Description != null)
+                                        {
+                                            // <a href="#" id="btnMsg" onclick="LoadMessageJobsIP('JobsInProgress',@itemloop.UserId,'@itemloop.BidUserName','@itemloop.BidUserProfilePic' )" class="coment_readmore_link coment_readmore_link_show">Read message</a>
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 border_buttom_only job_details_linewithspace padd_left_right_o"></div>
+                        }
+                    </div>
+                }
+                <div class="pull-left">
+                    <input type="hidden" id="hfGigTitle_@item.GigTitle" value="@item.GigTitle" />
+                    <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
+                </div>
+            </div>
+        }
+    }
+    else if (Type == "subpen")
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix">
+                <div class="dash_jobs_box_1_inner">
+                    <a href="@Url.Action("Details", "Gigs", new { id = item.GigId, subid = item.GigSubscriptionId })">
+                        <h3>@item.GigTitle</h3>
+                    </a>
+                    <div class="timeframe_budget_small clearfix">
+                        <div class="timeframe_only"><span>Duration:</span>&nbsp;<span>@item.GigDuration Days</span></div>
+                        <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span></div>
+                        <div class="axp_star_only">
+                            <ul>
+                                @if (item.BadgeCount == 1)
+                                {
+                                    <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 2)
+                                {
+                                    <li><i></i></li>
+                                        <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 3)
+                                {
+                                    <li><i></i></li>
+                                        <li><i></i></li>
+                                        <li><i></i></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="home_client_discription_small clearfix">
+                        @*<p>@item.Description</p>*@
+                        <div class="readmoretext more">
+                            @if (item.Description.Length > 100)
+                            {
+                                html = item.Description.Substring(0, 100);
+                                h = item.Description.Substring(100 - 1, item.Description.Length - 100);
+                            }
+                            else
+                            {
+                                html = item.Description;
+                            }
+
+                            @html
+                            @if (item.Description.Length > 100)
+                            {
+                                <span class="moreellipses">...&nbsp;</span><span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0 })" class="morelink">Read More</a></span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="border_buttom_only"></div>
+                <div class="dash_timeremaining_box_bg clearfix">
+                    <div class="pull-right dash_time_allmenus">
+                        <a href="#" class="dash_time_right_menu" id="cancelSub">Cancel Subscription</a>
+                        <a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = item.GigSubscriptionId })" class="dash_time_right_menu" id="editSub">Edit Subscription</a>
+                    </div>
+                </div>
+                <div class="pull-left">
+                    <input type="hidden" id="hfGigTitle_@item.GigTitle" value="@item.GigTitle" />
+                    <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix">
+                <div class="dash_jobs_box_1_inner">
+                    <a href="@Url.Action("Details", "Gigs", new { id = item.GigId, subid = 0 })">
+                        <h3>@item.GigTitle</h3>
+                    </a>
+                    <div class="timeframe_budget_small clearfix">
+                        <div class="timeframe_only"><span>Duration:</span>&nbsp;<span>@item.GigDuration Days</span></div>
+                        <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span></div>
+                        <div class="axp_star_only">
+                            <ul>
+                                @if (item.BadgeCount == 1)
+                                {
+                                    <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 2)
+                                {
+                                    <li><i></i></li>
+                                        <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 3)
+                                {
+                                    <li><i></i></li>
+                                        <li><i></i></li>
+                                        <li><i></i></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="home_client_discription_small clearfix">
+                        @*<p>@item.Description</p>*@
+                        <div class="readmoretext">
+                            @if (item.Description.Length > 100)
+                            {
+                                html = item.Description.Substring(0, 100);
+                                h = item.Description.Substring(100 - 1, item.Description.Length - 100);
+                            }
+                            else
+                            {
+                                html = item.Description;
+                            }
+
+                            @html
+                            @if (item.Description.Length > 100)
+                            {
+                                <span class="moreellipses">...&nbsp;</span><span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0 })" class="morelink">Read More</a></span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="border_buttom_only"></div>
+                <div class="dash_timeremaining_box_bg clearfix">
+                    <div class="pull-right">
+                        <input type="hidden" id="hfGigSubId_@item.GigSubscriptionId" value="@item.GigSubscriptionId" />
+                        <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
+                        <input type="hidden" id="hfReqName_@item.PosterFullName" value="@item.PosterFullName" />
+                        <input type="hidden" id="hfTokenAddress_@item.TokenAddress" value="@item.TokenAddress" />
+                        <input type="hidden" id="hfGigBudget_@item.GigId" value="@item.BudgetASP" />
+                        <input type="hidden" id="hfGigTotalBudget_@item.GigId" value="@(item.BudgetASP + item.Commission)" />
+                        @if (item.Role == "C" && item.GigSubscriptionStatus == "A")
+                        {
+                            <a href="#" id="btnAccept" class="btn button_all secondary_color_bg acptenabled bu_disable">Payment awaiting</a>
+                        }
+                        else if (item.Role != "C" && item.GigSubscriptionStatus == "A")
+                        {
+                            if (item.JobId == 0)
+                            {
+                                <a href="#" id="btnDeclinPay" class="dash_time_right_menu decenabled" title="Decline offer">Decline</a>
+                                    <a href="#" id="btnPayForGig" class="btn button_all secondary_color_bg acptenabled">Pay</a>
+                            }
+                            else
+                            {
+                                <a href="#" disabled class="btn button_all secondary_color_bg acptenabled bu_disable" title="Decline offer">Pending transaction</a>
+                            }
+                        }
+                    </div>
+
+                    <div class="pull-left">
+                        <input type="hidden" id="hfGigTitle_@item.GigTitle" value="@item.GigTitle" />
+                        <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
+                        <input type="hidden" id="hfGigSubId_@item.GigSubscriptionId" value="@item.GigSubscriptionId" />
+                    </div>
+                </div>
+
+            </div>
+        }
+    }
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ("@IsLoadMore" == 1) {
+            $('#gigs_id_dash').append("<div class='col-md-12 category_loadmore_bg clearfix' id='divloadmore'><a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadmore'>Load more</a></div></div>");
+        }
+
+        //var showChar = 100;
+        //var ellipsestext = "...";
+        //var moretext = "Read More";
+        //var lesstext = "Read less";
+        //$('.more').each(function () {
+        //    debugger
+        //    var content = $(this).html();
+        //    if (content.length > showChar) {
+        //        var c = content.substr(0, showChar);
+        //        var h = content.substr(showChar - 1, content.length - showChar);
+        //        var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="#" class="morelink">' + moretext + '</a></span>';
+        //        $(this).html(html);
+        //    }
+        //});
+    });
+</script>

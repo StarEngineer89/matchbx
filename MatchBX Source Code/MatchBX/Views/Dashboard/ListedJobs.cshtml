@@ -1,0 +1,959 @@
+﻿   <!-- tab Jobs listed -->
+@{
+    Layout = null;
+}
+<script>
+    function LoadMessageJobsIP(_from,_prmSendUserId,_prmJobSeeker,_prmBidUserProfilePic){
+        var userId=_prmSendUserId;
+        //  alert(userId);
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("ChatForSendMessage", "Home")',
+            data: { "_prmSendUserId": userId, "from": _from,"_prmJobSeeker": _prmJobSeeker ,"_prmBidUserProfilePic": _prmBidUserProfilePic },
+            success: function (response) {
+
+                $("#divChat").html(response);
+                openbox(1, 'divChat');
+
+            },
+            error: function (jqXHR, exception) {
+
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+    }
+</script>
+@if (Model.Posted != null)
+{
+    <div id="jobs_listed_id_dash" class="tab-pane fade in active clearfix active in">
+
+        <div class="col-md-12 dash_tab_con_heading_bg padd_left_right_o">
+            <h3 class="dash_tab_con_heading_h3">Jobs listed <span id="spancount">@if (@TempData["JobsListedCount"] != null)
+            { @String.Concat("(", @TempData.Peek("JobsListedCount").ToString(), ")") }</span></h3>
+        </div>
+
+        <div id="divjobs">
+            @foreach (var item in Model.Posted)
+            {
+                <div class="col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix">
+                    <div class="dash_jobs_box_1_inner">
+                        <a href="@Url.Action("Details", "Jobs",new { @id= @item.JobId })">
+                            <h3>@item.JobTitle</h3>
+                        </a>
+                        <div class="timeframe_budget_small clearfix">
+                            <input type="hidden" id="hfjobid_@item.JobId" value="@item.JobId" />
+                            <div class="timeframe_only"><span>Deadline: </span>&nbsp;<span>@item.JobCompletionDateDisplay</span></div>
+                            <div class="budget_only"><span>Budget: </span>&nbsp;<span>@String.Concat(@item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span></div>
+
+                            <div class="axp_star_only">
+                                <ul>
+                                    @if (item.BadgeCount == 1)
+                                    {
+                                        <li><i></i></li>
+                                    }
+                                    else if (item.BadgeCount == 2)
+                                    {
+                                        <li><i></i></li>
+                                        <li><i></i></li>
+                                    }
+                                    else if (item.BadgeCount == 3)
+                                    {
+                                        <li><i></i></li>
+                                        <li><i></i></li>
+                                        <li><i></i></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="home_client_discription_small clearfix">
+                            <p>
+                                @item.JobDescription
+                            </p>
+                        </div>
+                        <div class="client_profile_imgname_bg clearfix">
+                            <div class="client_profile_pic">
+                                <div class="client_profile_pic_1">
+                                    <img src="@Url.Content("~/"+@item.ProfilePic.ToString().Replace("..",""))" alt="">
+                                </div>
+                                <i class="profile_pic_star"></i>
+                            </div>
+                            <a href="@Url.Action("Index", "Profile",new { @id=item.UserId })">
+                                <div class="client_profile_name">
+                                    <h4>@item.FullName</h4>
+                                    <span>@item.JobsCompleted jobs completed</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div><!--dash_jobs_box_1_inner-->
+                    <div class="border_buttom_only"></div>
+                    <div class="dash_timeremaining_box_bg clearfix">
+                        <div class="pull-left">
+                            <span class="dash_time_span_label">Time remaining:</span>
+                            <span class="dash_time_span_sp">@item.EndsIn</span>
+                        </div>
+                        <div class="pull-right">
+                            <input type="hidden" id="hfeditjobid_@item.JobId" value="@item.JobId" />
+                            @if (item.CompletionStatus == "D")
+                            {
+                                @*<a href="#" onclick="jobPostEdit(@item.JobId)" class="dash_time_right_menu bu_disable">Edit this job</a>*@
+                                <a href="#" id="btnEditJob" class="dash_time_right_menu bu_disable">Edit this job</a>
+                            }
+                            else
+                            {
+                                @*<a href="#" onclick="jobPostEdit(@item.JobId)" class="dash_time_right_menu">Edit this job</a>*@
+                                <a href="#" id="btnEditJob" class="dash_time_right_menu bu_enable">Edit this job</a>
+                            }                            
+                        </div>
+                    </div>
+                    <div class="border_buttom_only"></div>
+
+                    <!--CURRENT OFFERS 1-->
+                    @if (item.JobBiddingList.Count > 0)
+                    {
+                        <div class="dash_timeremain_corrent_offer_box_bg clearfix">
+                            <h4 class="dash_time_corrent_offh3 clearfix">CURRENT OFFERS</h4>
+                            @foreach (var itemloop in @item.JobBiddingList)
+                            {
+                                <div id="div_offers_accept" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix">
+                                    <div class="pull-left">
+                                        <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
+                                            <div class="client_profile_pic">
+                                                <div class="client_profile_pic_1">
+                                                    <img src="@Url.Content("~/" + @itemloop.BidUserProfilePic.ToString().Replace("..", ""))" alt="">
+                                                </div>
+                                                <i class="profile_pic_star"></i>
+                                            </div>
+                                            <a href="@Url.Action("Index", "Profile",new { @id=itemloop.UserId })">
+                                                <div class="client_profile_name">
+
+                                                    <h4>@itemloop.BidUserName</h4>
+
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="dash_time_corrent_off_timeremaining text_border_left">
+                                            <span class="dash_time_span_label">Time remaining:</span>
+                                            <span class="dash_time_span_sp">@item.EndsIn</span>
+                                        </div>
+                                    </div><!--pull-left-->
+                                    <div class="pull-right">
+                                        <input type="hidden" id="hfjobbiddingid_@itemloop.JobBiddingId" value="@itemloop.JobBiddingId" />
+                                        <input type="hidden" id="hfjobtitle_@item.JobTitle" value="@item.JobTitle" />
+                                        <input type="hidden" id="hfuserid_@itemloop.UserId" value="@itemloop.UserId" />
+                                        <input type="hidden" id="hfjobid_@item.JobId" value="@item.JobId" />
+                                        <input type="hidden" id="hfbidusername_@itemloop.BidUserName" value="@itemloop.BidUserName" />
+                                        <input type="hidden" id="hfTokenAddressPoster_@itemloop.TokenAddressPoster" value="@itemloop.TokenAddressPoster" />
+                                        <input type="hidden" id="hfIsApprovedPoster_@itemloop.IsApprovedPoster" value="@itemloop.IsApprovedPoster" />
+                                        <input type="hidden" id="hfTokenAddressSeeker_@itemloop.TokenAddressSeeker" value="@itemloop.TokenAddressSeeker" />
+                                        <input type="hidden" id="hfIsApprovedSeeker_@itemloop.IsApprovedSeeker" value="@itemloop.IsApprovedSeeker" />
+                                        <input type="hidden" id="hfuseridposter_@item.UserId" value="@item.UserId" />
+                                        <input type="hidden" id="hfbidAmount_@itemloop.BidAmount" value="@itemloop.BidAmount" />
+
+                                        @if (item.CompletionStatus == "D")
+                                        {
+                                            <a href="javascript:;" id="btnDecline" class="dash_time_right_menu bu_disable" title="Decline offer">Decline offer</a>
+                                            <a href="javascript:;" id="btnAccept" class="btn button_all secondary_color_bg bu_disable" title="@itemloop.AcceptStatusHover">@itemloop.AcceptStatus</a>                                            
+                                        }
+                                        else
+                                        {
+                                            <a href="#" id="btnDecline" class="dash_time_right_menu decenabled" title="Decline offer">Decline offer</a>
+                                            <a href="#" id="btnAccept" class="btn button_all secondary_color_bg acptenabled" title="@itemloop.AcceptStatusHover">@itemloop.AcceptStatus</a>
+                                        }
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
+                                        <div class="comment more clearfix">
+                                            <div class="bidamount_m_viewbg">
+                                                <span class="dash_time_span_label">Offering: </span>
+                                                <span class="dash_time_span_sp">@String.Concat(@itemloop.BidAmount.ToString("#,##0"), " AXPR ", "($", @itemloop.BidAmountinDollar.ToString("N2"), ")")</span>
+                                            </div>
+                                            <div class="comment_text">
+                                                @itemloop.BidMessage
+                                            </div>
+                                            <div class="coment_readmore_bgg">
+                                                <input type="hidden" id="hfbidmessage_@itemloop.BidMessage" value="@itemloop.BidMessage" />
+                                                @if (itemloop.BidMessage != "" && itemloop.BidMessage != null)
+                                                {
+                                                    <a href="#" id="btnMsg" onclick="LoadMessageJobsIP('JobsInProgress',@itemloop.UserId,'@itemloop.BidUserName','@itemloop.BidUserProfilePic' )" class="coment_readmore_link coment_readmore_link_show">Read message</a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 border_buttom_only job_details_linewithspace padd_left_right_o"></div>
+                            }
+                        </div>
+                    }
+
+
+                </div>
+
+            }
+            @if (Model.Posted != null && Model.Posted.Count == 0)
+                {
+                <div class="nojob_diplytable" id="divmsg">
+                    <div class="col-md-12 category_nojob_bg clearfix">
+                        <h3>You have not listed any jobs</h3>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+        <input type="hidden" id="hfjobtitle" />
+        <input type="hidden" id="hfuserid" />
+        <input type="hidden" id="hfjobbiddingid" />
+        <input type="hidden" id="hfjobid" />
+        <input type="hidden" id="hfbidusername" />
+        <input type="hidden" id="hfbidmessage" />
+        <input type="hidden" id="hfTokenAddressPoster" />
+        <input type="hidden" id="hfIsApprovedPoster" />
+        <input type="hidden" id="hfTokenAddressSeeker" />
+        <input type="hidden" id="hfIsApprovedSeeker" />
+        <input type="hidden" id="hfuseridposter" />
+        <input type="hidden" id="hfbidAmount" />
+        <input type="hidden" id="hfeditjobid" />
+
+        <input type="hidden" id="hfjobtitlePop" />
+        <input type="hidden" id="hfjobbiddingidPop" />
+        <input type="hidden" id="hfjobidPop" />
+        <input type="hidden" id="hfuseridPop" />
+        <input type="hidden" id="hfTokenAddressPosterPop" />
+        <input type="hidden" id="hfIsApprovedPosterPop" />
+        <input type="hidden" id="hfTokenAddressSeekerPop" />
+        <input type="hidden" id="hfIsApprovedSeekerPop" />
+        <input type="hidden" id="hfuseridposterPop" />
+        <input type="hidden" id="hfbidAmountPop" />
+        <input type="hidden" id="hfbidusernamePop" />
+
+        @if (Model.Posted != null && Model.Posted.Count > 0 && Model.Posted[0].Isloadmore == 1)
+        {
+            <div class="col-md-12 category_loadmore_bg clearfix" id="divloadmore">
+                <a href="javascript:" class="btn button_all secondary_color_bg" id="btnloadmore">Load more</a>
+            </div>
+        }
+
+    </div>
+}
+
+
+<!--Bid Message pop up-->
+<div id="shadowing" class="shadowing_overlay myshadow"></div>
+
+<script>
+
+    $(function () {
+        var chat = $.connection.chatHub;
+        var notification = $.connection.notificationHub;
+        var _hubid = $.connection.hub.id;
+
+
+        function AcceptOffer(jobid, jobbiddingid, status, jobtitle, userid, TokenAddressSeeker, IsApprovedSeeker, bidamount) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("BidOffer", "Dashboard")',
+                data: { 'JobId': jobid, 'JobBiddingId': jobbiddingid, 'Status': status, 'JobTitle': jobtitle, 'UserId': userid, 'TokenAddressSeeker': TokenAddressSeeker, 'IsApprovedSeeker': IsApprovedSeeker, 'bidamount': bidamount },
+                success: function (response) {
+                    //if (response == "Success" && status == "A") {
+                    //    //Escrow.desposit(jobid,job_post_addr, bidder_addr, token amount);
+
+                    //}
+                    if (response == "Success") {
+                        var _sendUserId = "@Session["UserId"]";
+                        var _fullname = $("#hfbidusernamePop").val();
+                        var _receiverUserId = "@Session["UserId"]";
+                        var _notification = "";
+                        var _header = "";
+                        var _Url = "/Jobs/Details/" + jobid;
+                        if (status == "A") {
+                                                                      
+                            function callback(result)
+                            {
+                                if(result == "success")
+                                {
+                                    _notification = "Waiting for confirmation of payment. Once this is confirmed, " + _fullname + " can get started."
+                                    _header = "Transaction Waiting";
+                                    $.connection.hub.start().done(function () {
+                                        notification.server.send(_sendUserId, _receiverUserId, _fullname, _notification, _header, _Url);
+                                    }).fail(function(){ console.log('Could not connect'); });;
+                                  
+                                    closebox('offer_comfirmation_id_list');
+                                }                                
+                            }
+                            debugger;
+                            SaveTransactionDetail(jobid, _sendUserId, 'D', 'D', '', bidamount,'',callback);
+                        }
+                        else {
+                            closebox('offer_comfirmation_id_decline');
+                            //_notification = "Your job has been cancelled as it went against the terms of this jobsite";
+                            //_header = "Bid cancelled";
+                        }
+
+
+                        if (status == "A") {                            
+                            function callBack(txhash) {
+                                console.log(txhash);
+                                if (txhash == 'undefined') {
+                                    closebox('offer_comfirmation_id_list');
+                                    openbox(1, 'openmetamask_comfirmation_id');
+                                } else if (txhash == 'cancelled') {
+                                    MetaMaskCancel(jobid);
+                                    location.reload();
+                                } else {
+                                    UpdateTransactionDetail(jobid, _sendUserId, 'D', 'D', txhash, bidamount);
+                                    location.reload();
+                                }
+                            }
+                            
+                            App.handleDeposit(jobid, TokenAddressSeeker, bidamount * Math.pow(10, 18), callBack);
+
+
+
+                        }
+                    }
+
+                    //openbox(1, 'mark_complete_rating_pop_id');
+                    //$("#jobprogress").trigger("click");
+                    //$("#listedjobs").trigger("click");
+                    JobsListedWithoutExchangeRate();
+
+                },
+                error: function (jqXHR, exception) {
+
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+
+        function JobsListedWithoutExchangeRate()
+        {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("JobsListedWithoutExchangeRate", "Dashboard")',
+                data: "{ }",
+                success: function (response) {
+                    var htm = response;
+                    $("#divcontent").html(response)
+                },
+                error: function (jqXHR, exception) {
+
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+
+        }
+
+        function SaveTransactionDetail(jobid, userid, transactiontype, processtype, hash, bidamount, address,callback) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("SaveTransactionDetail", "Dashboard")',
+                data: { 'JobId': jobid, 'UserId': userid, 'TransactionType': transactiontype, 'ProcessType': processtype, 'Hash': hash, 'BidAmount': bidamount, 'Address': address },
+                success: function (response) {
+                    callback("success");
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                    callback("failed")
+                }
+            });
+        }
+
+        function UpdateTransactionDetail(jobid, userid, transactiontype, processtype, hash) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("UpdateTransactionDetail", "Dashboard")',
+                data: { 'JobId': jobid, 'UserId': userid, 'TransactionType': transactiontype, 'ProcessType': processtype, 'Hash': hash },
+                success: function (response) {
+
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+
+        function MetaMaskCancel(jobid) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("MetaMaskCancel", "Dashboard")',
+                data: { 'JobId': jobid },
+                success: function (response) {
+
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+
+        $.connection.hub.start().done(function () {
+            $('#btnacceptoffer').unbind("click").bind( "click",function(){
+                              
+                var _bidAmount = $("#hfbidAmountPop").val();
+                var _posterid = @Session["UserId"];
+                var _pendingbidAmount = 0;
+                function callback(pendingbidAmount, result)
+                {
+                    if(result = "sucess")
+                    {
+                        _pendingbidAmount = pendingbidAmount;
+
+                        function callback(address, result) {
+
+                            if (address == 'error' || address == '') {
+                                closebox('offer_comfirmation_id_list');
+                                openbox(1, 'metamask_comfirmation_id');
+                            }
+                            else {
+                                var _TokenAddressSeeker = $("#hfTokenAddressSeekerPop").val();
+                                var _IsApprovedSeeker = $("#hfIsApprovedSeekerPop").val();
+                                var _jobid = $("#hfjobidPop").val();
+                                var _jobbiddingid = $("#hfjobbiddingidPop").val();
+                                var _jobtitle = $("#hfjobtitlePop").val();
+                                var _receiverUserId = $("#hfuseridPop").val();
+
+                                if (result == 'approved') {
+                                    AcceptOffer(_jobid, _jobbiddingid, "A", _jobtitle, _receiverUserId, _TokenAddressSeeker, _IsApprovedSeeker, _bidAmount);
+                                } else if (result == 'reset') {
+                                    closebox('offer_comfirmation_id_list');
+                                    openbox(1, 'metamaskreset');
+
+                                } else if (result == 'insufficient') {
+                                    closebox('offer_comfirmation_id_list');
+                                    openbox(1, 'metamaskinsufficientamount');
+                                }
+                                else {                                    
+                                    closebox('offer_comfirmation_id_list');
+                                    openbox(1, 'metamaskamountempty');
+                                }
+                            }
+                        }
+                        debugger;
+                        App.handleAllowance(Number(_bidAmount) + _pendingbidAmount, callback);
+                    }
+                }
+
+                CheckApproveAmount(_posterid, callback);
+
+                //App.getUserAddress(callback);
+
+            });
+
+            $('#btnyesDecline').click(function () {
+                var _jobid = $("#hfjobidPop").val();
+                var _jobbiddingid = $("#hfjobbiddingidPop").val();
+                var _jobtitle = $("#hfjobtitlePop").val();
+                var _receiverUserId = $("#hfuseridPop").val();
+
+                AcceptOffer(_jobid, _jobbiddingid, "D", _jobtitle, _receiverUserId, '', '', 0);
+            });
+
+            $('#btnResetMetaMask').unbind("click").bind("click", function () {
+
+                debugger;
+
+                function callback(address) {
+                    if (address == 'error' || address == '') {
+                        openbox(1, 'metamask_comfirmation_id');
+                        closebox('offer_comfirmation_id');
+                    }
+                    else {
+                        var _userid = @Session["UserId"];
+                        $.ajax({
+                            type: 'POST',
+                            cache: false,
+                            url: '@Url.Action("ResetWallet", "Dashboard")',
+                            data: { 'WalletAddress': address, 'UserId': _userid },
+                            success: function (response) {
+                                if (response == "Success") {
+                                    //location.reload();
+                                    App.resetApproveBalance();
+                                    closebox('metamaskreset');
+                                    $('#metamask').addClass('header_loged_menua_metamask');
+                                    $('.balance').html('<span>Reset</span><span>Wallet</span>');
+                                    localStorage.setItem("Metamask", "A");
+
+                                }
+                            }
+                        });
+                    }                    
+                     
+                };
+                
+                App.getUserAddress(callback);
+               
+               
+            });
+            
+
+            $('body').on('click'," a.bu_enable",function(){
+                              
+                var _jobid = $(this).closest('div.pull-right').find('input[id^="hfeditjobid_"]').val();
+                jobPostEdit(_jobid);
+            });
+
+            $('#btnApproveMetaMask').click(function () {
+
+                              
+                closebox('metamaskamountempty');
+
+                function balCallBack(res){
+                    if(res == 'empty')
+                    {
+                        openbox(1, "metamaskempty");
+                    } else if (res == 'ethempty') {
+                        openbox(1, "ethempty");
+                    }
+                    else if(res == 'isbalance')
+                    {
+                        var userid = @Session["UserId"];
+                        var Hash = localStorage.getItem("Address");
+
+                        $('#metamask').addClass('header_loged_menua_metamask');
+                        $('.balance').html('<span>Authorisation </span><span>pending</span>');
+                        $('#metamask').attr('onclick', '');
+                        localStorage.setItem("Metamask", "P");
+                        function callback(result)
+                        {
+                            if(result == "success")
+                            {
+                                function callback(result){
+                                    if(result =='cancelled'){
+                                        //SaveTransactionDetail(1,userid,'A','A',Hash,0);                                    
+                                    }
+                                    else
+                                    {
+                                        location.reload();
+                                    }
+                                }
+                                App.handleApprove(callback);
+                            }                            
+                        }
+                        SaveTransactionDetail(0,userid,'A','A','',0,Hash,callback);
+                    }  
+                }
+                            
+
+                App.checkBalance(balCallBack);               
+
+            });
+
+        });
+    })
+    function jobPostEdit(JobId) {
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("CheckPendingTransactions", "Dashboard")',
+            data: { 'JobId': JobId},
+            
+            beforeSend: function() {
+                $("#loaderDiv").show();
+            },
+            success: function (response) {
+                if(response[0].IsPending == 'Y')
+                {
+                    $("#spanTranJob").text(response[0].BidAmount + " AXPR");
+                    $("#spanTranUser").text(response[0].BidUserName);
+                    $("#loaderDiv").hide();
+                    openbox(1, 'pendingTransactions');
+                }
+                else
+                {
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        url: '@Url.Action("PostJob", "Jobs")',
+                        data: { "id": JobId },
+                        success: function (response) {
+                            $("#postjob_view_pop_id").html(response)
+                            openbox(1, 'postjob_view_pop_id');
+                            $("#loaderDiv").hide();
+                        },
+                        error: function (jqXHR, exception) {
+                            $("#loaderDiv").hide();
+                            console.log(jqXHR.status);
+                            console.log(exception);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    function CheckApproveAmount(UserId,callback)
+    {
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("CheckApprovedAmount", "Dashboard")',
+            data: { 'UserId': UserId },
+            success: function (response) {
+                _pendingbidAmount = response.Amount;
+                callback(_pendingbidAmount,"suceess");
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR.status);
+                console.log(exception);
+                callback(0,"failed");
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+
+        var _count = $("#spancount").text();
+        $("#listedjobs span").text(_count);
+
+        //$("#btnyes").click(function () {
+        //
+        //    var _jobtitle = hfjobtitlePop.value;
+        //    var _jobid = hfjobidPop.value;
+        //    var _status = "A";
+        //    var _userid = hfuseridPop.value;
+        //    var _jobbiddingid = hfjobbiddingidPop.value;
+
+        //    var _TokenAddressPoster = hfTokenAddressPosterPop.value;
+        //    var _IsApprovedPoster = hfIsApprovedPosterPop.value;
+        //    var _TokenAddressSeeker = hfTokenAddressSeekerPop.value;
+        //    var _IsApprovedSeeker = hfIsApprovedSeekerPop.value;
+        //    var _useridposter = hfuseridposterPop.value;
+        //    var _bidAmountPop = hfbidAmountPop.value;
+
+        //    function callBack(val) {
+        //        console.log(val);
+        //        //if (val) {
+        //        //} else {
+        //        //    closebox('offer_comfirmation_id_list');
+        //        //}
+        //    }
+        //    //handleAllowance(tokenAmount,jobId, bidder_addr)
+
+        //    //App.handleAllowance(1000000, _jobid, "0xAA6700cc830BA8baaF248f90D4213F01084BF471", callBack);
+
+        //    AcceptOffer(_jobid, _jobbiddingid, _status, _jobtitle, _userid, _TokenAddressSeeker, _IsApprovedSeeker, _bidAmountPop);
+        //})
+
+        //$("#btnyesDecline").click(function () {
+        //
+        //    var _jobtitle = hfjobtitlePop.value;
+        //    var _jobid = hfjobidPop.value;
+        //    var _status = "D";
+        //    var _userid = hfuseridPop.value;
+        //    var _jobbiddingid = hfjobbiddingidPop.value;
+        //    AcceptOffer(_jobid, _jobbiddingid, _status, _jobtitle, _userid,'','',0);
+        //})
+
+        $("#jobs_listed_id_dash").on("click", "a.acptenabled", function () {
+
+                          
+            var _jobid = $(this).closest('div.pull-right').find('input[id^="hfjobid_"]').val();
+            var _jobtitledispaly = $(this).closest('div.pull-right').find('input[id^="hfjobtitle_"]').val();
+            var _bidusername = $(this).closest('div.pull-right').find('input[id^="hfbidusername_"]').val();
+            hfjobtitlePop.value = $(this).closest('div.pull-right').find('input[id^="hfjobtitle_"]').val();
+            hfjobbiddingidPop.value = $(this).closest('div.pull-right').find('input[id^="hfjobbiddingid_"]').val();
+            hfjobidPop.value = $(this).closest('div.pull-right').find('input[id^="hfjobid_"]').val();
+            hfuseridPop.value = $(this).closest('div.pull-right').find('input[id^="hfuserid_"]').val();
+
+            hfTokenAddressPosterPop.value = $(this).closest('div.pull-right').find('input[id^="hfTokenAddressPoster_"]').val();
+            hfIsApprovedPosterPop.value = $(this).closest('div.pull-right').find('input[id^="hfIsApprovedPoster_"]').val();
+            hfTokenAddressSeekerPop.value = $(this).closest('div.pull-right').find('input[id^="hfTokenAddressSeeker_"]').val();
+            hfIsApprovedSeekerPop.value = $(this).closest('div.pull-right').find('input[id^="hfIsApprovedSeeker_"]').val();
+            hfuseridposterPop.value = $(this).closest('div.pull-right').find('input[id^="hfuseridposter_"]').val();
+            hfbidAmountPop.value = $(this).closest('div.pull-right').find('input[id^="hfbidAmount_"]').val();
+            hfbidusernamePop.value = $(this).closest('div.pull-right').find('input[id^="hfbidusername_"]').val();
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("CheckPendingTransactions", "Dashboard")',
+                data: { 'JobId': _jobid},
+                success: function (response) {
+                    if(response[0].IsPending == 'Y')
+                    {
+                        //var _jobtitledispaly = $(this).closest('div.pull-right').find('input[id^="hfjobtitle_"]').val();
+                        //var _bidusername = $(this).closest('div.pull-right').find('input[id^="hfbidusername_"]').val();
+
+                        $("#spanTranJob").text(response[0].BidAmount + " AXPR");
+                        $("#spanTranUser").text(response[0].BidUserName);
+                        openbox(1, 'pendingTransactions');
+                    }
+                    else
+                    {
+                        //var _jobtitledispaly = $(this).closest('div.pull-right').find('input[id^="hfjobtitle_"]').val();
+                        //var _bidusername = $(this).closest('div.pull-right').find('input[id^="hfbidusername_"]').val();
+
+
+                        //hfjobtitlePop.value = $(this).closest('div.pull-right').find('input[id^="hfjobtitle_"]').val();
+                        //hfjobbiddingidPop.value = $(this).closest('div.pull-right').find('input[id^="hfjobbiddingid_"]').val();
+                        //hfjobidPop.value = $(this).closest('div.pull-right').find('input[id^="hfjobid_"]').val();
+                        //hfuseridPop.value = $(this).closest('div.pull-right').find('input[id^="hfuserid_"]').val();
+
+                        //hfTokenAddressPosterPop.value = $(this).closest('div.pull-right').find('input[id^="hfTokenAddressPoster_"]').val();
+                        //hfIsApprovedPosterPop.value = $(this).closest('div.pull-right').find('input[id^="hfIsApprovedPoster_"]').val();
+                        //hfTokenAddressSeekerPop.value = $(this).closest('div.pull-right').find('input[id^="hfTokenAddressSeeker_"]').val();
+                        //hfIsApprovedSeekerPop.value = $(this).closest('div.pull-right').find('input[id^="hfIsApprovedSeeker_"]').val();
+                        //hfuseridposterPop.value = $(this).closest('div.pull-right').find('input[id^="hfuseridposter_"]').val();
+                        //hfbidAmountPop.value = $(this).closest('div.pull-right').find('input[id^="hfbidAmount_"]').val();
+
+                        $("#spanJob").text(" for " + _jobtitledispaly);
+                        $("#spanaxp").text(_bidusername);
+                        openbox(1, 'offer_comfirmation_id_list');
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+
+        });
+
+        $("#jobs_listed_id_dash").on("click", "a.decenabled", function () {
+
+            var _jobtitledispaly = $(this).closest('div.pull-right').find('input[id^="hfjobtitle_"]').val();
+            var _bidusername = $(this).closest('div.pull-right').find('input[id^="hfbidusername_"]').val();
+
+            hfjobtitlePop.value = $(this).closest('div.pull-right').find('input[id^="hfjobtitle_"]').val();
+            hfjobbiddingidPop.value = $(this).closest('div.pull-right').find('input[id^="hfjobbiddingid_"]').val();
+            hfjobidPop.value = $(this).closest('div.pull-right').find('input[id^="hfjobid_"]').val();
+            hfuseridPop.value = $(this).closest('div.pull-right').find('input[id^="hfuserid_"]').val();
+            var _jobid = $(this).closest('div.pull-right').find('input[id^="hfjobid_"]').val();
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("CheckPendingTransactions", "Dashboard")',
+                data: { 'JobId': _jobid},
+                success: function (response) {
+                    if(response[0].IsPending == 'Y')
+                    {
+                        $("#spanTranJob").text(response[0].BidAmount + " AXPR");
+                        $("#spanTranUser").text(response[0].BidUserName);
+                        openbox(1, 'pendingTransactions');
+                    }
+                    else
+                    {
+                        $("#spanJobDecline").text(" for " + _jobtitledispaly);
+                        $("#spanaxpDecline").text(_bidusername);
+                        openbox(1, 'offer_comfirmation_id_decline');
+                    }
+                }
+            });
+        });
+
+        //$("#jobs_listed_id_dash").on("click", "#btnMsg", function () {
+
+
+        //    var _bidmessage = $(this).closest('div.coment_readmore_bgg').find('input[id^="hfbidmessage_"]').val();
+
+        //    $("#spanBidMsg").text(_bidmessage);
+        //    openbox(1, 'bid_message_popup');
+
+        //});
+
+        $("#jobs_listed_id_dash").on("click", "#btnloadmore", function (e) {
+
+
+            var _Id = $('#jobs_listed_id_dash div.timeframe_budget_small').last().find('input[id^="hfjobid_"]').val();
+            LoadMore(_Id);
+            e.preventDefault();
+        })
+
+        function LoadMore(id) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("LoadMoreListedJobs", "Dashboard")',
+                data: { 'id': id },
+                success: function (response) {
+                    $("#divloadmore").remove();
+
+
+                    $.each(response, function (key, value) {
+                        var loopelement = response[key].JobBiddingList;
+                        var elem = " ";
+                        elem = "<div class='col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix' id=" + response[key].JobId + ">";
+                        elem = elem + "<div class='dash_jobs_box_1_inner'>";
+                        var _href = "/Jobs/Details?";
+                        _href = _href + "id=" + response[key].JobId;
+                        elem = elem + "<a href=" + _href + "><h3>" + response[key].JobTitle + "</h3></a>";
+                        // elem = elem + "<h3>" + response[key].JobTitle + "</h3>";jj
+                        elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                        var _id = "hfjobid_" + response[key].JobId;
+                        elem = elem + "<input type='hidden' id=" + _id + " value=" + response[key].JobId + " />"
+                        elem = elem + "<div class='timeframe_only'><span>Deadline: </span>&nbsp;<span>" + response[key].JobCompletionDateDisplay + "</span></div>";
+                        elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
+                        elem = elem + "<div class='axp_star_only'><ul>";
+                        if (response[key].BadgeCount == 1) {
+                            elem = elem + "<li><i></i></li>";
+                        }
+                        else if (response[key].BadgeCount == 2) {
+                            elem = elem + "<li><li><i></i></li><li><i></i></li>";
+                        }
+                        else if (response[key].BadgeCount == 3) {
+                            elem = elem + "<li><i></i></li><li><i></i></li><li><i></i></li>";
+                        }
+                        elem = elem + "</ul></div>";
+                        elem = elem + "</div>";
+                        elem = elem + "<div class='home_client_discription_small clearfix'><p>" + response[key].JobDescription + "</p></div>";
+                        elem = elem + "<div class='client_profile_imgname_bg clearfix'> <div class='client_profile_pic'><div class='client_profile_pic_1'>";
+                        elem = elem + "<img src=" + response[key].ProfilePic + " alt='' /></div> <i class='profile_pic_star'></i></div>";
+                        var _profilehref = "/Profile/Index?";
+                        _profilehref = _profilehref + "id=" + response[key].UserId;
+
+                        elem = elem + "<a href=" + _profilehref + "><div class='client_profile_name'><h4>" + response[key].FullName + "</h4> <span> " + response[key].JobsCompleted + " jobs completed</span> </div></a></div></div>"
+                        console.log(elem);
+                        elem = elem + "<div class='border_buttom_only'></div> ";
+
+                        elem = elem + "<div class='dash_timeremaining_box_bg clearfix'>";
+                        elem = elem + "<div class='pull-left'>";
+                        elem = elem + "<span class='dash_time_span_label'>Time remaining:</span>";
+                        elem = elem + "<span class='dash_time_span_sp'>" + response[key].EndsIn + "</span>";
+                        elem = elem + "</div>";
+                        elem = elem + "<div class='pull-right'>";
+                        var _hrefedit = "/Jobs/PostJob?";
+                        _hrefedit = _hrefedit + "id=" + response[key].JobId;
+                        var _hfeditjobid = "hfeditjobid_" + response[key].JobId;
+                        elem = elem + "<input type='hidden' id=" + _hfeditjobid + " value=" + response[key].JobId + " />";
+                        //elem = elem + "<a href=" + _hrefedit + "  class='dash_time_right_menu'>Edit this job</a>";
+                        //elem = elem + "<a href='#' onclick = 'jobPostEdit(" + response[key].JobId + ")' class='dash_time_right_menu'>Edit this job</a>";
+                        if (response[key].CompletionStatus.toLocaleString() == "D")
+                        {
+                            elem = elem + "<a href='#' id='btnEditJob' class='dash_time_right_menu bu_disable'>Edit this job</a>";
+                        }
+                        else
+                        {
+                            elem = elem + "<a href='#' id='btnEditJob' class='dash_time_right_menu bu_enable'>Edit this job</a>";
+                        }
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+                        //elem = elem + "<div class='border_buttom_only'></div>";
+                        var _offers = loopelement.length
+                        if (_offers > 0) {
+                            elem = elem + "<div class='dash_timeremain_corrent_offer_box_bg clearfix'>";
+                            elem = elem + "<h4 class='dash_time_corrent_offh3 clearfix'>CURRENT OFFERS</h4>";
+                        }
+                        var htmlObj = [];
+                        $.each(loopelement, function (index, option) {
+                            elem = elem + "<div id='div_offers_accept' class='col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix'>";
+                            elem = elem + "<div class='pull-left'>";
+                            elem = elem + "<div class='client_profile_imgname_bg client_profile_imgname_bg_inline clearfix'>";
+                            elem = elem + "<div class='client_profile_pic'>";
+                            elem = elem + "<div class='client_profile_pic_1'>";
+                            elem = elem + "<img src=" + loopelement[index].BidUserProfilePic + " alt=''>";
+                            elem = elem + "</div>";
+                            elem = elem + "<i class='profile_pic_star'></i>";
+                            elem = elem + "</div>";
+                            elem = elem + "<div class='client_profile_name'>";
+                            elem = elem + "<h4>" + loopelement[index].BidUserName + "</h4>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div>";
+                            elem = elem + "<div class='dash_time_corrent_off_timeremaining text_border_left'>";
+                            elem = elem + "<span class='dash_time_span_label'>Time remaining:</span>";
+                            elem = elem + "<span class='dash_time_span_sp'>" + response[key].EndsIn + "</span>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div>";
+                            elem = elem + "<div class='pull-right'>";
+                            var _jobbiddingid = "hfjobbiddingid_" + loopelement[index].JobBiddingId;
+                            elem = elem + "<input type='hidden' id=" + _jobbiddingid + " value=" + loopelement[index].JobBiddingId + " />";
+                            var _JobTitle = "hfjobtitle_" + response[key].JobTitle;
+                            elem = elem + "<input type='hidden' id=" + _JobTitle + " value='" + response[key].JobTitle + "' />";
+                            var _UserId = "hfuserid_" + loopelement[index].UserId;
+                            elem = elem + "<input type='hidden' id=" + _UserId + " value=" + loopelement[index].UserId + " />";
+                            var _JobId = "hfjobid_" + response[key].JobId;
+                            elem = elem + "<input type='hidden' id=" + _JobId + " value=" + response[key].JobId + " />";
+                            var _BidUserName = "hfbidusername_" + loopelement[index].BidUserName;
+                            elem = elem + "<input type='hidden' id=" + _BidUserName + " value='" + loopelement[index].BidUserName + "' />";
+                            var _TokenAddressPoster = "hfTokenAddressPoster_" + loopelement[index].TokenAddressPoster;
+                            elem = elem + "<input type='hidden' id=" + _TokenAddressPoster + " value='" + loopelement[index].TokenAddressPoster + "' />";
+                            var _IsApprovedPoster = "hfIsApprovedPoster_" + loopelement[index].IsApprovedPoster;
+                            elem = elem + "<input type='hidden' id=" + _IsApprovedPoster + " value='" + loopelement[index].IsApprovedPoster + "' />";
+                            var _TokenAddressSeeker = "hfTokenAddressSeeker_" + loopelement[index].TokenAddressSeeker;
+                            elem = elem + "<input type='hidden' id=" + _TokenAddressSeeker + " value='" + loopelement[index].TokenAddressSeeker + "' />";
+                            var _IsApprovedSeeker = "hfIsApprovedSeeker_" + loopelement[index].IsApprovedSeeker;
+                            elem = elem + "<input type='hidden' id=" + _IsApprovedSeeker + " value='" + loopelement[index].IsApprovedSeeker + "' />";
+                            var _UserId = "hfuseridposter_" + loopelement[index].UserId;
+                            elem = elem + "<input type='hidden' id=" + _UserId + " value='" + loopelement[index].UserId + "' />";
+                            var _BidAmount = "hfbidAmount_" + loopelement[index].BidAmount;
+                            elem = elem + "<input type='hidden' id=" + _BidAmount + " value='" + loopelement[index].BidAmount + "' />";
+                            if (loopelement[index].CompletionStatus.toLocaleString() == "D") {
+                                elem = elem + "<a href='javascript:;' id='btnDecline' class='dash_time_right_menu bu_disable'  title='Decline offer'>Decline offer</a>";
+                                elem = elem + "<a href='javascript:;' id='btnAccept' class='btn button_all secondary_color_bg bu_disable'  title='"+loopelement[index].AcceptStatusHover+"'>"+loopelement[index].AcceptStatus+"</a>";
+                            }
+                            else {
+                                elem = elem + "<a href='#' id='btnDecline' class='dash_time_right_menu decenabled' title='Decline offer'>Decline offer</a>";
+                                elem = elem + "<a href='#' id='btnAccept' class='btn button_all secondary_color_bg acptenabled' title='"+loopelement[index].AcceptStatusHover+"'>"+loopelement[index].AcceptStatus+"</a>";
+                            }
+                            elem = elem + "</div>";
+
+                            elem = elem + "<div class='col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix'>";
+                            elem = elem + "<div class='comment more clearfix'>";
+                            elem = elem + " <div class='bidamount_m_viewbg'><span class='dash_time_span_label'>Offering: </span><span class='dash_time_span_sp'>" + loopelement[index].BidAmount.toLocaleString() + " AXPR ($" + loopelement[index].BidAmountinDollar.toLocaleString() + ")</span></div>";
+                            elem = elem + "<div class='comment_text'>" + loopelement[index].BidMessage + "";
+                            elem = elem + "</div>";
+                            elem = elem + "<div class='coment_readmore_bgg'>";
+                            var _BidMessageId = "hfbidmessage_" + loopelement[index].JobBiddingId;
+                            //
+                            var html = {
+                                id: _BidMessageId,
+                                value: loopelement[index].BidMessage
+                            }
+                            htmlObj.push(html);
+                            elem = elem + "<input type='hidden' id=" + _BidMessageId + " value='' />";
+                            var BidMessage = loopelement[index].BidMessage;
+                            if (BidMessage != "" && BidMessage != null) {
+                                elem = elem + "<a href='#' id='btnMsg' class='coment_readmore_link coment_readmore_link_show'>Read message</a>";
+                            }
+                            elem = elem + "</div>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div>";
+                            elem = elem + "<div class='col-md-12 border_buttom_only job_details_linewithspace padd_left_right_o'>";
+                            elem = elem + "</div>";
+                            //console.log(loopelement[index].BidUserName)
+                        });
+
+                        $("#divjobs").append(elem);
+                        $.each(htmlObj, function (index, option) {
+                            //
+                            $('#' + htmlObj[index].id).val(htmlObj[index].value);
+                        })
+                        elem = " ";
+                    });
+                    var _morebutton = response[0].Isloadmore;
+                    if (_morebutton == 1) {
+                        var _elment2 = " ";
+                        _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadmore'>";
+                        _elment2 = _elment2 + " <a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadmore'>Load more</a></div></div>";
+                        $("#divjobs").append(_elment2)
+
+                    }
+
+
+
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+
+    });
+</script>
+
+<!-- // tab Jobs listed -->

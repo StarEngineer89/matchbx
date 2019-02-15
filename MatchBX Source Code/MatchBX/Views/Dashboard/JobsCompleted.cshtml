@@ -1,0 +1,194 @@
+﻿
+@{
+    Layout = null;
+}
+
+@if (Model.Complete != null)
+{
+
+<div id="job_complete_id_dash" class="tab-pane fade clearfix active in">
+    <div class="col-md-12 dash_tab_con_heading_bg padd_left_right_o">
+        <h3 class="dash_tab_con_heading_h3">Jobs completed <span  id="spancount">@if(@TempData["JobsCompleteCount"] != null){ @String.Concat("(", @TempData.Peek("JobsCompleteCount").ToString(), ")") }</span></h3>
+    </div>
+    <div id="divjobs">
+        @foreach (var item in Model.Complete)
+        {
+            <div class="col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix">
+                <div class="dash_jobs_box_1_inner">
+                    <a href="@Url.Action("Details", "Jobs",new { @id= @item.JobId })">
+                        <h3>@item.JobTitle</h3>
+                    </a>
+                    <div class="timeframe_budget_small clearfix">
+                        <div class="timeframe_only"><span>Deadline: </span>&nbsp;<span>@item.JobCompletionDateDisplay</span></div>
+                        <div class="budget_only"><span>Budget: </span>&nbsp;<span>@String.Concat(@item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span></div>
+                        <div class="axp_star_only">
+                            <ul>
+                                @if (item.BadgeCount == 1)
+                        {
+                        <li><i></i></li>
+                        }
+                        else if (item.BadgeCount == 2)
+                        {
+                        <li><i></i></li>
+                        <li><i></i></li>
+                        }
+                        else if (item.BadgeCount == 3)
+                        {
+                        <li><i></i></li>
+                        <li><i></i></li>
+                        <li><i></i></li>
+                        }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="home_client_discription_small clearfix">
+                        <p>
+                            @item.JobDescription
+                        </p>
+                    </div>
+                    <div class="client_profile_imgname_bg clearfix">
+                        <div class="client_profile_pic">
+                            <div class="client_profile_pic_1">
+                                <img src="@Url.Content("~/"+@item.ProfilePic.ToString().Replace("..",""))" alt="" />
+                            </div>
+                            <i class="profile_pic_star"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "Profile",new { @id=item.JobPosterId })">
+                            <div class="client_profile_name">
+                                <h4>@item.PosterFullName</h4>
+                                <span>@item.JobsCompleted jobs completed</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="border_buttom_only"></div>
+                <div class="dash_timeremaining_box_bg clearfix">
+                    <div class="pull-left">
+                      @if (item.GigSubscriptionId <= 0)
+                      {
+                          if (item.UserRole == "P")
+                          { <span class="dash_time_span_label"> Their bid: </span>}
+                          else
+                          { <span class="dash_time_span_label"> Your bid: </span>}
+
+                        <span class="dash_time_span_sp">@String.Concat(@item.BidAmount.ToString("#,##0"), " AXPR ", "($", @item.BudgetInDollar.ToString("N2"), ")")</span>
+                      }
+                      
+                      <input type="hidden" id="hfjobid_" value="@item.JobId" />
+                    </div>
+
+                </div>
+               
+
+            </div>
+        }
+        @if (Model.Complete != null && Model.Complete.Count == 0)
+                {
+            <div class="nojob_diplytable" id="divmsg">
+                <div class="col-md-12 category_nojob_bg clearfix">
+                    <h3>You have not completed any jobs yet</h3>
+                </div>
+            </div>
+        }
+        @if (Model.Complete != null && Model.Complete.Count > 0 && Model.Complete[0].Isloadmore == 1)
+        {
+            <div class="col-md-12 category_loadmore_bg clearfix" id="divloadmore">
+                <a href="javascript:" class="btn button_all secondary_color_bg" id="btnloadmore">Load more</a>
+            </div>
+        }
+        </div>
+
+    </div>
+
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var _count = $("#spancount").text();
+        $("#jobcompleted span").text(_count);
+
+        $("#job_complete_id_dash").on("click", "#btnloadmore", function (e) {
+
+            var _Id = $('#job_complete_id_dash div.pull-left').last().find('input[id^="hfjobid_"]').val();
+            LoadMore(_Id);
+            e.preventDefault();
+
+        })
+        function LoadMore(id) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("LoadMoreCompletedJobs", "Dashboard")',
+                data: { 'id': id },
+                success: function (response) {
+                    $("#divloadmore").remove();
+
+
+                    $.each(response, function (key, value) {
+                        var elem = " ";
+                        elem = "<div class='col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix' id=" + response[key].JobId + ">";
+                        elem = elem + "<div class='dash_jobs_box_1_inner'>";
+                        var _href = "/Jobs/Details?";
+                        _href = _href + "id=" + response[key].JobId;
+                        elem = elem + "<a href=" + _href + "><h3>" + response[key].JobTitle + "</h3></a>";
+                        elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                        elem = elem + "<div class='timeframe_only'><span>Deadline: </span>&nbsp;<span>" + response[key].JobCompletionDateDisplay + "</span></div>";
+                        elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
+                        elem = elem + "<div class='axp_star_only'><ul>";
+                        if (response[key].BadgeCount == 1) {
+                            elem = elem + "<li><i></i></li>";
+                        }
+                        else if (response[key].BadgeCount == 2) {
+                            elem = elem + "<li><li><i></i></li><li><i></i></li>";
+                        }
+                        else if (response[key].BadgeCount == 3) {
+                            elem = elem + "<li><i></i></li><li><i></i></li><li><i></i></li>";
+                        }
+                        elem = elem + "</ul></div>";
+                        elem = elem + "</div>";
+                        elem = elem + "<div class='home_client_discription_small clearfix'><p>" + response[key].JobDescription + "</p></div>";
+                        elem = elem + "<div class='client_profile_imgname_bg clearfix'> <div class='client_profile_pic'><div class='client_profile_pic_1'>";
+                        elem = elem + "<img src=" + response[key].ProfilePic + " alt='' /></div> <i class='profile_pic_star'></i></div>";
+                        var _profilehref = "/Profile/Index?";
+                        _profilehref = _profilehref + "id=" + response[key].JobPosterId;
+
+                        elem = elem + "<a href=" + _profilehref + "><div class='client_profile_name'><h4>" + response[key].PosterFullName + "</h4> <span> " + response[key].JobsCompleted + " jobs completed</span> </div></a></div></div>"
+                        console.log(elem);
+                        elem = elem + "<div class='border_buttom_only'></div> ";
+                        elem = elem + "<div class='dash_timeremaining_box_bg clearfix'><div class='pull-left'>";
+                        if (response[key].GigSubscriptionId <= 0) {
+                            if (response[key].UserRole == "P") {
+                                elem = elem + " <span class='dash_time_span_label'>Their bid: </span>";
+                            }
+                            else {
+                                elem = elem + " <span class='dash_time_span_label'>Your bid: </span>";
+                            }
+                            elem = elem + "<span  class='dash_time_span_sp'>" + response[key].BidAmount.toLocaleString() + " AXPR ($" + response[key].BudgetInDollar.toLocaleString() + " ) </span>";
+                            
+                        }
+    
+                        var _id = 'hfjobid_' + response[key].JobId;
+                        elem = elem + "<input type='hidden' id=" + _id + "  value=" + response[key].JobId + " />"
+                        elem = elem + "</div></div>";
+                        $("#divjobs").append(elem);
+                        elem = " ";
+                    });
+                    var _morebutton = response[0].Isloadmore;
+                    if (_morebutton == 1) {
+                        var _elment2 = " ";
+                        _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadmore'>";
+                        _elment2 = _elment2 + " <a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadmore'>Load more</a></div></div>";
+                        $("#divjobs").append(_elment2)
+                    }
+
+
+
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+    })
+</script>

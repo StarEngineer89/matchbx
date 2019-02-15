@@ -1,0 +1,1078 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Index";
+    //Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+    Layout = Layout;
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var recordcount = @Html.Raw(Json.Encode(TempData["RecordDisplay"]));
+        var publicprofiletype=@Html.Raw(Json.Encode(Session["PublicProfileType"]));
+
+        sessionStorage.setItem("recordcount", recordcount);
+
+        sessionStorage.setItem("skillId", '0');
+
+        $("#divSkill").on("click", "a", function () {
+
+            var _skillId = $(this).prop("id");
+            sessionStorage.setItem("skillId", _skillId);
+            if (_skillId) {
+                //LoadListedJobs(_skillId)
+                LoadCompletedJobs(_skillId)
+            }
+            $("#completed_jobs").addClass('active in');
+            $("#Listed_jobs").removeClass('active in');
+            $("#lilisted").removeClass('active');
+            $("#licompleted").addClass('active');
+
+        });
+
+        $("#Listed_jobs").on("click", "#btnloadlistedmore", function () {
+            var _skillId = sessionStorage.getItem("skillId");
+            var _Id = $('#Listed_jobs div.bg_color_comen').last().attr("id");
+            ListedJobLoadMore(_Id, _skillId);
+        })
+
+        $("#completed_jobs").on("click", "#btnloadcompletedmore", function () {
+            var _skillId = sessionStorage.getItem("skillId");
+            var _Id = $('#completed_jobs div.bg_color_comen').last().attr("id");
+            CompletedJobLoadMore(_Id, _skillId);
+        })
+
+        $("#Listed_gigs").on("click", "#btnloadlistedgigmore", function () {
+            var _skillId = sessionStorage.getItem("skillId");
+            var _Id = $('#Listed_gigs div.bg_color_comen').last().attr("id");
+            ListedGigsLoadMore(_Id, _skillId);
+        })
+
+        function LoadCompletedJobs(skillid) {
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("LoadTaggedCompletedJobs", "Profile")',
+                data: { 'skillid': skillid },
+                success: function (response) {
+
+                    if (response != null) {
+
+
+                        $("#completedjobcount").empty();
+                        var count = "Total completed jobs <span id='spcc'>(" + response[1].Value + ")</span>";
+                        $("#completedjobcount").html(count);
+
+
+
+                        $("#completed_jobs").empty();
+
+
+
+                        $.each(response[0].Value, function (key, value) {
+
+
+                            var elem = " ";
+                            elem = "<div class='col-md-12 home_user_box_1_bg bg_color_comen clearfix child' id=" + response[0].Value[key].JobId + ">";
+                            var _href ="/Jobs/Details?";
+                            _href += "id=" + response[0].Value[key].JobId ;
+                            var _profile="/Profile/Index?";
+                            _profile += "id="+response[0].Value[key].UserId;
+                            elem = elem +"<a href="+_href+"><h3>" + response[0].Value[key].JobTitle + "</h3></a>";
+                            elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                            elem = elem + "<div class='timeframe_only'><span>Deadline: </span>&nbsp;<span>" + response[0].Value[key].JobCompletionDateDisplay + "</span></div>";
+
+
+                            elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[0].Value[key].BudgetASP.toLocaleString() + " AXPR ($" + response[0].Value[key].DollarCount.toLocaleString() + " ) </span></div>";
+
+                            elem = elem + "<div class='axp_star_only'><ul>";
+                            if (response[0].Value[key].BadgeCount == 1) {
+                                elem = elem + "<li><i></i></li>";
+                            }
+                            else if (response[0].Value[key].BadgeCount == 2) {
+                                elem = elem + "<li><li><i></i></li><li><i></i></li>";
+                            }
+                            else if (response[0].Value[key].BadgeCount == 3) {
+                                elem = elem + "<li><i></i></li><li><i></i></li><li><i></i></li>";
+                            }
+                            elem = elem + "</ul></div>";
+                            elem = elem + "</div>";
+                            elem = elem + "<div class='home_client_discription_small clearfix'><p>" + response[0].Value[key].JobDescription + "</p></div>";
+                            elem = elem + "<div class='client_profile_imgname_bg clearfix'> <div class='client_profile_pic'><div class='client_profile_pic_1'>";
+                            elem = elem + "<img src=" + response[0].Value[key].ProfilePic + " alt='' /></div> <i class='profile_pic_star'></i></div>";
+                            elem = elem + "<div class='client_profile_name'><a href="+_profile+"><h4>" + response[0].Value[key].FullName + "</h4></a><span> " + response[0].Value[key].JobsCompleted + " jobs completed</span> </div></div></div>"
+                            $("#completed_jobs").append(elem);
+                            elem = " ";
+
+                        });
+
+                        $("#divloadcompletedmore").remove();
+                        if (response[1].Value > sessionStorage.getItem("recordcount"))
+                        {
+
+                            var _elment2 = " ";
+                            _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadcompletedmore'>";
+                            _elment2 = _elment2 + " <a href='#' class='btn button_all secondary_color_bg' id='btnloadcompletedmore'>Load more</a></div>";
+                            $("#completed_jobs").append(_elment2);
+                        }
+
+
+                    }
+                    else {
+
+                        $("#completed_jobs").empty();
+                        var _Msg = "";
+                        _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>No result Found.</h3></div>"
+                        $("#completed_jobs").html(_Msg);
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+
+        function CompletedJobLoadMore(id, skillid) {
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("CompletedJobLoadMore", "Profile")',
+                data: { 'id': id, 'skillid': skillid },
+                success: function (response) {
+
+                    if (response != null) {
+
+                        if (response.length == 0) {
+                            $("#divloadcompletedmore").remove();
+                            var _Msg = "";
+                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>No More result Found.</h3></div>"
+                            $("#completed_jobs").append(_Msg);
+                        }
+                        else {
+
+
+                            $.each(response, function (key, value) {
+                                var elem = " ";
+                                elem = "<div class='col-md-12 home_user_box_1_bg bg_color_comen clearfix child' id=" + response[key].JobId + ">";
+                                var _href ="/Jobs/Details?";
+                                _href += "id=" + response[key].JobId ;
+                                var _profile="/Profile/Index?";
+                                _profile += "id="+response[key].UserId;
+                                elem = elem + "<a href="+_href+"><h3>" + response[key].JobTitle + "</h3></a>";
+                                elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                                elem = elem + "<div class='timeframe_only'><span>Deadline: </span>&nbsp;<span>" + response[key].JobCompletionDateDisplay + "</span></div>";
+                                elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
+                                elem = elem + "<div class='axp_star_only'><ul>";
+                                if (response[key].BadgeCount == 1) {
+                                    elem = elem + "<li><i></i></li>";
+                                }
+                                else if (response[key].BadgeCount == 2) {
+                                    elem = elem + "<li><li><i></i></li><li><i></i></li>";
+                                }
+                                else if (response[key].BadgeCount == 3) {
+                                    elem = elem + "<li><i></i></li><li><i></i></li><li><i></i></li>";
+                                }
+                                elem = elem + "</ul></div>";
+                                elem = elem + "</div>";
+                                elem = elem + "<div class='home_client_discription_small clearfix'><p>" + response[key].JobDescription + "</p></div>";
+                                elem = elem + "<div class='client_profile_imgname_bg clearfix'> <div class='client_profile_pic'><div class='client_profile_pic_1'>";
+                                elem = elem + "<img src=" + response[key].ProfilePic + " alt='' /></div> <i class='profile_pic_star'></i></div>";
+                                elem = elem + "<div class='client_profile_name'><a href="+_profile+"><h4>" + response[key].FullName + "</h4></a><span> " + response[key].JobsCompleted + " jobs completed</span> </div></div></div>"
+                                $("#completed_jobs").append(elem);
+                                elem = " ";
+                            });
+
+                            $("#divloadcompletedmore").remove();
+                            //alert($("#completed_jobs .child").length);
+                            //alert($("#spcc").html().replace('(','').replace(')',''));
+                            //if (response.length == sessionStorage.getItem("recordcount"))
+                            if ($("#completed_jobs .child").length < $("#spcc").html().replace('(','').replace(')',''))
+                            {
+                                var _elment2 = " ";
+                                _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadcompletedmore'>";
+                                _elment2 = _elment2 + " <a href='#' class='btn button_all secondary_color_bg' id='btnloadcompletedmore'>Load more</a></div>";
+                                $("#completed_jobs").append(_elment2)
+                            }
+                        }
+
+                    }
+                    else {
+
+                        $("#completed_jobs").empty();
+                        var _Msg = "";
+                        _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>No result Found.</h3></div>"
+                        $("#completed_jobs").html(_Msg);
+                    }
+
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+
+        function ListedJobLoadMore(id, skillid) {
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("ListedJobLoadMore", "Profile")',
+                data: { 'id': id, 'skillid': skillid },
+                success: function (response) {
+
+                    if (response != null) {
+
+                        if (response.length == 0) {
+                            $("#divloadlistedmore").remove();
+                            var _Msg = "";
+                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>No More result Found.</h3></div>"
+                            $("#Listed_jobs").append(_Msg);
+                        }
+                        else {
+
+
+                            $.each(response, function (key, value) {
+                                var elem = " ";
+                                elem = "<div class='col-md-12 home_user_box_1_bg bg_color_comen clearfix child' id=" + response[key].JobId + ">";
+                                var _href ="/Jobs/Details?";
+                                _href += "id=" + response[key].JobId ;
+                                var _profile="/Profile/Index?";
+                                _profile += "id="+response[key].UserId;
+                                elem = elem + "<a href="+_href+"><h3>" + response[key].JobTitle + "</h3></a>";
+                                elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                                elem = elem + "<div class='timeframe_only'><span>Deadline: </span>&nbsp;<span>" + response[key].JobCompletionDateDisplay + "</span></div>";
+                                elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
+                                elem = elem + "<div class='axp_star_only'><ul>";
+                                if (response[key].BadgeCount == 1) {
+                                    elem = elem + "<li><i></i></li>";
+                                }
+                                else if (response[key].BadgeCount == 2) {
+                                    elem = elem + "<li><li><i></i></li><li><i></i></li>";
+                                }
+                                else if (response[key].BadgeCount == 3) {
+                                    elem = elem + "<li><i></i></li><li><i></i></li><li><i></i></li>";
+                                }
+                                elem = elem + "</ul></div>";
+                                elem = elem + "</div>";
+                                elem = elem + "<div class='home_client_discription_small clearfix'><p>" + response[key].JobDescription + "</p></div>";
+                                elem = elem + "<div class='client_profile_imgname_bg clearfix'> <div class='client_profile_pic'><div class='client_profile_pic_1'>";
+                                elem = elem + "<img src=" + response[key].ProfilePic + " alt='' /></div> <i class='profile_pic_star'></i></div>";
+                                elem = elem + "<div class='client_profile_name'><a href="+_profile+"><h4>" + response[key].FullName + "</h4></a><span> " + response[key].JobsCompleted + " jobs completed</span> </div></div></div>"
+                                $("#Listed_jobs").append(elem);
+                                elem = " ";
+                            });
+                            $("#divloadlistedmore").remove();
+
+                            //if (response.length == sessionStorage.getItem("recordcount"))
+                            if ($("#Listed_jobs .child").length < $("#splc").html().replace('(','').replace(')',''))
+                            {
+                                var _elment2 = " ";
+                                _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadlistedmore'>";
+                                _elment2 = _elment2 + " <a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadlistedmore'>Load more</a></div>";
+                                $("#Listed_jobs").append(_elment2)
+                            }
+                        }
+
+                    }
+                    else {
+
+                        $("#Listed_jobs").empty();
+                        var _Msg = "";
+                        _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>No result Found.</h3></div>"
+                        $("#Listed_jobs").html(_Msg);
+                    }
+
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+
+
+
+        function ListedGigsLoadMore(id, skillid) {
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("ListedGigsLoadMore", "Profile")',
+                data: { 'id': id, 'skillid': skillid },
+                success: function (response) {
+
+                    if (response != null) {
+
+                        if (response.length == 0) {
+                            $("#divloadlistedgigmore").remove();
+                            var _Msg = "";
+                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>No More result Found.</h3></div>"
+                            $("#Listed_gigs").append(_Msg);
+                        }
+                        else {
+
+
+                            $.each(response, function (key, value) {
+                                var elem = " ";
+                                elem = "<div class='col-md-12 home_user_box_1_bg bg_color_comen clearfix child' id=" + response[key].GigId + ">";
+                                var _href ="/Gigs/Details?";
+                                _href += "id=" + response[key].GigId ;
+                                var _profile="/Profile/Index?";
+                                _profile += "id="+response[key].UserId;
+                                elem = elem + "<a href="+_href+"><h3>" + response[key].GigTitle + "</h3></a>";
+                                elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                                elem = elem + "<div class='timeframe_only'><span>Duration: </span>&nbsp;<span>" + response[key].GigDurationString + "</span></div>";
+                                elem = elem + "<div class='timeframe_only'><span>Subscribed: </span>&nbsp;<span>" + response[key].GigsCompleted + "</span>&nbsp; <span>Times</span></div>";
+                                elem = elem + "<div class='budget_only'><span>Cost: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
+                                elem = elem + "<div class='axp_star_only'><ul>";
+                                if (response[key].BadgeCount == 1) {
+                                    elem = elem + "<li><i></i></li>";
+                                }
+                                else if (response[key].BadgeCount == 2) {
+                                    elem = elem + "<li><li><i></i></li><li><i></i></li>";
+                                }
+                                else if (response[key].BadgeCount == 3) {
+                                    elem = elem + "<li><i></i></li><li><i></i></li><li><i></i></li>";
+                                }
+                                elem = elem + "</ul></div>";
+                                elem = elem + "</div>";
+                                elem = elem + "<div class='home_client_discription_small clearfix'><p>" + response[key].GigDescription + "</p></div>";
+                                elem = elem + "<div class='client_profile_imgname_bg clearfix'> <div class='client_profile_pic'><div class='client_profile_pic_1'>";
+                                elem = elem + "<img src=" + response[key].ProfilePic + " alt='' /></div> <i class='profile_pic_star'></i></div>";
+                                elem = elem + "<div class='client_profile_name'><a href="+_profile+"><h4>" + response[key].FullName + "</h4></a><span> " + response[key].JobsCompleted + " jobs completed</span> </div></div></div>"
+                                $("#Listed_gigs").append(elem);
+                                elem = " ";
+                            });
+                            $("#divloadlistedgigmore").remove();
+
+                            //if (response.length == sessionStorage.getItem("recordcount"))
+                            if ($("#Listed_gigs .child").length < $("#splg").html().replace('(','').replace(')',''))
+                            {
+                                var _elment2 = " ";
+                                _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadlistedgigmore'>";
+                                _elment2 = _elment2 + " <a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadlistedgigmore'>Load more</a></div>";
+                                $("#Listed_gigs").append(_elment2)
+                            }
+                        }
+
+                    }
+                    else {
+
+                        $("#Listed_gigs").empty();
+                        var _Msg = "";
+                        _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>No result Found.</h3></div>"
+                        $("#Listed_gigs").html(_Msg);
+                    }
+
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+
+
+
+    });
+
+
+
+    $("#jobPostAdd").click(function () {
+
+        var JobId = 0;
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("PostJob", "Jobs")',
+            dataType:'html',
+            data: { "id": JobId },
+            success: function (response) {
+                $("#postjob_view_pop_id").html(response)
+                openbox(1, 'postjob_view_pop_id');
+            },
+            error: function (jqXHR, exception) {
+
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+    });
+
+
+
+</script>
+
+<script src="@Url.Content("~/Content/js/bootstrap.min.js")"></script>
+<script src="@Url.Content("~/Content/js/wow.min.js")"></script>
+<script src="@Url.Content("~/Content/js/lightbox-form.js")" type="text/javascript"></script>
+<div id="loaderDiv" class="loaderDivclass " style="display:none"></div>
+<div id="shadowing" class="shadowing_overlay myshadow"></div>
+<div id="postjob_view_pop_id" class="popup_box clearfix myshadow">
+
+</div>
+
+<!--/#slider-->
+<div class="largebox_content_containerbg">
+    <div class="container">
+
+        <div class="container_inner middile_con_inner_bg clearfix">
+
+            <div class="col-md-12 catagory_con_top_bg clearfix">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="pull-left">
+                            &nbsp;
+                        </div>
+                        <div class="pull-right category_sort_by_bg">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        &nbsp;
+                    </div>
+                </div><!--row-->
+            </div>
+            <!-- // catagory_con_top_bg-->
+            @if (Model.WithID == "Y")
+            {
+
+                <div class="col-md-12 con_8_4_outer_bg clearfix">
+                    <div class="row con_row">
+                        <div class="col-md-8 home_left_8">
+                            <div class="pro_pub_cont_tab_bg mob_padd_bg_25 clearfix">
+                                <!--tab div section-->
+
+                                @if (Model.Profile != null)
+                                {
+                                    if (Model.Profile.UserType == 1)
+                                    {
+                                        <ul class="nav nav-tabs">
+                                            <li class="active" id="licompleted">
+                                                <a data-toggle="tab" href="#completed_jobs" aria-expanded="true" id="completedjobcount">
+                                                    Total completed jobs
+                                                    @if (Model.CompletedJobCount != null)
+                                                    {<span id="spcc">(@Model.CompletedJobCount)</span>}
+                                                    else
+                                                    {<span id="spcc">(0)</span>}
+                                                </a>
+                                            </li>
+                                            <li class="" id="ligigs">
+                                                <a data-toggle="tab" href="#Listed_gigs" aria-expanded="false">
+                                                    Listed GIGs
+                                                    @if (Model.ListedGigCount != null)
+                                                    {<span id="splg">(@Model.ListedGigCount)</span>}
+                                                    else
+                                                    {<span id="splg">(0)</span>}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    }
+                                    if (Model.Profile.UserType == 2)
+                                    {
+                                        <ul class="nav nav-tabs">
+                                            <li class="active" id="lilisted">
+                                                <a data-toggle="tab" href="#Listed_jobs" aria-expanded="false">
+                                                    Listed jobs
+                                                    @if (Model.ListedJobCount != null)
+                                                    {<span id="splc">(@Model.ListedJobCount)</span>}
+                                                    else
+                                                    {<span id="splc">(0)</span>}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    }
+                                    if (Model.Profile.UserType == 3)
+                                    {
+                                        <ul class="nav nav-tabs">
+                                            <li class="active" id="licompleted">
+                                                <a data-toggle="tab" href="#completed_jobs" aria-expanded="true" id="completedjobcount">
+                                                    Total completed jobs
+                                                    @if (Model.CompletedJobCount != null)
+                                                    {<span id="spcc">(@Model.CompletedJobCount)</span>}
+                                                    else
+                                                    {<span id="spcc">(0)</span>}
+                                                </a>
+                                            </li>
+                                            <li class="" id="lilisted">
+                                                <a data-toggle="tab" href="#Listed_jobs" aria-expanded="false">
+                                                    Listed jobs
+                                                    @if (Model.ListedJobCount != null)
+                                                    {<span id="splc">(@Model.ListedJobCount)</span>}
+                                                    else
+                                                    {<span id="splc">(0)</span>}
+                                                </a>
+                                            </li>
+                                            <li class="" id="ligigs">
+                                                <a data-toggle="tab" href="#Listed_gigs" aria-expanded="false">
+                                                    Listed GIGs
+                                                    @if (Model.ListedGigCount != null)
+                                                    {<span id="splg">(@Model.ListedGigCount)</span>}
+                                                    else
+                                                    {<span id="splg">(0)</span>}
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                    }
+                                }
+
+
+                                <div class="tab-content">
+                                    @if (Model.Profile != null)
+                                    {
+                                        if (Model.Profile.UserType == 1)
+                                        {
+                                            <div id="completed_jobs" class="tab-pane fade clearfix active in">
+
+                                                @if (Model.CompletedJobCount == 0 && Session["UserId"] != null && Convert.ToInt32(Session["UserId"]) != 0)
+                                                {
+                                                    @*<div class="col-md-12 category_nojob_bg clearfix">
+                                                        <h4>You have not completed any jobs yet. To search jobs <a href="/jobs/index">click here</a>.</h4>
+                                                    </div>*@
+                                                        <div class="nojob_diplytable">
+                                                              <div class="col-md-12 category_nojob_bg clearfix">
+                                                              <h3>You have not completed any jobs yet.</h3>
+                                                              <a href = "/jobs/index" class="btn button_all secondary_color_bg">Search jobs</a>
+                                                              </div> 
+                                                        </div>
+                                                }
+                                                else
+                                                {
+                                                    if (Model.CompletedJob != null)
+                                                    {
+                                                        foreach (var item in Model.CompletedJob)
+                                                        {
+                                                            <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix child" id="@item.JobId">
+                                                                <a href="@Url.Action("Details", "Jobs" , new { @id=@item.JobId })">
+
+                                                                    <h3>@item.JobTitle</h3>
+                                                                </a>
+                                                                <div class="timeframe_budget_small clearfix">
+                                                                    <div class="timeframe_only"><span>Deadline: </span>&nbsp;<span>@item.JobCompletionDateDisplay</span></div>
+                                                                    <div class="budget_only"><span>Budget: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>
+                                                                    <div class="axp_star_only">
+                                                                        <ul>
+                                                                            @if (item.BadgeCount == 1)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 2)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 3)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="home_client_discription_small clearfix">
+                                                                    <p>@item.JobDescription</p>
+                                                                </div>
+                                                                <div class="client_profile_imgname_bg clearfix">
+                                                                    <div class="client_profile_pic">
+                                                                        <div class="client_profile_pic_1">
+                                                                            <img src="@item.ProfilePic" alt="">
+                                                                        </div>
+                                                                        <i class="profile_pic_star"></i>
+                                                                    </div>
+                                                                    <div class="client_profile_name">
+                                                                        <a href="@Url.Action("Index", "Profile" , new { @id=@item.UserId })">
+                                                                            <h4>@item.FullName</h4>
+                                                                        </a>
+                                                                        <span>@item.JobsCompleted jobs completed</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                @if (Convert.ToInt32(TempData["RecordDisplay"]) < @Convert.ToInt32(Model.CompletedJobCount))
+                                                {
+
+                                                    <div class="col-md-12 category_loadmore_bg clearfix" id="divloadcompletedmore">
+                                                        <a href="#" class="btn button_all secondary_color_bg" id="btnloadcompletedmore">Load more</a>
+                                                    </div>
+                                                }
+
+
+                                            </div><!--tab 1-->
+
+                                            <div id="Listed_gigs" class="tab-pane fade clearfix">
+                                                @if (Model.ListedGigCount == 0 && Session["UserId"] != null && Convert.ToInt32(Session["UserId"]) != 0)
+                                                {
+                                                    @*<div class="col-md-12 category_nojob_bg clearfix">
+                                                            <h4>You have not posted any jobs yet. To post a job <a id="jobPostAdd" href="#">click here</a></h4>
+                                                        </div>*@
+                                                    <div class="nojob_diplytable">
+                                                        <div class="col-md-12 category_nojob_bg clearfix">
+                                                            <h3>You have not created any GIGs yet.</h3>
+                                                            <a href="#" id="createGig" class="btn button_all secondary_color_bg">Create a GIG</a>
+
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    if (Model.ListedGig != null)
+                                                    {
+                                                        foreach (var item in Model.ListedGig)
+                                                        {
+                                                            <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix child" id="@item.GigId">
+                                                                <a href="@Url.Action("Details", "Gigs" , new { @id=@item.GigId })">
+                                                                    <h3>@item.GigTitle</h3>
+                                                                </a>
+                                                                <div class="timeframe_budget_small clearfix">
+                                                                    <div class="timeframe_only"><span>Duration: </span>&nbsp;<span>@item.GigDurationString</span></div>
+                                                                    <div class="timeframe_only"><span>Subscribed: </span>&nbsp;<span>@item.GigsCompleted</span>&nbsp; <span>Times</span></div>
+                                                                    <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>
+                                                                    <div class="axp_star_only">
+                                                                        <ul>
+                                                                            @if (item.BadgeCount == 1)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 2)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 3)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="home_client_discription_small clearfix">
+                                                                    <p>@item.GigDescription</p>
+                                                                </div>
+                                                                <div class="client_profile_imgname_bg clearfix">
+                                                                    <div class="client_profile_pic">
+                                                                        <div class="client_profile_pic_1">
+                                                                            <img src="@item.ProfilePic" alt="">
+                                                                        </div>
+                                                                        <i class="profile_pic_star"></i>
+                                                                    </div>
+                                                                    <div class="client_profile_name">
+                                                                        <a href="@Url.Action("Index", "Profile" , new { @id=@item.UserId })">
+                                                                            <h4>@item.FullName</h4>
+                                                                        </a>
+                                                                        <span>@item.JobsCompleted jobs completed</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                @if (Convert.ToInt32(@TempData["RecordDisplay"]) < @Convert.ToInt32(Model.ListedGigCount))
+                                                {
+                                                    <div class="col-md-12 category_loadmore_bg clearfix" id="divloadlistedgigmore">
+                                                        <a href="javascript:" class="btn button_all secondary_color_bg" id="btnloadlistedgigmore">Load more</a>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        }
+                                        if (Model.Profile.UserType == 2)
+                                        {
+                                            <div id="Listed_jobs" class="tab-pane fade clearfix active in">
+                                                @if (Model.ListedJobCount == 0 && Session["UserId"] != null && Convert.ToInt32(Session["UserId"]) != 0)
+                                                {
+                                                    @*<div class="col-md-12 category_nojob_bg clearfix">
+                                                        <h3>You have not posted any jobs yet. To post a job <a id="jobPostAdd" >click here</a></h3>
+                                                    </div>*@
+                                                    <div class="nojob_diplytable">
+                                                        <div class="col-md-12 category_nojob_bg clearfix">
+                                                            <h3>You have not posted any jobs yet.</h3>
+                                                            <a href="#"  id="jobPostAdd" class="btn button_all secondary_color_bg">Post a job</a>
+
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    if (Model.ListedJob != null)
+                                                    {
+                                                        foreach (var item in Model.ListedJob)
+                                                        {
+                                                            <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix child" id="@item.JobId">
+                                                                <a href="@Url.Action("Details", "Jobs" , new { @id=@item.JobId })">
+                                                                    <h3>@item.JobTitle</h3>
+                                                                </a>
+                                                                <div class="timeframe_budget_small clearfix">
+                                                                    <div class="timeframe_only"><span>Deadline: </span>&nbsp;<span>@item.JobCompletionDateDisplay</span></div>
+                                                                    <div class="budget_only"><span>Budget: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>
+                                                                    <div class="axp_star_only">
+                                                                        <ul>
+                                                                            @if (item.BadgeCount == 1)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 2)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 3)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="home_client_discription_small clearfix">
+                                                                    <p>@item.JobDescription</p>
+                                                                </div>
+                                                                <div class="client_profile_imgname_bg clearfix">
+                                                                    <div class="client_profile_pic">
+                                                                        <div class="client_profile_pic_1">
+                                                                            <img src="@item.ProfilePic" alt="">
+                                                                        </div>
+                                                                        <i class="profile_pic_star"></i>
+                                                                    </div>
+                                                                    <div class="client_profile_name">
+                                                                        <a href="@Url.Action("Index", "Profile" , new { @id=@item.UserId })">
+                                                                            <h4>@item.FullName</h4>
+                                                                        </a>
+                                                                        <span>@item.JobsCompleted jobs completed</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                @if (Convert.ToInt32(@TempData["RecordDisplay"]) < @Convert.ToInt32(Model.ListedJobCount))
+                                                {
+                                                    <div class="col-md-12 category_loadmore_bg clearfix" id="divloadlistedmore">
+                                                        <a href="javascript:" class="btn button_all secondary_color_bg" id="btnloadlistedmore">Load more</a>
+                                                    </div>
+                                                }
+
+                                            </div><!--tab 2-->
+                                        }
+                                        if (Model.Profile.UserType == 3)
+                                        {
+                                            <div id="completed_jobs" class="tab-pane fade clearfix active in">
+
+                                                @if (Model.CompletedJobCount == 0 && Session["UserId"] != null && Convert.ToInt32(Session["UserId"]) != 0)
+                                                {
+                                                    @*<div class="col-md-12 category_nojob_bg clearfix">
+                                                        <h4>You have not completed any jobs yet. To search jobs <a  href="/jobs/index">click here</a>.</h4>
+                                                    </div>*@
+                                                    <div class="nojob_diplytable">
+                                                        <div class="col-md-12 category_nojob_bg clearfix">
+                                                            <h3>You have not completed any jobs yet.</h3>
+                                                            <a href="/jobs/index" class="btn button_all secondary_color_bg">Search jobs</a>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    if (Model.CompletedJob != null)
+                                                    {
+                                                        foreach (var item in Model.CompletedJob)
+                                                        {
+                                                            <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix child" id="@item.JobId">
+                                                                <a href="@Url.Action("Details", "Gigs" , new { @id=@item.JobId })">
+
+                                                                    <h3>@item.JobTitle</h3>
+                                                                </a>
+                                                                <div class="timeframe_budget_small clearfix">
+                                                                    <div class="timeframe_only"><span>Deadline: </span>&nbsp;<span>@item.JobCompletionDateDisplay</span></div>
+                                                                    <div class="budget_only"><span>Budget: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>
+                                                                    <div class="axp_star_only">
+                                                                        <ul>
+                                                                            @if (item.BadgeCount == 1)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 2)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 3)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="home_client_discription_small clearfix">
+                                                                    <p>@item.JobDescription</p>
+                                                                </div>
+                                                                <div class="client_profile_imgname_bg clearfix">
+                                                                    <div class="client_profile_pic">
+                                                                        <div class="client_profile_pic_1">
+                                                                            <img src="@item.ProfilePic" alt="">
+                                                                        </div>
+                                                                        <i class="profile_pic_star"></i>
+                                                                    </div>
+                                                                    <div class="client_profile_name">
+                                                                        <a href="@Url.Action("Index", "Profile" , new { @id=@item.UserId })">
+                                                                            <h4>@item.FullName</h4>
+                                                                        </a>
+                                                                        <span>@item.JobsCompleted jobs completed</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                @if (Convert.ToInt32(TempData["RecordDisplay"]) < @Convert.ToInt32(Model.CompletedJobCount))
+                                                {
+
+                                                    <div class="col-md-12 category_loadmore_bg clearfix" id="divloadcompletedmore">
+                                                        <a href="#" class="btn button_all secondary_color_bg" id="btnloadcompletedmore">Load more</a>
+                                                    </div>
+                                                }
+
+
+                                            </div>
+                                            <div id="Listed_jobs" class="tab-pane fade clearfix">
+                                                @if (Model.ListedJobCount == 0 && Session["UserId"] != null && Convert.ToInt32(Session["UserId"]) != 0)
+                                                {
+                                                    @*<div class="col-md-12 category_nojob_bg clearfix">
+                                                        <h4>You have not posted any jobs yet. To post a job <a id="jobPostAdd" href="#">click here</a></h4>
+                                                    </div>*@
+                                                    <div class="nojob_diplytable">
+                                                        <div class="col-md-12 category_nojob_bg clearfix">
+                                                            <h3>You have not posted any jobs yet.</h3>
+                                                            <a href="#" id="jobPostAdd" class="btn button_all secondary_color_bg">Post a job</a>
+
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    if (Model.ListedJob != null)
+                                                    {
+                                                        foreach (var item in Model.ListedJob)
+                                                        {
+                                                            <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix child" id="@item.JobId">
+                                                                <a href="@Url.Action("Details", "Jobs" , new { @id=@item.JobId })">
+                                                                    <h3>@item.JobTitle</h3>
+                                                                </a>
+                                                                <div class="timeframe_budget_small clearfix">
+                                                                    <div class="timeframe_only"><span>Deadline: </span>&nbsp;<span>@item.JobCompletionDateDisplay</span></div>
+                                                                    <div class="budget_only"><span>Budget: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>
+                                                                    <div class="axp_star_only">
+                                                                        <ul>
+                                                                            @if (item.BadgeCount == 1)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 2)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 3)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="home_client_discription_small clearfix">
+                                                                    <p>@item.JobDescription</p>
+                                                                </div>
+                                                                <div class="client_profile_imgname_bg clearfix">
+                                                                    <div class="client_profile_pic">
+                                                                        <div class="client_profile_pic_1">
+                                                                            <img src="@item.ProfilePic" alt="">
+                                                                        </div>
+                                                                        <i class="profile_pic_star"></i>
+                                                                    </div>
+                                                                    <div class="client_profile_name">
+                                                                        <a href="@Url.Action("Index", "Profile" , new { @id=@item.UserId })">
+                                                                            <h4>@item.FullName</h4>
+                                                                        </a>
+                                                                        <span>@item.JobsCompleted jobs completed</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                @if (Convert.ToInt32(@TempData["RecordDisplay"]) < @Convert.ToInt32(Model.ListedJobCount))
+                                                {
+                                                    <div class="col-md-12 category_loadmore_bg clearfix" id="divloadlistedmore">
+                                                        <a href="javascript:" class="btn button_all secondary_color_bg" id="btnloadlistedmore">Load more</a>
+                                                    </div>
+                                                }
+
+                                            </div>
+
+                                            
+                                            <div id="Listed_gigs" class="tab-pane fade clearfix">
+                                                @if (Model.ListedGigCount == 0 && Session["UserId"] != null && Convert.ToInt32(Session["UserId"]) != 0)
+                                                {
+                                                    @*<div class="col-md-12 category_nojob_bg clearfix">
+                                                            <h4>You have not posted any jobs yet. To post a job <a id="jobPostAdd" href="#">click here</a></h4>
+                                                        </div>*@
+                                                    <div class="nojob_diplytable">
+                                                        <div class="col-md-12 category_nojob_bg clearfix">
+                                                            <h3>You have not created any GIGs yet.</h3>
+                                                            <a href="#" id="createGig" class="btn button_all secondary_color_bg">Create a GIG</a>
+
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    if (Model.ListedGig != null)
+                                                    {
+                                                        foreach (var item in Model.ListedGig)
+                                                        {
+                                                            <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix child" id="@item.GigId">
+                                                                <a href="@Url.Action("Details", "Gigs" , new { @id=@item.GigId })">
+                                                                    <h3>@item.GigTitle</h3>
+                                                                </a>
+                                                                <div class="timeframe_budget_small clearfix">
+                                                                    <div class="timeframe_only"><span>Duration: </span>&nbsp;<span>@item.GigDurationString</span></div>
+                                                                    <div class="timeframe_only"><span>Subscribed: </span>&nbsp;<span>@item.GigsCompleted</span>&nbsp; <span>Times</span></div>
+                                                                    <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>
+                                                                    <div class="axp_star_only">
+                                                                        <ul>
+                                                                            @if (item.BadgeCount == 1)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 2)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                            else if (item.BadgeCount == 3)
+                                                                            {
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                                <li><i></i></li>
+                                                                            }
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="home_client_discription_small clearfix">
+                                                                    <p>@item.GigDescription</p>
+                                                                </div>
+                                                                <div class="client_profile_imgname_bg clearfix">
+                                                                    <div class="client_profile_pic">
+                                                                        <div class="client_profile_pic_1">
+                                                                            <img src="@item.ProfilePic" alt="">
+                                                                        </div>
+                                                                        <i class="profile_pic_star"></i>
+                                                                    </div>
+                                                                    <div class="client_profile_name">
+                                                                        <a href="@Url.Action("Index", "Profile" , new { @id=@item.UserId })">
+                                                                            <h4>@item.FullName</h4>
+                                                                        </a>
+                                                                        <span>@item.JobsCompleted jobs completed</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                @if (Convert.ToInt32(@TempData["RecordDisplay"]) < @Convert.ToInt32(Model.ListedGigCount))
+                                                {
+                                                    <div class="col-md-12 category_loadmore_bg clearfix" id="divloadlistedgigmore">
+                                                        <a href="javascript:" class="btn button_all secondary_color_bg" id="btnloadlistedgigmore">Load more</a>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                            
+                                        }
+                                    }
+
+                                </div>
+                            </div><!-- // tab div section-->
+
+
+
+
+                        </div><!-- //col-md-8-->
+
+                        <div class="col-md-4 catagory_right_4">
+
+
+                            
+
+    @if (Model.UserSkill != null && Model.UserSkill.Count > 0)
+    {
+        <div class="col-md-12 bg_color_comen home_top_jobs_bg clearfix">
+            <div class="home_top_jobs_heding">
+                <h2>Top skills </h2>
+            </div>
+            <div class="home_trending_tags clearfix" id="divSkill">
+                <span>@Model.Skill</span>
+                @*@if (Model.UserSkill != null)
+                {
+                    if (Model.UserSkill.Count > 1)
+                    {
+                        foreach (var result in Model.UserSkill)
+                        {
+                            if (Model.UserSkill.IndexOf(result) == Model.UserSkill.Count - 1)
+                            {
+                                <a href="#" id="@result.SkillsId"> @result.Description</a>
+                            }
+                            else
+                            {
+                                <a href="#" id="@result.SkillsId"> @result.Description,</a>
+                            }
+                        }
+                    }
+                    else if (Model.UserSkill.Count == 1)
+                    {
+                        foreach (var result in Model.UserSkill)
+                        {
+                            <a href="#" id="@result.SkillsId">@result.Description</a>
+                        }
+                    }
+                }*@
+
+            </div>
+        </div>
+    }
+                                
+                            
+
+                            <!-- // Top job posters section-->
+
+                        </div><!-- //col-md-4-->
+
+                    </div><!-- //row-->
+
+                </div>
+
+
+            }
+
+        </div>
+        <!--container_inner -->
+
+    </div>
+    <!--/#container-->
+</div><!-- /#largebox_content_containerbg-->

@@ -1,0 +1,119 @@
+﻿@using MatchBX.Models
+@model MatchBX.Models.LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    var message = TempData["ErrorMessage"] != null ? TempData["ErrorMessage"].ToString() : null;
+}
+
+<script>
+    $(document).ready(function () {
+        $('#errorMsg').empty();
+        var msg = "@message";
+        if (msg != null && msg != '') {
+            $('#errorMsg').html(msg);
+        }
+         sessionStorage.removeItem('jobcategory');
+         sessionStorage.removeItem('categoryid');
+
+         $("#signup").click(function () {
+             debugger
+             closebox('login_view_pop_id');
+             $.ajax({
+                 type: 'GET',
+                 cache: false,
+                 url: '@Url.Action("Register", "Login")',
+                 data: {},
+                 success: function (response) {
+                      
+                     $("#register_view_pop_id").html(response)
+                     openbox(1, 'register_view_pop_id');
+                 },
+                 error: function (jqXHR, exception) {
+                      
+                     console.log(jqXHR.status);
+                     console.log(exception);
+                 }
+             });
+         });
+
+        $("#resethere").click(function () {
+            debugger
+            closebox('login_view_pop_id');
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                url: '@Url.Action("ForgotPassword", "Login")',
+                data: {},
+                success: function (response) {
+                     
+                    $("#forgotpassword_view_pop_id").html(response)
+                    openbox(1, 'forgotpassword_view_pop_id');
+                },
+                error: function (jqXHR, exception) {
+                     
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        });
+
+    });
+</script>
+@*<div class="col-md-12 login_smoll_box_textbg">
+    <h2>Login</h2>
+    <p> </p>
+</div>*@
+<span id="" class="col-md-12 popup_box_title clearfix">
+    Login
+    <a href="#" onClick="closebox('login_view_pop_id')" class="popup_close_bg" title="Close"></a>
+</span>
+
+
+
+    <div class="col-md-12 pop_container_bg">
+        @using (Html.BeginForm("Login", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "pp", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group clearfix">
+                <label for="email" class="input_label_style">Email Address</label>
+                @*<input type="email" class="form-control form_input" id="email">*@
+                @Html.TextBoxFor(m => m.UserName,Model.UserName, new { @id = "usrName", @class = "form-control form_input" })
+                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "error_span" })
+            </div>
+            <div class="form-group clearfix">
+                <label for="password" class="input_label_style">Password</label>
+                @*<input type="password" class="form-control form_input" id="password">*@
+                @Html.PasswordFor(m => m.Password, new { @id = "pwd", @class = "form-control form_input" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "error_span" })
+            </div>
+            <div class="form-group forgot_pass_link clearfix">
+                <span class="text_color_combo">Forgot password? </span> 
+                @*@Html.ActionLink("Reset here", "ForgotPassword", new object { }, new { @class = "login_resetpass_a link_color_combo" })*@
+                <a href="#" class="login_resetpass_a link_color_combo" title="Reset here" id="resethere">Reset here</a>
+            </div>
+            <div class="form-group currencies_checkbox_bg clearfix">
+                <div class="only_one_check">
+                    <label class="" for="Powered_check">
+                        Remember me
+                        @*<input type="checkbox" id="Powered_check" checked="checked">*@
+                        @Html.CheckBoxFor(m => m.RememberMe, new { @id = "Powered_check" })
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                @*<a href="dashboard.html" class="btn btn-default register_small_button secondary_color_bg" title="NEXT STEP">NEXT STEP</a>*@
+                <input type="submit" class="btn btn-default register_small_button secondary_color_bg" title="NEXT STEP" value="NEXT STEP" />
+            </div>
+            <div class="form-group register_small_already_reg clearfix">
+                <p>Not a member yet? @*@Html.ActionLink("Sign up", "Register", new object { }, new { @class = "link_color_combo" })*@
+                
+                    <a href="#" class="link_color_combo" title="Sign up" id="signup">Sign up</a>
+                
+                </p>
+            </div>
+            <div class="form-group clearfix">
+                <span id="errorMsg" class="error_span"> </span>
+            </div>
+        }
+    </div>

@@ -1,0 +1,885 @@
+﻿
+@{
+    Layout = null;
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="x-ua-compatible" content="IE=10">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MatchBX</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+
+    <!-- Bootstrap -->
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/font-awesome.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/animate.css")">
+    <link href="@Url.Content("~/Content/css/animate.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/style.css")" rel="stylesheet">
+    <link rel="icon" href="@Url.Content("~/Content/images/favicon.ico")" type="image/x-icon">
+    <link rel="shortcut icon" href="@Url.Content("~/Content/images/favicon.ico")" type="image/x-icon">
+    <style></style>
+</head>
+
+<body style="">
+    <header id="header" class="loged_header_bg">
+        <nav class="navbar navbar-default navbar-static-top" role="banner">
+            <div class="container">
+                <!--<div class="navbar-header">
+                                   <div class="container_inner clearfix">
+                                     <div class="logo_bg">
+                                        <a href="#" class=""><img src="images/MatchBX-logo-black.svg" alt=""></a>
+                                     </div>
+                                    <div class="pull-right logged_header_right">
+                                        <p class="logged_header_adress_p">Address for receiving tokens</p>
+                <p class="logged_header_adress_p_2">
+                                  <a href="#" onclick="openbox(1, 'token_address_id')">0xdBed85802132e23123125845</a>
+
+                                   </p>
+                                    </div>
+                                   </div>
+                                </div> -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <div class="navbar-brand"> <a class="" href="#"> <img src="@Url.Content("~/Content/images/MatchBX-logo.svg")" alt=""> </a> </div>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-nav-m">
+                        <li class=""><a href="#">MARKETING</a></li>
+                        <li><a href="#">DEVELOPMENT</a></li>
+                        <li><a href="#">CREATIVE</a></li>
+                        <li><a href="#">WRITING</a></li>
+                        <li><a href="#">ADMIN</a></li>
+                        <li><a href="#">TOKEN SALE</a></li>
+                        <li><a href="#">TRANSLATION</a></li>
+                        <li><a href="#">OTHER</a></li>
+                    </ul>
+                    <!--<ul class="nav navbar-nav navbar-right">
+                      <li><a href="#">Link</a></li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Action</a></li>
+                          <li><a href="#">Another action</a></li>
+                          <li><a href="#">Something else here</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a href="#">Separated link</a></li>
+                        </ul>
+                      </li>
+                    </ul>-->
+                </div>
+                <!-- /.navbar-collapse -->
+                <ul class="nav navbar-nav navbar-right header_right header_right_homepg">
+                    <li><a href="#" class="login_headerlink">LOGIN</a></li>
+                    <li><a href="#" class="btn button_all btn_get_hired_header secondary_color_2_bg">Get hired</a></li>
+                    <li><a href="#" class="btn button_all btn_post_job_header secondary_color_bg">Post a job</a></li>
+                </ul>
+
+            </div>
+            <!--/.container-->
+        </nav>
+        <!--/nav-->
+    </header>
+    <!--/header-->
+
+    <div class="largebox_middile_full clearfix">
+        <div class="top_heading_section">
+            <div class="container">
+                <div id="" class="matchbx_topsection clearfix text-center">
+                    @*<h2><span>Hire freelancers, pay in cryptocurrency</span></h2>*@
+                    <h2>
+                        <span class="tlt"></span>
+                    </h2>
+                    <h3>Complete jobs to earn AXPR, or post a job and have great freelancers come to you</h3>
+                    <a href="#" class="btn btn_banner secondary_color_bg">Get hired</a>
+                    <a href="#" class="btn btn_banner secondary_color_2_bg">Post a job</a>
+                </div>
+
+
+            </div>
+        </div>
+        <!--/#slider-->
+        <div class="largebox_content_containerbg">
+            <div class="container">
+                <!--<div class="progress_bar_bg">
+                    <div class="row">
+                      <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                aria-valuemin="0" aria-valuemax="100" style="width:20%">
+                  <span class="sr-only">70% Complete</span>
+                                </div>
+                      </div>
+                    </div>
+                  </div>-->
+                <!--progress_bar_bg-->
+
+                <div class="container_inner middile_con_inner_bg clearfix">
+                    <div class="col-md-12 home_con_top_search_bg bg_color_comen clearfix">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button"><i class="home_search_icon"></i></button>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Search for...">
+                        </div><!-- /input-group -->
+                    </div>
+                    <!-- // home_con_top_search_bg-->
+                    <!--Filling section-->
+
+                    <div class="col-md-12 con_8_4_outer_bg clearfix">
+                        <div class="row con_row">
+                            <div class="col-md-8 home_left_8">
+
+                                <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix">
+                                    <h3>Front end dev work (HTML/CSS)</h3>
+                                    <div class="timeframe_budget_small clearfix">
+                                        <div class="timeframe_only"><span>Timeframe: </span>&nbsp;<span>12 June 2018</span></div>
+                                        <div class="budget_only"><span>Budget: </span>&nbsp;<span>1,000 AXPR ($100)</span></div>
+                                        <div class="axp_star_only">
+                                            <ul>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="home_client_discription_small clearfix">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie, arcu porttitor imperdiet molestie, risus turpis iaculis sapien, in interdum libero turpis a orc. </p>
+                                    </div>
+                                    <div class="client_profile_imgname_bg clearfix">
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="~/Content/images/client_pic_1.png" alt="" />
+                                            </div>
+                                            <i class="profile_pic_star"></i>
+                                        </div>
+                                        <div class="client_profile_name">
+                                            <h4>Tomas Smith</h4>
+                                            <span>6 jobs complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- // box-->
+
+                                <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix">
+                                    <h3>Front end dev work (HTML/CSS)</h3>
+                                    <div class="timeframe_budget_small clearfix">
+                                        <div class="timeframe_only"><span>Timeframe: </span>&nbsp;<span>12 June 2018</span></div>
+                                        <div class="budget_only"><span>Budget: </span>&nbsp;<span>1,000 AXPR ($100)</span></div>
+                                        <div class="axp_star_only">
+                                            <ul>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="home_client_discription_small clearfix">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie, arcu porttitor imperdiet molestie, risus turpis iaculis sapien, in interdum libero turpis a orc. </p>
+                                    </div>
+                                    <div class="client_profile_imgname_bg clearfix">
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="~/Content/images/client_pic_1.png" alt="" />
+                                            </div>
+                                            <i class="profile_pic_star"></i>
+                                        </div>
+                                        <div class="client_profile_name">
+                                            <h4>Tomas Smith</h4>
+                                            <span>6 jobs complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- // box-->
+
+
+                                <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix">
+                                    <h3>Front end dev work (HTML/CSS)</h3>
+                                    <div class="timeframe_budget_small clearfix">
+                                        <div class="timeframe_only"><span>Timeframe: </span>&nbsp;<span>12 June 2018</span></div>
+                                        <div class="budget_only"><span>Budget: </span>&nbsp;<span>1,000 AXPR ($100)</span></div>
+                                        <div class="axp_star_only">
+                                            <ul>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="home_client_discription_small clearfix">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie, arcu porttitor imperdiet molestie, risus turpis iaculis sapien, in interdum libero turpis a orc. </p>
+                                    </div>
+                                    <div class="client_profile_imgname_bg clearfix">
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="~/Content/images/client_pic_1.png" alt="" />
+                                            </div>
+                                            <i class="profile_pic_star"></i>
+                                        </div>
+                                        <div class="client_profile_name">
+                                            <h4>Tomas Smith</h4>
+                                            <span>6 jobs complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- // box-->
+
+
+                                <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix">
+                                    <h3>Front end dev work (HTML/CSS)</h3>
+                                    <div class="timeframe_budget_small clearfix">
+                                        <div class="timeframe_only"><span>Timeframe: </span>&nbsp;<span>12 June 2018</span></div>
+                                        <div class="budget_only"><span>Budget: </span>&nbsp;<span>1,000 AXPR ($100)</span></div>
+                                        <div class="axp_star_only">
+                                            <ul>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="home_client_discription_small clearfix">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie, arcu porttitor imperdiet molestie, risus turpis iaculis sapien, in interdum libero turpis a orc. </p>
+                                    </div>
+                                    <div class="client_profile_imgname_bg clearfix">
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="~/Content/images/client_pic_1.png" alt="" />
+                                            </div>
+                                            <i class="profile_pic_star"></i>
+                                        </div>
+                                        <div class="client_profile_name">
+                                            <h4>Tomas Smith</h4>
+                                            <span>6 jobs complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- // box-->
+
+
+                                <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix">
+                                    <h3>Front end dev work (HTML/CSS)</h3>
+                                    <div class="timeframe_budget_small clearfix">
+                                        <div class="timeframe_only"><span>Timeframe: </span>&nbsp;<span>12 June 2018</span></div>
+                                        <div class="budget_only"><span>Budget: </span>&nbsp;<span>1,000 AXPR ($100)</span></div>
+                                        <div class="axp_star_only">
+                                            <ul>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="home_client_discription_small clearfix">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie, arcu porttitor imperdiet molestie, risus turpis iaculis sapien, in interdum libero turpis a orc. </p>
+                                    </div>
+                                    <div class="client_profile_imgname_bg clearfix">
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="~/Content/images/client_pic_1.png" alt="" />
+                                            </div>
+                                            <i class="profile_pic_star"></i>
+                                        </div>
+                                        <div class="client_profile_name">
+                                            <h4>Tomas Smith</h4>
+                                            <span>6 jobs complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- // box-->
+
+
+                                <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix">
+                                    <h3>Front end dev work (HTML/CSS)</h3>
+                                    <div class="timeframe_budget_small clearfix">
+                                        <div class="timeframe_only"><span>Timeframe: </span>&nbsp;<span>12 June 2018</span></div>
+                                        <div class="budget_only"><span>Budget: </span>&nbsp;<span>1,000 AXPR ($100)</span></div>
+                                        <div class="axp_star_only">
+                                            <ul>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="home_client_discription_small clearfix">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie, arcu porttitor imperdiet molestie, risus turpis iaculis sapien, in interdum libero turpis a orc. </p>
+                                    </div>
+                                    <div class="client_profile_imgname_bg clearfix">
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="~/Content/images/client_pic_1.png" alt="" />
+                                            </div>
+                                            <i class="profile_pic_star"></i>
+                                        </div>
+                                        <div class="client_profile_name">
+                                            <h4>Tomas Smith</h4>
+                                            <span>6 jobs complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- // box-->
+
+                                <div class="col-md-12 home_user_box_1_bg bg_color_comen clearfix">
+                                    <h3>Front end dev work (HTML/CSS)</h3>
+                                    <div class="timeframe_budget_small clearfix">
+                                        <div class="timeframe_only"><span>Timeframe: </span>&nbsp;<span>12 June 2018</span></div>
+                                        <div class="budget_only"><span>Budget: </span>&nbsp;<span>1,000 AXPR ($100)</span></div>
+                                        <div class="axp_star_only">
+                                            <ul>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="home_client_discription_small clearfix">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie, arcu porttitor imperdiet molestie, risus turpis iaculis sapien, in interdum libero turpis a orc. </p>
+                                    </div>
+                                    <div class="client_profile_imgname_bg clearfix">
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="~/Content/images/client_pic_1.png" alt="" />
+                                            </div>
+                                            <i class="profile_pic_star"></i>
+                                        </div>
+                                        <div class="client_profile_name">
+                                            <h4>Tomas Smith</h4>
+                                            <span>6 jobs complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- // box-->
+                                <!-- // Filling section-->
+
+                            </div><!-- //col-md-8-->
+
+                            <div class="col-md-4 home_right_4">
+
+                                <div class="col-md-12 bg_color_comen home_top_jobs_bg clearfix">
+                                    <div class="home_top_jobs_heding heading_border_buttom">
+                                        <h2>Top job posters</h2>
+                                    </div>
+                                    <ul class="job_poster_profiles clearfix">
+                                        <li>
+                                            <a href="#">
+                                                <div class="client_profile_pic">
+                                                    <div class="client_profile_pic_1">
+                                                        <img src="~/Content/images/client_pic_1.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <div class="client_profile_name">
+                                                    <h4>Isabelle Jane</h4>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div class="client_profile_pic">
+                                                    <div class="client_profile_pic_1">
+                                                        <img src="~/Content/images/client_pic_1.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <div class="client_profile_name">
+                                                    <h4>Caitlyn Adams</h4>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div class="client_profile_pic">
+                                                    <div class="client_profile_pic_1">
+                                                        <img src="~/Content/images/client_pic_1.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <div class="client_profile_name">
+                                                    <h4>Audra Hickle</h4>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div class="client_profile_pic">
+                                                    <div class="client_profile_pic_1">
+                                                        <img src="~/Content/images/client_pic_1.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <div class="client_profile_name">
+                                                    <h4>Lucas Christiansen</h4>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div class="client_profile_pic">
+                                                    <div class="client_profile_pic_1">
+                                                        <img src="~/Content/images/client_pic_1.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <div class="client_profile_name">
+                                                    <h4>Jaleel Dooley</h4>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div class="client_profile_pic">
+                                                    <div class="client_profile_pic_1">
+                                                        <img src="~/Content/images/client_pic_1.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <div class="client_profile_name">
+                                                    <h4>Mitchell Schroeder</h4>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div class="client_profile_pic">
+                                                    <div class="client_profile_pic_1">
+                                                        <img src="~/Content/images/client_pic_1.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <div class="client_profile_name">
+                                                    <h4>Arnoldo Cruickshank</h4>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- // Top job posters section-->
+
+
+                                <div class="col-md-12 bg_color_comen home_top_jobs_bg clearfix">
+                                    <div class="home_top_jobs_heding">
+                                        <h2>Trending tags</h2>
+                                    </div>
+                                    <div class="home_trending_tags clearfix">
+                                        <a href="#">#webdesign,</a>
+                                        <a href="#">#design,</a><a href="#">#dev,</a><a href="#">#ICOhelp,</a><a href="#">#crypto,</a><a href="#">#admin,</a><a href="#">#dataentry,</a><a href="#">#legal,</a>
+                                        <a href="#">#developmentwork,</a><a href="#">#logodesign,</a><a href="#">#logo</a>
+
+
+                                    </div>
+                                </div>
+
+                                <!-- // Top job posters section-->
+
+                            </div><!-- //col-md-4-->
+
+                        </div><!-- //row-->
+
+                    </div>
+
+
+
+
+                </div>
+                <!--container_inner -->
+
+            </div>
+            <!--/#container-->
+        </div><!-- /#largebox_content_containerbg-->
+
+
+    </div>
+    <!--/#slider-->
+
+    <footer>
+        <div class="footer_top_box_menubg clearfix">
+            <div class="container">
+                <div class="container_inner clearfix">
+                    <ul class="footer_top_box_ul clearfix">
+
+                        <li>
+                            <a href="#" class="clearfix">
+                                <div class="footer_top_box_icon marketing_icon">
+                                </div>
+                                <h3>Marketing</h3>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="clearfix">
+                                <div class="footer_top_box_icon development_icon">
+                                </div>
+                                <h3>Development</h3>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="clearfix">
+                                <div class="footer_top_box_icon creative_icon">
+                                </div>
+                                <h3>Creative</h3>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="clearfix">
+                                <div class="footer_top_box_icon write_icon">
+                                </div>
+                                <h3>Writing</h3>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="clearfix">
+                                <div class="footer_top_box_icon admin_icon">
+                                </div>
+                                <h3>Admin</h3>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="clearfix">
+                                <div class="footer_top_box_icon tokensale_icon">
+                                </div>
+                                <h3>Token sale</h3>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="clearfix">
+                                <div class="footer_top_box_icon transilater_icon">
+                                </div>
+                                <h3>Translation</h3>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="clearfix">
+                                <div class="footer_top_box_icon other_icon">
+                                </div>
+                                <h3>Other</h3>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div><!-- // footer_top_box_menubg-->
+
+        <div class="footer_middile_menubg">
+            <div class="container">
+                <div class="footer_inner_bg clearfix">
+                    <div class="container_inner clearfix">
+                        <div class="col-md-12 padd_left_right_o">
+                            <div class="col-md-3">
+                                <div class="footer_links_col clearfix">
+                                    <h3 class="footer_heading">JOB SECTIONS</h3>
+                                    <ul>
+                                        <li><a href="#">Marketing</a></li>
+                                        <li><a href="#">Development</a></li>
+                                        <li><a href="#">Creative</a></li>
+                                        <li><a href="#">Writing</a></li>
+                                        <li><a href="#">Admin support</a></li>
+                                        <li><a href="#">ICO services</a></li>
+                                        <li><a href="#">Translation</a></li>
+                                        <li><a href="#">Other</a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="footer_links_col clearfix">
+                                    <h3 class="footer_heading">TRENDING TAGS</h3>
+                                    <ul>
+                                        <li><a href="#">#Web design</a></li>
+                                        <li><a href="#">#ICO marketing</a></li>
+                                        <li><a href="#">#Design</a></li>
+                                        <li><a href="#">#Whitepaper</a></li>
+                                        <li><a href="#">#Crypto</a></li>
+                                        <li><a href="#">#UI design</a></li>
+                                        <li><a href="#">#ICO advisor</a></li>
+                                        <li><a href="#">#Email admin</a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="footer_links_col clearfix">
+                                    <h3 class="footer_heading">WHOW WE ARE</h3>
+                                    <ul>
+                                        <li><a href="#">aXpire</a></li>
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Blog</a></li>
+                                    </ul>
+                                </div>
+                                <div class="footer_links_col clearfix">
+                                    <h3 class="footer_heading">CONTACT</h3>
+                                    <p>info@axpire.com</p>
+                                    <p>+1-844-7-AXPIRE (297473)</p>
+                                    <p><a href="#">Help centre</a></p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 footer_socialmedia_col pull-right">
+                                <div class="footer_links_col clearfix">
+                                    <h3 class="footer_heading">GET SOCIAL</h3>
+                                    <ul class="footer_socialmedia_ul">
+                                        <li><a href="https://twitter.com/aXpire_official" target="_blank" class="social_twitter" title="Twitter"><i class="fa fa-twitter"></i><span>Twitter</span></a> </li>
+                                        <li><a href="https://www.facebook.com/Axpire-537274833301303" target="_blank" class="social_facebook" title="Facebook"><i class="fa fa-facebook-official"></i><span>Facebook</span></a></li>
+                                        <li><a href="https://www.linkedin.com/company/axpire/" target="_blank" class="social_linkedIn" title="LinkedIn"><i class="fa fa-linkedin"></i><span>LinkedIn</span></a> </li>
+                                        <li><a href="https://www.youtube.com/channel/UCGk_ARm1Dg0o8VgjYIpouFg" target="_blank" class="social_Youtube" title="Youtube"><i class="fa fa-youtube-play"></i><span>Youtube</span></a> </li>
+                                        <li><a href="https://www.reddit.com/r/aXpire/" target="_blank" class="social_Reddit" title="Reddit"><i class="fa fa-reddit-alien"></i><span>Reddit</span></a> </li>
+                                        <li><a href="https://t.me/AxpireOfficial" target="_blank" class="social_telegram" title="Telegram"><i class="fa fa-telegram"></i><span>Telegram</span></a></li>
+                                        <li><a href="" target="_blank" class="social_medium" title="Medium" id="medLink"><i class="fa fa-medium"></i><span>Medium</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 footer_coppy_bg padd_left_right_o">
+                            <p>© 2018 Copyright aXpire. All Rights Reserved</p>
+                        </div>
+                    </div>
+                    <!-- // container_inner-->
+
+                </div>
+            </div><!-- //container-->
+        </div>
+        <!-- // footer_middile_menubg-->
+    </footer>
+
+    <!--lightbox popup section-->
+    <div id="shadowing" class="shadowing_overlay myshadow"></div>
+    <div id="Purchase_id" class="popup_box clearfix">
+        <span id="" class="col-md-12 popup_box_title popup_box_title_small clearfix">
+            Address for Refunds
+            <p>
+                In case your [DEPENDING ON PAYMENT STREAM - ETH - BTC - BCH] is received after the TGE has ended, we need a [DEPENDING ON PAYMENT STREAM - ETH - BTC - BCH] wallet address so we can return your funds to you. <br />
+                This cannot be changed later.
+            </p>
+            <a href="#" onClick="closebox('Purchase_id')" class="popup_close_bg" title="Close"></a>
+        </span>
+        <div class="col-md-12 pop_container_bg">
+            <div class="form-group purchase_pop_qrcode clearfix text-center"> <img src="~/Content/images/qrcode.jpg" alt="" /> </div>
+            <!--<div class="form-group clearfix">
+                              <label for="" class="input_label_style">ETHER (ETH)</label>
+                              <input type="text" class="form-control form_input" value="0xdBed858099fF40d107C238A7F4380EF79F25845C" id="">
+                            </div>-->
+            <div class="form-group textbox_with_button clearfix">
+                <label for="" class="input_label_style">ETHER (ETH)</label>
+                <div class="input-group">
+                    <input type="text" class="form-control form_input" value="0xdBed858099fF40d107C238A7F4380EF79F25845C" placeholder="" id="" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" type="submit"> <span class="copy_icon_class"></span> </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group clearfix"> <a href="#" class="btn btn-default register_small_button secondary_color_bg" id="dublepopup" onclick="openbox(1, 'Purchase_id_2')" title="NEXT STEP">NEXT STEP</a> </div>
+        </div>
+    </div>
+    <div id="Purchase_id_2" class="popup_box clearfix">
+        <span id="" class="col-md-12 popup_box_title popup_box_title_small clearfix">
+            Payment Address
+            <p>Send your [DEPENDING ON PAYMENT STREAM - ETH - BTC - BCH] to this address.</p>
+            <a href="#" onClick="closebox('Purchase_id_2')" class="popup_close_bg" title="Close"></a>
+        </span>
+        <div class="col-md-12 pop_container_bg">
+            <div class="form-group purchase_pop_qrcode clearfix text-center"> <img src="~/Content/images/qrcode.jpg" alt="" /> </div>
+            <!--<div class="form-group clearfix">
+                              <label for="" class="input_label_style">ETHER (ETH)</label>
+                              <input type="text" class="form-control form_input" value="0xdBed858099fF40d107C238A7F4380EF79F25845C" id="">
+                            </div>-->
+            <div class="form-group textbox_with_button clearfix">
+                <label for="" class="input_label_style">ETHER (ETH)</label>
+                <div class="input-group">
+                    <input type="text" class="form-control form_input" value="0xdBed858099fF40d107C238A7F4380EF79F25845C" placeholder="" id="" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" type="submit"> <span class="copy_icon_class"></span> </button>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="form-group clearfix">
+                              <a href="#" class="btn btn-default register_small_button" onClick="closebox('Purchase_id_2')" title="SUBMIT">SUBMIT</a>
+                            </div>-->
+        </div>
+    </div>
+    <div id="your_details_pop_id" class="popup_box clearfix">
+        <span id="" class="col-md-12 popup_box_title clearfix"> Personal details <a href="#" onClick="closebox('your_details_pop_id')" class="popup_close_bg" title="Close"></a> </span>
+        <div class="col-md-12 pop_container_bg">
+            <div class="form-group clearfix">
+                <label for="first-name" class="input_label_style">First Name</label>
+                <input type="first-name" class="form-control form_input" value="Henry" id="first-name">
+            </div>
+            <div class="form-group clearfix">
+                <label for="last-name" class="input_label_style">Last Name</label>
+                <input type="last-name" class="form-control form_input" value="Doe" id="last-name">
+            </div>
+            <div class="form-group clearfix">
+                <label for="email" class="input_label_style">Email Address</label>
+                <input type="email" class="form-control form_input" value="henry@wearepoint.com" id="email">
+            </div>
+            <div class="form-group clearfix"> <a href="#" onClick="closebox('your_details_pop_id')" class="btn btn-default register_small_button secondary_color_bg" title="SAVE CHANGES">SAVE CHANGES</a> </div>
+        </div>
+    </div>
+    <div id="2fa_verif_pop_id" class="popup_box clearfix">
+        <span id="" class="col-md-12 popup_box_title clearfix"> Set up 2FA <a href="#" onClick="closebox('2fa_verif_pop_id')" class="popup_close_bg" title="Close"></a> </span>
+        <div class="col-md-12 pop_container_bg">
+            <div class="form-group setup_2fa_text_bg clearfix">
+                <h4>Add CoinBx to your 2FA. Steps:</h4>
+                <ul>
+                    <li>Install or open <a href="#" class="primary_color_text">Google Authenticator</a></li>
+                    <li>Scan barcode</li>
+                    <li>Enter your code below</li>
+                </ul>
+                <div class="qrcode_bg"> <img src="images/qrcode.jpg" alt="" /> </div>
+            </div>
+            <div class="form-group clearfix">
+                <label for="digit_code" class="input_label_style">ENTER 4 DIGIT CODE</label>
+                <div class="col-md-12 padd_left_right_o setup_2fa_digitcode_inputbg">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control form_input" id="digit_code" value="1530">
+                    </div>
+                    <div class="col-md-4"> <a href="#" class="btn btn-default register_small_button secondary_color_bg" title="ENABLE">ENABLE</a> </div>
+                </div>
+            </div>
+            <div class="form-group clearfix"> <a href="#" onClick="closebox('2fa_verif_pop_id')" class="btn btn-default register_small_button secondary_color_bg" title="SUBMIT">SUBMIT</a> </div>
+        </div>
+    </div>
+    <div id="kyc_pop_id" class="popup_box clearfix">
+        <span id="" class="col-md-12 popup_box_title clearfix"> KYC verification <a href="#" onClick="closebox('kyc_pop_id')" class="popup_close_bg" title="Close"></a> </span>
+        <div class="col-md-12 pop_container_bg">
+            <div class="form-group clearfix">
+                <iframe width="100%" height="400px" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+    <div id="update_password_pop_id" class="popup_box clearfix">
+        <span id="" class="col-md-12 popup_box_title clearfix"> Security details <a href="#" onClick="closebox('update_password_pop_id')" class="popup_close_bg" title="Close"></a> </span>
+        <div class="col-md-12 pop_container_bg">
+            <div class="form-group clearfix">
+                <label for="" class="input_label_style">OLD PASSWORD</label>
+                <input type="password" class="form-control form_input" value="PASSWORDPASS" id="">
+            </div>
+            <div class="form-group clearfix">
+                <label for="" class="input_label_style">NEW PASSWORD</label>
+                <input type="password" class="form-control form_input" value="PASSWORD" id="">
+            </div>
+            <div class="form-group clearfix">
+                <label for="" class="input_label_style">Confirm new password</label>
+                <input type="password" class="form-control form_input" value="PASSWORD" id="">
+            </div>
+            <div class="form-group clearfix"> <a href="#" onclick="openbox(1, 'update_password_2FA_pop_id')" class="btn btn-default register_small_button secondary_color_bg" title="SUBMIT">SUBMIT</a> </div>
+        </div>
+    </div>
+    <div id="update_password_2FA_pop_id" class="popup_box update_password_2FA_pop_box clearfix">
+        <span id="" class="col-md-12 popup_box_title clearfix"> Confirm with 2FA </span>
+        <div class="col-md-12 pop_container_bg">
+            <div class="form-group clearfix">
+                <label for="" class="input_label_style">ENTER 2FA</label>
+                <input type="text" class="form-control form_input" value="3204" id="">
+            </div>
+            <p>Enter the 2FA code from the Google Authenticator app</p>
+            <div class="form-group clearfix"> <a href="#" onClick="closebox('update_password_2FA_pop_id')" class="btn btn-default register_small_button secondary_color_bg" title="SUBMIT">SUBMIT</a> </div>
+        </div>
+    </div>
+    <div id="token_address_id" class="popup_box clearfix">
+        <span id="" class="col-md-12 popup_box_title popup_box_title_small clearfix">
+            Token Destination Address
+            <p>Input your ERC20-compatible Ethereum wallet address</p>
+            <a href="#" onClick="closebox('token_address_id')" class="popup_close_bg" title="Close"></a>
+        </span>
+        <div class="col-md-12 pop_container_bg">
+            <div class="form-group clearfix">
+                <p class="token_address_pop_p">
+                    Please submit an ERC20-compatible wallet address that you
+                    would like to receive your purchased tokens to.
+                </p>
+                <p class="token_address_pop_p">
+                    WARNING: Do NOT submit an exchange wallet address, or
+                    your tokens will be LOST FOREVER. <a href="#" class="primary_color_text">Need help?</a>
+                </p>
+            </div>
+            <div class="form-group clearfix">
+                <label for="" class="input_label_style">YOUR PERSONAL ERC20 WALLET ADDRESS</label>
+                <input type="text" class="form-control form_input" value="0xdBed858099fF40d107C238A7F4380EF79F25845C" id="">
+            </div>
+            <div class="form-group clearfix"> <a href="#" class="btn btn-default register_small_button secondary_color_bg" onClick="closebox('token_address_id')" title="SAVE ADDRESS">SAVE ADDRESS</a> </div>
+        </div>
+    </div>
+
+    <!--<div id="box2" class="popup_box clearfix">
+      <span id="" class="col-md-12 popup_box_title clearfix">
+         Update password 22222
+          <a href="#" onClick="closebox('box2')" class="popup_close_bg" title="Close"></a>
+      </span>
+      <div class="col-md-12 pop_container_bg">
+         <div class="form-group clearfix">
+                          <label for="email_pop" class="input_label_style">Email Address</label>
+                          <input type="email" class="form-control form_input" value="" id="email_pop">
+                        </div>
+          <div class="form-group clearfix">
+                          <a href="#" class="btn btn-default register_small_button secondary_color_bg" onClick="closebox()" title="SUBMIT">SUBMIT</a>
+                        </div>
+      </div>
+    </div>-->
+    <!-- // lightbox popup section-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/Content/js/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script src="~/Content/js/wow.min.js"></script>
+    <!--<script src="js/lightbox.min.js"></script> -->
+    <script src="~/Content/js/lightbox-form.js" type="text/javascript"></script>
+    <script>
+        wow = new WOW({}).init();
+
+
+        $(document).on('click', 'a[href^="#"].smothscroll', function (event) {
+            event.preventDefault();
+
+            $('html, body').animate({
+                scrollTop: $($.attr(this, 'href')).offset().top
+            }, 700);
+        });
+
+
+
+        $(document).ready(function () {
+
+            /*("#dublepopup").click(function(){
+				alert("dfsf");
+                $("#Purchase_id").addClass(".hhdh");
+             });*/
+
+        });
+
+
+        /* // email placeholder*/
+
+        $("#medLink").click(function mediumurl() {
+
+            window.open("https://medium.com/@@aXpire/");
+
+        })
+
+    </script>
+    <script src="@Url.Content("~/Content/js/typed.js")"></script>
+    <script>
+(function(){
+
+    //var el = document.querySelector('.site-navigation');
+    //function addClassToHeader() {
+    //    if (window.scrollY > 100 && !el.classList.contains('--scrolling')) {
+    //        el.classList.add('--scrolling');
+    //    } else if (window.scrollY < 100) {
+    //        el.classList.remove('--scrolling');
+    //    }
+    //}
+    //window.addEventListener('scroll', addClassToHeader)
+    var typed = new Typed('.tlt', {
+        strings:
+            [
+                "Hire freelancers, pay in cryptocurrency",
+				"Hire freelancers, pay in cryptocurrency",
+                "Hire freelancers, pay in cryptocurrency",
+            ],
+        typeSpeed: 8,
+        smartBackspace: true ,
+        backSpeed: 8,
+        loop: true,
+        backDelay: 1800,
+        startDelay: 500
+    });
+
+})()</script>
+</body>
+</html>

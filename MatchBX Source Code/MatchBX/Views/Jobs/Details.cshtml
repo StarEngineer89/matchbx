@@ -1,0 +1,875 @@
+﻿@model Business.Job
+@{
+    ViewBag.Title = "Details";
+    //Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+    Layout = Layout;
+    var shareObj = Model.ShareJob;
+    var fbShare = Model.ShareJob.FBShare;
+    var twtShare = Model.ShareJob.TwitterShare;
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+            $("#anchor_home").click(function(){
+
+                localStorage.removeItem("frmPage");
+                window.location.href="/Dashboard/Home";
+            })
+            $("#ulcategory").on('click','a',function(){
+                              
+
+                var _id=$(this).prop("id");
+                localStorage.setItem("catid",_id);
+                var _text=titleCase($(this).text());
+                localStorage.setItem("cattext",_text)
+                window.location.href="/Category/index?id="+_id;
+            })
+
+            $("#ulcategoryfooter").on('click','a',function(){
+                var _id=$(this).prop("id");
+                localStorage.setItem("catid",_id);
+                var _text=titleCase($(this).text());
+                localStorage.setItem("cattext",_text)
+                window.location.href="/Category/index?id="+_id;
+            })
+            $("#ulfootertopcat").on('click','a',function(){
+                var _id=$(this).prop("id");
+                localStorage.setItem("catid",_id);
+                var _text=titleCase($(this).text());
+                localStorage.setItem("cattext",_text)
+                window.location.href="/Category/index?id="+_id;
+            })
+            function titleCase(str) {
+                str = str.toLowerCase();
+                str = str.split(' ');
+                for (var i = 0; i < str.length; i++) {
+                    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+                }
+                return str.join(' ');
+            }
+        })
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //localStorage.setItem("frmPage", "DetailsDefault");
+
+        //$("#category").on('click','a.details',function(){
+        //    localStorage.setItem("frmPage", "Details");
+        //    var _id=$(this).prop('id');
+        //    localStorage.setItem("frmPageCatId", _id);
+
+        //});
+        $("#anchor_home").click(function(){
+
+            localStorage.removeItem("frmPage");
+            window.location.href="/Dashboard/Home";
+        })
+
+        if("@Session["JobCategoryName"]"==null || "@Session["JobCategoryName"]"=="")
+        {
+            $("#category").remove();
+            var _catheader="@Session["JobCategoryHeader"]";
+            $("#spanheder").text(_catheader);
+        }
+        else
+        {
+            var _cat = "@Session["JobCategoryName"]";
+
+            var _catid="@Session["JobCategoryId"]";
+
+            var _catheader="@Session["JobCategoryHeader"]";
+
+            
+
+
+            // localStorage.setItem("frmPageCatId", _catid);
+            //var _cat=  localStorage.getItem("cattext")
+            $("#spanheder").text(_catheader);
+            //var _catid=  localStorage.getItem("catid");
+            var categoryurl="<a  id="+_catid+" class='details' href='/Category/Index?id="+_catid+"'>"+_cat+"</a>";
+
+            $("#category").html(categoryurl);
+        }
+
+        $('#errorMsg').empty();
+        var JobBiddingId = @Html.Raw(Json.Encode(TempData["JobBiddingId"]));
+        if(JobBiddingId>0)
+        {
+
+            $("#headbid").html("Edit Bid");
+            $("#btnbid").html("Update offer");
+        }
+        else
+        {
+            $('#BidAmountinDollar').html("0.00");
+            $("#headbid").html("Bid for job");
+            $("#btnbid").html("Submit offer");
+        }
+        $("#bidamount").on('keypress', function (evt) {
+                          
+            var _amount=$("#bidamount").val().trim();
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            var number = _amount.split('.');
+            if (typeof _amount !== "undefined" && charCode==46 && _amount.indexOf('.') != -1){
+                return false;
+            }
+            else if(number.length > 1 && number[1].length > 1)
+            {
+                return false;
+            }
+            else {
+                return true;
+            }
+
+        });
+
+
+        $("#bidamount").change(function()
+        {
+
+            $('#errorMsg').empty();
+
+            var bidamount = $("#bidamount").val().replace(/AXPR/i, "").replace(/,/g,"");
+            bidamount=bidamount.split(' ').join('');
+            if(bidamount=="")
+            {
+                $('#errorMsg').html("Please add your bid");
+                $('#BidAmountinDollar').html("0.00");
+                $('#axprfee').html("0.00");
+                $('#IdtotalBudget').html("0.00");
+            }
+            else
+            {
+
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("CalculateBudgetinDollar", "Jobs")',
+                    data: { "budget": bidamount},
+                    success: function (data) {
+                        if(data=="Exception")
+                        {
+                            $('#errorMsg').html("Please enter a valid amount");
+                            $('#BidAmountinDollar').html("0.00");
+                            $('#axprfee').html("0.00");
+                            $('#IdtotalBudget').html("0.00");
+                        }
+                        else
+                        {
+
+                            $('#errorMsg').empty();
+                            //var amount = data.toFixed(2);
+                            var amount=Number(parseFloat(data).toFixed(2)).toLocaleString('en', {
+                                minimumFractionDigits: 2
+                            });
+                            $('#BidAmountinDollar').html(amount);
+
+                            var fee=(bidamount * 3)/100;
+                            $('#axprfee').html(fee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                            var totfee=bidamount-fee;
+                            $('#IdtotalBudget').html(totfee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+                            //var amt=parseFloat(bidamount).toFixed(2);
+                            //var _budget=(+amt).toLocaleString()+" AXPR";
+                            //$("#bidamount").val(_budget);
+
+                            var _budget=bidamount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+" AXPR";
+                            $("#bidamount").val(_budget);
+                        }
+
+                    },
+                    error: function (jqXHR, exception) {
+                        console.log(jqXHR.status);
+                        console.log(exception);
+                    }
+
+                });
+            }
+        });
+
+
+        var url = location.href;
+        var text = document.title;
+        var via = 'MatchBX'
+        var path =('http://twitter.com/intent/tweet?url=' + url + '&text=' + text + '&via=' + via);
+
+        $('.twt_share').attr('href', path);
+    });
+    function popupconfirm()
+    {
+
+        $('#errorMsg').empty();
+        var bidamount = $("#bidamount").val().replace(/AXPR/i, "").replace(/,/g,"");
+        if(bidamount=="")
+        {
+            $('#errorMsg').html("Please add your bid");
+            $('#BidAmountinDollar').html("0.00");
+            $('#axprfee').html("0.00");
+            $('#IdtotalBudget').html("0.00");
+        }
+        else
+        {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("CalculateBudgetinDollar", "Jobs")',
+                data: { "budget": bidamount},
+                success: function (data) {
+                    if(data=="Exception")
+                    {
+                        $('#errorMsg').html("Please enter a valid amount");
+                        $('#BidAmountinDollar').html("0.00");
+                        $('#axprfee').html("0.00");
+                        $('#IdtotalBudget').html("0.00");
+                    }
+                    else
+                    {
+
+                        $('#errorMsg').empty();
+                        //var amount = data.toFixed(2);
+                        var amount=Number(parseFloat(data).toFixed(2)).toLocaleString('en', {
+                            minimumFractionDigits: 2
+                        });
+                        $('#BidAmountinDollar').html(amount);
+
+                        var fee=(bidamount * 3)/100;
+                        $('#axprfee').html(fee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                        var totfee=bidamount-fee;
+                        $('#IdtotalBudget').html(totfee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+                        //var amt=parseFloat(bidamount).toFixed(2);
+                        //var _budget=(+amt).toLocaleString()+" AXPR";
+                        //$("#bidamount").val(_budget);
+
+                        var _budget=bidamount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+" AXPR";
+                        $("#bidamount").val(_budget);
+
+
+                        //var bidamount = $("#bidamount").val().replace(" AXPR", "");
+                        //bidamount=Number(parseFloat(bidamount)).toLocaleString('en');
+
+                        if(bidamount!="")
+                        {
+
+                            $('#errorMsg').empty();
+                            $("#spanaxp").html(_budget);
+                            openbox(1, 'offer_comfirmation_id');
+                        }
+                        else
+                        {
+                            $('#errorMsg').html("Submit offer with bid amount");
+                        }
+                    }
+
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+
+            });
+        }
+    }
+
+    function makeoffer()
+    {
+
+        var bidamount = $("#bidamount").val().replace(/AXPR/i, "").replace(/,/g,"");
+        var bidmessage = $("#bidmessage").val();
+        var jobid = $("#hdnJobId").val();
+        var bidid = $("#hdnBidId").val();
+        var jobposterid=$("#hdnuserid").val();
+        var jobtitle=$("#hdnjobtitle").val();
+        var _TokenDistributionId=$("#hdnTokenDistributionId").val();
+
+        function callback(address) {
+
+            if (address == 'error' || address == '')
+            {
+                openbox(1, 'metamask_comfirmation_id');
+                closebox('offer_comfirmation_id');
+            }
+            else
+            {
+                var _AccountInfo = address;
+
+                if (_TokenDistributionId == "") {
+                    _TokenDistributionId = 0;
+                }
+
+                if (bidid == "") {
+                    bidid = 0;
+                } else {
+                    $("#spnOffer").html("Offer updated!");
+                    $("#spnCongrats").html("Congrats! You have updated the offer on job ");
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("BidJob", "Jobs")',
+                    beforeSend: function() {
+                        $("#loaderDiv").show();
+                    },
+                    data: {
+                        "bidamount": bidamount,
+                        "bidmessage": bidmessage,
+                        "jobid": jobid,
+                        "bidid": bidid,
+                        "jobposterid": jobposterid,
+                        "jobtitle": jobtitle,
+                        "_TokenDistributionId": _TokenDistributionId,
+                        "_AccountInfo": _AccountInfo
+                    },
+                    success: function (data) {
+                        $("#loaderDiv").hide();
+                        var notification = $.connection.notificationHub;
+                        var _sendUserId = "@Session["UserId"]";
+                        var _fullname =  "@Session["FullName"]";
+                        var _receiverUserId = $("#hdnuserid").val();
+                        var _bidid = $("#hdnBidId").val();
+                        var _notification = "";
+                        var _header = "";
+                        if(_bidid == 0)
+                        {
+                            _notification  = "Bid offer for job " + $("#hdnjobtitle").val() + "  has been submitted by " + _fullname;
+                            _header = "Job submitted";
+                        }
+                        else
+                        {
+                            _notification  = "Bid offer for job " + $("#hdnjobtitle").val() + "  has been updated by " + _fullname;
+                            _header = "Job updated";
+                        }
+                        notification.server.send(_sendUserId, _receiverUserId, _fullname, _notification, _header,'');
+                        closebox('offer_comfirmation_id');
+                        openbox(1, 'Offer_placed_id');
+                    },
+                    error: function (jqXHR, exception) {
+                        $("#loaderDiv").hide();
+                        console.log(jqXHR.status);
+                        console.log(exception);
+                    }
+                });
+            }
+        }
+
+        App.getUserAddress(callback);
+
+    }
+
+    function SaveTransactionDetail(jobid, userid, transactiontype, processtype, hash, bidamount, address) {
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("SaveTransactionDetail", "Dashboard")',
+            data: { 'JobId': jobid, 'UserId': userid, 'TransactionType': transactiontype, 'ProcessType': processtype, 'Hash': hash, 'BidAmount' : bidamount, 'Address': address},
+            success: function (response) {
+
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+    }
+
+
+
+    @*var _AccountInfo = "";
+
+            if(_TokenDistributionId == "")
+            {
+                _TokenDistributionId = 0;
+            }
+
+            if(bidid=="")
+            {
+                bidid=0;
+            }
+            else
+            {
+                $("#spnOffer").html("Offer updated!");
+                $("#spnCongrats").html("Congrats! You have updated the offer on job ");
+            }
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("BidJob", "Jobs")',
+                data: { "bidamount": bidamount, "bidmessage": bidmessage, "jobid": jobid, "bidid": bidid,"jobposterid":jobposterid,"jobtitle": jobtitle,"_TokenDistributionId":_TokenDistributionId,"_AccountInfo":_AccountInfo},
+                success: function (data) {
+                    debugger
+                    closebox('offer_comfirmation_id');
+                    openbox(1, 'Offer_placed_id');
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+
+            });*@
+
+
+
+</script>
+
+@*//---------------Facebook SDK------------------*@
+<div id="fb-root">
+</div>
+<script src="https://connect.facebook.net/en_US/all.js" type="text/javascript"></script>
+<script type="text/javascript">
+    FB.init({
+        appId: '289989824939982',
+        status: true,
+        cookie: true,
+        xfbml: true
+    });
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    //FB.Canvas.setAutoResize();
+</script>
+
+@*//---------------Twitter SDK------------------*@
+<script>
+    function reward_user( event ) {
+        if ( event ) {
+            //alert( 'Tweeted' );
+            console.log( event );
+            shareJob('TWT', 'Y');
+        }
+    }
+
+    window.twttr = (function (d,s,id) {
+        var t, js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+        js.src="//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+        return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+    }(document, "script", "twitter-wjs"));
+
+
+    twttr.ready(function (twttr) {
+        twttr.events.bind('tweet', reward_user);
+    });
+
+</script>
+
+
+@*<div class="largebox_middile_full clearfix">*@
+
+<!--/#slider-->
+<div class="largebox_content_containerbg">
+    <div class="container">
+
+        <div id="loaderDiv" class="loaderDivclass " style="display:none"></div>
+        <div class="container_inner middile_con_inner_bg clearfix">
+
+            <div class="col-md-12 catagory_con_top_bg clearfix">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="pull-left">
+                            <ol class="breadcrumb">
+                                @*<li class="breadcrumb-item">@Html.MvcSiteMap().SiteMapTitle().ToString()</li>
+                                    <li class="breadcrumb-item">@Html.MvcSiteMap().SiteMapPath()</li>
+                                    @if (Model.JobId > 0)
+                                    {
+                                        <li class="breadcrumb-item active">@Model.JobTitle</li>
+                                    }*@
+
+                                <li class="breadcrumb-item"><a href="@Url.Action("Home","Dashboard")">MatchBX</a></li>
+                                <li class="breadcrumb-item" id="category"></li>
+                                <li class="breadcrumb-item active">@Model.JobTitle</li>
+
+                            </ol>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        &nbsp;
+                    </div>
+                </div><!--row-->
+            </div>
+            <!-- // catagory_con_top_bg-->
+
+
+            <div class="col-md-12 con_8_4_outer_bg clearfix">
+                <div class="row con_row">
+                    @if (Model.JobId > 0)
+                    {
+                        <div class="col-md-8 home_left_8">
+
+                            <div class="col-md-12 home_user_box_1_bg bg_color_comen padd_left_right_o clearfix">
+                                <div class="box_paddleftright_15 clearfix">
+                                    @Html.Hidden("hdnJobId", Model.JobId, new { @id = "hdnJobId" })
+                                    <h3>@Model.JobTitle</h3>
+                                    <input type="hidden" id="hdnjobtitle" value="@Model.JobTitle" />
+                                    <div class="timeframe_budget_small clearfix">
+                                        <div class="timeframe_only"><span>Deadline: </span>&nbsp;<span>@Model.JobCompletionDateDisplay</span></div>
+                                        <div class="timeframe_only posted_day"><span>Posted: </span>&nbsp;
+                                        <span>@Model.PostedDays</span>
+                                        @if (Model.PostedDays > 1)
+                                        { <span> days ago</span>}
+                                        else
+                                        { <span> day ago</span>}
+                                        </div>
+                                        <div class="budget_only"><span>Budget: </span>&nbsp;<span>@String.Concat(Model.BudgetASP.ToString("#,##0"), " AXPR ", "($", (Math.Round(Model.DollarCount, 2)).ToString("#,##0.00"), ")")</span></div>
+                                        <div class="axp_star_only">
+                                            <ul>
+                                                @if (Model.BadgeCount == 1)
+                                                {
+                                                    <li><i></i></li>
+                                                }
+                                                else if (Model.BadgeCount == 2)
+                                                {
+                                                    <li><i></i></li>
+                                                    <li><i></i></li>
+                                                }
+                                                else if (Model.BadgeCount == 3)
+                                                {
+                                                    <li><i></i></li>
+                                                    <li><i></i></li>
+                                                    <li><i></i></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div><!--box_paddleftright_15-->
+                                <div class="border_buttom_only job_details_linewithspace"></div>
+                                <div class="box_paddleftright_15 clearfix">
+                                    <div class="home_client_discription_small clearfix">
+                                        <h5 class="job_skill_textshow">
+                                            <span>SKILL REQUIRED: </span>
+                                            @foreach (var item in Model.JobSkillsMappingList)
+                                            {
+                                                <span>
+                                                    @if (Model.JobSkillsMappingList.IndexOf(item) == Model.JobSkillsMappingList.Count - 1)
+                                                    {
+                                                        @item.Description
+                                                    }
+                                                    else
+                                                    {
+                                                        @item.Description<span>, </span>
+                                                    }
+                                                </span>
+                                            }
+                                        </h5>
+
+                                        <p>@Model.JobDescription</p>
+
+                                        <div class="job_tags_textshow" id="detailTagList">
+                                            <div class="home_trending_tags clearfix">
+                                                <span class="job_tags_textlabel">Tags:</span>
+                                                @foreach (var item in Model.JobTrendingTagsMappingList)
+                                                {
+                                                    if (Model.JobTrendingTagsMappingList.IndexOf(item) == Model.JobTrendingTagsMappingList.Count - 1)
+                                                    {
+                                                        @*<a href="@Url.Action("Index","Jobs",new { @id = item.TrendingTagsId})"></a>*@
+                                                        @item.Description
+                                                    }
+                                                    else
+                                                    {
+                                                        @item.Description<span>, </span>
+                                                        @*<a href="@Url.Action("Index","Jobs",new { @id = item.TrendingTagsId})">@item.Description</a><span>, </span>*@
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!--box_paddleftright_15-->
+                                <div class="border_buttom_only job_details_linewithspace"></div>
+                                <div class="box_paddleftright_15 clearfix">
+                                    <div class="client_profile_imgname_bg clearfix">
+                                        <div class="pull-left">
+                                            <div class="client_profile_pic">
+                                                <div class="client_profile_pic_1">
+                                                    <img src="@Model.ProfilePic" alt="">
+                                                </div>
+                                                <i class="profile_pic_star"></i>
+                                            </div>
+                                            <div class="client_profile_name">
+                                                <a href="@Url.Action("Index", "Profile",new { @id= @Model.UserId })">
+                                                    <h4>@Model.FullName</h4>
+                                                </a>
+                                                <input type="hidden" id="hdnuserid" value="@Model.UserId" />
+                                                <span>@Model.JobsCompleted jobs completed</span>
+                                            </div>
+                                        </div><!--pull-left-->
+                                        <div class="pull-right text-right">
+                                            <div class="company_profile_refedit">
+                                                <div><span>Job reference:&nbsp;</span><span>@Model.JobReferanceId</span></div>
+                                                <div><span>Last edited:&nbsp;</span><span>@Model.LastEdited</span></div>
+                                            </div>
+                                        </div><!--pull-right-->
+                                    </div>
+                                </div><!--box_paddleftright_15-->
+                            </div>
+                            <!-- // box-->
+
+
+                            @if ((Convert.ToInt32(Session["UserId"]) != Model.UserId) && (Convert.ToInt32(Session["UserId"]) != 0))
+                            {
+                                if ((Session["Expired"].ToString() != "Y") && (Session["UserType"].ToString() != "2"))
+                                {
+                                    <div class="col-md-12 Want_to_earn_axp_bg clearfix" style="display:none">
+                                        <h2>Want to earn 5 AXPR?</h2>
+                                        <div class="soial_share_bubg clearfix">
+                                            @if (fbShare != "Y")
+                                            {
+                                                <button class="soial_share_bu fb_share_bu pull-left" onclick="fbs_click()">
+                                                    <img src="~/Content/images/share_fb.png" alt="">
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="soial_share_bu fb_share_bu pull-left disabled_bu" disabled>
+                                                    <img src="~/Content/images/share_fb.png" alt="">
+                                                </button>
+                                            }
+                                            @if (twtShare != "Y")
+                                            {
+                                                <a class="soial_share_bu tw_share_bu pull-right twt_share">
+                                                    <img src="~/Content/images/share_tw.png" alt="">
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <button class="soial_share_bu tw_share_bu pull-right disabled_bu" disabled>
+                                                    <img src="~/Content/images/share_tw.png" alt="">
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+
+
+
+                        </div><!-- //col-md-8-->
+                    }
+
+                    @if ((Convert.ToInt32(Session["UserId"]) != Model.UserId) && (Convert.ToInt32(Session["UserId"]) != 0))
+                    {
+                        if ((Session["Expired"].ToString() != "Y") && (Session["UserType"].ToString() != "2") && (@TempData["IsPendingStatus"].ToString()!="Y"))
+                        {
+                            <div class="col-md-4 job_detail_right_4">
+
+                                <div class="col-md-12 bg_color_comen home_top_jobs_bg job_detail_right_bg clearfix">
+                                    <div class="home_top_jobs_heding heading_border_buttom">
+                                        <h2 id="headbid"></h2>
+                                        @Html.Hidden("hdnBidId", @TempData["JobBiddingId"], new { @id = "hdnBidId" })
+                                        @Html.Hidden("hdnTokenDistributionId", @TempData["TokenDistributionId"], new { @id = "hdnTokenDistributionId" })
+                                    </div>
+
+                                    <div class="job_detail_bidforjob_form_bg clearfix">
+                                        <div class="form-group heading_border_buttom clearfix">
+                                            <label for="" class="input_label_style label_in_span_style"><span class="span_lab">Ending in:</span>&nbsp; <span>@TempData["EndingIn"]</span></label>
+                                        </div>
+                                        <div class="form-group heading_border_buttom clearfix">
+                                            <label for="" class="input_label_style label_in_span_style"><span class="span_lab">Budget:</span>&nbsp; <span>@String.Concat(Model.BudgetASP.ToString("#,##0"), " AXPR ", "($", Math.Round(Model.DollarCount, 2).ToString("#,##0.00"), ")")</span></label>
+                                        </div>
+                                        <div class="form-group heading_border_buttom clearfix">
+                                            <label for="" class="input_label_style"><span>Your bid: ($</span><span id="BidAmountinDollar">@TempData["BidAmountinDollar"]</span><span>)</span></label>
+
+                                            @Html.TextBox("bidamount", TempData["BidAmount"], new { @class = "form-control form_input", @maxlength =15 })
+
+                                            <span id="errorMsg" class="error_span"></span>
+                                            <label class="input_label_style display_block small_fobtsize"><span id="axprfee" class="font_w_700">@TempData["AXPRFeeAmt"]</span><span> AXPR is taken from this and burnt (3% burn)</span></label>
+                                            <label class="input_label_style display_block"><span class="add_job_cost">You will earn: <span id="IdtotalBudget" class="font_w_700">@TempData["AXPRFeeTotAmt"]</span> AXPR</span></label>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label for="" class="input_label_style">Leave a message (optional)</label>
+
+                                            @Html.TextArea("bidmessage", TempData["BidMessage"].ToString(), new { @class = "form-control form_input form_textarea" })
+
+
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <a href="#header" onclick="popupconfirm()" class="btn btn_banner secondary_color_bg button_fluid smothscroll" id="btnbid"></a>
+                                        </div>
+
+                                    </div><!-- // catagory_filterjob_ulbg-->
+
+
+                                </div>
+
+                                <!-- // Top job posters section-->
+
+
+
+                            </div><!-- //col-md-4-->
+                        }
+
+                    }
+
+                </div><!-- //row-->
+
+            </div>
+
+
+
+
+        </div>
+        <!--container_inner -->
+
+    </div>
+    <!--/#container-->
+</div><!-- /#largebox_content_containerbg-->
+@*</div>*@
+
+<!--lightbox popup section-->
+<div id="shadowing" class="shadowing_overlay myshadow"></div>
+
+
+
+<div id="offer_comfirmation_id" class="popup_box clearfix myshadow">
+    <span id="" class="col-md-12 popup_box_title clearfix"> Offer confirmation <a href="#" class="popup_close_bg" title="Close" onclick="closebox('offer_comfirmation_id')"></a> </span>@*@Url.Action("Details", "Jobs", new { @id = @Session["JobId"] })*@
+    <div class="col-md-12 pop_container_bg text-center">
+        <div class="form-group clearfix">
+            <label for="" class="input_label_style">Are you sure you want to bid <span class="blue_color_text" id="spanaxp"></span><span> for</span> @Model.JobTitle<span>?</span></label>
+            @*<a href="#" onclick="makeoffer()" class="btn btn_banner secondary_color_bg maxwidth325" title="Yes make offer">Yes make offer</a>*@
+            <a href="#" id="btnConfirm" class="btn btn_banner secondary_color_bg maxwidth325" title="Yes make offer">Yes make offer</a>
+        </div>
+        <div class="form-group register_small_already_reg delete_job_link clearfix">
+            <p><a href="#" onclick="closebox('offer_comfirmation_id')">NO, CANCEL OFFER</a></p>@*@Url.Action("Details", "Jobs",new { @id = @Session["JobId"]})*@
+        </div>
+    </div>
+</div>
+
+
+<div id="Offer_placed_id" class="popup_box clearfix myshadow">
+    <span id="" class="col-md-12 popup_box_title clearfix">
+        <span id="spnOffer">Offer placed!</span>
+        <a href="@Url.Action("Details", "Jobs",new { @id = @Session["JobId"]})" class="popup_close_bg" title="Close"></a>
+    </span>
+    <div class="col-md-12 pop_container_bg text-center">
+        <div class="form-group clearfix">
+            <label for="" class="input_label_style"><span id="spnCongrats">Congrats! You just made an offer for the job: </span>@Model.JobTitle</label>
+            <a href="@Url.Action("Index", "Jobs",null)" class="btn btn_banner secondary_color_bg maxwidth325" title="Search for another job">Search for another job</a>
+        </div>
+        <div class="form-group register_small_already_reg delete_job_link clearfix">
+            <p><a href="@Url.Action("Details", "Jobs",new { @id = @Session["JobId"]})">VIEW AND EDIT OFFER</a></p>
+        </div>
+    </div>
+</div>
+
+<div id="metamask_comfirmation_id" class="popup_box clearfix myshadow">
+    <span id="" class="col-md-12 popup_box_title clearfix"> Set up metamask <a href="#" onclick="closebox('metamask_comfirmation_id')" class="popup_close_bg" title="Close"></a> </span>
+    <div class="col-md-12 pop_container_bg text-center">
+        <div class="form-group clearfix">
+            @*<label for="" class="input_label_style"> To use MatchBX you need to install and run MetaMask </label>
+    <a href="#" onclick="closebox('metamask_comfirmation_id')" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">OK</a>*@
+            <label for="" class="input_label_style">To use MatchBX you need to install and run MetaMask. <br /></label>
+            <ol class="metamask_infoul text-left">
+                <li style="">Download MetaMask from MetaMask <a target="_blank" class="blue_color_text" href="https://metamask.io/">website</a></li>
+                <li>Make sure your MetaMask is linked to your AXPR wallet address when using MatchBX</li>
+                <li>Get started on MatchBX</li>
+            </ol>
+            <a href="https://metamask.io/" target="_blank" onclick="closebox('metamask_comfirmation_id')" class="btn btn_banner secondary_color_bg maxwidth325" title="Setup MetaMask">Setup MetaMask</a>
+        </div>
+        @*<div class="form-group register_small_already_reg delete_job_link clearfix">
+            <p><a href="@Url.Action("Details", "Jobs",new { @id = @Session["JobId"]})">NO, CANCEL OFFER</a></p>
+        </div>*@
+    </div>
+</div>
+<script>
+    function fbs_click() {
+
+        // Dynamically gather and set the FB share data.
+        var FBDesc      = '@HttpUtility.JavaScriptStringEncode(Model.JobDescription)';
+        var FBTitle     = '@Model.JobTitle';
+        var FBLink      = location.href;
+        var FBPic       = 'https://dev.matchbx.io/Content/images/fav.png';
+
+        FB.ui(
+        {
+            method: 'share_open_graph',
+            action_type: 'og.shares',
+            display: 'popup',
+            action_properties: JSON.stringify({
+                object: {
+                    'og:url': FBLink,
+                    'og:title': FBTitle,
+                    'og:description': FBDesc,
+                    'og:image': FBPic
+                }
+            })
+        },
+            function(response) {
+                if (response && response.post_id) {
+                    //alert('Post was published.');
+                    shareJob('FB', 'Y');
+                } else if (response && response.length == 0 && response.error_message == null) {
+                    shareJob('FB', 'Y');
+                } else {
+                    console.log('Post was not published.');
+                }
+            }
+        );
+    }
+
+    function shareJob(media, status) {
+        
+        var shareJob = @Html.Raw(Json.Encode(shareObj));
+        if(media == 'FB') {
+            shareJob.FBShare = status;
+        } else {
+            shareJob.TwitterShare = status;
+        }
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("ShareJob", "Jobs")',
+            data: { "share": shareJob},
+            success: function (data) {
+                if(media == 'FB') {
+                    //$('.fb_share_bu').remove();
+                    $('.fb_share_bu').prop('onclick', null).off('click');
+                    $('.fb_share_bu').attr('disabled', true).addClass('disabled_bu');
+                } else {
+                    $('.twt_share').remove();
+                    $('.soial_share_bubg').append('<button class="soial_share_bu tw_share_bu pull-right disabled_bu" disabled><img src="/Content/images/share_tw.png" alt=""></button>')
+                }
+
+                function callback(addr) {
+                    if (addr == 'error' || addr == '') {
+                        openbox(1, 'metamask_comfirmation_id');
+                    } else {
+                        var jobid = $("#hdnJobId").val();
+                        var userid = "@Session["UserId"]";
+                        SaveTransactionDetail(jobid, userid, 'E', 'S', addr,5,'');
+                        @*var Url='@(System.Configuration.ConfigurationManager.AppSettings["EscrowUrl"].ToString())'
+                        var socket = io.connect(Url); // connec to server http://localhost:3000
+                        socket.emit('rewardToken', { userId: userid, jobId: jobid, address: addr }); // raise an event on the server*@
+                    }
+
+                }
+                App.getUserAddress(callback);
+
+                console.log(data);
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+
+        });
+    }
+
+    //function twt_click() {
+    //    u = location.href;
+    //    t = document.title;
+    //    var twitterHandle = 'sarbbottam';
+    //    window.open('https://twitter.com/intent/tweet?url='+escape(u)+'&text='+ t + ' via @@' + twitterHandle, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+    //    return false;
+    //}
+</script>
+
+<!-- // lightbox popup section-->

@@ -1,0 +1,1183 @@
+﻿
+@{
+    ViewBag.Title = "JobReview";
+    Layout = Layout;
+}
+@model dynamic
+
+<div id="loaderDiv" class="loaderDivclass " style="display:none"></div>
+@if (Model != null)
+{
+    <div class="col-md-12 home_con_top_search_bg bg_color_comen clearfix">
+        <div class="col-md-5 padd_left_right_o" >
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" id="btnsearch"><i class="home_search_icon"></i></button>
+                </span>
+                <input id="txt_search" type="text" class="form-control job_review_search" placeholder="Search for...">
+            </div>
+        </div>
+        <!-- /input-group -->
+        <div class="col-md-7 catagory_con_top_bg job_review_sortbg_bg" >
+
+            <div class="pull-right category_sort_by_bg">
+                <div class="form-group clearfix">
+                    <div> 
+                        <label for="" class="">Sort by:</label>
+                        <select id="ddlSort" class="form-control">
+                            <option value="N">Newest</option>
+                            <option value="O">Oldest</option>
+                        </select>
+                    </div>
+                    <div>
+
+                        <label for="" class="">Filter by:</label>
+                        @*@Html.DropDownListFor(x =>Model.JobCategoryId, new SelectList((IEnumerable<Business.JobCategory>)TempData["Category"], "JobCategoryId", "Category"), "--Select Category--", new { @class = "form-control form_input", @id = "JobCategoryId" })*@
+                        @Html.DropDownList("JobCategoryId", new SelectList((IEnumerable<Business.JobCategory>)TempData["Category"], "JobCategoryId", "Category"), "--Select Category--", new { @class = "form-control form_input", @id = "JobCategoryId" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="divjobs">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-12 con_8_4_outer_bg clearfix">
+                <div class="row con_row">
+                    <div class="col-md-12 home_left_8">
+
+                        <div class="col-md-12 home_user_box_1_bg bg_color_comen padd_left_right_o clearfix">
+                            <div class="box_paddleftright_15 clearfix">
+                                <h3>@item.JobTitle</h3>
+                                <div class="timeframe_budget_small clearfix">
+                                    <div class="timeframe_only"><span>Timeframe: </span><span>@item.JobCompletionDateDisplay</span></div>
+                                    <div class="timeframe_only posted_day">
+                                        <span>Posted: </span><span>@item.PostedDays</span>
+                                        @if (item.PostedDays > 1)
+                                        { <span> days ago</span>}
+                                        else
+                                        { <span> day ago</span>}
+                                    </div>
+                                    @*<div class="budget_only"><span>Budget: </span><span>1,000 AXP ($100)</span></div>*@
+                                    <div class="budget_only"><span>Budget: </span>&nbsp;<span>@String.Concat(item.BudgetASP.ToString("#,##0"), " AXPR ", "($", (Math.Round(item.DollarCount, 2)).ToString("#,##0.00"), ")")</span></div>
+                                    <div class="axp_star_only">
+                                        <ul>
+                                            @if (item.BadgeCount == 1)
+                                            {
+                                                <li><i></i></li>
+                                            }
+                                            else if (item.BadgeCount == 2)
+                                            {
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                            }
+                                            else if (item.BadgeCount == 3)
+                                            {
+                                                <li><i></i></li>
+                                                <li><i></i></li>
+                                                            <li><i></i></li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div><!--box_paddleftright_15-->
+                            <div class="border_buttom_only job_details_linewithspace"></div>
+                            <div class="box_paddleftright_15 clearfix">
+                                <div class="home_client_discription_small clearfix">                                    
+                                    <div class="readmoretext more">@item.JobDescription</div>
+                                    <h5 class="job_skill_textshow">
+                                        <span>SKILL REQUIRED: </span>
+                                        <span>
+                                            @item.SkillsList
+                                        </span>
+                                    </h5>
+                                    <div class="job_tags_textshow" id="detailTagList">
+                                        <div class="home_trending_tags clearfix">
+                                            <span class="job_tags_textlabel">Tags:</span>
+                                            @item.TrendingTagsIdList
+                                        </div>
+                                        @if (item.NoOfDocuments > 0)
+                                        {
+                                            <div class="home_trending_tags job_review_attach clearfix attachments">
+                                                <input type="hidden" id="hfjobid_@item.JobId" value="@item.JobId" />
+                                                <a href="#" title="View Attachment"><span class="job_tags_textlabel">View Attachment</span></a>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div><!--box_paddleftright_15-->
+                            <div class="border_buttom_only job_details_linewithspace"></div>
+                            <div class="box_paddleftright_15 clearfix">
+                                <div class="client_profile_imgname_bg clearfix">
+                                    <div class="pull-left">
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="@item.ProfilePic" alt="" />
+                                            </div>
+                                            <i class="profile_pic_star"></i>
+                                        </div>
+                                        <div class="client_profile_name">
+                                            @*<a href="@Url.Action("Index", "Profile",new { @id= @item.UserId })">
+                                                <h4>@item.FullName</h4>
+                                            </a>*@
+                                            <a href="javascript:;" style="cursor:default;">
+                                                <h4>@item.FullName</h4>
+                                            </a>
+                                            @*<input type="hidden" id="hdnuserid" value="@item.UserId" />*@
+                                            <span>@item.JobsCompleted jobs completed</span>
+                                        </div>
+                                    </div><!--pull-left-->
+                                    <div class="pull-right text-right">
+                                        <div class="company_profile_refedit">
+                                            <input type="hidden" id="hfjobid_@item.JobId" value="@item.JobId" />
+                                            <input type="hidden" id="hfjobtitle_@item.JobTitle" value="@item.JobTitle" />
+                                            <input type="hidden" id="hfjobposter_@item.FullName" value="@item.FullName" />
+                                            <input type="hidden" id="hfjobposterid_@item.UserId" value="@item.UserId" />
+                                            <input type="hidden" id="hfjobposteremail_@item.Email" value="@item.Email" />
+                                            <input type="hidden" id="hfjobcreateddate_@item.CreatedDateDisplay" value="@item.CreatedDateDisplay" />
+                                            <!--job_review_approve_bu job_review_reject_bu-->
+                                            <div>
+                                                <a href="#" class="btn button_all secondary_color_2_bg job_review_app_reg apprv" title="Approve"><i class="fa fa-check-circle"></i><span>Approve</span></a>
+                                                <a href="#" class="btn button_all secondary_color_bg job_review_app_reg rjct" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i><span>Reject</span></a>
+                                            </div>
+                                        </div>
+                                    </div><!--pull-right-->
+                                </div>
+                            </div><!--box_paddleftright_15-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model != null && Model.Count == 0)
+        {
+            <div class="nojob_diplytable" id="divmsg">
+                <div class="col-md-12 category_nojob_bg clearfix">
+                    @if (@TempData.Peek("message").ToString() != string.Empty)
+                    {
+                        <h3>@TempData.Peek("message").ToString()</h3>
+                    }
+                    else
+                    {
+                    <h3>There are no jobs to approve</h3>
+                    }
+                   
+                </div>
+            </div>
+        }
+    </div>
+    <input type="hidden" id="hfjobid" />
+    <input type="hidden" id="hfjobtitle" />
+    <input type="hidden" id="hfjobposter" />
+    <input type="hidden" id="hfjobposterid" />
+    <input type="hidden" id="hfjobposteremail" />
+    <input type="hidden" id="hfjobposteremail" />
+    <input type="hidden" id="hfjobcreateddate" />
+
+    <input type="hidden" id="hfjobidpop" />
+    <input type="hidden" id="hfjobposteridpop" />
+    <input type="hidden" id="hfjobposteremailpop" />
+    <input type="hidden" id="hfjobtitlepop" />
+    <input type="hidden" id="hfjobcreateddatepop" />
+    <div id="loadMore">
+        @if (Model != null && Model.Count > 0 && Model[0].Isloadmore == 1)
+        {
+            <div class="col-md-12 category_loadmore_bg clearfix" id="divloadmore">
+                <a href="javascript:;" class="btn button_all secondary_color_bg" id="btnloadmore">Load more</a>
+            </div>
+        }
+    </div>
+}
+<script>
+
+    $(document).ready(function () {
+
+        $("#JobCategoryId option:first").val('0');
+        var showChar = 100;
+        var ellipsestext = "...";
+        var moretext = "Read More";
+        var lesstext = "Read less";
+        $('.more').each(function() {
+            var content = $(this).html();
+
+            if(content.length > showChar) {
+
+                var c = content.substr(0, showChar);
+                var h = content.substr(showChar-1, content.length - showChar);
+
+                var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="#" class="morelink">' + moretext + '</a></span>';
+
+                $(this).html(html);
+            }
+
+        });
+
+        $("#divjobs").on("click", ".morelink", function(){
+            if($(this).hasClass("less")) {
+                $(this).removeClass("less");
+                $(this).html(moretext);
+            } else {
+                $(this).addClass("less");
+                $(this).html(lesstext);
+            }
+            $(this).parent().prev().toggle();
+            $(this).prev().toggle();
+            return false;
+        });
+
+        $("#txt_search").autocomplete({
+            source: function (request, response) {
+                //  debugger
+                var param = $('#txt_search').val().trim();
+                //if(param == "" || param ==" ")
+                //{
+                //    param="";
+                //    $("#btnsearch").trigger("click");
+                //}
+
+                $.ajax({
+                    url: "/Admin/GetAutomatedSearch",
+                    data: { '_searchtext': param, 'trendingtagsid': 0 },
+                    dataType: "json",
+                    type: "POST",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {//debugger
+                        if(data.length != 0){
+                            // debugger
+                            if(param == "")
+                            {
+                                value:""
+                            }
+                            else{
+
+                                response($.map(data, function (item) {
+                                    return {
+                                        value: item.JobTitle
+                                    }
+                                })) }}
+                        else
+                        {
+                            $("#divjobs").empty();
+                            var _Msg = "";
+                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any jobs for this category.</h3></div>"
+                            $("#divjobs").append(_Msg);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        var err = eval("(" + XMLHttpRequest.responseText + ")");
+                        alert(err.Message)
+                        // console.log("Ajax Error!");
+                    }
+                });
+            },
+            select: function (e, ui) {
+                //  debugger
+                var _searchtext = ui.item.value;
+                localStorage.setItem("keyword", _searchtext);
+                sessionStorage.setItem("tagsId", '0');
+                if(_searchtext) {
+                    LoadJobs(_searchtext);
+                }
+                else {
+                    LoadJobs();
+                }
+            },
+
+            minLength: 1 //This is the Char length of inputTextBox
+        });
+
+        $('#txt_search').on("keyup", function(e) {
+
+            var keycode = e.keyCode;
+            var which = e.which;
+            var c = String.fromCharCode(keycode == "" ? which :keycode )
+
+            //  var _searchtext = c.trim();
+            //var a=  e.key;
+            //var _searchtext=a.trim() + $("#txt_search").val().trim();
+            //var a=  e.charCode;
+            var _searchtext=c.trim()+ $("#txt_search").val().trim();
+
+            if(e.keyCode == 8 || e.keyCode == 46 || e.keyCode == 32)
+            {
+                if(_searchtext == "" || _searchtext ==" " || _searchtext == "\b" || _searchtext == ".")
+                {
+                    _searchtext="";
+
+                    $("#btnsearch").trigger("click");
+                }
+
+            }
+
+            else if (e.keyCode == 13) {
+                //var _searchtext = $("#txt_search").val().trim();
+                localStorage.setItem("keyword", _searchtext);
+                sessionStorage.setItem("tagsId", '0');
+                $("#btnsearch").trigger("click");
+            }
+
+
+        });
+
+        $("#btnsearch").click(function () {
+
+            var _searchtext = $("#txt_search").val().trim();
+            if (_searchtext) {
+
+                var _TagsId= sessionStorage.getItem("tagsId");
+                LoadJobs(_searchtext, _TagsId);
+                sessionStorage.setItem("tagsId", '0');
+
+            }
+            else
+            {
+                LoadJobs(null,0);
+            }
+
+        });
+    });
+
+    $("#JobCategoryId").change(function () {
+        debugger;
+        var _JobCategoryId = $("#JobCategoryId").val();
+        var _SortBy = $("#ddlSort").val();
+        JobReviewFilter(_JobCategoryId, _SortBy);
+    });
+
+    $("#ddlSort").change(function () {
+        debugger;
+        var _JobCategoryId = $("#JobCategoryId").val();
+        var _SortBy = $("#ddlSort").val();
+        JobReviewFilter(_JobCategoryId, _SortBy);
+    });
+
+    $("#divjobs").on("click", "a.apprv", function () {
+        var _jobid = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+        var _jobtitledispaly = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+        var _jobposter = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposter_"]').val();
+        //$("#spanadminapprove").text(" " + _jobtitledispaly + " posted by " + _jobposter);
+        $("#spanadminapprove").html(" <b>" + _jobtitledispaly + "</b> posted by <b> " + _jobposter + "</b>");
+
+        hfjobidpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+        hfjobposteridpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposterid_"]').val();
+        hfjobposteremailpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposteremail_"]').val();
+        hfjobcreateddatepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobcreateddate_"]').val();
+        hfjobtitlepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+        openbox(1, 'jobapproveadmin');
+    });
+
+    $("#divjobs").on("click", "a.rjct", function () {
+
+        var _jobid = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+        var _jobtitledispaly = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+        var _jobposter = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposter_"]').val();
+        $("#spanrej").html(" of the job <b>" + _jobtitledispaly + "</b> posted by <b>" + _jobposter + "</b>");
+
+        hfjobidpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+        hfjobposteridpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposterid_"]').val();
+        hfjobposteremailpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposteremail_"]').val();
+        hfjobcreateddatepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobcreateddate_"]').val();
+        hfjobtitlepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+        $('#ddlRejectJob').prop('selectedIndex',0);
+        $("#errorMsgRejectReason").empty();
+        openbox(1, 'popup_rejectreason');
+    });
+
+    $('#ddlRejectJob').change(function() {
+        if($("#dropDownMenuKategorie").prop('selectedIndex') != 0) {
+            $("#errorMsgRejectReason").empty();
+        }
+    });
+
+    $("#loadMore").on("click", " #btnloadmore", function (e) {
+        debugger;
+        var _Id = $('div.company_profile_refedit').last().find('input[id^="hfjobid_"]').val();
+        LoadMore(_Id);
+        e.preventDefault();
+    });
+
+    $("#divjobs").on("click", ".attachments", function(){
+        debugger;
+        var _Jobid = $(this).closest('.attachments').find('input[id^="hfjobid_"]').val();
+        $.ajax({
+            url: '@Url.Action("JobDocuments", "Admin")',
+            data: {
+                "JobId": _Jobid
+            },
+            type: "POST",
+            success: function (response) {
+                if(response != "Failed")
+                {
+                    $("#view_attachment_ul").empty();
+                    $.each(response, function (key, value) {
+                        var _documentName = response[key].DocumentName;
+                        $("#view_attachment_ul").append('<li><a href="/Dashboard/DownloadFile?FileName=' + _documentName + '" id ="'+ _documentName +'"><span class="tab">'+_documentName+'</span></a></li>');
+                       // $("#view_attachment_ul").append('<li><a href="/Dashboard/DownloadFile?FileName=' + _documentName + '" id ='+ _documentName +'<span class="tab">'+_documentName+'</span></a></li>');
+                    });
+                    openbox(1,'attachement_pop_id');
+                }
+            },
+            error: function () {
+
+            }
+        });
+    })
+
+    $("#btnAdminJobApprove").click(function()
+    {
+        var _Jobid = $("#hfjobidpop").val();
+        var _PosterId = $("#hfjobposteridpop").val();
+        var _PosterName = $('#hfjobposter').val();
+        var _Email = $("#hfjobposteremailpop").val();
+        var _AdminUserId = @Session["UserId"];
+        var _JobTitle = $("#hfjobtitlepop").val();
+        var _JobCreatedDate = $("#hfjobcreateddatepop").val();
+
+        $.ajax({
+            url: '@Url.Action("JobReviewProcess", "Admin")',
+            data: {
+                "JobId": _Jobid,
+                "UserId": _PosterId,
+                "Email": _Email,
+                "RejectionReason": 0,
+                "AdminUserId": _AdminUserId,
+                "JobTitle":_JobTitle,
+                "CreatedDateDisplay":_JobCreatedDate
+            },
+            beforeSend: function() {
+                $("#loaderDiv").show();
+            },
+            type: "POST",
+            success: function (response) {
+                debugger
+                $("#loaderDiv").hide();
+                if(response == "Success")
+                {
+                  
+                    var notification = $.connection.notificationHub;
+                    var _notification = "Your job " + _JobTitle + " has been approved";
+                    var _header = "Job Approved";
+                    notification.server.send(_AdminUserId, _PosterId, _PosterName, _notification, _header,'');
+                    closebox("jobapproveadmin");
+                    window.location="/Admin/index?id=3";
+                   // location.reload();
+                }
+            },
+            error: function () {
+                $("#loaderDiv").hide();
+            }
+        });
+
+    });
+
+    $("#btnRejectJobAdmin").click(function()
+    {
+        var _Jobid = $("#hfjobidpop").val();
+        var _PosterId = $("#hfjobposteridpop").val();
+        var _PosterName = $('#hfjobposter').val();
+        var _Email = $("#hfjobposteremailpop").val();
+        var _AdminUserId = @Session["UserId"];
+        var dropdwnval = $("#ddlRejectJob").val();
+        var _JobTitle = $("#hfjobtitlepop").val();
+        var _JobCreatedDate = $("#hfjobcreateddatepop").val();
+
+        if (dropdwnval == null || dropdwnval == 0 || dropdwnval == "")
+        {
+            $("#errorMsgRejectReason").html("Please select reason for reject the job.");          
+        } else {
+            $("#errorMsgRejectReason").empty();  
+            $.ajax({
+                url: '@Url.Action("JobReviewProcess", "Admin")',
+                data: {
+                    "JobId": _Jobid,
+                    "UserId": _PosterId,
+                    "Email": _Email,
+                    "RejectionReason": dropdwnval,
+                    "AdminUserId": _AdminUserId,
+                    "JobTitle":_JobTitle,
+                    "CreatedDateDisplay":_JobCreatedDate
+                },
+                type: "POST",
+                success: function (response) {
+                    if(response == "Success")
+                    {
+                        var notification = $.connection.notificationHub;
+                        var _notification = "Your job " + _JobTitle + " has been rejected";
+                        var _header = "Job Rejected";
+                        notification.server.send(_AdminUserId, _PosterId, _PosterName, _notification, _header,'');
+                        closebox("popup_rejectreason");
+                        window.location="/Admin/index?id=3";
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        }
+
+    });
+
+    function LoadMore(id) {
+        var _searchtext = $("#txt_search").val().trim();
+        var _JobCategoryId = $("#JobCategoryId").val();
+        var _SortBy = $("#ddlSort").val();
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("LoadMoreListedJobs", "Admin")',
+            data: { 
+                'id': id,
+                "_searchtext": _searchtext,
+                "JobCategoryId": _JobCategoryId,
+                "SortBy": _SortBy 
+            },
+            success: function (response) {
+                $("#divloadmore").remove();
+                $.each(response, function (key, value) {
+                    var SkillList = response[key].JobSkillsMappingList;
+                    var TagList = response[key].JobTrendingTagsMappingList;
+                    var DocumentList = response[key].JobDocumentsList;
+                    var elem = " ";
+                    elem = "<div class='col-md-12 con_8_4_outer_bg clearfix'>";
+                    elem = elem + "<div class='row con_row'>";
+                    elem = elem + "<div class='col-md-12 home_left_8'>";
+                    elem = elem + "<div class='col-md-12 home_user_box_1_bg bg_color_comen padd_left_right_o clearfix'>";
+                    elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                    elem = elem + "<h3>"+response[key].JobTitle+"</h3>";
+                    elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                    elem = elem + "<div class='timeframe_only'><span>Timeframe: </span><span>"+response[key].JobCompletionDateDisplay+"</span></div>";
+                    elem = elem + "<div class='timeframe_only posted_day'><span>Posted: </span><span>"+response[key].PostedDays+"</span>";
+                    if (response[key].PostedDays > 1)
+                    {
+                        elem = elem + "<span> days ago</span></div>";
+                    }
+                    else
+                    {
+                        elem = elem + "<span> day ago </span></div>";
+                    }
+                    elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXP($ " + response[key].DollarCount + " ) </span></div>";
+                    elem = elem + "<div class='axp_star_only'>";
+                    elem = elem + "<ul>";
+                    if (response[key].BadgeCount == 1)
+                    {
+                        elem = elem + "<li><i></i></li>";
+                    }
+                    else if (response[key].BadgeCount == 2)
+                    {
+                        elem = elem + "<li><i></i></li>";
+                        elem = elem + "< li><i></i></li>";
+                    }
+                    else if (response[key].BadgeCount == 3)
+                    {
+                        elem = elem + "<li><i></i></li>";
+                        elem = elem + "< li><i></i></li>";
+                        elem = elem + "< li><i></i></li>";
+                    }
+                    elem = elem + "</ul>";
+                    elem = elem + "</div>";
+                    elem = elem + "</div>";
+                    elem = elem + "</div><!--box_paddleftright_15-->";
+                    elem = elem + "<div class='border_buttom_only job_details_linewithspace'></div>";
+                    elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                    elem = elem + "<div class='home_client_discription_small clearfix'>";
+                    elem = elem + "<h5 class='job_skill_textshow'>";
+                    elem = elem + "<span>SKILL REQUIRED: </span> ";
+                    elem = elem + "<span>"+ response[key].SkillsList+"";
+                    elem = elem + "</span>";
+                    elem = elem + "</h5>";
+                    elem = elem + "<div class='readmoretext more'>";
+                    var showChar = 100;
+                    var ellipsestext = "...";
+                    var moretext = "Read More";
+                    if(response[key].JobDescription.length > showChar) {
+                        var c = response[key].JobDescription.substr(0, showChar);
+                        var h = response[key].JobDescription.substr(showChar-1, response[key].JobDescription.length - showChar);
+                        var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="#" class="morelink">' + moretext + '</a></span>';
+                        elem = elem + html;
+                    } else {
+                        elem = elem + response[key].JobDescription;
+                    }
+                    elem = elem + "</div>";
+                    elem = elem + "<div class='job_tags_textshow' id='detailTagList'>";
+                    elem = elem + "<div class='home_trending_tags clearfix'>";
+                    elem = elem + "<span class='job_tags_textlabel'>Tags:</span>";
+                    elem = elem + response[key].TrendingTagsIdList;
+                    elem = elem + "</div>";
+                    if(response[key].NoOfDocuments > 0) {
+                        elem = elem + "<div class='home_trending_tags job_review_attach clearfix attachments'>";
+                        var hdnjobid = "hfjobid_" + response[key].JobId;
+                        elem = elem + "<input type='hidden' id=" + hdnjobid + " value=" + response[key].JobId + " />";
+                        elem = elem + "<a href='#' title='View Attachment'><span class='job_tags_textlabel'>View Attachment</span></a>";
+                        elem = elem + "</div>";
+                    }
+                    elem = elem + "</div>";
+                    elem = elem + "</div>";
+                    elem = elem + "</div><!--box_paddleftright_15-->";
+                    elem = elem + "<div class='border_buttom_only job_details_linewithspace'></div>";
+                    elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                    elem = elem + "<div class='client_profile_imgname_bg clearfix'>";
+                    elem = elem + "<div class='pull-left'>";
+                    elem = elem + "<div class='client_profile_pic'>";
+                    elem = elem + "<div class='client_profile_pic_1'>";
+                    elem = elem + "<img src='"+response[key].ProfilePic+"' alt='' />";
+                    elem = elem + "</div>";
+                    elem = elem + "<i class='profile_pic_star'></i>";
+                    elem = elem + "</div>";
+                    elem = elem + "<div class='client_profile_name'>";
+                    //var _href = "/Profile/Index?";
+                    var _href = "javascript:;";
+                    //_href = _href + "id=" + response[key].UserId;
+                    elem = elem + "<a href=" + _href + " style='cursor:default;'><h4>" + response[key].FullName + "</h4></a>";
+                    elem = elem + "</a>";
+                    //var hdnuserid_ = "hdnuserid" + response[key].UserId;
+                    //elem = elem + "<input type='hidden' id=" + hdnuserid + " value=" + response[key].UserId + " />";
+                    elem = elem + "<span>"+response[key].JobsCompleted+" jobs completed</span>";
+                    elem = elem + "</div>";
+                    elem = elem + "</div><!--pull-left-->";
+                    elem = elem + "<div class='pull-right text-right'>";
+                    elem = elem + "<div class='company_profile_refedit'>";
+                    var hfjobid_ = "hfjobid_" + response[key].JobId;
+                    elem = elem + "<input type='hidden' id='" + hfjobid_ + "' value='" + response[key].JobId + "' />";
+                    var hfjobtitle_ = "hfjobtitle_" + response[key].JobTitle;
+                    elem = elem + "<input type='hidden' id='" + hfjobtitle_ + "' value='" + response[key].JobTitle + "' />";
+                    var hfjobposter_ = "hfjobposter_" + response[key].FullName;
+                    elem = elem + "<input type='hidden' id='" + hfjobposter_ + "' value='" + response[key].FullName + "' />";
+                    var hfjobposterid_ = "hfjobposterid_" + response[key].UserId;
+                    elem = elem + "<input type='hidden' id='" + hfjobposterid_ + "' value='" + response[key].UserId + "' />";
+                    var hfjobposteremail_ = "hfjobposteremail_" + response[key].Email;
+                    elem = elem + "<input type='hidden' id='" + hfjobposteremail_ + "' value='" + response[key].Email + "' />";
+                    var hfjobcreateddate_ = "hfjobcreateddate_" + response[key].CreatedDateDisplay;
+                    elem = elem + "<input type='hidden' id='" + hfjobcreateddate_ + "' value='" + response[key].CreatedDateDisplay + "' />";
+                    elem = elem + "<!--job_review_approve_bu job_review_reject_bu-->";
+                    elem = elem + "<div>";
+                    elem = elem + "<a href='#' class='btn button_all secondary_color_2_bg job_review_app_reg apprv' title='Approve'><i class='fa fa-check-circle'></i><span>Approve</span></a>";
+                    elem = elem + "<a href='#' onclick=\"openbox(1, 'popup_rejectreason')\" class='btn button_all secondary_color_bg job_review_app_reg rjct' title='Reject'><i class='fa fa-times-circle' aria-hidden='true'></i><span>Reject</span></a>";
+                    elem = elem + "</div>";
+                    elem = elem + "</div>";
+                    elem = elem + "</div><!--pull-right-->";
+                    elem = elem + "</div>";
+                    elem = elem + "</div><!--box_paddleftright_15-->";
+                    elem = elem + "</div>";
+                    elem = elem + "</div>";
+                    elem = elem + "</div>";
+                    elem = elem + "</div>";
+
+                    $("#divjobs").append(elem);
+                    elem = " ";
+                });
+
+                var moretext = "Read More";
+                var lesstext = "Read less";
+                //$(".morelink").click(function(){
+                //    if($(this).hasClass("less")) {
+                //        $(this).removeClass("less");
+                //        $(this).html(moretext);
+                //    } else {
+                //        $(this).addClass("less");
+                //        $(this).html(lesstext);
+                //    }
+                //    $(this).parent().prev().toggle();
+                //    $(this).prev().toggle();
+                //    return false;
+                //});
+                //$(".apprv").on("click", function () {
+                //    debugger;
+                //    var _jobid = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                //    var _jobtitledispaly = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                //    var _jobposter = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposter_"]').val();
+                //    $("#spanadminapprove").text(" " + _jobtitledispaly + " posted by " + _jobposter);
+
+                //    hfjobidpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                //    hfjobposteridpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposterid_"]').val();
+                //    hfjobposteremailpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposteremail_"]').val();
+                //    hfjobcreateddatepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobcreateddate_"]').val();
+                //    hfjobtitlepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                //    openbox(1, 'jobapproveadmin');
+                //});
+                //$(".rjct").on("click", function () {
+
+                //    var _jobid = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                //    var _jobtitledispaly = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                //    var _jobposter = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposter_"]').val();
+                //    $("#spanrej").text(" of job " + _jobtitledispaly + " posted by " + _jobposter);
+
+                //    hfjobidpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                //    hfjobposteridpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposterid_"]').val();
+                //    hfjobposteremailpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposteremail_"]').val();
+                //    hfjobcreateddatepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobcreateddate_"]').val();
+                //    hfjobtitlepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                //    $('#ddlRejectJob').prop('selectedIndex',0);
+                //    openbox(1, 'popup_rejectreason');
+                //});
+                var _morebutton = response[0].Isloadmore;
+                if (_morebutton == 1) {
+                    var _elment2 = " ";
+                    _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadmore'>";
+                    _elment2 = _elment2 + " <a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadmore'>Load more</a></div></div>";
+                    $("#loadMore").append(_elment2)
+                }
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+    }
+
+    function LoadJobs(_searchtext)
+    {
+        var _JobCategoryId = $("#JobCategoryId").val();
+        var _SortBy = $("#ddlSort").val();
+        $("#divnorecord").empty();
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("JobReviewFilter", "Admin")',
+            data: {
+                "_searchtext": _searchtext,
+                "JobCategoryId": _JobCategoryId,
+                "SortBy": _SortBy
+            },
+            success: function (response) {
+                $("#divjobs").empty();
+                $("#divloadmore").remove();
+                if(response.length > 0) {
+                    $.each(response, function (key, value) {
+                        var SkillList = response[key].JobSkillsMappingList;
+                        var TagList = response[key].JobTrendingTagsMappingList;
+                        var DocumentList = response[key].JobDocumentsList;
+                        var elem = " ";
+                        elem = "<div class='col-md-12 con_8_4_outer_bg clearfix'>";
+                        elem = elem + "<div class='row con_row'>";
+                        elem = elem + "<div class='col-md-12 home_left_8'>";
+                        elem = elem + "<div class='col-md-12 home_user_box_1_bg bg_color_comen padd_left_right_o clearfix'>";
+                        elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                        elem = elem + "<h3>"+response[key].JobTitle+"</h3>";
+                        elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                        elem = elem + "<div class='timeframe_only'><span>Timeframe: </span><span>"+response[key].JobCompletionDateDisplay+"</span></div>";
+                        elem = elem + "<div class='timeframe_only posted_day'><span>Posted: </span><span>"+response[key].PostedDays+"</span>";
+                        if (response[key].PostedDays > 1)
+                        {
+                            elem = elem + "<span> days ago</span></div>";
+                        }
+                        else
+                        {
+                            elem = elem + "<span> day ago </span></div>";
+                        }
+                        elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXP($ " + response[key].DollarCount + " ) </span></div>";
+                        elem = elem + "<div class='axp_star_only'>";
+                        elem = elem + "<ul>";
+                        if (response[key].BadgeCount == 1)
+                        {
+                            elem = elem + "<li><i></i></li>";
+                        }
+                        else if (response[key].BadgeCount == 2)
+                        {
+                            elem = elem + "<li><i></i></li>";
+                            elem = elem + "< li><i></i></li>";
+                        }
+                        else if (response[key].BadgeCount == 3)
+                        {
+                            elem = elem + "<li><i></i></li>";
+                            elem = elem + "< li><i></i></li>";
+                            elem = elem + "< li><i></i></li>";
+                        }
+                        elem = elem + "</ul>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div><!--box_paddleftright_15-->";
+                        elem = elem + "<div class='border_buttom_only job_details_linewithspace'></div>";
+                        elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                        elem = elem + "<div class='home_client_discription_small clearfix'>";
+                        elem = elem + "<h5 class='job_skill_textshow'>";
+                        elem = elem + "<span>SKILL REQUIRED: </span> ";
+                        elem = elem + "<span>"+ response[key].SkillsList+"";
+                        elem = elem + "</span>";
+                        elem = elem + "</h5>";
+                        elem = elem + "<div class='readmoretext more'>";
+                        elem = elem + response[key].JobDescription;
+                        elem = elem + "</div>";
+                        elem = elem + "<div class='job_tags_textshow' id='detailTagList'>";
+                        elem = elem + "<div class='home_trending_tags clearfix'>";
+                        elem = elem + "<span class='job_tags_textlabel'>Tags:</span>";
+                        elem = elem + response[key].TrendingTagsIdList;
+                        elem = elem + "</div>";
+                        if(response[key].NoOfDocuments > 0) {
+                            elem = elem + "<div class='home_trending_tags job_review_attach clearfix attachments'>";
+                            var hdnjobid = "hfjobid_" + response[key].JobId;
+                            elem = elem + "<input type='hidden' id=" + hdnjobid + " value=" + response[key].JobId + " />";
+                            elem = elem + "<a href='#' title='View Attachment'><span class='job_tags_textlabel'>View Attachment</span></a>";
+                            elem = elem + "</div>";
+                        }
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div><!--box_paddleftright_15-->";
+                        elem = elem + "<div class='border_buttom_only job_details_linewithspace'></div>";
+                        elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                        elem = elem + "<div class='client_profile_imgname_bg clearfix'>";
+                        elem = elem + "<div class='pull-left'>";
+                        elem = elem + "<div class='client_profile_pic'>";
+                        elem = elem + "<div class='client_profile_pic_1'>";
+                        elem = elem + "<img src='"+response[key].ProfilePic+"' alt='' />";
+                        elem = elem + "</div>";
+                        elem = elem + "<i class='profile_pic_star'></i>";
+                        elem = elem + "</div>";
+                        elem = elem + "<div class='client_profile_name'>";
+                        //var _href = "/Profile/Index?";
+                        var _href = "javascript:;";
+                        //_href = _href + "id=" + response[key].UserId;
+                        elem = elem + "<a href=" + _href + " style='cursor:default;'><h4>" + response[key].FullName + "</h4></a>";
+                        elem = elem + "</a>";
+                        //var hdnuserid_ = "hdnuserid" + response[key].UserId;
+                        //elem = elem + "<input type='hidden' id=" + hdnuserid + " value=" + response[key].UserId + " />";
+                        elem = elem + "<span>"+response[key].JobsCompleted+" jobs completed</span>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div><!--pull-left-->";
+                        elem = elem + "<div class='pull-right text-right'>";
+                        //elem = elem + "<div class='company_profile_refedit'>";
+                        //var hfjobid_ = "hfjobid_" + response[key].JobId;
+                        //elem = elem + "<input type='hidden' id=" + hfjobid_ + " value=" + response[key].JobId + " />";
+                        //var hfjobtitle_ = "hfjobtitle_" + response[key].JobTitle;
+                        //elem = elem + "<input type='hidden' id=" + hfjobtitle_ + " value=" + response[key].JobTitle + " />";
+                        //var hfjobposter_ = "hfjobposter_" + response[key].FullName;
+                        //elem = elem + "<input type='hidden' id=" + hfjobposter_ + " value=" + response[key].FullName + " />";
+                        //var hfjobposterid_ = "hfjobposterid_" + response[key].UserId;
+                        //elem = elem + "<input type='hidden' id=" + hfjobposterid_ + " value=" + response[key].UserId + " />";
+                        //var hfjobposteremail_ = "hfjobposteremail_" + response[key].Email;
+                        //elem = elem + "<input type='hidden' id=" + hfjobposteremail_ + " value=" + response[key].Email + " />";
+                        //var hfjobcreateddate_ = "hfjobcreateddate_" + response[key].CreatedDateDisplay;
+                        //elem = elem + "<input type='hidden' id=" + hfjobcreateddate_ + " value=" + response[key].CreatedDateDisplay + " />";
+                        elem = elem + "<div class='company_profile_refedit'>";
+                        var hfjobid_ = "hfjobid_" + response[key].JobId;
+                        elem = elem + "<input type='hidden' id='" + hfjobid_ + "' value='" + response[key].JobId + "' />";
+                        var hfjobtitle_ = "hfjobtitle_" + response[key].JobTitle;
+                        elem = elem + "<input type='hidden' id='" + hfjobtitle_ + "' value='" + response[key].JobTitle + "' />";
+                        var hfjobposter_ = "hfjobposter_" + response[key].FullName;
+                        elem = elem + "<input type='hidden' id='" + hfjobposter_ + "' value='" + response[key].FullName + "' />";
+                        var hfjobposterid_ = "hfjobposterid_" + response[key].UserId;
+                        elem = elem + "<input type='hidden' id='" + hfjobposterid_ + "' value='" + response[key].UserId + "' />";
+                        var hfjobposteremail_ = "hfjobposteremail_" + response[key].Email;
+                        elem = elem + "<input type='hidden' id='" + hfjobposteremail_ + "' value='" + response[key].Email + "' />";
+                        var hfjobcreateddate_ = "hfjobcreateddate_" + response[key].CreatedDateDisplay;
+                        elem = elem + "<input type='hidden' id='" + hfjobcreateddate_ + "' value='" + response[key].CreatedDateDisplay + "' />";
+                        elem = elem + "<!--job_review_approve_bu job_review_reject_bu-->";
+                        elem = elem + "<div>";
+                        elem = elem + "<a href='#' class='btn button_all secondary_color_2_bg job_review_app_reg apprv' title='Approve'><i class='fa fa-check-circle'></i><span>Approve</span></a>";
+                        elem = elem + "<a href='#' onclick=\"openbox(1, 'popup_rejectreason')\" class='btn button_all secondary_color_bg job_review_app_reg rjct' title='Reject'><i class='fa fa-times-circle' aria-hidden='true'></i><span>Reject</span></a>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div><!--pull-right-->";
+                        elem = elem + "</div>";
+                        elem = elem + "</div><!--box_paddleftright_15-->";
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+
+                        $("#divjobs").append(elem);
+                        elem = " ";
+                    })
+
+                    var showChar = 100;
+                    var ellipsestext = "...";
+                    var moretext = "Read More";
+                    var lesstext = "Read less";
+                    $('.more').each(function() {
+                        var content = $(this).html();
+
+                        if(content.length > showChar) {
+
+                            var c = content.substr(0, showChar);
+                            var h = content.substr(showChar-1, content.length - showChar);
+
+                            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="#" class="morelink">' + moretext + '</a></span>';
+
+                            $(this).html(html);
+                        }
+                    });
+                    //$(".morelink").click(function(){
+                    //    if($(this).hasClass("less")) {
+                    //        $(this).removeClass("less");
+                    //        $(this).html(moretext);
+                    //    } else {
+                    //        $(this).addClass("less");
+                    //        $(this).html(lesstext);
+                    //    }
+                    //    $(this).parent().prev().toggle();
+                    //    $(this).prev().toggle();
+                    //    return false;
+                    //});
+                    //$(".apprv").on("click", function () {
+                    //    debugger;
+                    //    var _jobid = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                    //    var _jobtitledispaly = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                    //    var _jobposter = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposter_"]').val();
+                    //    $("#spanadminapprove").text(" " + _jobtitledispaly + " posted by " + _jobposter);
+
+                    //    hfjobidpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                    //    hfjobposteridpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposterid_"]').val();
+                    //    hfjobposteremailpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposteremail_"]').val();
+                    //    hfjobcreateddatepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobcreateddate_"]').val();
+                    //    hfjobtitlepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                    //    openbox(1, 'jobapproveadmin');
+                    //});
+                    //$(".rjct").on("click", function () {
+
+                    //    var _jobid = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                    //    var _jobtitledispaly = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                    //    var _jobposter = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposter_"]').val();
+                    //    $("#spanrej").text(" of job " + _jobtitledispaly + " posted by " + _jobposter);
+
+                    //    hfjobidpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                    //    hfjobposteridpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposterid_"]').val();
+                    //    hfjobposteremailpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposteremail_"]').val();
+                    //    hfjobcreateddatepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobcreateddate_"]').val();
+                    //    hfjobtitlepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                    //    $('#ddlRejectJob').prop('selectedIndex',0);
+                    //    openbox(1, 'popup_rejectreason');
+                    //});
+                    var _morebutton = response[0].Isloadmore;
+                    if (_morebutton == 1) {
+                        var _elment2 = " ";
+                        _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadmore'>";
+                        _elment2 = _elment2 + " <a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadmore'>Load more</a></div></div>";
+                        $("#loadMore").append(_elment2)
+                    }
+                } else {
+                    $("#divjobs").append('<div class="nojob_diplytable" id="divmsg"><div class="col-md-12 category_nojob_bg clearfix"><h3>There don\'t seem to be any jobs matching this search criterion.</h3></div></div>');
+                }
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+
+    }
+
+    function JobReviewFilter(_JobCategoryId,_SortBy)
+    {
+        var _searchtext = $("#txt_search").val().trim();
+        $.ajax({
+            url: '@Url.Action("JobReviewFilter", "Admin")',
+            data: {
+                "_searchtext": _searchtext,
+                "JobCategoryId": _JobCategoryId,
+                "SortBy": _SortBy
+            },
+            type: "POST",
+            success: function (response) {
+                $("#divjobs").empty();
+                $("#divloadmore").remove();
+                if(response != "Failed") {
+                    $.each(response, function (key, value) {
+                        var SkillList = response[key].JobSkillsMappingList;
+                        var TagList = response[key].JobTrendingTagsMappingList;
+                        var DocumentList = response[key].JobDocumentsList;
+                        var elem = " ";
+                        elem = "<div class='col-md-12 con_8_4_outer_bg clearfix'>";
+                        elem = elem + "<div class='row con_row'>";
+                        elem = elem + "<div class='col-md-12 home_left_8'>";
+                        elem = elem + "<div class='col-md-12 home_user_box_1_bg bg_color_comen padd_left_right_o clearfix'>";
+                        elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                        elem = elem + "<h3>"+response[key].JobTitle+"</h3>";
+                        elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                        elem = elem + "<div class='timeframe_only'><span>Timeframe: </span><span>"+response[key].JobCompletionDateDisplay+"</span></div>";
+                        elem = elem + "<div class='timeframe_only posted_day'><span>Posted: </span><span>"+response[key].PostedDays+"</span>";
+                        if (response[key].PostedDays > 1)
+                        {
+                            elem = elem + "<span> days ago</span></div>";
+                        }
+                        else
+                        {
+                            elem = elem + "<span> day ago </span></div>";
+                        }
+                        elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXP($ " + response[key].DollarCount + " ) </span></div>";
+                        elem = elem + "<div class='axp_star_only'>";
+                        elem = elem + "<ul>";
+                        if (response[key].BadgeCount == 1)
+                        {
+                            elem = elem + "<li><i></i></li>";
+                        }
+                        else if (response[key].BadgeCount == 2)
+                        {
+                            elem = elem + "<li><i></i></li>";
+                            elem = elem + "< li><i></i></li>";
+                        }
+                        else if (response[key].BadgeCount == 3)
+                        {
+                            elem = elem + "<li><i></i></li>";
+                            elem = elem + "< li><i></i></li>";
+                            elem = elem + "< li><i></i></li>";
+                        }
+                        elem = elem + "</ul>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div><!--box_paddleftright_15-->";
+                        elem = elem + "<div class='border_buttom_only job_details_linewithspace'></div>";
+                        elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                        elem = elem + "<div class='home_client_discription_small clearfix'>";
+                        elem = elem + "<h5 class='job_skill_textshow'>";
+                        elem = elem + "<span>SKILL REQUIRED: </span> ";
+                        elem = elem + "<span>"+ response[key].SkillsList+"";
+                        elem = elem + "</span>";
+                        elem = elem + "</h5>";
+                        elem = elem + "<div class='readmoretext more'>";
+                        elem = elem + response[key].JobDescription;
+                        elem = elem + "</div>";
+                        elem = elem + "<div class='job_tags_textshow' id='detailTagList'>";
+                        elem = elem + "<div class='home_trending_tags clearfix'>";
+                        elem = elem + "<span class='job_tags_textlabel'>Tags:</span>";
+                        elem = elem + response[key].TrendingTagsIdList;
+                        elem = elem + "</div>";
+                        if(response[key].NoOfDocuments > 0) {
+                            elem = elem + "<div class='home_trending_tags job_review_attach clearfix attachments'>";
+                            var hdnjobid = "hfjobid_" + response[key].JobId;
+                            elem = elem + "<input type='hidden' id=" + hdnjobid + " value=" + response[key].JobId + " />";
+                            elem = elem + "<a href='#' title='View Attachment'><span class='job_tags_textlabel'>View Attachment</span></a>";
+                            elem = elem + "</div>";
+                        }
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div><!--box_paddleftright_15-->";
+                        elem = elem + "<div class='border_buttom_only job_details_linewithspace'></div>";
+                        elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                        elem = elem + "<div class='client_profile_imgname_bg clearfix'>";
+                        elem = elem + "<div class='pull-left'>";
+                        elem = elem + "<div class='client_profile_pic'>";
+                        elem = elem + "<div class='client_profile_pic_1'>";
+                        elem = elem + "<img src='"+response[key].ProfilePic+"' alt='' />";
+                        elem = elem + "</div>";
+                        elem = elem + "<i class='profile_pic_star'></i>";
+                        elem = elem + "</div>";
+                        elem = elem + "<div class='client_profile_name'>";
+                        //var _href = "/Profile/Index?";
+                        var _href = "javascript:;";
+                        //_href = _href + "id=" + response[key].UserId;
+                        elem = elem + "<a href=" + _href + " style='cursor:default;'><h4>" + response[key].FullName + "</h4></a>";
+                        elem = elem + "</a>";
+                        //var hdnuserid_ = "hdnuserid" + response[key].UserId;
+                        //elem = elem + "<input type='hidden' id=" + hdnuserid + " value=" + response[key].UserId + " />";
+                        elem = elem + "<span>"+response[key].JobsCompleted+" jobs completed</span>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div><!--pull-left-->";
+                        elem = elem + "<div class='pull-right text-right'>";
+                        //elem = elem + "<div class='company_profile_refedit'>";
+                        //var hfjobid_ = "hfjobid_" + response[key].JobId;
+                        //elem = elem + "<input type='hidden' id=" + hfjobid_ + " value=" + response[key].JobId + " />";
+                        //var hfjobtitle_ = "hfjobtitle_" + response[key].JobTitle;
+                        //elem = elem + "<input type='hidden' id=" + hfjobtitle_ + " value=" + response[key].JobTitle + " />";
+                        //var hfjobposter_ = "hfjobposter_" + response[key].FullName;
+                        //elem = elem + "<input type='hidden' id=" + hfjobposter_ + " value=" + response[key].FullName + " />";
+                        //var hfjobposterid_ = "hfjobposterid_" + response[key].UserId;
+                        //elem = elem + "<input type='hidden' id=" + hfjobposterid_ + " value=" + response[key].UserId + " />";
+                        //var hfjobposteremail_ = "hfjobposteremail_" + response[key].Email;
+                        //elem = elem + "<input type='hidden' id=" + hfjobposteremail_ + " value=" + response[key].Email + " />";
+                        //var hfjobcreateddate_ = "hfjobcreateddate_" + response[key].CreatedDateDisplay;
+                        //elem = elem + "<input type='hidden' id=" + hfjobcreateddate_ + " value=" + response[key].CreatedDateDisplay + " />";
+                        elem = elem + "<div class='company_profile_refedit'>";
+                        var hfjobid_ = "hfjobid_" + response[key].JobId;
+                        elem = elem + "<input type='hidden' id='" + hfjobid_ + "' value='" + response[key].JobId + "' />";
+                        var hfjobtitle_ = "hfjobtitle_" + response[key].JobTitle;
+                        elem = elem + "<input type='hidden' id='" + hfjobtitle_ + "' value='" + response[key].JobTitle + "' />";
+                        var hfjobposter_ = "hfjobposter_" + response[key].FullName;
+                        elem = elem + "<input type='hidden' id='" + hfjobposter_ + "' value='" + response[key].FullName + "' />";
+                        var hfjobposterid_ = "hfjobposterid_" + response[key].UserId;
+                        elem = elem + "<input type='hidden' id='" + hfjobposterid_ + "' value='" + response[key].UserId + "' />";
+                        var hfjobposteremail_ = "hfjobposteremail_" + response[key].Email;
+                        elem = elem + "<input type='hidden' id='" + hfjobposteremail_ + "' value='" + response[key].Email + "' />";
+                        var hfjobcreateddate_ = "hfjobcreateddate_" + response[key].CreatedDateDisplay;
+                        elem = elem + "<input type='hidden' id='" + hfjobcreateddate_ + "' value='" + response[key].CreatedDateDisplay + "' />";
+                        elem = elem + "<!--job_review_approve_bu job_review_reject_bu-->";
+                        elem = elem + "<div>";
+                        elem = elem + "<a href='#' class='btn button_all secondary_color_2_bg job_review_app_reg apprv' title='Approve'><i class='fa fa-check-circle'></i><span>Approve</span></a>";
+                        elem = elem + "<a href='#' onclick=\"openbox(1, 'popup_rejectreason')\" class='btn button_all secondary_color_bg job_review_app_reg rjct' title='Reject'><i class='fa fa-times-circle' aria-hidden='true'></i><span>Reject</span></a>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div><!--pull-right-->";
+                        elem = elem + "</div>";
+                        elem = elem + "</div><!--box_paddleftright_15-->";
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+                        elem = elem + "</div>";
+
+                        $("#divjobs").append(elem);
+                        elem = " ";
+                    })
+
+                    var showChar = 100;
+                    var ellipsestext = "...";
+                    var moretext = "Read More";
+                    var lesstext = "Read less";
+                    $('.more').each(function() {
+                        var content = $(this).html();
+
+                        if(content.length > showChar) {
+
+                            var c = content.substr(0, showChar);
+                            var h = content.substr(showChar-1, content.length - showChar);
+
+                            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="#" class="morelink">' + moretext + '</a></span>';
+
+                            $(this).html(html);
+                        }
+                    });
+                    //$(".morelink").click(function(){
+                    //    if($(this).hasClass("less")) {
+                    //        $(this).removeClass("less");
+                    //        $(this).html(moretext);
+                    //    } else {
+                    //        $(this).addClass("less");
+                    //        $(this).html(lesstext);
+                    //    }
+                    //    $(this).parent().prev().toggle();
+                    //    $(this).prev().toggle();
+                    //    return false;
+                    //});
+                    //$(".apprv").on("click", function () {
+                    //    debugger;
+                    //    var _jobid = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                    //    var _jobtitledispaly = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                    //    var _jobposter = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposter_"]').val();
+                    //    $("#spanadminapprove").text(" " + _jobtitledispaly + " posted by " + _jobposter);
+
+                    //    hfjobidpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                    //    hfjobposteridpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposterid_"]').val();
+                    //    hfjobposteremailpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposteremail_"]').val();
+                    //    hfjobcreateddatepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobcreateddate_"]').val();
+                    //    hfjobtitlepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                    //    openbox(1, 'jobapproveadmin');
+                    //});
+                    //$(".rjct").on("click", function () {
+                    //    debugger;
+                    //    var _jobid = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                    //    var _jobtitledispaly = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                    //    var _jobposter = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposter_"]').val();
+                    //    $("#spanrej").text(" of job " + _jobtitledispaly + " posted by " + _jobposter);
+
+                    //    hfjobidpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobid_"]').val();
+                    //    hfjobposteridpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposterid_"]').val();
+                    //    hfjobposteremailpop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobposteremail_"]').val();
+                    //    hfjobcreateddatepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobcreateddate_"]').val();
+                    //    hfjobtitlepop.value = $(this).closest('div.company_profile_refedit').find('input[id^="hfjobtitle_"]').val();
+                    //    $('#ddlRejectJob').prop('selectedIndex',0);
+                    //    openbox(1, 'popup_rejectreason');
+                    //});
+                    var _morebutton = response[0].Isloadmore;
+                    if (_morebutton == 1) {
+                        var _elment2 = " ";
+                        _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadmore'>";
+                        _elment2 = _elment2 + " <a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadmore'>Load more</a></div></div>";
+                        $("#loadMore").append(_elment2)
+                    }
+                } else {
+                    $("#divjobs").append('<div class="nojob_diplytable" id="divmsg"><div class="col-md-12 category_nojob_bg clearfix"><h3>There don\'t seem to be any jobs matching this search criterion.</h3></div></div>');
+                }
+            },
+            error: function () {
+
+            }
+        });
+    }
+</script> 

@@ -1,0 +1,619 @@
+﻿@model dynamic
+@{
+    Layout = Layout;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            sessionStorage.setItem("tagsId", '0');
+            $("#divtrendingtags").on("click", "a", function () {
+
+                $("#txt_search").val(" ");
+                var _Id = $(this).prop("id");
+                sessionStorage.setItem("tagsId", _Id);
+                localStorage.removeItem("keyword");
+
+                if (_Id) {
+                    LoadGigs(null, _Id)
+                }
+
+            });
+
+            $("#divjobs").on("click", "#btnloadmore", function () {
+                debugger
+                var _Id = $('#divjobs div.bg_color_comen').last().attr("id");
+                var _searchtext = $("#txt_search").val();
+                var _TagsId = sessionStorage.getItem("tagsId");
+                localStorage.setItem("keyword", _searchtext);
+                LoadMore(_Id, _searchtext, _TagsId);
+            })
+
+            $("#txt_search").autocomplete({
+                source: function (request, response) {
+                    //  debugger
+                    var param = $('#txt_search').val().trim();
+                    if (param == "" || param == " ") {
+                        param = "";
+                        $("#btnsearch").trigger("click");
+                    }
+
+                    $.ajax({
+                        url: "/Gigs/GetAutomatedSearch",
+                        data: { '_searchtext': param, 'trendingtagsid': 0 },
+                        dataType: "json",
+                        type: "POST",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {//debugger
+                            if (data.length != 0) {
+                                // debugger
+                                if (param == "") {
+                                    value: ""
+                                }
+                                else {
+
+                                    response($.map(data, function (item) {
+                                        return {
+                                            value: item.GigTitle
+                                        }
+                                    }))
+                                }
+                            }
+                            else {
+                                $("#divjobs").empty();
+                                var _Msg = "";
+                                _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                                $("#divjobs").append(_Msg);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            var err = eval("(" + XMLHttpRequest.responseText + ")");
+                            alert(err.Message)
+                            // console.log("Ajax Error!");
+                        }
+                    });
+                },
+                select: function (e, ui) {
+                    //  debugger
+                    var _searchtext = ui.item.value;
+                    localStorage.setItem("keyword", _searchtext);
+                    sessionStorage.setItem("tagsId", '0');
+                    if (_searchtext) { LoadGigs(_searchtext, 0); }
+                    else
+                    { LoadGigs(); }
+                },
+
+                minLength: 1 //This is the Char length of inputTextBox
+            });
+
+            $("#btnsearch").click(function () {
+
+                var _searchtext = $("#txt_search").val().trim();
+                if (_searchtext) {
+
+                    var _TagsId = sessionStorage.getItem("tagsId");
+                    LoadGigs(_searchtext, _TagsId);
+                    sessionStorage.setItem("tagsId", '0');
+
+                }
+                else {
+                    LoadGigs(null, 0);
+                }
+
+            });
+
+            $('#txt_search').on("keyup", function (e) {
+
+                var keycode = e.keyCode;
+                var which = e.which;
+                var c = String.fromCharCode(keycode == "" ? which : keycode)
+
+                //  var _searchtext = c.trim();
+                //var a=  e.key;
+                //var _searchtext=a.trim() + $("#txt_search").val().trim();
+                //var a=  e.charCode;
+                var _searchtext = c.trim() + $("#txt_search").val().trim();
+
+                if (e.keyCode == 8 || e.keyCode == 46 || e.keyCode == 32) {
+                    if (_searchtext == "" || _searchtext == " " || _searchtext == "\b" || _searchtext == ".") {
+                        _searchtext = "";
+
+                        $("#btnsearch").trigger("click");
+                    }
+
+                }
+
+                else if (e.keyCode == 13) {
+                    //var _searchtext = $("#txt_search").val().trim();
+                    localStorage.setItem("keyword", _searchtext);
+                    sessionStorage.setItem("tagsId", '0');
+                    $("#btnsearch").trigger("click");
+                }
+
+
+            })
+
+            $("#btnsearchok").click(function () {
+                closebox('confirm_search_pop_id');
+                LoadGigs(null, 0);
+            });
+
+
+            function LoadGigs(_searchtext, tagId) {
+                //debugger
+                $("#divnorecord").empty();
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("PostedGigs", "Gigs")',
+                    data: { '_searchtext': _searchtext, 'trendingtagsid': tagId },
+                    success: function (response) {
+                        $("#divjobs").empty();
+                        $("#divloadmore").empty();
+                        if (response != null) {
+                            if (response.length == 0) {
+                                var _Msg = "";
+                                _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                                $("#divjobs").append(_Msg);
+                            }
+                            else {
+
+                                $.each(response, function (key, value) {
+                                    var elem = " ";
+                                    elem = "<div class='col-md-12 home_user_box_1_bg bg_color_comen verified_partner_bg clearfix' id=" + response[key].GigId + ">";
+                                    if (response[key].VerifiedPartner == "Y") {
+                                        elem += "<div class='verified_partner_box'><span>Verified Partner</span></div>";
+                                    }
+                                    var _href = "/Gigs/Details?";
+                                    _href = _href + "id=" + response[key].GigId + "&subid=0";
+                                    elem = elem + "<a class='myjob' href=" + _href + "><h3>" + response[key].GigTitle + "</h3></a>";
+                                    elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                                    if (response[key].GigDuration == 1) {
+                                        elem = elem + "<div class='timeframe_only'><span>Delivery time: </span>&nbsp;<span>" + response[key].GigDuration + " Day</span></div>";
+                                    }
+                                    else {
+                                        elem = elem + "<div class='timeframe_only'><span>Delivery time: </span>&nbsp;<span>" + response[key].GigDuration + " Days</span></div>";
+                                    }
+                                    elem = elem + "<div class='timeframe_only'><span>Purchased: </span>&nbsp;<span>" + response[key].GigsCompleted + " Times</span></div>";
+                                    
+                                    elem = elem + "<div class='budget_only'><span>Cost: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
+                                    elem = elem + "<div class='axp_star_only'><ul>";
+                                    if (response[key].BadgeCount == 1) {
+                                        elem = elem + "<li><i></i></li>";
+                                    }
+                                    else if (response[key].BadgeCount == 2) {
+                                        elem = elem + "<li><li><i></i></li><li><i></i></li>";
+                                    }
+                                    else if (response[key].BadgeCount == 3) {
+                                        elem = elem + "<li><i></i></li><li><i></i></li><li><i></i></li>";
+                                    }
+                                    elem = elem + "</ul></div>";
+                                    elem = elem + "</div>";
+                                    elem = elem + "<div class='home_client_discription_small clearfix'><p>" + response[key].GigDescriptionDisplay + "</p></div>";
+                                    elem = elem + "<div class='client_profile_imgname_bg clearfix'> <div class='client_profile_pic'><div class='client_profile_pic_1'>";
+                                    elem = elem + "<img src=" + response[key].ProfilePic + " alt='' /></div> <i class='profile_pic_star'></i></div>";
+                                    var _profilehref = "/Profile/Index?";
+                                    _profilehref = _profilehref + "id=" + response[key].UserId;
+                                    elem = elem + "<a href=" + _profilehref + "><div class='client_profile_name verified_user_checkbg'><h4>" + response[key].FullName;
+                                    if (response[key].VerifiedPartner == "Y") {
+                                        elem += "<i class='verified_user_check'></i>";
+                                    }
+                                    elem += "</h4> <span> " + response[key].JobsCompleted + " jobs completed</span> </div></a></div></div>";
+                                    $("#divjobs").append(elem);
+                                    elem = " ";
+                                });
+                                var _morebutton = response[0].Isloadmore;
+                                if (_morebutton == 1) {
+                                    var _elment2 = " ";
+                                    _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadmore'>";
+                                    _elment2 = _elment2 + " <a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadmore'>Load more</a></div>";
+                                    $("#divjobs").append(_elment2)
+                                }
+                            }
+
+                        }
+                        else {
+                            $("#divjobs").empty();
+                            var _Msg = "";
+                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                            $("#divjobs").append(_Msg);
+                        }
+
+                    },
+                    error: function (jqXHR, exception) {
+                        console.log(jqXHR.status);
+                        console.log(exception);
+                    }
+                });
+
+            }
+
+            //////////////////////////////////
+
+            function LoadMore(id, searchtext, tagsId) {
+                debugger
+                $("#divnorecord").empty();
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("LoadMoreGigs", "Gigs")',
+                    data: { 'id': id, '_searchtext': searchtext, 'trendingtagsid': tagsId },
+                    success: function (response) {
+                        $("#divloadmore").remove();
+                        if (response != null) {
+                            if (response.length == 0) {
+                                var _Msg = "";
+                                _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                                $("#divjobs").append(_Msg);
+                            }
+                            else {
+
+                                $.each(response, function (key, value) {
+                                    debugger
+                                    var elem = " ";
+                                    elem = "<div class='col-md-12 home_user_box_1_bg bg_color_comen verified_partner_bg clearfix' id=" + response[key].GigId + ">";
+                                    if (response[key].VerifiedPartner == "Y") {
+                                        elem += "<div class='verified_partner_box'><span>Verified Partner</span></div>";
+                                    }
+                                    var _href = "/Gigs/Details?";
+                                    _href = _href + "id=" + response[key].GigId + "&subid=0";
+                                    elem = elem + "<a class='myjob' href=" + _href + "><h3>" + response[key].GigTitle + "</h3></a>";
+                                    elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                                    elem = elem + "<div class='timeframe_only'><span>Delivery time: </span>&nbsp;<span>" + response[key].GigDuration + "</span><span>&nbsp Days</span></div>";
+                                    elem = elem + "<div class='timeframe_only'><span>Purchased: </span>&nbsp;<span>" + response[key].GigsCompleted + " Times</span></div>";
+                                    elem = elem + "<div class='budget_only'><span>Cost: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
+                                    elem = elem + "<div class='axp_star_only'><ul>";
+                                    if (response[key].BadgeCount == 1) {
+                                        elem = elem + "<li><i></i></li>";
+                                    }
+                                    else if (response[key].BadgeCount == 2) {
+                                        elem = elem + "<li><li><i></i></li><li><i></i></li>";
+                                    }
+                                    else if (response[key].BadgeCount == 3) {
+                                        elem = elem + "<li><i></i></li><li><i></i></li><li><i></i></li>";
+                                    }
+                                    elem = elem + "</ul></div>";
+                                    elem = elem + "</div>";
+                                    elem = elem + "<div class='home_client_discription_small clearfix'><p>" + response[key].GigDescriptionDisplay + "</p></div>";
+                                    elem = elem + "<div class='client_profile_imgname_bg clearfix'> <div class='client_profile_pic'><div class='client_profile_pic_1'>";
+                                    elem = elem + "<img src=" + response[key].ProfilePic + " alt='' /></div> <i class='profile_pic_star'></i></div>";
+                                    var _profilehref = "/Profile/Index?";
+                                    _profilehref = _profilehref + "id=" + response[key].UserId;
+                                    elem = elem + "<a href=" + _profilehref + "><div class='client_profile_name verified_user_checkbg'><h4>" + response[key].FullName;
+                                    if (response[key].VerifiedPartner == "Y") {
+                                        elem += "<i class='verified_user_check'></i>";
+                                    }
+                                    elem += "</h4> <span> " + response[key].JobsCompleted + " jobs completed</span> </div></a></div></div>";
+                                    $("#divjobs").append(elem);
+
+                                    elem = " ";
+                                });
+                                var _morebutton = response[0].Isloadmore;
+                                if (_morebutton == 1) {
+                                    var _elment2 = " ";
+                                    _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadmore'>";
+                                    _elment2 = _elment2 + " <a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadmore'>Load more</a></div>";
+                                    $("#divjobs").append(_elment2)
+                                }
+                            }
+
+                        }
+                        else {
+                            $("#divjobs").empty();
+                            var _Msg = "";
+                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                            $("#divjobs").html(_Msg);
+                        }
+
+                    },
+                    error: function (jqXHR, exception) {
+                        console.log(jqXHR.status);
+                        console.log(exception);
+                    }
+                });
+            }
+
+
+
+            //////////////////////////////////
+
+
+
+
+
+        });
+    </script>
+</head>
+
+<body style="">
+    <div class="largebox_middile_full clearfix">
+
+
+        <div class="largebox_content_containerbg">
+
+
+
+            <div class="container_inner middile_con_inner_bg clearfix">
+                <div class="col-md-12 home_con_top_search_bg bg_color_comen clearfix">
+                    <div>
+                        <div class="input-group">
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="btnsearch"><i class="home_search_icon"></i></button>
+                            </span>
+
+                            <div class="dropdown-content" id="divauto">
+
+                                <div class="autocomplete">
+                                    <input id="txt_search" type="text" name="myCountry" placeholder="Search services, tags..." class="form-control">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 con_8_4_outer_bg clearfix">
+                    <div class="row con_row">
+                        <div class="col-md-8 home_left_8" id="divjobs">
+                            @if (Model.Gig != null)
+                            {
+                                foreach (var item in Model.Gig)
+                                {
+                                    <div class="col-md-12 home_user_box_1_bg bg_color_comen verified_partner_bg clearfix" id="@item.GigId">
+                                        <input name="JobId" type="hidden" id="hdnJobId" value=@item.GigId />
+                                        @if (item.VerifiedPartner == "Y")
+                                        {
+                                            <div class="verified_partner_box"><span>Verified Partner</span></div>
+                                        }
+                                        <a class="myjob" href="@Url.Action("Details", "Gigs",new { @id= @item.GigId,@subid=0 })">
+
+                                            <h3>@item.GigTitle </h3>
+                                        </a>
+                                        <div class="timeframe_budget_small clearfix">
+                                            @if (item.GigDuration == 1)
+                                            {
+                                                <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDuration Day</span></div>
+                                            }
+                                            else
+                                            {
+                                                <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDuration Days</span></div>
+                                            }
+                                            <div class="timeframe_only"><span>Purchased: </span>&nbsp;<span>@item.GigsCompleted Times</span></div>
+
+                                            <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>                                            
+
+                                            <div class="axp_star_only">
+
+                                                <ul>
+                                                    @if (item.BadgeCount == 1)
+                                                    {
+                                                        <li><i></i></li>
+                                                    }
+                                                    else if (item.BadgeCount == 2)
+                                                    {
+                                                        <li><i></i></li>
+                                                        <li><i></i></li>
+                                                    }
+                                                    else if (item.BadgeCount == 3)
+                                                    {
+                                                        <li><i></i></li>
+                                                        <li><i></i></li>
+                                                        <li><i></i></li>
+                                                    }
+
+                                                </ul>
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="home_client_discription_small clearfix">
+                                            <p>@item.GigDescriptionDisplay</p>
+                                        </div>
+                                        <div class="client_profile_imgname_bg clearfix">
+                                            <div class="client_profile_pic">
+                                                <div class="client_profile_pic_1">
+                                                    <img src="@item.ProfilePic" alt="" />
+                                                </div>
+                                                <i class="profile_pic_star"></i>
+                                            </div>
+                                            <div class="client_profile_name verified_user_checkbg">
+                                                <a href="@Url.Action("Index", "Profile",new { @id= @item.UserId })">
+                                                    <h4>
+                                                        @item.FullName
+                                                        @if (item.VerifiedPartner == "Y")
+                                                        {
+                                                            <i class="verified_user_check"></i>
+                                                        }
+                                                    </h4>
+                                                </a>
+                                                <span>@item.JobsCompleted jobs completed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                            @if (Model.Gig != null && Model.Gig.Count > 0)
+                            {
+
+
+                                if (Model.Gig[0].Isloadmore == 1)
+                                    {
+                                        <div class="col-md-12 category_loadmore_bg clearfix" id="divloadmore">
+                                            <a href="javascript:" class="btn button_all secondary_color_bg" id="btnloadmore">Load more</a>
+                                        </div>
+
+                                    }
+                            }
+
+
+
+                        </div>
+                        @if (Model.Gig == null || Model.Gig.Count == 0)
+                        {
+                            <div class="col-md-8 home_left_8" id="divnorecord">
+                                <div class="col-md-12 category_nojob_bg clearfix">
+                                    <h3>There don't seem to be any live jobs for this category.</h3>
+                                </div>
+                            </div>
+                        }
+
+
+                        <div class="col-md-4 home_right_4">
+
+                            <div class="col-md-12 bg_color_comen home_top_jobs_bg clearfix">
+                                <div class="home_top_jobs_heding heading_border_buttom">
+                                    <h2>Top freelancers</h2>
+                                </div>
+                                <ul class="job_poster_profiles clearfix">
+                                    @if (Model.TopJobSeekers != null)
+                                    {
+                                        foreach (var item in Model.TopJobSeekers)
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("Index", "Profile",new { @id=@item.UserId })">
+                                                    <div class="client_profile_pic">
+                                                        <div class="client_profile_pic_1">
+                                                            <img src="@item.ProfilePic" alt="" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="client_profile_name">
+                                                        <h4>@item.FullName</h4>
+
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        }
+
+                                    }
+
+
+                                </ul>
+                            </div>
+
+
+                            <div class="col-md-12 bg_color_comen home_top_jobs_bg clearfix">
+                                <div class="home_top_jobs_heding heading_border_buttom">
+                                    <h2>Verified Partners</h2>
+                                </div>
+                                <ul class="job_poster_profiles clearfix">
+                                    @if (Model.VerifiedPartners != null)
+                                    {
+                                        foreach (var item in Model.VerifiedPartners)
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("Index", "Profile",new { id = item.UserId })">
+                                                    <div class="client_profile_pic">
+                                                        <div class="client_profile_pic_1">
+                                                            <img src="@item.ProfilePic" alt="" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="client_profile_name">
+                                                        <h4>@item.FullName</h4>
+
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+
+                            <div class="col-md-12 bg_color_comen home_top_jobs_bg clearfix">
+                                <div class="home_top_jobs_heding">
+                                    <h2>Trending tags</h2>
+                                </div>
+                                <div class="home_trending_tags clearfix" id="divtrendingtags">
+                                    @if (Model.TrendingTags != null)
+                                    {
+                                        if (Model.TrendingTags.Count > 1)
+                                        {
+                                            foreach (var result in Model.TrendingTags)
+                                            {
+
+                                                if (Model.TrendingTags.IndexOf(result) == Model.TrendingTags.Count - 1)
+                                                {
+                                                    <a href="#header" id="@result.TrendingTagsId" class="smothscroll"> @result.Description</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#header" id="@result.TrendingTagsId" class="smothscroll"> @result.Description,</a>
+                                                }
+                                            }
+                                        }
+                                        else if (Model.TrendingTags.Count == 1)
+                                        {
+                                            foreach (var result in Model.TrendingTags)
+                                            {
+                                                <a href="#" id="@result.TrendingTagsId">@result.Description</a>
+                                            }
+                                        }
+                                    }
+
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+            @*</div>*@
+
+        </div>
+
+
+    </div>
+    <script>
+        wow = new WOW({}).init();
+
+
+        $(document).on('click', 'a[href^="#"].smothscroll', function (event) {
+            event.preventDefault();
+
+            $('html, body').animate({
+                scrollTop: $($.attr(this, 'href')).offset().top
+            }, 700);
+
+        });
+
+
+
+        $(document).ready(function () {
+
+            /*("#dublepopup").click(function(){
+				alert("dfsf");
+                $("#Purchase_id").addClass(".hhdh");
+             });*/
+
+        });
+
+
+        /* // email placeholder*/
+
+    </script>
+
+</body>
+
+</html>
+
+
+
+

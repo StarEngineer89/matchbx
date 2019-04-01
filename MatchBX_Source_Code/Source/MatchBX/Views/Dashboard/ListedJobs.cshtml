@@ -401,18 +401,19 @@
 
         $.connection.hub.start().done(function () {
             $('#btnacceptoffer').unbind("click").bind( "click",function(){
-                              
+                debugger;          
                 var _bidAmount = $("#hfbidAmountPop").val();
                 var _posterid = @Session["UserId"];
                 var _pendingbidAmount = 0;
                 function callback(pendingbidAmount, result)
                 {
+                    debugger;
                     if(result = "sucess")
                     {
                         _pendingbidAmount = pendingbidAmount;
 
                         function callback(address, result) {
-
+                            debugger;
                             if (address == 'error' || address == '') {
                                 closebox('offer_comfirmation_id_list');
                                 openbox(1, 'metamask_comfirmation_id');
@@ -660,7 +661,7 @@
 
         $("#jobs_listed_id_dash").on("click", "a.acptenabled", function () {
 
-                          
+            debugger;              
             var _jobid = $(this).closest('div.pull-right').find('input[id^="hfjobid_"]').val();
             var _jobtitledispaly = $(this).closest('div.pull-right').find('input[id^="hfjobtitle_"]').val();
             var _bidusername = $(this).closest('div.pull-right').find('input[id^="hfbidusername_"]').val();

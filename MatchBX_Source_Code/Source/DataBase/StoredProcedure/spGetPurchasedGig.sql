@@ -36,7 +36,8 @@ BEGIN
 		COALESCE(U.FullName,'@'+U.UserName) AS FullName,
 		ISNULL(S.TotalJobs,0) AS 'JobsCompleted',
 		ISNULL(GCS.TotalJobs,0) AS 'GigsCompleted',
-		CONVERT(NVARCHAR(10),G.GigDuration) AS GigDurationString
+		CONVERT(NVARCHAR(10),G.GigDuration) AS GigDurationString,
+		G.UserId
 	FROM GigSubscription GS
 	INNER JOIN Job J ON ISNULL(J.GigSubscriptionId,0) = GS.GigSubscriptionId
 	INNER JOIN Gig G ON G.GigId = GS.GigId

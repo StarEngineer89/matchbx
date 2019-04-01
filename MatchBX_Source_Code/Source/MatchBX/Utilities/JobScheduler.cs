@@ -52,7 +52,7 @@ namespace MatchBX.Utilities
 
             scheduler.ScheduleJob(CoinMarketjob, triggerCoinMarket);
             scheduler.ScheduleJob(Reminderjob, triggerReminder);
-            //scheduler.ScheduleJob(ReminderGig, triggerReminderGig);
+            scheduler.ScheduleJob(ReminderGig, triggerReminderGig);
         }
     }
 }

@@ -755,7 +755,8 @@ namespace MatchBX.Controllers
             if (ProcessType == "C")
             {
                 BurnPer = Convert.ToDecimal(ConfigurationManager.AppSettings["BurnPercentage"]);
-                var jobObj = objJobMod.GetARecord(JobId);
+                //var jobObj = objJobMod.GetARecord(JobId);
+                var jobObj = objJobMod.GetList("*", "JobId =" + JobId).FirstOrDefault();
                 if (jobObj.GigSubscriptionId > 0)
                 {
                     BidAmount = jobObj.BudgetASP;

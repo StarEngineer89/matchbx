@@ -1,7 +1,9 @@
 ﻿@model dynamic
 
 @{
-    Layout = Layout; }
+    Layout = Layout;
+    var currentTagId = @ViewBag.CurrentTag;
+}
 
 
 
@@ -24,7 +26,10 @@
 
 
         $(document).ready(function () {
-
+            debugger
+            if("@currentTagId" != "") {
+                sessionStorage.setItem("tagsId","@currentTagId");
+            }
             var _redirectUrl = @Html.Raw(Json.Encode(Request.QueryString["redirecturl"]));
             if(_redirectUrl == "Y")
             {
@@ -89,7 +94,8 @@
 
                     var _Id = $('#divjobs div.bg_color_comen').last().attr("id");
                     var _searchtext = $("#txt_search").val();
-                    var _TagsId = sessionStorage.getItem("tagsId");
+                    debugger
+                    var _TagsId = "@currentTagId";
                     localStorage.setItem("keyword", _searchtext);
                     LoadMore(_Id, _searchtext, _TagsId);
                 })
@@ -129,7 +135,7 @@
                                 {
                                     $("#divjobs").empty();
                                     var _Msg = "";
-                                    _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                                    _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
                                     $("#divjobs").append(_Msg);
                                 }
                             },
@@ -224,7 +230,7 @@
                             if (response != null) {
                                 if (response.length == 0) {
                                     var _Msg="";
-                                    _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                                    _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
                                     $("#divjobs").append(_Msg);
                                 }
                                 else {
@@ -237,7 +243,7 @@
                                             elem += "<div class='verified_partner_box'><span>Verified Partner</span></div>";
                                         }
                                         var _href =response[key].RedirectUrl;
-                                        _href = _href + "id=" + response[key].JobId;
+                                        // _href = _href + "id=" + response[key].JobId;
                                         elem = elem + "<a class='myjob' href=" + _href + "><h3>" + response[key].JobTitle + "</h3></a>";
                                         elem = elem + "<div class='timeframe_budget_small clearfix'>";
                                         if(response[key].Type=="J")
@@ -247,7 +253,7 @@
                                         }
                                         else
                                         {
-                                            elem = elem + "<div class='timeframe_only'><span>Deadline: </span>&nbsp;<span>" + response[key].JobCompletionDateDisplay + "</span></span>&nbsp;Days<span></div>";
+                                            elem = elem + "<div class='timeframe_only'><span>Deadline: </span>&nbsp;<span>" + response[key].JobCompletionDateDisplay + "</span><span>&nbsp;Days</span></div>";
                                             elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
                                         }
                                         elem = elem + "<div class='axp_star_only'><ul>";
@@ -290,7 +296,7 @@
                             else {
                                 $("#divjobs").empty();
                                 var _Msg = "";
-                                _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                                _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
                                 $("#divjobs").html(_Msg);
                             }
 
@@ -339,7 +345,7 @@
                     if (response != null) {
                         if (response.length == 0) {
                             var _Msg = "";
-                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
                             $("#divjobs").append(_Msg);
                         }
                         else {
@@ -352,7 +358,7 @@
                                     elem += "<div class='verified_partner_box'><span>Verified Partner</span></div>";
                                 }
                                 var _href =response[key].RedirectUrl;
-                                _href = _href + "id=" + response[key].JobId;
+                                // _href = _href + "id=" + response[key].JobId;
                                 elem = elem + "<a class='myjob' href=" + _href + "><h3>" + response[key].JobTitle + "</h3></a>";
                                 elem = elem + "<div class='timeframe_budget_small clearfix'>";
                                 if(response[key].Type=="J")
@@ -362,7 +368,7 @@
                                 }
                                 else
                                 {
-                                    elem = elem + "<div class='timeframe_only'><span>Deadline: </span>&nbsp;<span>" + response[key].JobCompletionDateDisplay + "</span></span>&nbsp;Days<span></div>";
+                                    elem = elem + "<div class='timeframe_only'><span>Deadline: </span>&nbsp;<span>" + response[key].JobCompletionDateDisplay + "</span><span>&nbsp;Days</span></div>";
                                     elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
                                 }
                                 elem = elem + "<div class='axp_star_only'><ul>";
@@ -408,7 +414,7 @@
                     {
                         $("#divjobs").empty();
                         var _Msg = "";
-                        _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                        _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
                         $("#divjobs").append(_Msg);
                     }
 
@@ -562,7 +568,7 @@
                         {
                             <div class="col-md-8 home_left_8" id="divnorecord">
                                 <div class="col-md-12 category_nojob_bg clearfix">
-                                    <h3>There don't seem to be any live jobs for this category.</h3>
+                                    <h3>There doesn't seem to be any live jobs for this category</h3>
                                 </div>
                             </div>
                         }
@@ -572,7 +578,7 @@
 
                             <div class="col-md-12 bg_color_comen home_top_jobs_bg clearfix">
                                 <div class="home_top_jobs_heding heading_border_buttom">
-                                    <h2>Top job posters</h2>
+                                    <h2>Top Job Posters</h2>
                                 </div>
                                 <ul class="job_poster_profiles clearfix">
                                     @if (Model.TopJobPosters != null)
@@ -630,7 +636,7 @@
 
                             <div class="col-md-12 bg_color_comen home_top_jobs_bg clearfix">
                                 <div class="home_top_jobs_heding">
-                                    <h2>Trending tags</h2>
+                                    <h2>Trending Tags</h2>
                                 </div>
                                 <div class="home_trending_tags clearfix" id="divtrendingtags">
                                     @if (Model.TrendingTags != null)
@@ -642,11 +648,11 @@
 
                                                 if (Model.TrendingTags.IndexOf(result) == Model.TrendingTags.Count - 1)
                                                 {
-                                                    <a href="#header" id="@result.TrendingTagsId" class="smothscroll"> @result.Description</a>
+                                                    <a href="/Jobs/Index/@result.TrendingTagsId" id="@result.TrendingTagsId" class="smothscroll"> @result.Description</a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="#header" id="@result.TrendingTagsId" class="smothscroll"> @result.Description,</a>
+                                                    <a href="/Jobs/Index/@result.TrendingTagsId" id="@result.TrendingTagsId" class="smothscroll"> @result.Description,</a>
                                                 }
                                             }
                                         }
@@ -654,7 +660,7 @@
                                         {
                                             foreach (var result in Model.TrendingTags)
                                             {
-                                                <a href="#" id="@result.TrendingTagsId">@result.Description</a>
+                                                <a href="/Jobs/Index/@result.TrendingTagsId" id="@result.TrendingTagsId">@result.Description</a>
                                             }
                                         }
                                     }

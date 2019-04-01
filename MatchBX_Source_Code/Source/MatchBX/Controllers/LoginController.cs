@@ -75,6 +75,7 @@ namespace MatchBX.Controllers
         
         // GET: /Login/Login
         [AllowAnonymous]
+        [OutputCache(Duration = 3600, VaryByParam = "none")]  
         public ActionResult Login()
         {
             LoginViewModel model = new LoginViewModel();
@@ -429,6 +430,7 @@ namespace MatchBX.Controllers
 
         // GET: /Login/Register
         [AllowAnonymous]
+        [OutputCache(Duration = 3600, VaryByParam = "none")]
         public ActionResult Register()
         {
             //RegisterViewModel model = new RegisterViewModel();

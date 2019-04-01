@@ -13,7 +13,7 @@ CREATE PROCEDURE [spMetaMaskCancel]
 )
 AS
 BEGIN
-	IF EXISTS (SELECT 1 FROM Job WHERE JobId = 3086 AND ISNULL(GigSubscriptionId,0) = 0)
+	IF EXISTS (SELECT 1 FROM Job WHERE JobId = @JobId AND ISNULL(GigSubscriptionId,0) = 0)
 	BEGIN		
 		UPDATE JobBidding SET IsPending = 'N' WHERE JobId = @JobId	
 		DELETE FROM TransactionDetail WHERE JobId = @JobId AND ProcessType = 'D'

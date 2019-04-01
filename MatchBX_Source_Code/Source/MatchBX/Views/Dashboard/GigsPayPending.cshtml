@@ -1,6 +1,7 @@
 ﻿@{
     Layout = null;
     var html = ""; var h = "";
+    var userId = (int)Session["UserId"];
 }
 
 @if (Model.PayPending != null)
@@ -93,6 +94,37 @@
                             <input type="hidden" id="hfGigTitle_@item.GigTitle" value="@item.GigTitle" />
                             <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
                             <input type="hidden" id="hfGigSubId_@item.GigSubscriptionId" value="@item.GigSubscriptionId" />
+                            <div class="client_profile_pic">
+                                <div class="client_profile_pic_1">
+                                    @if (userId != item.UserId)
+                                    {
+                                        <img src="@item.SeekerProfilePic" alt="">
+                                    }
+                                    else
+                                    {
+                                        <img src="@item.PosterProfilePic" alt="">
+                                    }
+                                </div>
+                                <i class="profile_pic_star"></i>
+                            </div>
+                            <div class="client_profile_name">
+                                @if (userId == item.UserId)
+                                {
+                                    <a href="@Url.Action("Index", "Profile", new { @id = item.JobPosterId })">
+                                        <h4>@item.PosterFullName</h4>
+                                    </a>
+                                    <input type="hidden" id="hdnuserid" value="@item.JobPosterId" />
+                                    <span>@item.JobsCompleted jobs completed</span>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Index", "Profile", new { @id = item.UserId })">
+                                        <h4>@item.SeekerFullName</h4>
+                                    </a>
+                                    <input type="hidden" id="hdnuserid" value="@item.UserId" />
+                                    <span>@item.JobsCompleted jobs completed</span>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>

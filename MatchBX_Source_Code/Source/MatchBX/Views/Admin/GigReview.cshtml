@@ -380,7 +380,7 @@
                                         notification.server.send(_AdminUserId, _PosterId, _PosterName, _notification, _header, ' ');
                                     }).fail(function(){ console.log('Could not connect'); });
                                     closebox("gigapproveadmin");
-                                    window.location="/Admin/GigReview";
+                                    window.location.reload();
                                 }
                             },
                             error: function () {
@@ -431,7 +431,7 @@
                                             notification.server.send(_AdminUserId, _PosterId, _PosterName, _notification, _header, ' ');
                                         }).fail(function(){ console.log('Could not connect'); });
                                         closebox("popup_rejectreason");
-                                        window.location="/Admin/GigReview";
+                                        window.location.reload();
                                     }
                                 },
                                 error: function () {
@@ -569,7 +569,7 @@
                                     {
                                         $("#divjobs").empty();
                                         var _Msg = "";
-                                        _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any Services for this category.</h3></div>"
+                                        _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live services for this category</h3></div>"
                                         $("#divjobs").append(_Msg);
                                     }
                                 },

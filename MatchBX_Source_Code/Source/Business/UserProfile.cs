@@ -18,5 +18,6 @@ namespace Business
         public string FullName { get; set; }
         public int RatingCount { get; set; }
         public int UserType { get; set; }
+        public string VerifiedPartner { get; set; }
     }
 }

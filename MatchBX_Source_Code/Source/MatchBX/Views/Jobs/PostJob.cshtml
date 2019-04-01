@@ -18,7 +18,7 @@
         @if (Model.JobId == 0)
         {
             <span>Post your job</span>
-            <p class="popup_box_title_p">Post your job and get the best freelancers come to you</p>
+            <p class="popup_box_title_p">Post your job and get the best freelancers in the cryptosphere</p>
         }
         else
         {
@@ -32,7 +32,10 @@
     <div class="col-md-12 pop_container_bg">
         <div class="form-group clearfix">
             <label for="Give_your" class="input_label_style title_len_out_lb" id="labeltitle">Give your project a title<span class="title_len_sp" id="titlecharcount"></span></label>
-            @Html.TextAreaFor(x => x.JobTitle, new { @id = "Give_your", @placeholder = "My great job", @class = "form-control form_input", @maxlength = "200" })
+            <div class="user_rg_look_bg" id="divusername">
+                <span class="user_rg_look_span">Looking for </span>
+                @Html.TextAreaFor(x => x.JobTitle, new { @id = "Give_your", @placeholder = "a freelancer to do something awesome", @class = "form-control form_input", @maxlength = "200" })
+            </div>            
             @Html.ValidationMessageFor(x => x.JobTitle, "", new { @class = "error_span" })
             @Html.HiddenFor(x => x.JobStatus)
         </div>
@@ -130,16 +133,18 @@
 
 }
 
-<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    @*<link rel="stylesheet" href="~/Scripts/jquery-ui.css">*@
+    @*<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>*@
+    @*<script src="@Url.Content("~/Scripts/jquery-ui.min.js")"></script>*@
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
-<script src="@Url.Content("~/Content/js/bootstrap.min.js")"></script>
-<script src="@Url.Content("~/Content/js/wow.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/wow.min.js")"></script>
 
-<script src="@Url.Content("~/Content/js/bootstrap-datepicker.min.js")"></script>
-<script src="@Url.Content("~/Content/js/chosen.jquery.js")" type="text/javascript" charset="utf-8"></script>
-<script src="@Url.Content("~/Content/js/init.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/Content/js/bootstrap-datepicker.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/chosen.jquery.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/Content/js/init.js")" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/dropzone.js")"></script>
 <script src="https://www.google.com/recaptcha/api.js"></script>
 
@@ -211,7 +216,6 @@
     }
 
     $(document).ready(function () {
-
 
         var exchangerate=@Html.Raw(Json.Encode(Session["ExRate"]));
         localStorage.setItem("exchangerate",exchangerate);
@@ -285,7 +289,14 @@
             $('#frm').validate();
         });
 
-        //$('.datepicker').datepicker();
+        //$("#jobcompletionDate").datepicker({
+        //    dateFormat: "dd-M-yy",
+        //    autoSize: true,
+        //    minDate: 0,
+        //    onSelect: function() {
+        //        $('#frm').validate();
+        //    }
+        //});
 
 
         var _JobId = $("#JobId").val();
@@ -385,7 +396,7 @@
                //}
                //else {
                //    return true;
-               //}
+            //}
                var theEvent = evt || window.event;
                var key = theEvent.keyCode || theEvent.which;
                key = String.fromCharCode(key);
@@ -402,16 +413,21 @@
                }
            });
 
-           $('#BudgetASPString').on('keyup change', function (event) {
-               //if(event.keyCode == 8) {
-                   validatebudget();       
-               //}   
-           });  
+        $('#BudgetASPString').on('keyup change', function (event) {
+            //if(event.keyCode == 8) {
+            validatebudget(event);
+            //}
+        });
+
+        $('#BudgetASPString').on('focusout', function (event) {
+            //if(event.keyCode == 8) {
+            validatebudget(event);
+            //}
+        });  
 
 
-        function validatebudget()
+        function validatebudget(eve)
         {
-            debugger;
             var bidamt=$("#BudgetASPString").val().toString().replace(/,/g, "").trim();
             if(bidamt=="")
             {
@@ -428,37 +444,51 @@
             }
             else if($.isNumeric(bidamt))
             {
-                $("[data-valmsg-for='BudgetASPString']").text("");
-                var exrate=localStorage.getItem("exchangerate");
+                if(bidamt >= 1000.00) {
+                    $("[data-valmsg-for='BudgetASPString']").text("");
+                    var exrate=localStorage.getItem("exchangerate");
 
-                var rateindollar=exrate*bidamt;
-                var _Budget = Number(parseFloat(rateindollar).toFixed(2)).toLocaleString('en', {
-                    minimumFractionDigits: 2
-                });
-                $("#budgetdollar").val(_Budget);
-                $("#budgetdollar").text(_Budget);
+                    var rateindollar=exrate*bidamt;
+                    var _Budget = Number(parseFloat(rateindollar).toFixed(2)).toLocaleString('en', {
+                        minimumFractionDigits: 2
+                    });
+                    $("#budgetdollar").val(_Budget);
+                    $("#budgetdollar").text(_Budget);
 
-                var _BudgetASP = $("#BudgetASPString").val().toString().replace(/,/g, "");
-                if (_BudgetASP != "")
-                {
-                    var amount=parseFloat(_BudgetASP).toLocaleString();
-                    if(_BudgetASP.indexOf('.') > -1 && _BudgetASP[_BudgetASP.length - 1] == '.') {
-                        amount += '.'
+                    var _BudgetASP = $("#BudgetASPString").val().toString().replace(/,/g, "");
+                    if (_BudgetASP != "")
+                    {
+                        var amount=parseFloat(_BudgetASP).toLocaleString();
+                        if(_BudgetASP.indexOf('.') > -1 && _BudgetASP[_BudgetASP.length - 1] == '.') {
+                            amount += '.'
+                        }
+                        //var _budget=(+amount).toLocaleString(undefined, {minimumFractionDigits: 2});
+                        $("#BudgetASPString").val(amount);
                     }
-                    //var _budget=(+amount).toLocaleString(undefined, {minimumFractionDigits: 2});
-                    $("#BudgetASPString").val(amount);
+
+                    var _Commission = (_BudgetASP * 3 / 100).toFixed(2);
+                    // _Commission=(+_Commission).toLocaleString();
+                    var _TotalBudget = (parseFloat(_BudgetASP) + parseFloat(_Commission)).toFixed(2);
+                    _TotalBudget=(+_TotalBudget).toLocaleString();
+
+
+                    $("#IdCommn").val(_Commission);
+                    $("#IdCommn").text(_Commission);
+                    $("#IdtotalBudget").val(_TotalBudget);
+                    $("#IdtotalBudget").text(_TotalBudget);
+                } else {
+                    $("[data-valmsg-for='BudgetASPString']").text("The budget amount should be a minimum of 1,000 AXPR");
+                    var _Budget = Number(parseFloat(0).toFixed(2)).toLocaleString('en', {
+                        minimumFractionDigits: 2
+                    });
+                    $("#budgetdollar").val(_Budget);
+                    $("#budgetdollar").text(_Budget);
+                    $("#IdCommn").val(_Budget);
+                    $("#IdCommn").text(_Budget);
+                    $("#IdtotalBudget").val(_Budget);
+                    $("#IdtotalBudget").text(_Budget);
+                    try{ eve.stopPropagation(); } catch(e){}
                 }
-
-                var _Commission = (_BudgetASP * 3 / 100).toFixed(2);
-                // _Commission=(+_Commission).toLocaleString();
-                var _TotalBudget = (parseFloat(_BudgetASP) + parseFloat(_Commission)).toFixed(2);
-                _TotalBudget=(+_TotalBudget).toLocaleString();
-
-
-                $("#IdCommn").val(_Commission);
-                $("#IdCommn").text(_Commission);
-                $("#IdtotalBudget").val(_TotalBudget);
-                $("#IdtotalBudget").text(_TotalBudget);
             }
             else
             {
@@ -598,7 +628,6 @@
 
 
         $('#btnSaveJob').unbind().bind('click',   function(e){
-            debugger;
             var isvalid = true;
             var isCaptcha = false;
             if(grecaptcha.getResponse() == "") {
@@ -613,7 +642,7 @@
             {
                 $("#errormsg").show();
                 isvalid=false;
-                event.preventDefault();
+                e.preventDefault();
             }
             else
             {
@@ -622,16 +651,64 @@
                 {
                     isvalid=false;
                     $("#errormsg").show();
-                    event.preventDefault();
+                    e.preventDefault();
                 }
                 else
                 {
                     $("#errormsg").hide();
                 }
             }
-            if (!$('#frm').valid()) {
-                isvalid=false;
+
+            try {
                 event.preventDefault();
+                if (!$('#frm').valid()) {
+                    isvalid=false;
+                    e.preventDefault();
+                }
+            } catch(ex) {
+                console.log('inside catch');
+                var jobTitle = $('#Give_your').val();
+                var jobDescription = $('#Give_your_Desc').val();
+                var jobDate = $('#jobcompletionDate').val();
+
+                if(jobTitle != "" && jobTitle.length >= 5) {
+                    isvalid = true;
+                } else {
+                    isvalid = false;
+                    if(jobTitle == "") {
+                        $("[data-valmsg-for='JobTitle']").text("Sorry, you need to create a title");
+                    } else if(jobTitle.length < 5) {
+                        $("[data-valmsg-for='JobTitle']").text("Job Title cannot be longer than 200 characters and less than 5 characters");
+                    }
+                    e.preventDefault();
+                }
+
+                if(jobDescription != "") {
+                    isvalid = true;
+                } else {
+                    isvalid = false;
+                    $("[data-valmsg-for='JobDescription']").text("You need to give more details.");
+                    e.preventDefault();
+                }
+
+                if(jobDate != "" && !isNaN(Date.parse(jobDate))) {
+                    isvalid = true;
+                } else {
+                    isvalid = false;
+                    $("[data-valmsg-for='JobCompletionDate']").text("You need to provide a completion date");
+                    e.preventDefault();
+                }
+            }
+
+            var bidamt=$("#BudgetASPString").val().toString().replace(/,/g, "").trim();
+            if(bidamt == "") {
+                isvalid = false;
+                $("[data-valmsg-for='BudgetASPString']").text("You need to provide a budget.");
+                e.preventDefault();
+            } else if(bidamt < 1000) {
+                isvalid = false;
+                $("[data-valmsg-for='BudgetASPString']").text("The budget amount should be a minimum of 1,000 AXPR");
+                e.preventDefault();
             }
 
             if (isvalid==true && isCaptcha)
@@ -678,7 +755,7 @@
                 });
                 //
                 var _JobStatus='R'; //$("#JobStatus").val().trim()!=""? $("#JobStatus").val():'R';
-                var _JobTitle=toTitleCase($("#Give_your").val().replace(',', ''));
+                var _JobTitle = 'Looking for ' + $("#Give_your").val().replace(',', '').toLowerCase();
                 var _Job = {
                     JobTitle:_JobTitle ,
                     JobDescription: $("#Give_your_Desc").val().replace(',', ''),
@@ -727,7 +804,7 @@
 
         })
 
-        $("#JobCategoryId").change(function () {
+        $("#JobCategoryId").unbind().bind('change', function () {
             $("#TrendingTagsId").empty();
             $("#SkillsId").empty();
             var _JobCategoryId = $("#JobCategoryId").val();
@@ -938,6 +1015,10 @@
         $('#TrendingTagsId').chosen().change(function(){
             lastTag = $('#TrendingTagsId_chosen .chosen-choices li.search-choice:last').find('span').text();
         });
+
+        $('#divusername').click(function(){
+            $('#Give_your').focus();
+        });
     });
 
 
@@ -947,6 +1028,13 @@
 
 <script>
     (function() {
+        $('.dropzone').each(function () {
+
+            let dropzoneControl = $(this)[0].dropzone;
+            if (dropzoneControl) {
+                dropzoneControl.destroy();
+            }
+        });
 
         $(".dropzone").dropzone({
             maxFiles: 3,

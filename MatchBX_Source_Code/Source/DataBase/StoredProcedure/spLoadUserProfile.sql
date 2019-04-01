@@ -66,7 +66,8 @@ SELECT
 	'@' + U.UserName AS UserName,
 	U.FullName,
 	U.UserId,
-	U.UserType
+	U.UserType,
+	U.VerifiedPartner
 FROM Users U 
 LEFT JOIN UserProfile UP on UP.UserId = U.UserId
 LEFT JOIN @Rating R ON R.UserId = U.UserId

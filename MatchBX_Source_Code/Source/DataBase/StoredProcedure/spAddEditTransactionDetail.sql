@@ -55,7 +55,7 @@ BEGIN
 		BEGIN
 			IF EXISTS(SELECT 1 FROM TransactionDetail WHERE UserId = @UserId AND Address = @Address AND ProcessType = 'A' AND IsApproved = 'Y')
 			BEGIN
-				UPDATE TransactionDetail SET IsApproved = 'N' WHERE UserId = @UserId AND Hash = @Hash AND @ProcessType = 'A' AND IsApproved = 'Y'
+				UPDATE TransactionDetail SET IsApproved = 'N',ModifiedDate = GETDATE(),Hash = '' WHERE UserId = @UserId AND Address = @Address AND @ProcessType = 'A' AND IsApproved = 'Y'
 			END
 		END
 	END	

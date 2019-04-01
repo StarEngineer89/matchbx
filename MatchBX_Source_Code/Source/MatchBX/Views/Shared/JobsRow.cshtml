@@ -49,7 +49,7 @@
                             <div class="client_profile_pic_1"> <img src="@Url.Content("~/" + @item.PosterProfilePic.ToString().Replace("..", ""))" alt=""></div>
                             <i class="profile_pic_star"></i>
                         </div>
-                        <a href="@Url.Action("Index", "Profile",new { @id=item.UserId })">
+                        <a href="@Url.Action("Index", "Profile",new { @id=item.JobPosterId })">
                             <div class="client_profile_name">
                                 <h4>@item.PosterFullName</h4>
                                 <span>@item.JobsCompleted jobs completed</span>
@@ -58,24 +58,27 @@
                     </div>
                 </div>
                 <!--dash_jobs_box_1_inner-->
-                <div class="border_buttom_only"></div>
-                <div class="dash_timeremaining_box_bg clearfix">
-                    <div class="pull-left"> <span class="dash_time_span_label">Time remaining:</span> <span class="dash_time_span_sp">@item.TimeRemaining</span> </div>
-                    @if (item.JobStatus == "R" && item.IsExpired != "Y")
-                    {
-                        <div class="pull-right gig_dash_admin_pendingbg">
-                            <div class="pending_box_alert panding_alert">Pending Admin Approval</div>
-                        </div>
-                    }
-                    else if (item.JobStatus == "P" || item.JobStatus == "R" || item.IsExpired == "Y")
-                    {
-                        <div class="pull-right">
-                            <input type="hidden" id="hfjobid_@item.JobId" value="@item.JobId" />
-                            <a href="#" id="btnEditJob" class="dash_time_right_menu bu_enable">Edit this job</a>
-                        </div>
-                    }
-                </div>
-                <div class="border_buttom_only"></div>
+                @if (item.JobStatus != "C")
+                {
+                    <div class="border_buttom_only"></div>
+                    <div class="dash_timeremaining_box_bg clearfix">
+                        <div class="pull-left"> <span class="dash_time_span_label">Time remaining:</span> <span class="dash_time_span_sp">@item.TimeRemaining</span> </div>
+                        @if (item.JobStatus == "R" && item.IsExpired != "Y")
+                        {
+                            <div class="pull-right gig_dash_admin_pendingbg">
+                                <div class="pending_box_alert panding_alert">Pending Admin Approval</div>
+                            </div>
+                        }
+                        else if (item.JobStatus != "C" && (item.JobStatus == "P" || item.JobStatus == "R" || item.IsExpired == "Y"))
+                        {
+                            <div class="pull-right">
+                                <input type="hidden" id="hfjobid_@item.JobId" value="@item.JobId" />
+                                <a href="#" id="btnEditJob" class="dash_time_right_menu bu_enable">Edit this job</a>
+                            </div>
+                        }
+                    </div>
+                    <div class="border_buttom_only"></div>
+                }
                 @if (item.IsActive == "Y" && item.IsExpired != "Y" && (item.JobStatus == "P" || item.JobStatus == "B") && item.PendingBid == 0)
                 {
                     <div class="dash_timeremaining_box_bg gig_dash_mygig_bu clearfix">
@@ -86,8 +89,9 @@
                         <div class="pull-right dash_time_allmenus"> <a href="@Url.Action("Details", "Jobs",new { @id = @item.JobId })" class="dash_time_right_menu">Active Bids (@item.ActiveBids)</a> <a href="#" class="dash_time_right_menu">Declined Bids (@item.DeclinedBids)</a> </div>
                     </div>
                 }
-                else if (item.IsExpired == "Y")
+                else if (item.IsExpired == "Y" && item.JobStatus != "C")
                 {
+                    <div class="border_buttom_only"></div>
                     <div class="dash_timeremaining_box_bg gig_dash_mygig_bu clearfix">
                         <div class="pull-left">
                             <div class="pending_box_alert expaire_alert">Job Expired </div>
@@ -96,7 +100,7 @@
                         <div class="pull-right dash_time_allmenus"></div>
                     </div>
                 }
-                else if (item.IsActive == "Y" && item.IsExpired != "Y" && item.JobStatus != "R")
+                else if (item.IsActive == "Y" && item.JobStatus != "R")
                 {
                     <div class="border_buttom_only"></div>
                     <div class="dash_timeremain_corrent_offer_box_bg clearfix">
@@ -123,20 +127,20 @@
                                     </div>
                                 </div><!--pull-left-->
                                 <div class="pull-right">
-                                    <input type="hidden" id="hfJobId_@item.JobId" value="@item.JobId">
-                                    <input type="hidden" id="hfJobPosterId_@item.JobId" value="@item.JobPosterId">
-                                    <input type="hidden" id="hfJobtitle_@item.JobId" value="@item.JobTitle">
-                                    <input type="hidden" id="hfUserRole_@item.JobId" value="P">
-                                    <input type="hidden" id="hfSeekerName_@item.JobId" value="@item.SeekerFullName">
-                                    <input type="hidden" id="hfPostername_@item.JobId" value="@item.PosterFullName">
-                                    <input type="hidden" id="hfSeekerId_@item.JobId" value="@item.SeekerId" />
-
-
-                                    @if (item.JobStatus == "A" && item.JobStatusSeeker == "C")
-                                    {
-                                        <a href="#" id="btnMarkComplete" class="dash_time_right_menu decenabled" title="Mark as Complete">Mark as Complete</a>
-                                    }
-                                    <a href="javascript:;" onclick="LoadMessageJobsIP('MyJobs',@item.SeekerId,'@item.SeekerFullName','@item.SeekerProfilePic',@item.JobId )" class="dash_time_right_menu">Send message</a>
+                                    <div class="pull-right dash_time_allmenus">
+                                        @if (item.JobStatus == "A" && item.JobStatusSeeker == "C")
+                                        {
+                                            <a href="#" id="btnMarkComplete" class="dash_time_right_menu decenabled" title="Mark as Complete">Mark as Complete</a>
+                                        }
+                                        <a href="javascript:;" onclick="LoadMessageJobsIP('MyJobs',@item.SeekerId,'@item.SeekerFullName','@item.SeekerProfilePic',@item.JobId )" class="dash_time_right_menu">Send message</a>
+                                        <input type="hidden" id="hfJobId_@item.JobId" value="@item.JobId">
+                                        <input type="hidden" id="hfJobPosterId_@item.JobId" value="@item.JobPosterId">
+                                        <input type="hidden" id="hfJobtitle_@item.JobId" value="@item.JobTitle">
+                                        <input type="hidden" id="hfUserRole_@item.JobId" value="P">
+                                        <input type="hidden" id="hfSeekerName_@item.JobId" value="@item.SeekerFullName">
+                                        <input type="hidden" id="hfPostername_@item.JobId" value="@item.PosterFullName">
+                                        <input type="hidden" id="hfSeekerId_@item.JobId" value="@item.SeekerId" />
+                                    </div>
                                 </div>
                                 <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
                                     @*<div class="comment more clearfix">

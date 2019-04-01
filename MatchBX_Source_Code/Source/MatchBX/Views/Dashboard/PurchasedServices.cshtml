@@ -19,7 +19,7 @@
                 <div class="dash_jobs_box_1_inner">
                     <a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0 })"><h3>@item.GigTitle</h3></a>
                     <div class="timeframe_budget_small clearfix">
-                        <div class="timeframe_only"><span>Delivery time:</span>&nbsp;<span>@item.GigDuration Days</span></div>
+                        <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDuration Days</span></div>
                         <div class="timeframe_only"><span>Purchased:</span>&nbsp;<span>@item.GigSubscribed Times</span></div>
                         <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", item.DollarCount.ToString("N2"), ")")</span></div>
                         <div class="axp_star_only">
@@ -61,7 +61,7 @@
                                     @if (item.GigSubscriptionDisplay.Length > 100)
                                     {
                                         <span class="moreellipses">...&nbsp;</span>
-                                        <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0 })" class="morelink">Read More</a></span>
+                                        <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = item.GigSubscriptionId })" class="morelink">Read More</a></span>
                                     }
                                 </div>
                             </div>
@@ -89,17 +89,19 @@
                         <!--pull-left-->
                         <div class="pull-right text-right">
                             <div class="company_profile_refedit">
+                                @if (item.GigSubscriptionStatus == "A" && item.TransactionType != "D" && item.IsApproved != "Y")
+                                {
+                                    <a href="#" class="btn button_all secondary_color_2_bg acptenabled" id="btnPayForGig">Pay</a>
+                                    <a href="#" class="btn button_all secondary_color_bg acptenabled" id="btnDeclinPay">Decline</a>
+                                }
                                 <input type="hidden" id="hfGigSubId_@item.GigSubscriptionId" value="@item.GigSubscriptionId" />
                                 <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
                                 <input type="hidden" id="hfReqName_@item.PosterFullName" value="@item.PosterFullName" />
                                 <input type="hidden" id="hfTokenAddress_@item.TokenAddress" value="@item.TokenAddress" />
                                 <input type="hidden" id="hfGigBudget_@item.GigId" value="@item.BudgetASP" />
                                 <input type="hidden" id="hfGigTotalBudget_@item.GigId" value="@(item.BudgetASP + item.Commission)" />
-                                @if (item.GigSubscriptionStatus == "A" && item.TransactionType != "D" && item.IsApproved != "Y")
-                                {
-                                    <a href="#" class="btn button_all secondary_color_2_bg acptenabled" id="btnPayForGig">Pay</a>
-                                    <a href="#" class="btn button_all secondary_color_bg acptenabled" id="btnDeclinPay">Decline</a>
-                                }
+                                <input type="hidden" id="hfUserId_@item.UserId" value="@item.UserId" />
+                                <input type="hidden" id="hfGigTitle_@item.GigTitle" value="@item.GigTitle" />                                
                             </div>
                         </div>
                         <!--pull-right-->
@@ -114,10 +116,10 @@
                             <div class="pending_box_alert panding_alert">Pending Freelancer Acceptance</div>
                         </div>
                         <div class="pull-right dash_time_allmenus">
-                            <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
-                            <input type="hidden" id="hfGigSubId_@item.GigSubscriptionId" value="@item.GigSubscriptionId" />
                             <a href="#" class="dash_time_right_menu" id="cancelSub">Cancel Order</a>
                             <a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = item.GigSubscriptionId })" class="dash_time_right_menu" id="editSub">Edit Order</a>
+                            <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
+                            <input type="hidden" id="hfGigSubId_@item.GigSubscriptionId" value="@item.GigSubscriptionId" />
                         </div>
                     }
                     else if (item.GigSubscriptionStatus == "A" && item.TransactionType == "D" && item.IsApproved != "Y")
@@ -130,7 +132,10 @@
                     else if (item.GigSubscriptionStatus == "A" && item.TransactionType != "D" && item.IsApproved != "Y")
                     {
                         <div class="pull-left"><div class="pending_box_alert panding_alert">Pending Payment</div></div>
-                    }                    
+                        <div class="pull-right dash_time_allmenus">
+                            <a href="#" onclick="LoadMessages('GigPurchased',@item.UserId,'@item.FullName','',@item.GigId, event)" class="dash_time_right_menu">Send Message</a>
+                        </div>
+                    }
                     else if (item.GigSubscriptionStatus == "J" && item.JobStatusSeeker == "C" && item.JobStatus == "A")
                     {
                         <div class="pull-left"><div class="pending_box_alert panding_alert">Pending Review</div></div>
@@ -141,7 +146,7 @@
                             <input type="hidden" id="hfJobPosterId_@item.UserId" value="@item.UserId">
                             <input type="hidden" id="hfJobtitle_@item.JobId" value="@item.Title">
                             <input type="hidden" id="hfUserRole_@item.JobId" value="P">
-                            <input type="hidden" id="hfSeekerName_@item.JobId" value="@Session["FullName"].ToString()">
+                            <input type="hidden" id="hfSeekerName_@item.JobId" value="@item.FullName">
                             <input type="hidden" id="hfPostername_@item.JobId" value="@item.PosterFullName">
                             <input type="hidden" id="hfSeekerId_@item.JobId" value="@Session["UserId"].ToString()" />
                             <input type="hidden" id="hfGigId_@item.JobId" value="@item.GigId">
@@ -155,7 +160,7 @@
                             <a href="#" onclick="LoadMessages('GigPurchased',@item.UserId,'@item.FullName','',@item.GigId, event)" class="dash_time_right_menu" id="">Send Message</a>
                         </div>
                     }
-                    else
+                    else if(item.JobStatus == "C")
                     {
                         <div class="pull-left"><div class="pending_box_alert completed_alert">Job Completed</div></div>
                     }
@@ -189,7 +194,7 @@
     </div>
 }
 <script type="text/javascript">
-    var _Id, _ReqUser, _TokenAddress, _SubId, _GigBudget;
+    var _Id, _ReqUser, _TokenAddress, _SubId, _GigBudget,_SeekerId,_GigTitle;
 
     var chat = $.connection.chatHub;
     var notification = $.connection.notificationHub;
@@ -213,7 +218,7 @@
                 data: { 'gigId': _Id, 'subId': _SubId },
                 success: function (response) {
                     closebox('gigSubscriptionCancel_pop');
-                    window.location.reload();
+                    // window.location.reload();
                     openbox(1, 'gigSubscriptionCancelSuccess');
                 },
                 error: function (jqXHR, exception) {
@@ -223,8 +228,12 @@
             });
         });
 
+        $('#cancelOrderOk').click(function() {
+            closebox('gigSubscriptionCancelSuccess');
+            $('#purchasedService').trigger('click');
+        });
+
         $("#job_bid_on_id_dash").on("click", "#btnloadmore", function () {
-            debugger
             var _Id = $('#job_bid_on_id_dash div.dash_timeremaining_box_bg').last().find('input[id^="hfGigSubId_"]').val();
             LoadMore(_Id);
         })
@@ -250,8 +259,10 @@
             _Id = $(this).parent().find('input[id^="hfGigId_"]').val();
             _SubId = $(this).parent().find('input[id^="hfGigSubId_"]').val();
             _ReqUser = $(this).parent().find('input[id^="hfReqName_"]').val();
+            _SeekerId = $(this).parent().find('input[id^="hfUserId_"]').val();
+            _GigTitle = $(this).parent().find('input[id^="hfGigTitle_"]').val();
             _TotalBudget = $(this).parent().find('input[id^="hfGigTotalBudget_"]').val();
-            _TokenAddress = $(this).parent().find('input[id^="hfTokenAddress_"]').val();
+            _TokenAddress = $(this).parent().find('input[id^="hfTokenAddress_"]').val(); 
             _GigBudget = $(this).parent().find('input[id^="hfGigBudget_"]').val();
             $('#gigPayForGig_title').text('Pay Confirmation');
             $('#gigPayForGig_msg').text('Are you sure you want to pay');
@@ -261,9 +272,12 @@
         });
 
         $("#job_bid_on_id_dash").on("click", "#btnDeclinPay", function () {
+            
             _Id = $(this).parent().find('input[id^="hfGigId_"]').val();
             _SubId = $(this).parent().find('input[id^="hfGigSubId_"]').val();
             _ReqUser = $(this).parent().find('input[id^="hfReqName_"]').val();
+            _SeekerId = $(this).parent().find('input[id^="hfUserId_"]').val();
+            _GigTitle = $(this).parent().find('input[id^="hfGigTitle_"]').val();
             _TotalBudget = $(this).parent().find('input[id^="hfGigTotalBudget_"]').val();
             _TokenAddress = $(this).parent().find('input[id^="hfTokenAddress_"]').val();
             _GigBudget = $(this).parent().find('input[id^="hfGigBudget_"]').val();
@@ -383,6 +397,11 @@
             closebox('mark_complete_rating_pop_id');
             $('#purchasedService').trigger('click');
         });
+
+        $('#dontReview').click(function() {
+            closebox('mark_complete_rating_pop_id');
+            window.location.reload();
+        });
     });
 
     function LoadMessages(_from, _prmSendUserId, _prmJobSeeker, _prmBidUserProfilePic, _prmJobId, evt) {
@@ -404,14 +423,14 @@
     }
 
     $.connection.hub.start().done(function () {
-        $('#gigPayOk').on('click',function(){
-            debugger;
+        $('#gigPayOk').unbind("click").bind('click', function() {
+
             var _gigAmount = _TotalBudget;
             var _posterid = @Session["UserId"];
             var _pendingbidAmount = 0;
             function callback(pendingbidAmount, result)
             {
-                if(result = "sucess")
+                if(result = "success")
                 {
                     _pendingbidAmount = pendingbidAmount;
 
@@ -442,8 +461,7 @@
                                 openbox(1, 'metamaskamountempty');
                             }
                         }
-                    }
-                    debugger;
+                    }                    
                     App.handleAllowance(Number(_gigAmount) + _pendingbidAmount, callback);
                 }
             }
@@ -463,7 +481,7 @@
                 data: { 'UserId': UserId },
                 success: function (response) {
                     _pendingbidAmount = response.Amount;
-                    callback(_pendingbidAmount,"suceess");
+                    callback(_pendingbidAmount,"success");
                 },
                 error: function (jqXHR, exception) {
                     console.log(jqXHR.status);
@@ -473,31 +491,30 @@
             });
         }
 
-        function AcceptGigOffer(GigSubscriptionId, status) {
+        function AcceptGigOffer(GigSubscriptionId, status) {            
             $.ajax({
                 type: 'POST',
                 cache: false,
                 url: '@Url.Action("GigOffer", "Gigs")',
                 data: { 'GigSubscriptionId': GigSubscriptionId, 'Status': status },
-                success: function (response) {
-                    debugger;
-                    if (response.JobId != 0) {
-                        var _sendUserId = "@Session["UserId"]";
-                        var _fullname = _ReqUser;
-                        var _receiverUserId = "@Session["UserId"]";
-                        var _userName = "@Session["FullName"]";
-                        var _notification = "";
-                        var _header = "";
-                        var _Url = "";
-                        var jobid = response.JobId
+                success: function (response) {                   
+                    var _sendUserId = "@Session["UserId"]";
+                    var _fullname = _ReqUser;
+                    var _Title = _GigTitle;
+                    var _receiverUserId = "@Session["UserId"]";
+                    var _userName = "@Session["FullName"]";
+                    var _notification = "";
+                    var _header = "";
+                    var _Url = "";                   
+                    if (response.JobId != 0) {                        
+                        var jobid = response.JobId                       
                         if (status == "A") {
 
                             function callback(result)
                             {
                                 if(result == "success")
-                                {
-                                    debugger;
-                                    _notification = "Waiting for confirmation of payment. Once this is confirmed, " + _fullname + " can get started."
+                                {                                    
+                                    _notification = "Waiting for confirmation of payment for service " + _Title + ". Once this is confirmed, " + _fullname + " can get started."
                                     _header = "Transaction Waiting";
                                     $.connection.hub.start().done(function () {
                                         notification.server.send(_sendUserId, _receiverUserId, _fullname, _notification, _header, _Url);
@@ -507,13 +524,11 @@
                                 }
                             }
                             SaveTransactionDetail(jobid, _sendUserId, 'D', 'D', '', _GigBudget,'',callback);
-                        }
-
+                        }                       
 
                         if (status == "A") {
                             function callBack(txhash) {
-                                console.log(txhash);
-                                debugger;
+                                console.log(txhash);                               
                                 if (txhash == 'undefined') {
                                     closebox('offer_comfirmation_id_list');
                                     openbox(1, 'openmetamask_comfirmation_id');
@@ -529,12 +544,12 @@
                             }
 
                             App.handleDeposit(jobid, _TokenAddress, _GigBudget * Math.pow(10, 18), callBack);
-
-
-
                         }
-                    } else {
-                        _notification = "Payment for the service is declined.";
+                    } 
+                    else 
+                    {
+                        _receiverUserId = _SeekerId;
+                        _notification = "Payment for the service " + _Title + " is declined.";
                         _header = "Service payment declined";
                         $.connection.hub.start().done(function () {
                             notification.server.send(_sendUserId, _receiverUserId, _fullname, _notification, _header, _Url);
@@ -733,6 +748,7 @@
                             closebox('mark_complete_confirmation_pop_id');
                             if(_gigSubId > 0)
                             {
+                                $("#divGigReview").val("");
                                 $("#divGigReview").css("display", "block");
                             }
                             else

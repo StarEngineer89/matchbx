@@ -18,7 +18,7 @@ namespace MatchBX
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            JobScheduler.Start();
+            // JobScheduler.Start();
         }
         //protected void Application_BeginRequest()
         //{

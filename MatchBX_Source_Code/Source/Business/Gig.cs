@@ -57,7 +57,7 @@ namespace Business
         public List<GigSubscription> GigCompletedOrdersList { get; set; }
 
         [Required(ErrorMessage = "You need to provide a budget.")]
-        [MinLength(4, ErrorMessage = "The budget amount should be a minimum of 1,000 AXPR")]
+        // [MinLength(4, ErrorMessage = "The budget amount should be a minimum of 1,000 AXPR")]
         // [Range(1000, int.MaxValue, ErrorMessage = "The budget amount should be a minimum of 1,000 AXPR")]
         public string BudgetASPString { get; set; }
         public decimal BudgetInDollar { get; set; }

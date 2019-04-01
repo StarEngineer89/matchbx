@@ -611,7 +611,7 @@ namespace MatchBX.Controllers
             _GigList = _GigModel.GetAutomatedGigForTrendingTags(_Gig);
             return Json(_GigList, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Details(int? id, int? subid, string type ="")
+        public ActionResult Details(int? id, int? subid, string type = "")
         {
             TempData["TrendingTagsFooter"] = MatchBxCommon.GetTrendingTagsFooter();
             TempData["BidMessage"] = "";
@@ -629,6 +629,7 @@ namespace MatchBX.Controllers
             Session["GigSubDocMasterList"] = null;
             Session["GigSubDocList"] = null;
             TempData["NoofDocuments"] = 0;
+            TempData["GigSubscriptionStatus"] = "S";
 
             dynamic model = new ExpandoObject();
             GigModel _GigModel = new GigModel();
@@ -643,9 +644,6 @@ namespace MatchBX.Controllers
                 List<Gig> _GigList = MatchBxCommon.GenerateBadgeForGig(_GigModel.GetGigPost(gigid));
                 if (_GigList.Count() > 0)
                 {
-
-                    //ViewBag.MetaTag = HomeMetaTags(objJobList[0].JobTitle.ToString(), objJobList[0].JobDescription.ToString());
-
                     _GigList.FirstOrDefault().GigSkillsMappingList = _GigModel.GetSkillsByGigId(gigid);
                     _GigList.FirstOrDefault().GigTrendingTagsMappingList = _GigModel.GetTagsByGigId(gigid);
                     _Gig = _GigList.FirstOrDefault();
@@ -654,7 +652,7 @@ namespace MatchBX.Controllers
                     Session["JobCategory"] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_Gig.Category.ToLower());
                     Session["JobCategoryHeader"] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_Gig.Category.ToLower());
 
-                    if (Session["JobCategoryId"].ToString() == "0")
+                    if (Session["JobCategoryId"] != null && Session["JobCategoryId"].ToString() == "0")
                     {
                         Session["JobCategoryName"] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase("ALL SERVICES".ToLower());
                     }
@@ -678,33 +676,33 @@ namespace MatchBX.Controllers
                     objProfile = objProfileMod.LoadUserProfile(_Gig.UserId).FirstOrDefault();
                     _Gig.ProfilePic = objProfile.ProfilePic;
 
-                    if(type == "R")
+                    if (type == "R")
                     {
                         var _SubObj = new GigSubscription();
                         _SubObj.GigId = Convert.ToInt32(id);
                         _Gig.GigSubscriptionList = new GigSubscriptionModel().GetGigSubscriptions(_SubObj);
                     }
-                    else if(type == "A")
+                    else if (type == "A")
                     {
                         var _SubObj = new GigSubscription();
                         _SubObj.GigId = Convert.ToInt32(id);
                         _Gig.GigActiveOrdersList = new GigSubscriptionModel().GetActiveOrders(_SubObj);
                     }
-                    else if(type == "C")
+                    else if (type == "C")
                     {
                         var _SubObj = new GigSubscription();
                         _SubObj.GigId = Convert.ToInt32(id);
                         _Gig.GigCompletedOrdersList = new GigSubscriptionModel().GetCompletedOrders(_SubObj);
                     }
                     _Gig.GigReviewList = _GigReviewModel.GetReviewForGig(gigid);
-                    if(_Gig.GigReviewList.Count > _RecordDisplay)
+                    if (_Gig.GigReviewList.Count > _RecordDisplay)
                     {
                         _Gig.GigReviewList.ForEach(s => s.Isloadmore = 1);
                     }
                     else
                     {
                         _Gig.GigReviewList.ForEach(s => s.Isloadmore = 0);
-                    }                                        
+                    }
                     TempData["ReviewCount"] = _Gig.GigReviewList.Count();
                     _Gig.GigReviewList = _Gig.GigReviewList.Take(_RecordDisplay).ToList();
 
@@ -712,6 +710,7 @@ namespace MatchBX.Controllers
                     {
                         string rating = Adjust(decimal.ToDouble(objProfile.Rating)).ToString();
                         TempData["Rating"] = rating;
+                        TempData["RatingCount"] = Adjust(decimal.ToDouble(objProfile.RatingCount)).ToString();
                         if (rating.Contains('.'))
                         {
                             string[] parts = rating.Split('.');
@@ -736,21 +735,6 @@ namespace MatchBX.Controllers
 
                     }
 
-
-                    //TimeSpan span = objJob.JobCompletionDate.Subtract(DateTime.Now);
-                    //string EndingIn = span.Days + " DAYS, " + span.Hours + " HOURS, " + span.Minutes + " MINS";
-                    //if (span.Days == 0 || objJob.JobStatus == "P")
-                    //{
-                    //    Session["Expired"] = "N";
-                    //    EndingIn = span.Days + " DAYS, " + Math.Abs(span.Hours) + " HOURS, " + Math.Abs(span.Minutes) + " MINS";
-                    //}
-                    //else if (span.Days < 0 || span.Hours < 0 || span.Minutes < 0 || objJob.JobStatus == "A" || objJob.JobStatus == "C" || objJob.JobStatusSeeker == "C")
-                    //{
-                    //    Session["Expired"] = "Y";
-                    //}
-                    //TempData["EndingIn"] = EndingIn;
-                    //if (Convert.ToInt32(Session["UserId"]) != _Gig.UserId)
-                    //{
                     if (Convert.ToInt32(Session["UserId"]) != _Gig.UserId)
                     {
                         if (subid.GetValueOrDefault() > 0)
@@ -758,7 +742,7 @@ namespace MatchBX.Controllers
                             GigSubscription _GigSubscription = new GigSubscription();
                             GigSubscriptionModel _GigSubscriptionModel = new GigSubscriptionModel();
                             _GigSubscription.GigSubscriptionId = subid.GetValueOrDefault();
-                            
+
                             List<GigSubscription> _GigSubscriptionList = _GigSubscriptionModel.LoadSubscriptionDetails(_GigSubscription);
                             if (_GigSubscriptionList.Count() > 0)
                             {
@@ -768,21 +752,11 @@ namespace MatchBX.Controllers
                                 TempData["GigSubscriptionId"] = _GigSubscriptionList.FirstOrDefault().GigSubscriptionId;
                                 TempData["JobCompletionDateDisplay"] = _GigSubscriptionList.FirstOrDefault().JobCompletionDateDisplay;
                                 TempData["NoofDocuments"] = _GigSubscriptionList.FirstOrDefault().NoofDocuments;
+                                TempData["GigSubscriptionStatus"] = _GigSubscriptionList.FirstOrDefault().GigSubscriptionStatus;
                             }
                         }
-                    }                                        
+                    }
                 }
-
-                //objJob.ShareJob = shareJobObj.GetShareDetails(jobid, Convert.ToInt32(Session["UserId"]));
-                //if (objJob.ShareJob == null)
-                //{
-                //    objJob.ShareJob = new SocialMediaShare();
-                //    objJob.ShareJob.JobId = jobid;
-                //    objJob.ShareJob.UserId = Convert.ToInt32(Session["UserId"]);
-                //    objJob.ShareJob.FBShare = null;
-                //    objJob.ShareJob.TwitterShare = null;
-                //}
-                //}
 
             }
             return View("Details", _Gig);

@@ -5,6 +5,18 @@
         display: none;
     }
 </style>
+@*<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>*@
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/Content/js/bootstrap.min.js")"></script>
+<script src="@Url.Content("~/Content/js/wow.min.js")"></script>
+
+@*<script src="@Url.Content("~/Content/js/bootstrap-datepicker.min.js")"></script>*@
+<script src="@Url.Content("~/Content/js/chosen.jquery.js")" type="text/javascript" charset="utf-8"></script>
+<script src="@Url.Content("~/Content/js/init.js")" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/dropzone.js")"></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 
 @using (Html.BeginForm("CreateGig", "Gigs", FormMethod.Post, new { id = "frm", enctype = "multipart/form-data" }))
 {
@@ -12,12 +24,12 @@
 
         @if (Model.GigId == 0)
         {
-            <span>Post your Service</span>
-            <p class="popup_box_title_p">Post your Service and get the best job posters come to you</p>
+            <span>Post your service</span>
+            <p class="popup_box_title_p">Post your freelancer service to get hired and earn crypto</p>
         }
         else
         {
-            <span>Edit your Service</span>
+            <span>Edit your service</span>
             @*<p class="popup_box_title_p">Post a gig and start letting the community know <br>what you need done</p>*@
         }
 
@@ -26,21 +38,24 @@
 
     <div class="col-md-12 pop_container_bg">
         <div class="form-group clearfix">
-            <label for="Give_your" class="input_label_style title_len_out_lb" id="labeltitle">Give your Service a title<span class="title_len_sp" id="titlecharcount"></span></label>
-            @Html.TextAreaFor(x => x.GigTitle, new { @id = "Give_your", @placeholder = "My Service", @class = "form-control form_input", @maxlength = "200" })
+            <label for="Give_your" class="input_label_style title_len_out_lb" id="labeltitle">Give your service a title<span class="title_len_sp" id="titlecharcount"></span></label>
+            <div class="user_rg_iwill_bg" id="divusername">
+                <span class="user_rg_iwill_span">I will </span>
+                @Html.TextAreaFor(x => x.GigTitle, new { @id = "Give_your", @placeholder = "do something awesome", @class = "form-control form_input", @maxlength = "200" })
+            </div>            
             @Html.ValidationMessageFor(x => x.GigTitle, "", new { @class = "error_span" })
             @Html.HiddenFor(x => x.IsActive)
             @Html.HiddenFor(x => x.IsGigEnabled)
         </div>
 
         <div class="form-group clearfix">
-            <label for="" class="input_label_style title_len_out_lb">Tell us what service you are willing to provide for<span class="title_len_sp" id="desccharcount"></span></label>
+            <label for="" class="input_label_style title_len_out_lb">Tell us what service you are willing to provide <span class="title_len_sp" id="desccharcount"></span></label>
             @Html.TextAreaFor(x => x.GigDescription, new { @id = "Give_your_Desc", @placeholder = "I am providing this service…", @class = "form-control form_input textarea_height_100", @maxlength = "2000" })
             @Html.ValidationMessageFor(x => x.GigDescription, "", new { @class = "error_span" })
         </div>
         <div class="form-group clearfix">
             <label for="" class="input_label_style title_len_out_lb">Tell us what deliverables you will be providing <span class="title_len_sp" id="delvcharcount"></span></label>
-            @Html.TextAreaFor(x => x.Deliverables, new { @id = "Give_your_deliverables", @placeholder = "I am providing these deliverables…", @class = "form-control form_input textarea_height_100", @maxlength = "2000" })
+            @Html.TextAreaFor(x => x.Deliverables, new { @id = "Give_your_deliverables", @placeholder = "Describe your service", @class = "form-control form_input textarea_height_100", @maxlength = "2000" })
             @Html.ValidationMessageFor(x => x.Deliverables, "", new { @class = "error_span" })
         </div>
         <div class="form-group clearfix">
@@ -54,17 +69,17 @@
         </div> <!-- // form-group-->
 
         <div class="form-group clearfix">
-            <label for="" class="input_label_style">What category does your Service best fit in?</label>
+            <label for="" class="input_label_style">What category does your service best fit in?</label>
             @Html.DropDownListFor(x => x.JobCategoryId, new SelectList((IEnumerable<Business.JobCategory>)TempData["Category"], "JobCategoryId", "Category"), "--Select--", new { @class = "form-control form_input", @id = "JobCategoryId" })
             @Html.ValidationMessageFor(x => x.JobCategoryId, "", new { @class = "error_span" })
         </div>
 
         <div class="form-group clearfix">
-            <label for="" class="input_label_style">Add tags to help users find your Service</label>
+            <label for="" class="input_label_style">Add tags to help users find your service</label>
             @Html.DropDownList("ddlTags", new SelectList((IEnumerable<Business.TrendingTags>)TempData["Tags"], "TrendingTagsId", "Description"), new { @placeholder = "Select Tags...", @multiple = "multiple", @tabindex = "4", @class = "chosen-select", @id = "TrendingTagsId", @title = "Select tags" })
 
 
-            <span for="" id="errormsg"><span class="error_span field-validation-error">Please add a few tags.They help people find your Service!</span></span>
+            <span for="" id="errormsg"><span class="error_span field-validation-error">Please add a few tags. They help people find your service!</span></span>
         </div>
 
         <div class="form-group clearfix">
@@ -74,7 +89,7 @@
         </div>
 
         <div class="form-group clearfix">
-            <label for="" class="input_label_style">Service Fees(In AXPR) </label>
+            <label for="" class="input_label_style">Service Fees (in AXPR) </label>
             <div class="budget_axp_form_label">
                 @*@Html.TextBoxFor(x => x.BudgetASP, new { @id = "budgetASP", @class = "form-control form_input", @maxlength = "15" })*@
                 @Html.TextBoxFor(x => x.BudgetASPString, new { @id = "BudgetASPString", @class = "form-control form_input", @maxlength = "15" })
@@ -92,7 +107,7 @@
         </div>
 
         <div class="form-group clearfix">
-            <label for="" class="input_label_style">Delivery time(In Days) </label>
+            <label for="" class="input_label_style">Delivery time (in Days) </label>
             @*<div class='date' id='sandbox-container'>*@
             @Html.TextBoxFor(x => x.GigDuration, Model.GigDurationString, new { @id = "gig_duration", @placeholder = "Enter duration", @class = "form-control form_input ", autocomplete = "off" })
             @*</div>*@
@@ -131,18 +146,6 @@
 
 }
 
-<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
-
-<script src="@Url.Content("~/Content/js/bootstrap.min.js")"></script>
-<script src="@Url.Content("~/Content/js/wow.min.js")"></script>
-
-<script src="@Url.Content("~/Content/js/bootstrap-datepicker.min.js")"></script>
-<script src="@Url.Content("~/Content/js/chosen.jquery.js")" type="text/javascript" charset="utf-8"></script>
-<script src="@Url.Content("~/Content/js/init.js")" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/dropzone.js")"></script>
-<script src="https://www.google.com/recaptcha/api.js"></script>
 
 <script>
     wow = new WOW({}).init();
@@ -404,12 +407,18 @@
 
         $('#BudgetASPString').on('keyup change', function (event) {
             //if(event.keyCode == 8) {
-            validatebudget();
+            validatebudget(event);
+            //}
+        });
+
+        $('#BudgetASPString').on('focusout', function (event) {
+            //if(event.keyCode == 8) {
+            validatebudget(event);
             //}
         });
 
 
-        function validatebudget()
+        function validatebudget(eve)
         {
             debugger;
             var bidamt=$("#BudgetASPString").val().toString().replace(/,/g, "").trim();
@@ -428,37 +437,51 @@
             }
             else if($.isNumeric(bidamt))
             {
-                $("[data-valmsg-for='BudgetASPString']").text("");
-                var exrate=localStorage.getItem("exchangerate");
+                if(bidamt >= 1000.00) {
+                    $("[data-valmsg-for='BudgetASPString']").text("");
+                    var exrate=localStorage.getItem("exchangerate");
 
-                var rateindollar=exrate*bidamt;
-                var _Budget = Number(parseFloat(rateindollar).toFixed(2)).toLocaleString('en', {
-                    minimumFractionDigits: 2
-                });
-                $("#budgetdollar").val(_Budget);
-                $("#budgetdollar").text(_Budget);
+                    var rateindollar=exrate*bidamt;
+                    var _Budget = Number(parseFloat(rateindollar).toFixed(2)).toLocaleString('en', {
+                        minimumFractionDigits: 2
+                    });
+                    $("#budgetdollar").val(_Budget);
+                    $("#budgetdollar").text(_Budget);
 
-                var _BudgetASP = $("#BudgetASPString").val().toString().replace(/,/g, "");
-                if (_BudgetASP != "")
-                {
-                    var amount=parseFloat(_BudgetASP).toLocaleString();
-                    if(_BudgetASP.indexOf('.') > -1 && _BudgetASP[_BudgetASP.length - 1] == '.') {
-                        amount += '.'
+                    var _BudgetASP = $("#BudgetASPString").val().toString().replace(/,/g, "");
+                    if (_BudgetASP != "")
+                    {
+                        var amount=parseFloat(_BudgetASP).toLocaleString();
+                        if(_BudgetASP.indexOf('.') > -1 && _BudgetASP[_BudgetASP.length - 1] == '.') {
+                            amount += '.'
+                        }
+                        //var _budget=(+amount).toLocaleString(undefined, {minimumFractionDigits: 2});
+                        $("#BudgetASPString").val(amount);
                     }
-                    //var _budget=(+amount).toLocaleString(undefined, {minimumFractionDigits: 2});
-                    $("#BudgetASPString").val(amount);
+
+                    var _Commission = (_BudgetASP * 3 / 100).toFixed(2);
+                    // _Commission=(+_Commission).toLocaleString();
+                    var _TotalBudget = (parseFloat(_BudgetASP) - parseFloat(_Commission)).toFixed(2);
+                    _TotalBudget=(+_TotalBudget).toLocaleString();
+
+
+                    $("#IdCommn").val(_Commission);
+                    $("#IdCommn").text(_Commission);
+                    $("#IdtotalBudget").val(_TotalBudget);
+                    $("#IdtotalBudget").text(_TotalBudget);
+                } else {
+                    $("[data-valmsg-for='BudgetASPString']").text("The budget amount should be a minimum of 1,000 AXPR");
+                    var _Budget = Number(parseFloat(0).toFixed(2)).toLocaleString('en', {
+                        minimumFractionDigits: 2
+                    });
+                    $("#budgetdollar").val(_Budget);
+                    $("#budgetdollar").text(_Budget);
+                    $("#IdCommn").val(_Budget);
+                    $("#IdCommn").text(_Budget);
+                    $("#IdtotalBudget").val(_Budget);
+                    $("#IdtotalBudget").text(_Budget);
+                    try{ eve.stopPropagation(); } catch(e){}
                 }
-
-                var _Commission = (_BudgetASP * 3 / 100).toFixed(2);
-                // _Commission=(+_Commission).toLocaleString();
-                var _TotalBudget = (parseFloat(_BudgetASP) - parseFloat(_Commission)).toFixed(2);
-                _TotalBudget=(+_TotalBudget).toLocaleString();
-
-
-                $("#IdCommn").val(_Commission);
-                $("#IdCommn").text(_Commission);
-                $("#IdtotalBudget").val(_TotalBudget);
-                $("#IdtotalBudget").text(_TotalBudget);
             }
             else
             {
@@ -621,7 +644,7 @@
             {
                 $("#errormsg").show();
                 isvalid=false;
-                event.preventDefault();
+                e.preventDefault();
             }
             else
             {
@@ -630,16 +653,74 @@
                 {
                     isvalid=false;
                     $("#errormsg").show();
-                    event.preventDefault();
+                    e.preventDefault();
                 }
                 else
                 {
                     $("#errormsg").hide();
                 }
             }
-            if (!$('#frm').valid()) {
-                isvalid=false;
-                event.preventDefault();
+
+            try {
+                if (!$('#frm').valid()) {
+                    isvalid=false;
+                    e.preventDefault();
+                }
+            } catch(ex) {
+                var gigTitle = $('#Give_your').val();
+                var gigDescription = $('#Give_your_Desc').val();
+                var gigDeliverables = $('#Give_your_deliverables').val();
+                var gigDuration = $('#gig_duration').val();
+
+                if(gigTitle != "" && gigTitle.length >= 5) {
+                    isvalid = true;
+                } else {
+                    isvalid = false;
+                    if(gigTitle == "") {
+                        $("[data-valmsg-for='GigTitle']").text("Sorry, you need to create a title");
+                    } else if(gigTitle.length < 5) {
+                        $("[data-valmsg-for='GigTitle']").text("Service Title cannot be longer than 200 characters and less than 5 characters");
+                    }
+                }
+
+                if(gigDescription != "") {
+                    isvalid = true;
+                } else {
+                    isvalid = false;
+                    $("[data-valmsg-for='GigDescription']").text("You need to give more details.");
+                }
+
+                if(gigDeliverables != "") {
+                    isvalid = true;
+                } else {
+                    isvalid = false;
+                    $("[data-valmsg-for='Deliverables']").text("You need to provide deliverables");
+                }
+
+                if(gigDuration != "" && $.isNumeric(gigDuration) && gigDuration > 0) {
+                    isvalid = true;
+                } else {
+                    isvalid = false;
+                    if(gigDuration == "") { 
+                        $("[data-valmsg-for='GigDuration']").text("You need to provide deliverables");
+                    } else if(gigDuration == 0) {
+                        $("[data-valmsg-for='GigDuration']").text("Duration must be greater than 0");
+                    } else if(!$.isNumeric(gigDuration)) {
+                        $("[data-valmsg-for='GigDuration']").text("Duration must be a number");
+                    }
+                }
+                e.preventDefault();
+            }
+
+            var bidamt=$("#BudgetASPString").val().toString().replace(/,/g, "").trim();
+            if(bidamt == "") {
+                isvalid = false;
+                $("[data-valmsg-for='BudgetASPString']").text("You need to provide a budget.");
+                e.preventDefault();
+            } else if(bidamt < 1000) {
+                isvalid = false;
+                $("[data-valmsg-for='BudgetASPString']").text("The budget amount should be a minimum of 1,000 AXPR");
+                e.preventDefault();
             }
 
             if (isvalid==true && isCaptcha)
@@ -686,9 +767,9 @@
                 });
                 //
                 var _GigStatus='R'; //$("#JobStatus").val().trim()!=""? $("#JobStatus").val():'R';
-                var _GigTitle=toTitleCase($("#Give_your").val().replace(',', ''));
+                var _GigTitle= 'I will ' + $("#Give_your").val().replace(',', '').toLowerCase();
                 var _Gig = {
-                    GigTitle:_GigTitle ,
+                    GigTitle: _GigTitle ,
                     GigDescription: $("#Give_your_Desc").val().replace(',', ''),
                     Deliverables: $("#Give_your_deliverables").val().replace(',', ''),
                     JobCategoryId: $("#JobCategoryId").val(),
@@ -959,6 +1040,13 @@
 
 <script>
     (function() {
+        $('.dropzone').each(function () {
+
+            let dropzoneControl = $(this)[0].dropzone;
+            if (dropzoneControl) {
+                dropzoneControl.destroy();
+            }
+        });
 
         $(".dropzone").dropzone({
             maxFiles: 3,

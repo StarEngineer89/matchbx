@@ -79,6 +79,7 @@ namespace MatchBX.Controllers
                 else
                 {
                     objJob.TrendingTagsIdList = id.GetValueOrDefault().ToString();
+                    ViewBag.CurrentTag = id.GetValueOrDefault().ToString();
                 }
                 objJob.SkillsList = "0";
                 List<Job> _JobList = new List<Job>();
@@ -130,7 +131,7 @@ namespace MatchBX.Controllers
                 //{
                 //    objTrending.FromPage = "B";
                 //}
-                GetCategory();
+                // GetCategory();
                 objTrending.FromPage = category;
                 model.TrendingTags = objTrendingMod.GetTrendingTags(objTrending);
                 Session["TrendingTags"] = model.TrendingTags;
@@ -273,7 +274,7 @@ namespace MatchBX.Controllers
         public JsonResult LoadMoreJobs(int id,string _searchtext, string trendingtagsid)
         {
             dynamic model = new ExpandoObject();
-            objJob.TrendingTagsIdList = trendingtagsid;
+            objJob.TrendingTagsIdList = trendingtagsid == "" ? "0" : trendingtagsid;
             objJob.SkillsList = "0";
             objJob.SortBy = "N";
             //if (Session["UserId"] != null)
@@ -288,7 +289,7 @@ namespace MatchBX.Controllers
             objJob.FromPage = category;
             List<Job> _JobList = new List<Job>();
 
-            objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetJobDetails(objJob).OrderByDescending(x=>x.Rownumber).ToList());
+            objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetJobDetails(objJob).OrderByDescending(x => x.Rownumber).ToList());
             objJobList = objJobList.Where(x => x.Rownumber < id).ToList();
             if (!string.IsNullOrEmpty(_searchtext))
             {
@@ -714,6 +715,7 @@ namespace MatchBX.Controllers
                     _objMessage.MessageType = "M";
                     _objMessage.FileSize = 0;
                     _objMessage.FileName = "";
+                    _objMessage.JobId = jobid;
 
                     _objMessageModel.Save(_objMessage);
                 }
@@ -869,15 +871,15 @@ namespace MatchBX.Controllers
                         }
                     }
 
-                    objJob.ShareJob = shareJobObj.GetShareDetails(jobid, Convert.ToInt32(Session["UserId"]));
-                    if(objJob.ShareJob == null)
-                    {
-                        objJob.ShareJob = new SocialMediaShare();
-                        objJob.ShareJob.JobId = jobid;
-                        objJob.ShareJob.UserId = Convert.ToInt32(Session["UserId"]);
-                        objJob.ShareJob.FBShare = null;
-                        objJob.ShareJob.TwitterShare = null;
-                    }
+                    //objJob.ShareJob = shareJobObj.GetShareDetails(jobid, Convert.ToInt32(Session["UserId"]));
+                    //if(objJob.ShareJob == null)
+                    //{
+                    //    objJob.ShareJob = new SocialMediaShare();
+                    //    objJob.ShareJob.JobId = jobid;
+                    //    objJob.ShareJob.UserId = Convert.ToInt32(Session["UserId"]);
+                    //    objJob.ShareJob.FBShare = null;
+                    //    objJob.ShareJob.TwitterShare = null;
+                    //}
                 }
 
             }

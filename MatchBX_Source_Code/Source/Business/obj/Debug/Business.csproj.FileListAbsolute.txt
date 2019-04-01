@@ -1,54 +1,55 @@
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\csc.exe
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.CodeAnalysis.dll
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.CSharp.Core.targets
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.VisualBasic.Core.targets
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\System.Collections.Immutable.dll
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\System.Reflection.Metadata.dll
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\vbc.exe
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\VBCSCompiler.exe
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\roslyn\VBCSCompiler.exe.config
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\Business.dll.config
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\Business.dll
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\bin\Business.pdb
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\obj\Debug\Business.csprojResolveAssemblyReference.cache
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\obj\Debug\Business.dll
-D:\LSG Projects\MatchBX\Gig-branch-Improvements\Business\obj\Debug\Business.pdb
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\csc.exe
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.CodeAnalysis.dll
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.CSharp.Core.targets
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\Microsoft.VisualBasic.Core.targets
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\System.Collections.Immutable.dll
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\System.Reflection.Metadata.dll
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\vbc.exe
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\VBCSCompiler.exe
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\roslyn\VBCSCompiler.exe.config
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\Business.dll.config
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\Business.dll
-D:\LSG Projects\Gig-branch-Improvements\Business\bin\Business.pdb
-D:\LSG Projects\Gig-branch-Improvements\Business\obj\Debug\Business.dll
-D:\LSG Projects\Gig-branch-Improvements\Business\obj\Debug\Business.pdb
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\csc.exe
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\Microsoft.CodeAnalysis.dll
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\Microsoft.CSharp.Core.targets
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\Microsoft.VisualBasic.Core.targets
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\System.Collections.Immutable.dll
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\System.Reflection.Metadata.dll
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\vbc.exe
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\VBCSCompiler.exe
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\roslyn\VBCSCompiler.exe.config
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\Business.dll.config
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\Business.dll
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\bin\Business.pdb
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\obj\Debug\Business.csproj.CoreCompileInputs.cache
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\obj\Debug\Business.csproj.CopyComplete
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\obj\Debug\Business.dll
-C:\D Drive\LSG Projects\MatchBX_Code_Transfer\Business\obj\Debug\Business.pdb
+D:\LSG Projects\SourceCode\Business\bin\roslyn\csc.exe
+D:\LSG Projects\SourceCode\Business\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\LSG Projects\SourceCode\Business\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\LSG Projects\SourceCode\Business\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\LSG Projects\SourceCode\Business\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\LSG Projects\SourceCode\Business\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\LSG Projects\SourceCode\Business\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\LSG Projects\SourceCode\Business\bin\roslyn\System.Collections.Immutable.dll
+D:\LSG Projects\SourceCode\Business\bin\roslyn\System.Reflection.Metadata.dll
+D:\LSG Projects\SourceCode\Business\bin\roslyn\vbc.exe
+D:\LSG Projects\SourceCode\Business\bin\roslyn\VBCSCompiler.exe
+D:\LSG Projects\SourceCode\Business\bin\roslyn\VBCSCompiler.exe.config
+D:\LSG Projects\SourceCode\Business\bin\Business.dll.config
+D:\LSG Projects\SourceCode\Business\bin\Business.dll
+D:\LSG Projects\SourceCode\Business\bin\Business.pdb
+D:\LSG Projects\SourceCode\Business\obj\Debug\Business.csprojAssemblyReference.cache
+D:\LSG Projects\SourceCode\Business\obj\Debug\Business.csproj.CoreCompileInputs.cache
+D:\LSG Projects\SourceCode\Business\obj\Debug\Business.csproj.CopyComplete
+D:\LSG Projects\SourceCode\Business\obj\Debug\Business.dll
+D:\LSG Projects\SourceCode\Business\obj\Debug\Business.pdb
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\csc.exe
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\System.Collections.Immutable.dll
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\System.Reflection.Metadata.dll
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\vbc.exe
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\VBCSCompiler.exe
+D:\PRK\Code Transfer\Code Transfer\Business\bin\roslyn\VBCSCompiler.exe.config
+D:\PRK\Code Transfer\Code Transfer\Business\bin\Business.dll.config
+D:\PRK\Code Transfer\Code Transfer\Business\bin\Business.dll
+D:\PRK\Code Transfer\Code Transfer\Business\bin\Business.pdb
+D:\PRK\Code Transfer\Code Transfer\Business\obj\Debug\Business.dll
+D:\PRK\Code Transfer\Code Transfer\Business\obj\Debug\Business.pdb
+D:\Code Transfer\Business\bin\roslyn\csc.exe
+D:\Code Transfer\Business\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Code Transfer\Business\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Code Transfer\Business\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Code Transfer\Business\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Code Transfer\Business\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Code Transfer\Business\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Code Transfer\Business\bin\roslyn\System.Collections.Immutable.dll
+D:\Code Transfer\Business\bin\roslyn\System.Reflection.Metadata.dll
+D:\Code Transfer\Business\bin\roslyn\vbc.exe
+D:\Code Transfer\Business\bin\roslyn\VBCSCompiler.exe
+D:\Code Transfer\Business\bin\roslyn\VBCSCompiler.exe.config
+D:\Code Transfer\Business\bin\Business.dll.config
+D:\Code Transfer\Business\bin\Business.dll
+D:\Code Transfer\Business\bin\Business.pdb
+D:\Code Transfer\Business\obj\Debug\Business.csprojResolveAssemblyReference.cache
+D:\Code Transfer\Business\obj\Debug\Business.dll
+D:\Code Transfer\Business\obj\Debug\Business.pdb

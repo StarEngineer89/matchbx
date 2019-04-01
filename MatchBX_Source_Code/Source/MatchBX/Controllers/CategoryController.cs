@@ -148,7 +148,7 @@ namespace MatchBX.Controllers
 
             int _loadmore = 0;
             dynamic model = new ExpandoObject();
-            objJob.JobCategoryId = Convert.ToInt32(Session["JobCatId"].ToString());
+            objJob.JobCategoryId = Convert.ToInt32(Session["JobCategoryId"].ToString());
             objJob.SkillsList = topskills;
             objJob.MinBudget = budgetMin;
             objJob.MaxBudget = budgetMax;

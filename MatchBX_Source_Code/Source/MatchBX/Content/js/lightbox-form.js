@@ -50,8 +50,8 @@ function openbox(fadin, id)
 
 function closeboxOutSide()
 {
-   
-    if ($('#onboarding_view_pop_id').css('display') != 'block') {
+
+    if ($('#onboarding_view_pop_id').css('display') != 'block' && $('#postjob_view_pop_id').css('display') != 'block' && $('#creategig_view_pop_id').css('display') != 'block') {
         $('.myshadow').css("display", "none");
         $("#shadowing").css("display", "none");
     }

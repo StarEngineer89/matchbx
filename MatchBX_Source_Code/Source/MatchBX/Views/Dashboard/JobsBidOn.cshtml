@@ -186,7 +186,7 @@
             <div class="nojob_diplytable" id="divmsg">
                 <div class="col-md-12 category_nojob_bg clearfix">
                     <h3>You have not bid on any jobs</h3>
-                    <a href="/" class="btn button_all secondary_color_bg">GET HIRED</a>
+                    <a href="#" class="btn button_all secondary_color_bg get_hired">GET HIRED</a>
                 </div>
             </div>
         }
@@ -395,6 +395,27 @@
                 }
             });
         });
+
+        $('.get_hired').click(function() {
+            setCategory('J');
+            window.location.href="/Jobs/index";
+        });
+        function setCategory(_SortDirCat)
+        {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("SetSearchCategory", "category")',
+                data: {"cat":_SortDirCat},
+                success: function (response) {
+                },
+                error: function (jqXHR, exception) {
+
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
     });
 
     function LoadMessageJobsIP(_from, _prmSendUserId, _prmJobSeeker, _prmBidUserProfilePic, _prmJobId) {

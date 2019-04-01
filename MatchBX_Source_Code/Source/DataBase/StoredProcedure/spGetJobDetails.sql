@@ -2,7 +2,7 @@
 --Created Date  :	25-06-2018
 --Purpose       :	To get job details for landing page
 
---EXEC spGetJobDetails 2,0,'0','0',0,15000,'N',0,'G'
+--EXEC spGetJobDetails 0,0,'0','0',0,0,'N',0,'B'
 
 
 IF EXISTS (SELECT * FROM sys.procedures where schema_id = schema_id('dbo')and name=N'spGetJobDetails')
@@ -46,9 +46,10 @@ PendingJobId [int],
 [CreatedDate] [datetime],
 CssClass [nvarchar](MAX),
 [Type] [nvarchar](2),
-RedirectUrl [nvarchar](MAX)
+RedirectUrl [nvarchar](MAX),
+VerifiedPartner CHAR(1)
 )
-DECLARE @BaseCss varchar(50)='col-md-12 home_user_box_1_bg bg_color_comen clearfix'
+DECLARE @BaseCss varchar(80)='col-md-12 home_user_box_1_bg bg_color_comen clearfix verified_partner_bg'
 IF(@FromPage='')
   BEGIN
   SET @FromPage='J'
@@ -103,9 +104,10 @@ BEGIN
               CASE WHEN LEN(J.JobDescription) > 200 THEN SUBSTRING(J.JobDescription,0,200) + '...' ELSE J.JobDescription END AS 'JobDescriptionDisplay',
               ISNULL(TT.TrendingTagsIdList,'') AS TrendingTagsIdList,
               ISNULL(JBT.JobId,0) AS PendingJobId      ,
-              J.CreatedDate,CONCAT(@BaseCss,' ','divjob_box') as     CssClass,
+              J.CreatedDate, @BaseCss as CssClass, --CONCAT(@BaseCss,' ','divjob_box') as     CssClass,
               'J' as [Type],
-              CONCAT('/Jobs/Details/',  J.JobId) as RedirectUrl
+              CONCAT('/Jobs/Details/',  J.JobId) as RedirectUrl,
+              U.VerifiedPartner
        INTO #temp
        FROM Job J
        INNER JOIN Users U ON U.UserId = J.UserId
@@ -205,9 +207,10 @@ BEGIN
               ISNULL(TT.TrendingTagsIdList,'') AS TrendingTagsIdList,              
               0 as PendingJobId ,
               G.CreatedDate,
-              CONCAT(@BaseCss,' ','divgig_box') as     CssClass,
+              @BaseCss as CssClass, --CONCAT(@BaseCss,' ','divgig_box') as     CssClass,
               'G' as [Type],
-              CONCAT('/Gigs/Details/', G.GigId ,'?subid=0') as RedirectUrl
+              CONCAT('/Gigs/Details/', G.GigId ,'?subid=0') as RedirectUrl,
+              U.VerifiedPartner
        INTO #tempCategory
        FROM Gig G
        INNER JOIN Users U ON U.UserId = G.UserId
@@ -249,14 +252,22 @@ END
          IF @SortBy = 'H'
           BEGIN
            select ROW_NUMBER ( ) OVER (ORDER BY BudgetASP DESC) AS [Rownumber], * from #Result
-              drop table #Result
+		   
+              --drop table #Result
+          END
+		 ELSE IF @SortBy = 'L'
+          BEGIN
+           select ROW_NUMBER ( ) OVER (ORDER BY BudgetASP ASC) AS [Rownumber], * from #Result
+		  
+              --drop table #Result
           END
           ELSE
           BEGIN
            select ROW_NUMBER ( ) OVER (ORDER BY createddate DESC) AS [Rownumber], * from #Result
-              drop table #Result
+		 
+           --drop table #Result
           END
-         
+         drop table #Result
           --END
 
        

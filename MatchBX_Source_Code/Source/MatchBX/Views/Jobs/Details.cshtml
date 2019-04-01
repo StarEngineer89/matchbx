@@ -3,9 +3,9 @@
     ViewBag.Title = "Details";
     //Layout = "~/Views/Shared/_LayoutProfile.cshtml";
     Layout = Layout;
-    var shareObj = Model.ShareJob;
-    var fbShare = Model.ShareJob.FBShare;
-    var twtShare = Model.ShareJob.TwitterShare;
+    //var shareObj = Model.ShareJob;
+    //var fbShare = Model.ShareJob.FBShare;
+    //var twtShare = Model.ShareJob.TwitterShare;
 }
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -503,7 +503,7 @@
                                 App.handleApprove(callback);
                             }
                         }
-                        SaveTransactionDetail(0,userid,'A','A','',0,Hash,callback);
+                        SaveTransactionDetailJob(0,userid,'A','A','',0,Hash,callback);
                     }
                 }
 
@@ -676,14 +676,14 @@
 
     }
 
-    function SaveTransactionDetail(jobid, userid, transactiontype, processtype, hash, bidamount, address) {
+    function SaveTransactionDetailJob(jobid, userid, transactiontype, processtype, hash, bidamount, address, callback) {
         $.ajax({
             type: 'POST',
             cache: false,
             url: '@Url.Action("SaveTransactionDetail", "Dashboard")',
             data: { 'JobId': jobid, 'UserId': userid, 'TransactionType': transactiontype, 'ProcessType': processtype, 'Hash': hash, 'BidAmount' : bidamount, 'Address': address},
             success: function (response) {
-
+                callback("success");
             },
             error: function (jqXHR, exception) {
                 console.log(jqXHR.status);
@@ -781,7 +781,7 @@
 </script>
 
 @*//---------------Facebook SDK------------------*@
-<div id="fb-root">
+@*<div id="fb-root">
 </div>
 <script src="https://connect.facebook.net/en_US/all.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -802,7 +802,7 @@
     //FB.Canvas.setAutoResize();
 </script>
 
-@*//---------------Twitter SDK------------------*@
+@*//---------------Twitter SDK------------------
 <script>
     function reward_user( event ) {
         if ( event ) {
@@ -824,7 +824,7 @@
         twttr.events.bind('tweet', reward_user);
     });
 
-</script>
+</script>*@
 
 
 @*<div class="largebox_middile_full clearfix">*@
@@ -975,15 +975,19 @@
                                         </div><!--pull-right-->
                                     </div>
                                 </div><!--box_paddleftright_15-->
-                                <div class="border_buttom_only job_details_linewithspace"></div> @*jj*@
-                                @if (Model.CurrentOffersList != null && Model.UserId.ToString() == Session["UserId"].ToString())
+
+                                @if (Model.CurrentOffersList != null && Session["UserId"] != null && Model.UserId.ToString() == Session["UserId"].ToString())
                                 {
-                                   
+                                    <div class="border_buttom_only job_details_linewithspace"></div> @*jj*@
 
                                         <div class="dash_timeremain_corrent_offer_box_bg clearfix" id="divCurrentOffers">
                                             <h4 class="dash_time_corrent_offh3 clearfix">CURRENT OFFERS</h4>
                                             @foreach (var item in Model.CurrentOffersList)
                                             {
+                                                if (item != Model.CurrentOffersList.FirstOrDefault())
+                                                {
+                                                    <div class="col-md-12 border_buttom_only job_details_linewithspace padd_left_right_o"></div>
+                                                }
                                               <div id="div_offers_accept" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix">
                                                 <div class="pull-left">
                                                     <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
@@ -1037,8 +1041,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                             <div class="col-md-12 border_buttom_only job_details_linewithspace padd_left_right_o"></div>
+                                            </div>                                             
                                             }
    
                                         </div>
@@ -1051,7 +1054,7 @@
                             <!-- // box-->
 
 
-                            @if ((Convert.ToInt32(Session["UserId"]) != Model.UserId) && (Convert.ToInt32(Session["UserId"]) != 0))
+                            @*@if ((Convert.ToInt32(Session["UserId"]) != Model.UserId) && (Convert.ToInt32(Session["UserId"]) != 0))
                             {
                                 if ((Session["Expired"].ToString() != "Y") && (Session["UserType"].ToString() != "2"))
                                 {
@@ -1086,7 +1089,7 @@
                                     </div>
                                 }
 
-                            }
+                            }*@
 
 
 
@@ -1225,7 +1228,7 @@
 </div>
 
 <div id="metamask_comfirmation_id" class="popup_box clearfix myshadow">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Set up metamask <a href="#" onclick="closebox('metamask_comfirmation_id')" class="popup_close_bg" title="Close"></a> </span>
+    <span id="" class="col-md-12 popup_box_title clearfix"> Set Up metamask <a href="#" onclick="closebox('metamask_comfirmation_id')" class="popup_close_bg" title="Close"></a> </span>
     <div class="col-md-12 pop_container_bg text-center">
         <div class="form-group clearfix">
             @*<label for="" class="input_label_style"> To use MatchBX you need to install and run MetaMask </label>
@@ -1289,8 +1292,42 @@
         </div>
     </div>
 </div>
+<div id="metamaskamountempty" class="popup_box clearfix myshadow popup_fixed_middle">
+    <span id="" class="col-md-12 popup_box_title clearfix">Getting started with MetaMask<a href="#" onclick="closebox('metamaskamountempty')" class="popup_close_bg" title="Close"></a> </span>
+    <div class="col-md-12 pop_container_bg text-center">
+        <div class="form-group clearfix">
+            <label for="" class="input_label_style">
+                &nbsp;&nbsp;Sorry, you do not have enough AXPR tokens in your MetaMask wallet. Please add some more to make the transaction.
+            </label>
+            <a href="#" id="btnApproveMetaMask" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">Approve Amount</a>
+        </div>
+    </div>
+</div>
+
+<div id="metamaskreset" class="popup_box clearfix myshadow popup_fixed_middle">
+    <span id="" class="col-md-12 popup_box_title clearfix">Reset Wallet<a href="#" onclick="closebox('metamaskreset')" class="popup_close_bg" title="Close"></a> </span>
+    <div class="col-md-12 pop_container_bg text-center">
+        <div class="form-group clearfix">
+            <label for="" class="input_label_style">
+                &nbsp;&nbsp;Sorry, you do not have enough approved AXPR tokens in your MetaMask wallet. Please reset the wallet to continue.
+            </label>
+            <a href="#" id="btnResetMetaMask" class="btn btn_banner secondary_color_bg maxwidth325" title="Reset">Reset Wallet</a>
+        </div>
+    </div>
+</div>
+<div id="metamaskinsufficientamount" class="popup_box clearfix myshadow popup_fixed_middle">
+    <span id="" class="col-md-12 popup_box_title clearfix">Insufficient Tokens<a href="#" onclick="closebox('metamaskinsufficientamount')" class="popup_close_bg" title="Close"></a> </span>
+    <div class="col-md-12 pop_container_bg text-center">
+        <div class="form-group clearfix">
+            <label for="" class="input_label_style">
+                &nbsp;&nbsp;Sorry, you do not have enough AXPR tokens in your MetaMask wallet. Please add some more to make the transaction.
+            </label>
+            <a href="#" onclick="closebox('metamaskinsufficientamount')" class="btn btn_banner secondary_color_bg maxwidth325" title="OK">OK</a>
+        </div>
+    </div>
+</div>
 <script>
-    function fbs_click() {
+    @*function fbs_click() {
 
         // Dynamically gather and set the FB share data.
         var FBDesc      = '@HttpUtility.JavaScriptStringEncode(Model.JobDescription)';
@@ -1323,9 +1360,9 @@
                 }
             }
         );
-    }
+    }*@
 
-    function shareJob(media, status) {
+    @*function shareJob(media, status) {
         
         var shareJob = @Html.Raw(Json.Encode(shareObj));
         if(media == 'FB') {
@@ -1357,7 +1394,7 @@
                         SaveTransactionDetail(jobid, userid, 'E', 'S', addr,5,'');
                         @*var Url='@(System.Configuration.ConfigurationManager.AppSettings["EscrowUrl"].ToString())'
                         var socket = io.connect(Url); // connec to server http://localhost:3000
-                        socket.emit('rewardToken', { userId: userid, jobId: jobid, address: addr }); // raise an event on the server*@
+                        socket.emit('rewardToken', { userId: userid, jobId: jobid, address: addr }); // raise an event on the server
                     }
 
                 }
@@ -1371,7 +1408,7 @@
             }
 
         });
-    }
+    }*@
 
     //function twt_click() {
     //    u = location.href;

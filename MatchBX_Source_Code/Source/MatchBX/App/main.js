@@ -35,7 +35,7 @@
                                           
                             //callback("undefined");
                             $('#metamask').addClass('header_loged_menua_metamask');
-                            $('.balance').html('<span>Setup</span><span>MetaMask</span>');
+                            $('.balance').html('<span>Set Up</span><span>MetaMask</span>');
                             localStorage.setItem("Metamask", "S");
                         } else {
                             var account = accounts[0];
@@ -109,7 +109,7 @@
                 }
             } else {
                 $('#metamask').addClass('header_loged_menua_metamask');
-                $('.balance').html('<span>Setup</span><span>MetaMask</span>');
+                $('.balance').html('<span>Set Up</span><span>MetaMask</span>');
                 localStorage.setItem("Metamask", "S");
             }           
 

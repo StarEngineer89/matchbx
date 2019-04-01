@@ -18,7 +18,7 @@
                             <h3>@item.GigTitle</h3>
                         </a>
                         <div class="timeframe_budget_small clearfix">
-                            <div class="timeframe_only"><span>Duration:</span>&nbsp;<span>@item.GigDuration Days</span></div>
+                            <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDuration Days</span></div>
                             <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span></div>
                             <div class="axp_star_only">
                                 <ul>
@@ -61,10 +61,10 @@
                         </div>
                     </div>
                     <div class="border_buttom_only"></div>
-                    @if (item.GigStatus != "R")
+                    @if (item.GigStatus != "R" && item.ActiveGigs == 0)
                     {
                         <div class="dash_timeremaining_box_bg clearfix">
-                            @if (item.ActiveGigs == 0)
+                            @if (item.SubscriedGigs == 0)
                             {
                                 <div class="pull-right dash_time_allmenus"> <a href="#" class="btn button_all secondary_color_bg acptenabled" id="@item.GigId" onclick="EditGig(@item.GigId);">Edit Service</a> </div>
                             }
@@ -75,18 +75,18 @@
                                         <label class="btn btn-default btn-on btn-sm active">
                                             <input type="radio" value="1" name="multifeatured_module[module_id][status]" checked="checked">Enable
                                         </label>
-                                        <label class="btn btn-default btn-off btn-sm">
-                                            <input type="radio" value="0" name="multifeatured_module[module_id][status]">Disable
-                                        </label>
+                                            <label class="btn btn-default btn-off btn-sm">
+                                                <input type="radio" value="0" name="multifeatured_module[module_id][status]">Disable
+                                            </label>
                                     }
                                     else
                                     {
                                         <label class="btn btn-default btn-on btn-sm">
                                             <input type="radio" value="1" name="multifeatured_module[module_id][status]">Enable
                                         </label>
-                                        <label class="btn btn-default btn-off btn-sm active">
-                                            <input type="radio" value="0" name="multifeatured_module[module_id][status]" checked="checked">Disable
-                                        </label>
+                                            <label class="btn btn-default btn-off btn-sm active">
+                                                <input type="radio" value="0" name="multifeatured_module[module_id][status]" checked="checked">Disable
+                                            </label>
                                     }
                                 </div>
                             </div>

@@ -16,7 +16,7 @@
                         <h3>@item.GigTitle</h3>
                     </a>
                     <div class="timeframe_budget_small clearfix">
-                        <div class="timeframe_only"><span>Duration:</span>&nbsp;<span>@item.GigDuration Days</span></div>
+                        <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDuration Days</span></div>
                         <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span></div>
                         <div class="axp_star_only">
                             <ul>
@@ -59,10 +59,10 @@
                     </div>
                 </div>
                 <div class="border_buttom_only"></div>
-                @if (item.GigStatus != "R")
+                @if (item.GigStatus != "R" && item.ActiveGigs == 0)
                 {
                     <div class="dash_timeremaining_box_bg clearfix">
-                        @if (item.ActiveGigs == 0)
+                        @if (item.SubscriedGigs == 0)
                             {
                             <div class="pull-right dash_time_allmenus"> <a href="#" class="btn button_all secondary_color_bg acptenabled" id="@item.GigId" onclick="EditGig(@item.GigId);">Edit Service</a> </div>
                         }
@@ -130,7 +130,7 @@
                 <div class="dash_jobs_box_1_inner">
                     <a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0 })"><h3>@item.GigTitle</h3></a>
                     <div class="timeframe_budget_small clearfix">
-                        <div class="timeframe_only"><span>Delivery time:</span>&nbsp;<span>@item.GigDuration Days</span></div>
+                        <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDuration Days</span></div>
                         <div class="timeframe_only"><span>Purchased:</span>&nbsp;<span>@item.GigSubscribed Times</span></div>
                         <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", item.DollarCount.ToString("N2"), ")")</span></div>
                         <div class="axp_star_only">
@@ -172,7 +172,7 @@
                                     @if (item.GigSubscriptionDisplay.Length > 100)
                                     {
                                         <span class="moreellipses">...&nbsp;</span>
-                                        <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0 })" class="morelink">Read More</a></span>
+                                        <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = item.GigSubscriptionId })" class="morelink">Read More</a></span>
                                     }
                                 </div>
                             </div>
@@ -200,17 +200,19 @@
                         <!--pull-left-->
                         <div class="pull-right text-right">
                             <div class="company_profile_refedit">
+                                @if (item.GigSubscriptionStatus == "A" && item.TransactionType != "D" && item.IsApproved != "Y")
+                                {
+                                    <a href="#" class="btn button_all secondary_color_2_bg acptenabled" id="btnPayForGig">Pay</a>
+                                    <a href="#" class="btn button_all secondary_color_bg acptenabled" id="btnDeclinPay">Decline</a>
+                                }
                                 <input type="hidden" id="hfGigSubId_@item.GigSubscriptionId" value="@item.GigSubscriptionId" />
                                 <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
                                 <input type="hidden" id="hfReqName_@item.PosterFullName" value="@item.PosterFullName" />
                                 <input type="hidden" id="hfTokenAddress_@item.TokenAddress" value="@item.TokenAddress" />
                                 <input type="hidden" id="hfGigBudget_@item.GigId" value="@item.BudgetASP" />
                                 <input type="hidden" id="hfGigTotalBudget_@item.GigId" value="@(item.BudgetASP + item.Commission)" />
-                                @if (item.GigSubscriptionStatus == "A" && item.TransactionType != "D" && item.IsApproved != "Y")
-                                {
-                                    <a href="#" class="btn button_all secondary_color_2_bg acptenabled" id="btnPayForGig">Pay</a>
-                                    <a href="#" class="btn button_all secondary_color_bg acptenabled" id="btnDeclinPay">Decline</a>
-                                }
+                                <input type="hidden" id="hfUserId_@item.UserId" value="@item.UserId" />
+                                <input type="hidden" id="hfGigTitle_@item.GigTitle" value="@item.GigTitle" />
                             </div>
                         </div>
                         <!--pull-right-->
@@ -225,10 +227,10 @@
                             <div class="pending_box_alert panding_alert">Pending Freelancer Acceptance</div>
                         </div>
                         <div class="pull-right dash_time_allmenus">
-                            <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
-                            <input type="hidden" id="hfGigSubId_@item.GigSubscriptionId" value="@item.GigSubscriptionId" />
                             <a href="#" class="dash_time_right_menu" id="cancelSub">Cancel Order</a>
                             <a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = item.GigSubscriptionId })" class="dash_time_right_menu" id="editSub">Edit Order</a>
+                            <input type="hidden" id="hfGigId_@item.GigId" value="@item.GigId" />
+                            <input type="hidden" id="hfGigSubId_@item.GigSubscriptionId" value="@item.GigSubscriptionId" />
                         </div>
                     }
                     else if (item.GigSubscriptionStatus == "A" && item.TransactionType == "D" && item.IsApproved != "Y")
@@ -241,6 +243,9 @@
                     else if (item.GigSubscriptionStatus == "A" && item.TransactionType != "D" && item.IsApproved != "Y")
                     {
                         <div class="pull-left"><div class="pending_box_alert panding_alert">Pending Payment</div></div>
+                        <div class="pull-right dash_time_allmenus">
+                            <a href="#" onclick="LoadMessages('GigPurchased',@item.UserId,'@item.FullName','',@item.GigId, event)" class="dash_time_right_menu">Send Message</a>
+                        </div>
                     }
                     else if (item.GigSubscriptionStatus == "J" && item.JobStatusSeeker == "C" && item.JobStatus == "A")
                     {
@@ -252,7 +257,7 @@
                             <input type="hidden" id="hfJobPosterId_@item.UserId" value="@item.UserId">
                             <input type="hidden" id="hfJobtitle_@item.JobId" value="@item.Title">
                             <input type="hidden" id="hfUserRole_@item.JobId" value="P">
-                            <input type="hidden" id="hfSeekerName_@item.JobId" value="@Session["FullName"].ToString()">
+                            <input type="hidden" id="hfSeekerName_@item.JobId" value="@item.FullName">
                             <input type="hidden" id="hfPostername_@item.JobId" value="@item.PosterFullName">
                             <input type="hidden" id="hfSeekerId_@item.JobId" value="@Session["UserId"].ToString()" />
                             <input type="hidden" id="hfGigId_@item.JobId" value="@item.GigId">
@@ -266,7 +271,7 @@
                             <a href="#" onclick="LoadMessages('GigPurchased',@item.UserId,'@item.FullName','',@item.GigId, event)" class="dash_time_right_menu" id="">Send Message</a>
                         </div>
                     }
-                    else
+                    else if (item.JobStatus == "C")
                     {
                         <div class="pull-left"><div class="pending_box_alert completed_alert">Job Completed</div></div>
                     }

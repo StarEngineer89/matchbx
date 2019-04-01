@@ -208,7 +208,7 @@ min-height: inherit;
     margin: 0 5px;
     min-width: 90px;
 }
-.loged_header_bg .navbar-default .navbar-collapse {float: left;}
+.loged_header_bg .navbar-default .navbar-collapse {float: left; padding-left: 30px;}
 
 .header_right_homepg {margin-right: 0 !important; margin-top: 13px;}
 
@@ -601,11 +601,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#320c6b', end
 
 .axp_star_only {display: inline-block;vertical-align: top;}
 
-.axp_star_only ul {margin: 5px 0 0; padding: 0; list-style: none; display:block; line-height: 6px;}
+.axp_star_only ul {margin: 2px 0 0; padding: 0; list-style: none; display:block; line-height: 6px;}
 
 .axp_star_only ul li {margin: 0; padding: 0 1px; list-style: none; display:inline-block; vertical-align: middle;}
 
-.axp_star_only ul li i { display: inline-block; width: 12px; height: 12px; background: url(../images/axp_star_icon.png) no-repeat center; background-size: 12px 12px;}
+.axp_star_only ul li i { display: inline-block; width: 17px; height: 17px; /*background: url(../images/axp_star_icon.png) no-repeat center;*/background: url(../images/matchbx_axpr_badge.png) no-repeat center; background-size: 17px 17px;}
 
 .home_client_discription_small { display: block;  margin: 0;}
 
@@ -3250,6 +3250,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#215516', end
     left: 0;
     top: 0;
     margin-top: 10px;}
+.divgig_box .verified_partner_box span::before {
+    
+    border-left: 13px solid #d5f0f5;
+}
 
 .verified_user_check {width: 17px; height: 17px; border-radius: 50%; background-color: #2a7e15; display: inline-block; margin-left: 5px; vertical-align: top;
 background-image: url(../images/tick-sign.svg); background-position: center; background-repeat: no-repeat; background-size: 10px auto;
@@ -3263,14 +3267,99 @@ background-image: url(../images/tick-sign.svg); background-position: center; bac
 
 .divgig_box {
      background-color:#d5f0f5;
+	/*background: #4eacfe;
+    background: -moz-linear-gradient(left, #4eacfe 0%, #11e3fe 100%);
+     background: -webkit-linear-gradient(left, #4eacfe 0%,#11e3fe 100%); 
+     background: linear-gradient(to right, #4eacfe 0%,#11e3fe 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4eacfe', endColorstr='#11e3fe',GradientType=1 );*/
+	/*background: #4eacfe61;
+    background: -moz-linear-gradient(left, #4eacfe61 0%, #11e3fe38 100%);
+    background: -webkit-linear-gradient(left, #4eacfe61 0%,#11e3fe38 100%);
+    background: linear-gradient(to right, #4eacfe61 0%,#11e3fe38 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4eacfe', endColorstr='#11e3fe',GradientType=1 );*/
+	
+	
+}
+.verified_partner_bg h3 {margin-top: 4.5px;}
+
+.profile_verified_b {
+    color: #b5b2f4;
+    font-weight: normal;
+    font-size: 15px; display: inline-block;
 }
 
+.profile_verified_b i.verified_user_check {
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-left: 15px;
+    border: 1px solid #fff;
+}
 
-/* //mck 8-2-19  gig dashboard section* /
+.user_rg_iwill_bg .user_rg_iwill_span {
+    color: #9c9c9c;
+        font-size: 15px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    padding: 8px 0 0 12px;
+    background: none;
+    margin: 1px;
+    height: 27px;
+    line-height: 16px;
+}
+.user_rg_iwill_bg textarea.form_input {
+    padding-left: 45px;
+}
+.user_rg_iwill_bg .user_rg_iwill_span.onfocustext{color: #555;}
 
 
+.user_rg_iwill_bg {
+    position: relative;
+}
+
+.user_rg_look_bg .user_rg_look_span {
+    color: #9c9c9c;
+        font-size: 15px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    padding: 8px 0 0 12px;
+    background: none;
+    margin: 1px;
+    height: 27px;
+    line-height: 16px;
+}
+.user_rg_look_bg textarea.form_input {
+    padding-left: 91px;
+}
+.user_rg_look_bg .user_rg_look_span.onfocustext{color: #555;}
 
 
+.user_rg_look_bg {
+    position: relative;
+}
+
+.user_rg_iwill_bg .user_rg_iwill_span::-webkit-input-placeholder {
+  color: #9c9c9c;
+}
+.user_rg_iwill_bg .user_rg_iwill_span::-moz-placeholder { 
+  color: #9c9c9c;
+}
+.user_rg_iwill_bg .user_rg_iwill_span:-ms-input-placeholder {
+  color: #9c9c9c;
+}
+.user_rg_iwill_bg .user_rg_iwill_span:-moz-placeholder {
+  color: #9c9c9c;
+}
+
+.button_min_w_155 {
+    min-width: 155px;
+}
+/* //mck 8-2-19  gig dashboard section */
 
 
 
@@ -3333,6 +3422,16 @@ footer p {
 .container { width: 1395px;}
 .container_inner {  width: 1100px;}	
 	
+.verified_partner_box span {
+    padding: 3px 10px 3px 20px;
+    margin-top: 3px;
+    font-size: 10px;
+    line-height: 11px;
+}	
+.verified_partner_box span::before {
+    margin-top: 2px;
+}	
+	
 }
 
 @media (min-width: 1900px){
@@ -3368,8 +3467,9 @@ footer p {
     padding-bottom: 6px;
 }
 
- 
+
 } 
+
 
 @media (min-width: 1300px) and (max-width: 1399.98px) {
 
@@ -3393,7 +3493,7 @@ footer p {
 }
 @media (max-width: 1199.98px) {
     .navbar-nav-m{
-        opacity:0;
+        /*opacity:0;*/
     }
 }
 @media (max-width: 1199px){

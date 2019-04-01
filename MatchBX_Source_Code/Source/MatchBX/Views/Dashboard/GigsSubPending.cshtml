@@ -136,8 +136,7 @@
                 url: '@Url.Action("CancelSubscription", "Dashboard")',
                 data: { 'gigId': _Id, 'subId': _SubId },
                 success: function (response) {
-                    closebox('gigSubscriptionCancel_pop');
-                    window.location.reload();
+                    closebox('gigSubscriptionCancel_pop');                    
                     openbox(1, 'gigSubscriptionCancelSuccess');
                 },
                 error: function (jqXHR, exception) {
@@ -145,6 +144,11 @@
                     console.log(exception);
                 }
             });
+        });
+
+        $('#gigSubCancelOk').click(function () {
+            $('#gigsubpending').trigger('click');
+            closebox('gigSubscriptionCancelSuccess');
         });
 
         function LoadMore(id) {

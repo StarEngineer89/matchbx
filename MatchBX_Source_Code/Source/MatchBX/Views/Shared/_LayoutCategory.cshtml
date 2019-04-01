@@ -1,5 +1,4 @@
-﻿n
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>MatchBX</title>
@@ -62,7 +61,9 @@
             $("#anchor_home").click(function(){
                 localStorage.removeItem("frmPage");
                
-                window.location.href="/Dashboard/Home";
+                //setCategory("B");
+                //window.location.href="/Jobs/index";
+                setCategoryAndLoad('B', 'job', '');
             })
            
             $("#ulcategory").on('click','a',function(){
@@ -80,13 +81,15 @@
                 if(_id=="view_jobs")
                 {
                     debugger;
-                    setCategory("J");
-                    window.location.href="/Jobs/index";
+                    //setCategory("J");
+                    //window.location.href="/Jobs/index";
+                    setCategoryAndLoad('J', 'job', '');
                 }
                 else if(_id=="view_gigs")
                 {  debugger;
                    
-                    window.location.href="/Gigs/search";
+                    //window.location.href="/Gigs/search";
+                    setCategoryAndLoad('G', 'gig', '');
                 }
 
             })
@@ -97,8 +100,9 @@
                 localStorage.setItem("catid",_id);
                 var _text=titleCase($(this).text());
                 localStorage.setItem("cattext",_text)
-                setCategory("J");
-                window.location.href="/Category/index?id="+_id+"&type=1";
+                //setCategory("J");
+                //window.location.href="/Category/index?id="+_id+"&type=1";
+                setCategoryAndLoad('J', 'category', '/Category/index?id="+_id+"&type=1');
             })
             $("#ulcategoryfootergig").on('click','a',function(){
                 debugger;
@@ -106,8 +110,9 @@
                 localStorage.setItem("catid",_id);
                 var _text=titleCase($(this).text());
                 localStorage.setItem("cattext",_text)
-                setCategory("G");
-                window.location.href="/Category/index?id="+_id+"&type=2";
+                //setCategory("G");
+                //window.location.href="/Category/index?id="+_id+"&type=2";
+                setCategoryAndLoad('G', 'category', '/Category/index?id="+_id+"&type=2');
             })
             $("#ulfootertopcat").on('click','a',function(){
                 var _id=$(this).prop("id");
@@ -124,7 +129,7 @@
                 }
                 return str.join(' ');
             }
-            function setCategory(_SortDirCat)
+            @*function setCategory(_SortDirCat)
             {
                 $.ajax({
                     type: 'POST',
@@ -133,6 +138,31 @@
                     data: {"cat":_SortDirCat},
                     success: function (response) {
                        
+                    },
+                    error: function (jqXHR, exception) {
+
+                        console.log(jqXHR.status);
+                        console.log(exception);
+                    }
+                });
+            }*@
+            function setCategoryAndLoad(_SortDirCat, type, urls)
+            {
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("SetSearchCategory", "category")',
+                    data: {"cat":_SortDirCat},
+                    success: function (response) {
+                        debugger;
+                        if(type == 'job') {
+                            window.location.href = "/Jobs/index";
+                        } else if(type == "gig") {
+                            window.location.href = "/Gigs/search";
+                        } else if(type == "category" && urls != null) {
+                            window.location.href = urls;
+                        }
+                        //SetSearchCriteria();
                     },
                     error: function (jqXHR, exception) {
 
@@ -190,8 +220,8 @@
                         <li><a href="#" id="8">OTHER</a></li>
                         <li><a href="#" id="0">ALL JOBS</a></li>*@
 
-                        <li><a href="#" id="view_jobs">VIEW JOBS</a></li>
-                        <li><a href="#" id="view_gigs">VIEW SERVICES</a></li>
+                        <li><a href="#" id="view_jobs">GET HIRED</a></li>
+                        <li><a href="#" id="view_gigs">HIRE FREELANCER</a></li>
                     </ul>
 
                 </div>
@@ -297,11 +327,27 @@
                                     {
                                         if (@Model.Profile.FullName == null || @Model.Profile.FullName == "")
                                         {
-                                            <h1>@Model.Profile.UserName<span></span></h1>
+                                            <h1>
+                                                @Model.Profile.UserName
+                                                <span>
+                                                    @if (Model.Profile.VerifiedPartner == "Y")
+                                                    {
+                                                        <b class="profile_verified_b"><i class="verified_user_check"></i>Verified Partner</b>
+                                                    }
+                                                </span>
+                                            </h1>
                                         }
                                         else
                                         {
-                                            <h1>@Model.Profile.FullName<span>@Model.Profile.UserName</span></h1>
+                                            <h1>@Model.Profile.FullName
+                                                <span>
+                                                    @Model.Profile.UserName
+                                                    @if (Model.Profile.VerifiedPartner == "Y")
+                                                    {
+                                                        <b class="profile_verified_b"><i class="verified_user_check"></i>Verified Partner</b>
+                                                    }
+                                                </span>
+                                            </h1>
                                         }
 
                                         <p>@Model.Profile.Bio</p>
@@ -563,7 +609,7 @@
                             <a href="#" id="6" class="clearfix">
                                 <div class="footer_top_box_icon tokensale_icon">
                                 </div>
-                                <h3>Token sale</h3>
+                                <h3>Blockchain</h3>
                             </a>
                         </li>
                         <li>
@@ -574,7 +620,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" id="7" class="clearfix">
+                            <a href="#" id="8" class="clearfix">
                                 <div class="footer_top_box_icon other_icon">
                                 </div>
                                 <h3>Other</h3>
@@ -609,7 +655,7 @@
                                         <li><a href="#" id="3">Creative</a></li>
                                         <li><a href="#" id="4">Writing</a></li>
                                         <li><a href="#" id="5">Admin</a></li>
-                                        <li><a href="#" id="6">Token sale</a></li>
+                                        <li><a href="#" id="6">Blockchain</a></li>
                                         <li><a href="#" id="7">Translation</a></li>
                                         <li><a href="#" id="8">Other</a></li>
 
@@ -627,7 +673,7 @@
                                         <li><a href="#" id="3">Creative</a></li>
                                         <li><a href="#" id="4">Writing</a></li>
                                         <li><a href="#" id="5">Admin</a></li>
-                                        <li><a href="#" id="6">Token sale</a></li>
+                                        <li><a href="#" id="6">Blockchain</a></li>
                                         <li><a href="#" id="7">Translation</a></li>
                                         <li><a href="#" id="8">Other</a></li>
 
@@ -690,7 +736,7 @@
 
                         </div>
                         <div class="col-md-12 footer_coppy_bg padd_left_right_o">
-                            <p>© 2018 Copyright aXpire. All Rights Reserved</p>
+                            <p>© 2019 Copyright aXpire. All Rights Reserved</p>
                         </div>
                     </div>
                     <!-- // container_inner-->
@@ -941,6 +987,19 @@
 
         })()</script>
     <!---Message end-->
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5c6a521b77e0730ce0436bb9/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+    </script>
+    <!--End of Tawk.to Script-->
 
 
 </body>

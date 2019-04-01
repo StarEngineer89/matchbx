@@ -11,6 +11,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+        debugger
         var navtabsheight = $('.pro_pub_cont_tab_bg .nav.nav-tabs').height(); 
         $('.catagory_con_top_bg').css('min-height', navtabsheight+'px');
         $('.pro_pub_cont_tab_bg .nav.nav-tabs').css('margin-top', -navtabsheight+'px');
@@ -340,7 +341,7 @@
                                 _profile += "id="+response[key].UserId;
                                 elem = elem + "<a href="+_href+"><h3>" + response[key].GigTitle + "</h3></a>";
                                 elem = elem + "<div class='timeframe_budget_small clearfix'>";
-                                elem = elem + "<div class='timeframe_only'><span>Delivery time: </span>&nbsp;<span>" + response[key].GigDurationString + "</span></div>";
+                                elem = elem + "<div class='timeframe_only'><span>Delivery time: </span>&nbsp;<span>" + response[key].GigDurationString + " Days</span></div>";
                                 elem = elem + "<div class='timeframe_only'><span>Purchased: </span>&nbsp;<span>" + response[key].GigsCompleted + "</span>&nbsp; <span>Times</span></div>";
                                 elem = elem + "<div class='budget_only'><span>Cost: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
                                 elem = elem + "<div class='axp_star_only'><ul>";
@@ -434,7 +435,7 @@
                                 _profile += "id="+response[key].UserId;
                                 elem = elem + "<a href="+_href+"><h3>" + response[key].GigTitle + "</h3></a>";
                                 elem = elem + "<div class='timeframe_budget_small clearfix'>";
-                                elem = elem + "<div class='timeframe_only'><span>Delivery time: </span>&nbsp;<span>" + response[key].GigDurationString + "</span></div>";
+                                elem = elem + "<div class='timeframe_only'><span>Delivery time: </span>&nbsp;<span>" + response[key].GigDurationString + " Days</span></div>";
                                 elem = elem + "<div class='timeframe_only'><span>Purchased: </span>&nbsp;<span>" + response[key].GigsCompleted + "</span>&nbsp; <span>Times</span></div>";
                                 elem = elem + "<div class='budget_only'><span>Cost: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
                                 elem = elem + "<div class='axp_star_only'><ul>";
@@ -586,7 +587,7 @@
                                     if (Model.Profile.UserType == 2)
                                     {
                                         <ul class="nav nav-tabs">
-                                            <li class="active" id="ligigpurchased">
+                                            @*<li class="active" id="ligigpurchased">
                                                 <a data-toggle="tab" href="#Purchased_Gigs" aria-expanded="false" id="gigspurchased">
                                                     Purchased services
                                                     @if (Model.PurchasedGigCount != null)
@@ -594,7 +595,7 @@
                                                     else
                                                     {<span id="sppg">(0)</span>}
                                                 </a>
-                                            </li>
+                                            </li>*@
                                             <li class="" id="lilisted">
                                                 <a data-toggle="tab" href="#Listed_jobs" aria-expanded="false">
                                                     Listed jobs
@@ -608,7 +609,7 @@
                                     }
                                     if (Model.Profile.UserType == 3)
                                     {
-                                        <ul class="nav nav-tabs fourtabuser">
+                                        <ul class="nav nav-tabs">
                                             <li class="active" id="licompleted">
                                                 <a data-toggle="tab" href="#completed_jobs" aria-expanded="true" id="completedjobcount">
                                                     Total completed jobs
@@ -618,7 +619,7 @@
                                                     {<span id="spcc">(0)</span>}
                                                 </a>
                                             </li>
-                                            <li class="" id="ligigpurchased">
+                                            @*<li class="" id="ligigpurchased">
                                                 <a data-toggle="tab" href="#Purchased_Gigs" aria-expanded="false">
                                                     Purchased services
                                                     @if (Model.PurchasedGigCount != null)
@@ -626,7 +627,7 @@
                                                     else
                                                     {<span id="sppg">(0)</span>}
                                                 </a>
-                                            </li>
+                                            </li>*@
                                             <li class="" id="lilisted">
                                                 <a data-toggle="tab" href="#Listed_jobs" aria-expanded="false">
                                                     Listed jobs
@@ -735,6 +736,14 @@
                                                             </div>
                                                         }
                                                     }
+                                                    if (Model.CompletedJob.Count == 0)
+                                                    {
+                                                        <div class="nojob_diplytable">
+                                                            <div class="col-md-12 category_nojob_bg clearfix">
+                                                                <h3>No completed jobs to display.</h3>
+                                                            </div>
+                                                        </div>
+                                                    }
                                                 }
                                                 @if (Convert.ToInt32(TempData["RecordDisplay"]) < @Convert.ToInt32(Model.CompletedJobCount))
                                                 {
@@ -783,7 +792,7 @@
                                                                     <h3>@item.GigTitle</h3>
                                                                 </a>
                                                                 <div class="timeframe_budget_small clearfix">
-                                                                    <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDurationString</span></div>
+                                                                    <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDurationString Days</span></div>
                                                                     <div class="timeframe_only"><span>Purchased: </span>&nbsp;<span>@item.GigsCompleted</span>&nbsp; <span>Times</span></div>
                                                                     <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>
                                                                     <div class="axp_star_only">
@@ -826,6 +835,14 @@
                                                             </div>
                                                         }
                                                     }
+                                                    if (Model.ListedGig.Count == 0)
+                                                    {
+                                                        <div class="nojob_diplytable">
+                                                            <div class="col-md-12 category_nojob_bg clearfix">
+                                                                <h3>No services to display.</h3>
+                                                            </div>
+                                                        </div>
+                                                    }
                                                 }
                                                 @if (Convert.ToInt32(@TempData["RecordDisplay"]) < @Convert.ToInt32(Model.ListedGigCount))
                                                 {
@@ -838,18 +855,14 @@
                                         }
                                         if (Model.Profile.UserType == 2)
                                         {
-                                            <div id="Purchased_Gigs" class="tab-pane fade clearfix active in">
+                                            @*<div id="Purchased_Gigs" class="tab-pane fade clearfix active in">
                                                 @if (Model.PurchasedGigCount == 0 && Session["UserId"] != null && Convert.ToInt32(Session["UserId"]) != 0)
                                                 {
-                                                    @*<div class="col-md-12 category_nojob_bg clearfix">
-                                                            <h4>You have not posted any jobs yet. To post a job <a id="jobPostAdd" href="#">click here</a></h4>
-                                                        </div>*@
                                                     if (Convert.ToInt32(Session["UserId"]) == Model.Profile.UserId)
                                                     {
                                                         <div class="nojob_diplytable">
                                                             <div class="col-md-12 category_nojob_bg clearfix">
                                                                 <h3>You have not purchased any services yet.</h3>
-                                                                @*<a href="Gigs/Search"  class="btn button_all secondary_color_bg">Hire Freelancers</a>*@
                                                                 <a href='@Url.Action("Search", "Gigs")' class='btn button_all secondary_color_bg'>Hire Freelancers</a>
 
                                                             </div>
@@ -885,7 +898,7 @@
                                                                 }
 
                                                                 <div class="timeframe_budget_small clearfix">
-                                                                    <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDurationString</span></div>
+                                                                    <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDurationString Days</span></div>
                                                                     <div class="timeframe_only"><span>Purchased: </span>&nbsp;<span>@item.GigsCompleted</span>&nbsp; <span>Times</span></div>
                                                                     <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>
                                                                     <div class="axp_star_only">
@@ -928,6 +941,14 @@
                                                             </div>
                                                         }
                                                     }
+                                                    if (Model.PurchasedGig.Count == 0)
+                                                    {
+                                                        <div class="nojob_diplytable">
+                                                            <div class="col-md-12 category_nojob_bg clearfix">
+                                                                <h3>No purchased services to display.</h3>
+                                                            </div>
+                                                        </div>
+                                                    }
                                                 }
                                                 @if (Convert.ToInt32(@TempData["RecordDisplay"]) < @Convert.ToInt32(Model.PurchasedGigCount))
                                                 {
@@ -936,7 +957,7 @@
                                                     </div>
                                                 }
 
-                                            </div>
+                                            </div>*@
 
                                             <div id="Listed_jobs" class="tab-pane fade clearfix">
                                                 @if (Model.ListedJobCount == 0 && Session["UserId"] != null && Convert.ToInt32(Session["UserId"]) != 0)
@@ -1015,6 +1036,14 @@
                                                                 </div>
                                                             </div>
                                                         }
+                                                    }
+                                                    if (Model.ListedJob.Count == 0)
+                                                    {
+                                                        <div class="nojob_diplytable">
+                                                            <div class="col-md-12 category_nojob_bg clearfix">
+                                                                <h3>No jobs to display</h3>
+                                                            </div>
+                                                        </div>
                                                     }
                                                 }
                                                 @if (Convert.ToInt32(@TempData["RecordDisplay"]) < @Convert.ToInt32(Model.ListedJobCount))
@@ -1107,6 +1136,14 @@
                                                             </div>
                                                         }
                                                     }
+                                                    if (Model.CompletedJob.Count == 0)
+                                                    {
+                                                        <div class="nojob_diplytable">
+                                                            <div class="col-md-12 category_nojob_bg clearfix">
+                                                                <h3>No completed jobs to display.</h3>
+                                                            </div>
+                                                        </div>
+                                                    }
                                                 }
                                                 @if (Convert.ToInt32(TempData["RecordDisplay"]) < @Convert.ToInt32(Model.CompletedJobCount))
                                                 {
@@ -1164,7 +1201,7 @@
                                                                     </a>
                                                                 }
                                                                 <div class="timeframe_budget_small clearfix">
-                                                                    <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDurationString</span></div>
+                                                                    <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDurationString Days</span></div>
                                                                     <div class="timeframe_only"><span>Purchased: </span>&nbsp;<span>@item.GigsCompleted</span>&nbsp; <span>Times</span></div>
                                                                     <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>
                                                                     <div class="axp_star_only">
@@ -1206,6 +1243,14 @@
                                                                 </div>
                                                             </div>
                                                         }
+                                                    }
+                                                    if (Model.PurchasedGig.Count == 0)
+                                                    {
+                                                        <div class="nojob_diplytable">
+                                                            <div class="col-md-12 category_nojob_bg clearfix">
+                                                                <h3>No purchased services to display.</h3>
+                                                            </div>
+                                                        </div>
                                                     }
                                                 }
                                                 @if (Convert.ToInt32(@TempData["RecordDisplay"]) < @Convert.ToInt32(Model.PurchasedGigCount))
@@ -1295,6 +1340,15 @@
                                                             </div>
                                                         }
                                                     }
+                                                    if (Model.ListedJob.Count == 0)
+                                                    {
+                                                        <div class="nojob_diplytable">
+                                                            <div class="col-md-12 category_nojob_bg clearfix">
+                                                                <h3>No jobs to display</h3>
+                                                            </div>
+                                                        </div>
+                                                    }
+
                                                 }
                                                 @if (Convert.ToInt32(@TempData["RecordDisplay"]) < @Convert.ToInt32(Model.ListedJobCount))
                                                 {
@@ -1341,7 +1395,7 @@
                                                                     <h3>@item.GigTitle</h3>
                                                                 </a>
                                                                 <div class="timeframe_budget_small clearfix">
-                                                                    <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDurationString</span></div>
+                                                                    <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDurationString Days</span></div>
                                                                     <div class="timeframe_only"><span>Purchased: </span>&nbsp;<span>@item.GigsCompleted</span>&nbsp; <span>Times</span></div>
                                                                     <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>
                                                                     <div class="axp_star_only">
@@ -1383,6 +1437,14 @@
                                                                 </div>
                                                             </div>
                                                         }
+                                                    }
+                                                    if (Model.ListedGig.Count == 0)
+                                                    {
+                                                        <div class="nojob_diplytable">
+                                                            <div class="col-md-12 category_nojob_bg clearfix">
+                                                                <h3>No services to display.</h3>
+                                                            </div>
+                                                        </div>
                                                     }
                                                 }
                                                 @if (Convert.ToInt32(@TempData["RecordDisplay"]) < @Convert.ToInt32(Model.ListedGigCount))

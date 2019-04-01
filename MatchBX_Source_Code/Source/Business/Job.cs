@@ -116,7 +116,7 @@ namespace Business
 
         public string WithTransaction { get; set; }
         [Required(ErrorMessage = "You need to provide a budget.")]
-        [MinLength(4,ErrorMessage = "The budget amount should be a minimum of 1,000 AXPR")]
+        //[Range(1000.00, double.MaxValue, ErrorMessage = "The budget amount should be a minimum of 1,000 AXPR")]
         //[RegularExpression("^(\\d{1,})(,\\d{1,})*(\\.\\d{1,})?$", ErrorMessage = "Please enter a valid amount.")]
         public string BudgetASPString { get; set; }
 

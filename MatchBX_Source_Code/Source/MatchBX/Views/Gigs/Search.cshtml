@@ -24,7 +24,7 @@
 
             $("#divjobs").on("click", "#btnloadmore", function () {
                 debugger
-                var _Id = $('#divjobs div.bg_color_comen').last().attr("id");
+                var _Id = $('#divjobs div.home_user_box_1_bg').last().attr("id");
                 var _searchtext = $("#txt_search").val();
                 var _TagsId = sessionStorage.getItem("tagsId");
                 localStorage.setItem("keyword", _searchtext);
@@ -64,7 +64,7 @@
                             else {
                                 $("#divjobs").empty();
                                 var _Msg = "";
-                                _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                                _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
                                 $("#divjobs").append(_Msg);
                             }
                         },
@@ -155,7 +155,7 @@
                         if (response != null) {
                             if (response.length == 0) {
                                 var _Msg = "";
-                                _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                                _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
                                 $("#divjobs").append(_Msg);
                             }
                             else {
@@ -177,7 +177,7 @@
                                         elem = elem + "<div class='timeframe_only'><span>Delivery time: </span>&nbsp;<span>" + response[key].GigDuration + " Days</span></div>";
                                     }
                                     elem = elem + "<div class='timeframe_only'><span>Purchased: </span>&nbsp;<span>" + response[key].GigsCompleted + " Times</span></div>";
-                                    
+
                                     elem = elem + "<div class='budget_only'><span>Cost: </span>&nbsp;<span>" + response[key].BudgetASP.toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
                                     elem = elem + "<div class='axp_star_only'><ul>";
                                     if (response[key].BadgeCount == 1) {
@@ -217,7 +217,7 @@
                         else {
                             $("#divjobs").empty();
                             var _Msg = "";
-                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
                             $("#divjobs").append(_Msg);
                         }
 
@@ -245,7 +245,7 @@
                         if (response != null) {
                             if (response.length == 0) {
                                 var _Msg = "";
-                                _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                                _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
                                 $("#divjobs").append(_Msg);
                             }
                             else {
@@ -303,7 +303,7 @@
                         else {
                             $("#divjobs").empty();
                             var _Msg = "";
-                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There don't seem to be any live jobs for this category.</h3></div>"
+                            _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
                             $("#divjobs").html(_Msg);
                         }
 
@@ -388,7 +388,7 @@
                                             }
                                             <div class="timeframe_only"><span>Purchased: </span>&nbsp;<span>@item.GigsCompleted Times</span></div>
 
-                                            <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>                                            
+                                            <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0"), " AXPR ", "($", @item.DollarCount.ToString("#,##0.00"), ")")</span></div>
 
                                             <div class="axp_star_only">
 
@@ -447,12 +447,12 @@
 
 
                                 if (Model.Gig[0].Isloadmore == 1)
-                                    {
-                                        <div class="col-md-12 category_loadmore_bg clearfix" id="divloadmore">
-                                            <a href="javascript:" class="btn button_all secondary_color_bg" id="btnloadmore">Load more</a>
-                                        </div>
+                                {
+                                    <div class="col-md-12 category_loadmore_bg clearfix" id="divloadmore">
+                                        <a href="javascript:" class="btn button_all secondary_color_bg" id="btnloadmore">Load more</a>
+                                    </div>
 
-                                    }
+                                }
                             }
 
 
@@ -462,7 +462,7 @@
                         {
                             <div class="col-md-8 home_left_8" id="divnorecord">
                                 <div class="col-md-12 category_nojob_bg clearfix">
-                                    <h3>There don't seem to be any live jobs for this category.</h3>
+                                    <h3>There doesn't seem to be any live jobs for this category</h3>
                                 </div>
                             </div>
                         }
@@ -472,7 +472,7 @@
 
                             <div class="col-md-12 bg_color_comen home_top_jobs_bg clearfix">
                                 <div class="home_top_jobs_heding heading_border_buttom">
-                                    <h2>Top freelancers</h2>
+                                    <h2>Top Freelancers</h2>
                                 </div>
                                 <ul class="job_poster_profiles clearfix">
                                     @if (Model.TopJobSeekers != null)
@@ -530,7 +530,7 @@
 
                             <div class="col-md-12 bg_color_comen home_top_jobs_bg clearfix">
                                 <div class="home_top_jobs_heding">
-                                    <h2>Trending tags</h2>
+                                    <h2>Trending Tags</h2>
                                 </div>
                                 <div class="home_trending_tags clearfix" id="divtrendingtags">
                                     @if (Model.TrendingTags != null)

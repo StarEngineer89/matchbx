@@ -87,7 +87,7 @@ BEGIN
 		SET @Notification = 'Good news! Your payment has gone through and funds are now held in escrow.' + @JobSeekerName + ' has been notified and can now start work.'
 		INSERT INTO MatchBXNotification VALUES (@UserId,@UserId,@Notification,0,'Transaction Confirmed',GETDATE(),@Url)
 		
-		SET @NotificationSeeker = @PosterName + ' has accepted your payment for gig ' + @JobTitle	
+		SET @NotificationSeeker = @PosterName + ' has accepted your payment for service ' + @JobTitle	
 		INSERT INTO MatchBXNotification VALUES (@UserId,@SeekerId,@NotificationSeeker,0,'Payment accepted',GETDATE(),@Url)
 	END
 			

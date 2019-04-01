@@ -727,11 +727,11 @@
                                                     @*<div><span>Job reference:&nbsp;</span><span>@Model.JobReferanceId</span></div>*@
                                                     @*<div><span>Last edited:&nbsp;</span><span>@Model.LastEdited</span></div>*@
                                                     <div class="profile_public_banner_rate_only">
-                                                        <span class="">RATING (@TempData["Rating"])</span>
+                                                        <span class="">RATING (@TempData["RatingCount"])</span>
                                                         <ul class="clearfix">
-                                                            @if (@TempData["RatingWhole"].ToString() == "1")
+                                                            @if (TempData["RatingWhole"].ToString() == "1")
                                                             {
-                                                                if (@TempData["RatingFraction"].ToString() == "5")
+                                                                if (TempData["RatingFraction"].ToString() == "5")
                                                                 {
                                                                     <li><i></i></li>
                                                                     <li class="half_star"><i></i></li>
@@ -749,9 +749,9 @@
                                                                 }
 
                                                             }
-                                                            else if (@TempData["RatingWhole"].ToString() == "2")
+                                                            else if (TempData["RatingWhole"].ToString() == "2")
                                                             {
-                                                                if (@TempData["RatingFraction"].ToString() == "5")
+                                                                if (TempData["RatingFraction"].ToString() == "5")
                                                                 {
                                                                     <li><i></i></li>
                                                                     <li><i></i></li>
@@ -769,9 +769,9 @@
                                                                     <li class="star_gray"><i></i></li>
                                                                 }
                                                             }
-                                                            else if (@TempData["RatingWhole"].ToString() == "3")
+                                                            else if (TempData["RatingWhole"].ToString() == "3")
                                                             {
-                                                                if (@TempData["RatingFraction"].ToString() == "5")
+                                                                if (TempData["RatingFraction"].ToString() == "5")
                                                                 {
                                                                     <li><i></i></li>
                                                                     <li><i></i></li>
@@ -789,9 +789,9 @@
                                                                     <li class="star_gray"><i></i></li>
                                                                 }
                                                             }
-                                                            else if (@TempData["RatingWhole"].ToString() == "4")
+                                                            else if (TempData["RatingWhole"].ToString() == "4")
                                                             {
-                                                                if (@TempData["RatingFraction"].ToString() == "5")
+                                                                if (TempData["RatingFraction"].ToString() == "5")
                                                                 {
                                                                     <li><i></i></li>
                                                                     <li><i></i></li>
@@ -810,7 +810,7 @@
                                                                     <li class="star_gray"><i></i></li>
                                                                 }
                                                             }
-                                                            else if (@TempData["RatingWhole"].ToString() == "5")
+                                                            else if (TempData["RatingWhole"].ToString() == "5")
                                                             {
                                                                 <li><i></i></li>
                                                                 <li><i></i></li>
@@ -818,9 +818,9 @@
                                                                 <li><i></i></li>
                                                                 <li><i></i></li>
                                                             }
-                                                            else if (@TempData["RatingWhole"].ToString() == "0")
+                                                            else if (TempData["RatingWhole"].ToString() == "0")
                                                             {
-                                                                if (@TempData["RatingFraction"].ToString() == "5")
+                                                                if (TempData["RatingFraction"].ToString() == "5")
                                                                 {
                                                                     <li class="half_star"><i></i></li>
                                                                     <li class="star_gray"><i></i></li>
@@ -995,13 +995,17 @@
                                                         </div>
                                                         <div class="gig_dash_mygig_bu padd_top_10px clearfix">
                                                             <div class="pull-left gig_dash_admin_pendingbg">
-                                                                @if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A")
+                                                                @if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A" && sub.JobStatusSeeker != "C")
                                                                 {
                                                                     <div class="pending_box_alert progress_alert">In progress</div>
                                                                 }
-                                                                else if (sub.GigSubscriptionStatus == "A" || (sub.JobStatus == "A" && sub.JobStatusSeeker == "C"))
+                                                                else if (sub.GigSubscriptionStatus == "A")
                                                                 {
                                                                     <div class="pending_box_alert panding_alert">Pending Payment</div>
+                                                                }
+                                                                else if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A" && sub.JobStatusSeeker == "C")
+                                                                {
+                                                                    <div class="pending_box_alert panding_alert">Pending Client Review</div>
                                                                 }
                                                             </div>
                                                             <div class="pull-right dash_time_allmenus"> </div>
@@ -1254,11 +1258,14 @@
 
                                             <span id="errorMsg" class="error_span"></span>
                                             <label class="input_label_style display_block small_fobtsize"><span id="axprfee" class="font_w_700">@TempData["AXPRFeeAmt"]</span><span> AXPR is taken from this and burnt (3% burn)</span></label>
-                                            <label class="input_label_style display_block"><span class="add_job_cost">Your job will cost: <span id="IdtotalBudget" class="font_w_700">@TempData["AXPRFeeTotAmt"]</span> AXPR</span></label>
+                                            <label class="input_label_style display_block"><span class="add_job_cost">Your service will cost: <span id="IdtotalBudget" class="font_w_700">@TempData["AXPRFeeTotAmt"]</span> AXPR</span></label>
                                         </div>
                                         <div class="form-group clearfix">
                                             @*<a href="#header" class="btn btn_banner secondary_color_bg button_fluid smothscroll" id="btnsubscribe"></a>*@
-                                            <input type="submit" class="btn btn_banner secondary_color_bg button_fluid button_width100 smothscroll" id="btnsubscribe" />
+                                            @if (TempData["GigSubscriptionStatus"].ToString() == "S")
+                                            {
+                                                <input type="submit" class="btn btn_banner secondary_color_bg button_fluid button_width100 smothscroll" id="btnsubscribe" />
+                                            }                                            
                                         </div>
                                     </div>
                                 </div>
@@ -1305,6 +1312,21 @@
             @*<div class="form-group register_small_already_reg delete_job_link clearfix">
                     <p><a href="@Url.Action("Details", "Jobs",new { @id = @Session["JobId"]})">VIEW AND EDIT OFFER</a></p>
                 </div>*@
+        </div>
+    </div>
+
+    <div id="metamask_comfirmation_id_gig" class="popup_box clearfix myshadow">
+        <span id="" class="col-md-12 popup_box_title clearfix"> Set Up metamask <a href="#" onclick="closebox('metamask_comfirmation_id_gig')" class="popup_close_bg" title="Close"></a> </span>
+        <div class="col-md-12 pop_container_bg text-center">
+            <div class="form-group clearfix">
+                <label for="" class="input_label_style">To use MatchBX you need to install and run MetaMask. <br /></label>
+                <ol class="metamask_infoul text-left">
+                    <li style="">Download MetaMask from MetaMask <a target="_blank" class="blue_color_text" href="https://metamask.io/">website</a></li>
+                    <li>Make sure your MetaMask is linked to your AXPR wallet address when using MatchBX</li>
+                    <li>Get started on MatchBX</li>
+                </ol>
+                <a href="https://metamask.io/" target="_blank" onclick="closebox('metamask_comfirmation_id_gig')" class="btn btn_banner secondary_color_bg maxwidth325" title="Set Up MetaMask">Set Up MetaMask</a>
+            </div>
         </div>
     </div>
 
@@ -1416,7 +1438,7 @@
                 <a href="#" id="btnGigrvwSub" class="btn btn-default register_small_button secondary_color_bg" title="">SUBMIT</a>
             </div>
             <div class="form-group register_small_already_reg delete_job_link clearfix">
-                <p><a href="#">I DONʼT WANT TO LEAVE A REVIEW</a></p>
+                <p><a href="#" id="dontReview">I DONʼT WANT TO LEAVE A REVIEW</a></p>
             </div>
         </div>
     </div>
@@ -1441,7 +1463,7 @@
         <div class="col-md-12 pop_container_bg text-center">
             <div class="form-group clearfix">
                 <label for="" class="input_label_style">Cancelled the service order successfully</label>
-                <a href="#" onclick="closebox('gigSubscriptionCancelSuccess')" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">OK</a>
+                <a href="#" id="gigSubCancel" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">OK</a>
             </div>
         </div>
     </div>
@@ -1571,7 +1593,7 @@
                     //    $('#div_offers_accept_' + _SubId).remove();
                     //}
                     //activeOrders--;
-                    window.location.reload();
+                    // window.location.reload();
                     openbox(1, 'gigSubscriptionCancelSuccess');
                 },
                 error: function (jqXHR, exception) {
@@ -1579,6 +1601,11 @@
                     console.log(exception);
                 }
             });
+        });
+
+        $('#gigSubCancel').click(function() {
+            closebox('gigSubscriptionCancelSuccess');
+            window.location.reload();
         });
 
         $("#detail_div").on("click", "#btnComplete", function () {
@@ -1689,6 +1716,11 @@
             closebox('mark_complete_rating_pop_id');
             window.location.reload();
         });
+
+        $('#dontReview').click(function() {
+            closebox('mark_complete_rating_pop_id');
+            window.location.reload();
+        });
     });
 
     function LoadMessages(_from, _prmSendUserId, _prmJobSeeker, _prmBidUserProfilePic, _prmJobId) {
@@ -1739,7 +1771,7 @@
                         //    $('#div_offers_accept_' + _SubId).remove();
                         //}
                         //subscriptions--;
-                        window.location.reload();
+                        //window.location.reload();
                         openbox(1, 'gigRequest_pop');
                         //window.location.reload();
                     } else {
@@ -1771,7 +1803,7 @@
             function callback(address) {
                 debugger
                 if (address == 'error' || address == '') {
-                    openbox(1, 'metamask_comfirmation_id');
+                    openbox(1, 'metamask_comfirmation_id_gig');
                     closebox('offer_comfirmation_id');
                 }
                 else {
@@ -1802,7 +1834,6 @@
                                 //    $('#div_offers_accept_' + _SubId).remove();
                                 //}
                                 //subscriptions--;
-                                window.location.reload();
                                 openbox(1, 'gigRequest_pop');
                                 //window.location.reload();
                             } else {
@@ -1822,6 +1853,10 @@
             }
             App.getUserAddress(callback);
         }
+
+        $('#gigRequestOk').click(function() {
+            window.location.reload();
+        });
 
         $('#btnyes1').unbind("click").bind( "click",function () {
             var _jobtitle = $("#hfjobtitle").val();

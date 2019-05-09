@@ -30,6 +30,7 @@ namespace Business
         public decimal FileSize { get; set; }
         public string FileName { get; set; }
         public int JobId { get; set; }
+        public string JobTitle { get; set; }
 
     }
 }

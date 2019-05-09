@@ -1,0 +1,1 @@
+/**/callbackFunction({"query":{"count":1,"created":"2018-05-21T12:38:30Z","lang":"en-US","results":{"channel":{"wind":{"chill":"46","direction":"45","speed":"14"}}}}});

@@ -1288,3 +1288,20 @@ BEGIN
     ALTER TABLE MatchBXMessage ADD JobId INT NULL
 END
 
+-- Created By  : Praveen K
+-- Create Date : 04 Mar 2019
+-- Purpose     : Modify JobBidding column of BidDuration
+
+IF (NOT EXISTS(SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'JobBidding' AND COLUMN_NAME = 'BidDuration'))
+BEGIN	
+    ALTER TABLE JobBidding ADD BidDuration INT NULL
+END
+
+-- Created By  : Sanu Mohan P
+-- Create Date : 08 Oct 2018
+-- Purpose     : Add MessageType column to MatchBXMessage
+
+IF (EXISTS(SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'MatchBXMessage' AND COLUMN_NAME = 'MessageType'))
+BEGIN	
+    ALTER TABLE MatchBXMessage ALTER COLUMN MessageType CHAR(2)   
+END

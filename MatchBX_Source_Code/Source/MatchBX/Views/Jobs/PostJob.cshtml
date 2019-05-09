@@ -76,12 +76,12 @@
         </div>
 
         <div class="form-group clearfix">
-            <label for="" class="input_label_style">What is your budget? (AXPR)</label>
+            <label for="" class="input_label_style">What is your budget? (in USD)</label>
             <div class="budget_axp_form_label">
                 @*@Html.TextBoxFor(x => x.BudgetASP, new { @id = "budgetASP", @class = "form-control form_input", @maxlength = "15" })*@
                 @Html.TextBoxFor(x => x.BudgetASPString, new { @id = "BudgetASPString", @class = "form-control form_input", @maxlength = "15" })
                 <span>
-                    (  $@Html.LabelFor(x => x.BudgetInDollar, (Model.BudgetInDollar).ToString("#,##0.00"), new { @id = "budgetdollar", @readonly = "readonly" }) )
+                    (  @Html.LabelFor(x => x.BudgetInDollar, (Model.BudgetInDollar).ToString("#,##0.00"), new { @id = "budgetdollar", @readonly = "readonly" }) AXPR )
                 </span>
             </div>
             @Html.ValidationMessageFor(x => x.BudgetASPString, "", new { @class = "error_span" })
@@ -162,7 +162,7 @@
 <script>
     Dropzone.autoDiscover = false;
     reCaptchaVerify = function(val) {
-        //console.log(val); 
+        //console.log(val);
         $('#captcha_valid').hide();
     }
     function CalculateBudgetinDollar() {
@@ -194,7 +194,7 @@
                             minimumFractionDigits: 2
                         });
 
-                        var _Commission = (_BudgetASP * 3 / 100).toFixed(2);                       
+                        var _Commission = (_BudgetASP * 3 / 100).toFixed(2);
                         _Commission=(+_Commission).toLocaleString();
                         var _TotalBudget = (parseFloat(_BudgetASP) + parseFloat(_Commission)).toFixed(2);
                         _TotalBudget=(+_TotalBudget).toLocaleString();
@@ -384,7 +384,7 @@
                var _amount = $("#BudgetASPString").val().trim();
                //var charCode = (evt.which) ? evt.which : event.keyCode
                var number = _amount.split('.');
-               //if(charCode == 46 && !(_amount.indexOf(".") > -1)) {	
+               //if(charCode == 46 && !(_amount.indexOf(".") > -1)) {
                //    return true;
                //}
                //if (!$.isNumeric(_amount) && charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46) {
@@ -397,16 +397,17 @@
                //else {
                //    return true;
             //}
+
                var theEvent = evt || window.event;
                var key = theEvent.keyCode || theEvent.which;
                key = String.fromCharCode(key);
                var regex = /[0-9]|\./;
-               if (!regex.test(key)) {                    
-                    theEvent.preventDefault ? theEvent.preventDefault() : (theEvent.returnValue = false); 
+               if (!regex.test(key)) {
+                    theEvent.preventDefault ? theEvent.preventDefault() : (theEvent.returnValue = false);
                } else if(theEvent.keyCode == 46 && _amount.indexOf(".") > -1) {
-                   theEvent.preventDefault ? theEvent.preventDefault() : (theEvent.returnValue = false); 
+                   theEvent.preventDefault ? theEvent.preventDefault() : (theEvent.returnValue = false);
                } else if(number && number.length > 1 && number[1].length > 1) {
-                   theEvent.preventDefault ? theEvent.preventDefault() : (theEvent.returnValue = false); 
+                   theEvent.preventDefault ? theEvent.preventDefault() : (theEvent.returnValue = false);
                }
                else {
                   validatebudget();
@@ -423,11 +424,91 @@
             //if(event.keyCode == 8) {
             validatebudget(event);
             //}
-        });  
+        });
 
+        //function validatebudget(eve)
+        //{
+        //    var bidamt=$("#BudgetASPString").val().toString().replace(/,/g, "").trim();
+        //    if(bidamt=="")
+        //    {
+        //        $("[data-valmsg-for='BudgetASPString']").text("You need to provide a budget.");
+        //        var _Budget = Number(parseFloat(0).toFixed(2)).toLocaleString('en', {
+        //            minimumFractionDigits: 2
+        //        });
+        //        $("#budgetdollar").val(_Budget);
+        //        $("#budgetdollar").text(_Budget);
+        //        $("#IdCommn").val(_Budget);
+        //        $("#IdCommn").text(_Budget);
+        //        $("#IdtotalBudget").val(_Budget);
+        //        $("#IdtotalBudget").text(_Budget);
+        //    }
+        //    else if($.isNumeric(bidamt))
+        //    {
+        //        if(bidamt >= 1000.00) {
+        //            $("[data-valmsg-for='BudgetASPString']").text("");
+        //            var exrate=localStorage.getItem("exchangerate");
+
+        //            var rateindollar=exrate*bidamt;
+        //            var _Budget = Number(parseFloat(rateindollar).toFixed(2)).toLocaleString('en', {
+        //                minimumFractionDigits: 2
+        //            });
+        //            $("#budgetdollar").val(_Budget);
+        //            $("#budgetdollar").text(_Budget);
+
+        //            var _BudgetASP = $("#BudgetASPString").val().toString().replace(/,/g, "");
+        //            if (_BudgetASP != "")
+        //            {
+        //                var amount=parseFloat(_BudgetASP).toLocaleString();
+        //                if(_BudgetASP.indexOf('.') > -1 && _BudgetASP[_BudgetASP.length - 1] == '.') {
+        //                    amount += '.'
+        //                }
+        //                //var _budget=(+amount).toLocaleString(undefined, {minimumFractionDigits: 2});
+        //                $("#BudgetASPString").val(amount);
+        //            }
+
+        //            var _Commission = (_BudgetASP * 3 / 100).toFixed(2);
+        //            // _Commission=(+_Commission).toLocaleString();
+        //            var _TotalBudget = (parseFloat(_BudgetASP) + parseFloat(_Commission)).toFixed(2);
+        //            _TotalBudget=(+_TotalBudget).toLocaleString();
+
+
+        //            $("#IdCommn").val(_Commission);
+        //            $("#IdCommn").text(_Commission);
+        //            $("#IdtotalBudget").val(_TotalBudget);
+        //            $("#IdtotalBudget").text(_TotalBudget);
+        //        } else {
+        //            $("[data-valmsg-for='BudgetASPString']").text("The budget amount should be a minimum of 1,000 AXPR");
+        //            var _Budget = Number(parseFloat(0).toFixed(2)).toLocaleString('en', {
+        //                minimumFractionDigits: 2
+        //            });
+        //            $("#budgetdollar").val(_Budget);
+        //            $("#budgetdollar").text(_Budget);
+        //            $("#IdCommn").val(_Budget);
+        //            $("#IdCommn").text(_Budget);
+        //            $("#IdtotalBudget").val(_Budget);
+        //            $("#IdtotalBudget").text(_Budget);
+        //            try{ eve.stopPropagation(); } catch(e){}
+        //        }
+        //    }
+        //    else
+        //    {
+        //        $("[data-valmsg-for='BudgetASPString']").text("Please enter a valid amount.");
+        //        var _Budget = Number(parseFloat(0).toFixed(2)).toLocaleString('en', {
+        //            minimumFractionDigits: 2
+        //        });
+        //        $("#budgetdollar").val(_Budget);
+        //        $("#budgetdollar").text(_Budget);
+        //        $("#IdCommn").val(_Budget);
+        //        $("#IdCommn").text(_Budget);
+        //        $("#IdtotalBudget").val(_Budget);
+        //        $("#IdtotalBudget").text(_Budget);
+
+        //    }
+        //}
 
         function validatebudget(eve)
         {
+            debugger;
             var bidamt=$("#BudgetASPString").val().toString().replace(/,/g, "").trim();
             if(bidamt=="")
             {
@@ -442,33 +523,41 @@
                 $("#IdtotalBudget").val(_Budget);
                 $("#IdtotalBudget").text(_Budget);
             }
-            else if($.isNumeric(bidamt))
+            else if($.isNumeric(bidamt.replace(/[^\d\.]/g, "")))
             {
-                if(bidamt >= 1000.00) {
-                    $("[data-valmsg-for='BudgetASPString']").text("");
-                    var exrate=localStorage.getItem("exchangerate");
+                bidamt = bidamt.replace(/[^\d\.]/g, "");
+                //if(bidamt >= 1000.00) {
+                $("[data-valmsg-for='BudgetASPString']").text("");
+                var exrate=localStorage.getItem("exchangerate");
 
-                    var rateindollar=exrate*bidamt;
-                    var _Budget = Number(parseFloat(rateindollar).toFixed(2)).toLocaleString('en', {
-                        minimumFractionDigits: 2
-                    });
-                    $("#budgetdollar").val(_Budget);
-                    $("#budgetdollar").text(_Budget);
+                //var rateindollar=exrate*bidamt;
+                var rateindollar = bidamt / exrate;
+                var _Budget = Number(parseFloat(rateindollar).toFixed(2)).toLocaleString('en', {
+                    minimumFractionDigits: 2
+                });
+                $("#budgetdollar").val(_Budget);
+                $("#budgetdollar").text(_Budget);
 
-                    var _BudgetASP = $("#BudgetASPString").val().toString().replace(/,/g, "");
+                _Budget = Number(parseFloat(_Budget.toString().replace(/,/g, "").trim()));
+                if(_Budget >= 1000.00) {
+                    var _BudgetASP = $("#BudgetASPString").val().toString().replace(/,/g, "").replace(/[^\d\.]/g, "");
                     if (_BudgetASP != "")
                     {
                         var amount=parseFloat(_BudgetASP).toLocaleString();
                         if(_BudgetASP.indexOf('.') > -1 && _BudgetASP[_BudgetASP.length - 1] == '.') {
-                            amount += '.'
+                            amount += '.';
+                            $("#BudgetASPString").val('$ ' + amount);
+                        }
+                        if(_BudgetASP.indexOf('$') == -1) {
+                            $("#BudgetASPString").val('$ ' + _BudgetASP);
                         }
                         //var _budget=(+amount).toLocaleString(undefined, {minimumFractionDigits: 2});
-                        $("#BudgetASPString").val(amount);
+                        //$("#BudgetASPString").val('$ ' + amount);
                     }
 
-                    var _Commission = (_BudgetASP * 3 / 100).toFixed(2);
+                    var _Commission = (_Budget * 3 / 100).toFixed(2);
                     // _Commission=(+_Commission).toLocaleString();
-                    var _TotalBudget = (parseFloat(_BudgetASP) + parseFloat(_Commission)).toFixed(2);
+                    var _TotalBudget = (parseFloat(_Budget) + parseFloat(_Commission)).toFixed(2);
                     _TotalBudget=(+_TotalBudget).toLocaleString();
 
 
@@ -477,18 +566,30 @@
                     $("#IdtotalBudget").val(_TotalBudget);
                     $("#IdtotalBudget").text(_TotalBudget);
                 } else {
+                    $("#BudgetASPString").val('$ ' + bidamt);
                     $("[data-valmsg-for='BudgetASPString']").text("The budget amount should be a minimum of 1,000 AXPR");
                     var _Budget = Number(parseFloat(0).toFixed(2)).toLocaleString('en', {
                         minimumFractionDigits: 2
                     });
-                    $("#budgetdollar").val(_Budget);
-                    $("#budgetdollar").text(_Budget);
                     $("#IdCommn").val(_Budget);
                     $("#IdCommn").text(_Budget);
                     $("#IdtotalBudget").val(_Budget);
                     $("#IdtotalBudget").text(_Budget);
                     try{ eve.stopPropagation(); } catch(e){}
                 }
+                //} else {
+                //    $("[data-valmsg-for='BudgetASPString']").text("The budget amount should be a minimum of 1,000 AXPR");
+                //    var _Budget = Number(parseFloat(0).toFixed(2)).toLocaleString('en', {
+                //        minimumFractionDigits: 2
+                //    });
+                //    $("#budgetdollar").val(_Budget);
+                //    $("#budgetdollar").text(_Budget);
+                //    $("#IdCommn").val(_Budget);
+                //    $("#IdCommn").text(_Budget);
+                //    $("#IdtotalBudget").val(_Budget);
+                //    $("#IdtotalBudget").text(_Budget);
+                //    try{ eve.stopPropagation(); } catch(e){}
+                //}
             }
             else
             {
@@ -700,7 +801,7 @@
                 }
             }
 
-            var bidamt=$("#BudgetASPString").val().toString().replace(/,/g, "").trim();
+            var bidamt = $("#budgetdollar").val().toString().replace(/,/g, "").replace(/[^\d\.]/g, "").trim();
             if(bidamt == "") {
                 isvalid = false;
                 $("[data-valmsg-for='BudgetASPString']").text("You need to provide a budget.");
@@ -755,13 +856,26 @@
                 });
                 //
                 var _JobStatus='R'; //$("#JobStatus").val().trim()!=""? $("#JobStatus").val():'R';
-                var _JobTitle = 'Looking for ' + $("#Give_your").val().replace(',', '').toLowerCase();
+                debugger;
+                var _jobIdd = "@Model.JobId";
+                var _JobTitle = "";
+                if(parseInt(_jobIdd) == 0) {
+                    _JobTitle = 'Looking for ' + $("#Give_your").val().replace(',', '').toLowerCase();
+                } else {
+                    _JobTitle = $("#Give_your").val().replace(',', '');
+                    if(_JobTitle.indexOf('Looking for') == -1) {
+                        _JobTitle = 'Looking for ' + $("#Give_your").val().replace(',', '').toLowerCase();
+                    }
+                }
+                
                 var _Job = {
                     JobTitle:_JobTitle ,
                     JobDescription: $("#Give_your_Desc").val().replace(',', ''),
                     JobCategoryId: $("#JobCategoryId").val(),
-                    BudgetASP: $("#BudgetASPString").val().toString().replace(/,/g, ""),
-                    BudgetInDollar: $("#budgetdollar").val().replace(',', ''),
+                    //BudgetASP: $("#BudgetASPString").val().toString().replace(/,/g, ""),
+                    //BudgetInDollar: $("#budgetdollar").val().replace(',', ''),
+                    BudgetASP: $("#budgetdollar").val().toString().replace(/,/g, ""),
+                    BudgetInDollar: $("#BudgetASPString").val().replace(/,/g, '').replace(/[^\d\.]/g, ""),
                     Commission: $("#IdCommn").val().toString().replace(/,/g, ""),
                     TotalBudget: $("#IdtotalBudget").val().toString().replace(/,/g, ""),
                     JobCompletionDate: $("#jobcompletionDate").val(),
@@ -770,7 +884,7 @@
                     JobId : $("#JobId").val().replace(',', ''),
                     JobTrendingTagsMappingList: objTrendingTagsList,
                     JobSkillsMappingList: objSkillsMappingList,
-                    BudgetASPString: $("#BudgetASPString").val().toString()
+                    BudgetASPString: $("#budgetdollar").val().toString()
 
                 }
                 function toTitleCase(str) {
@@ -937,7 +1051,7 @@
             window.location.href ="/Dashboard/Index";
         })
 
-        
+
         //click event for enter key
         $("#TrendingTagsId_chosen").find('.chosen-search-input').bind("enterKey", function(e) {
             //get value of text box, and add it to the select.
@@ -946,7 +1060,7 @@
             if(newValue != '') {
                 newValue = '#' + newValue;
             }
-       
+
             // var exists = 0 != $('#TrendingTagsId option[value='+newValue+']').length;
             var exists = 0 != $("#TrendingTagsId option").filter(function (i, o) { return o.value === newValue; }).length;
             //insert if select contains no such value
@@ -964,7 +1078,7 @@
         });
         $("#TrendingTagsId_chosen").find('.chosen-search-input').bind("bsKey", function(e) {
             // var lastVal = $('#TrendingTagsId_chosen .chosen-choices li.search-choice:last').find('span').text();
-       
+
             var exists = 0 != $("#TrendingTagsId option.new-tag").filter(function (i, o) { return o.value === lastTag; }).length;
             if(exists) {
                 $("#TrendingTagsId option:contains('" + lastTag + "')").remove();
@@ -982,7 +1096,7 @@
         //    }
         //    $(".createTag").remove();
         //    // var exists = 0 != $('#TrendingTagsId option[value='+newValue+']').length;
-        //    var exists = 0 != $("#TrendingTagsId option").filter(function (i, o) { return o.value === newValue; }).length;            
+        //    var exists = 0 != $("#TrendingTagsId option").filter(function (i, o) { return o.value === newValue; }).length;
         //    //insert if select contains no such value
         //    if(!exists && lis > 0) {
         //        //insert newValue into an option HTML with template literals
@@ -1019,6 +1133,7 @@
         $('#divusername').click(function(){
             $('#Give_your').focus();
         });
+
     });
 
 

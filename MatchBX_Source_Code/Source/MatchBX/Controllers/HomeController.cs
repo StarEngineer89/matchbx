@@ -43,15 +43,16 @@ namespace MatchBX.Controllers
             TempData["FromMsg"] = from;      
             return PartialView("~/Views/Shared/Chat.cshtml");
         }
-        public ActionResult ChatForSendMessage(int _prmSendUserId, string from,string _prmJobSeeker,string _prmBidUserProfilePic,int _prmJobID)
+        public ActionResult ChatForSendMessage(int _prmSendUserId, string from,string _prmJobSeeker,string _prmBidUserProfilePic,int _prmJobID, string _prmJobTitle, int _prmReceiverId = 0)
         {
            // ViewBag.From = from;
             MatchBXMessage _obj = new MatchBXMessage();
             _obj.SendUserId = _prmSendUserId;
             _obj.JobSeeker = _prmJobSeeker;
             _obj.BidUserProfilePic = _prmBidUserProfilePic;
-            _obj.ReceiverId = Convert.ToInt32(Session["UserId"]);
+            _obj.ReceiverId = _prmReceiverId != 0 ? _prmReceiverId : Convert.ToInt32(Session["UserId"]);
             _obj.JobId = _prmJobID;
+            _obj.JobTitle = _prmJobTitle;
             Session["messageJobId"] = _prmJobID;
             return PartialView("~/Views/Shared/Chat.cshtml",_obj);
         }
@@ -72,7 +73,8 @@ namespace MatchBX.Controllers
         public ActionResult LoadAllChat(int prmReceiverId, int prmSendUserId)
         {
             var userId = Convert.ToInt32(Session["UserId"]);
-            int messageJobId = Convert.ToInt32(Session["messageJobId"]);
+            //int messageJobId = Convert.ToInt32(Session["messageJobId"]);
+            int messageJobId = 0;
             MatchBXMessageModel _objModel = new MatchBXMessageModel();
             List<MatchBXMessage> _list = new List<MatchBXMessage>();
             _list = _objModel.GetChatMessage(prmReceiverId, prmSendUserId, messageJobId);
@@ -83,6 +85,7 @@ namespace MatchBX.Controllers
                 _obj.ReceiverId = prmReceiverId;
                 _obj.SendUserId = prmSendUserId;
                 _obj.ReadStatus = 1;
+                _obj.JobId = 0;
                 _objModel.ChangeReadStatus(_obj);
             }
             Session["messageJobId"] = 0;
@@ -93,19 +96,61 @@ namespace MatchBX.Controllers
             MatchBXMessageModel _objModel = new MatchBXMessageModel();
             List<MatchBXMessage> _list = new List<MatchBXMessage>();
             _list = _objModel.GetAllChatMessage(prmReceiverId);
-            if(_list.Where(m => m.ReadStatus == 0).ToList().Count == 0)
+            if (_list.Where(m => m.ReadStatus == 0 && m.JobId == 0).ToList().Count == 0)
             {
                 Session["MessageStatus"] = "N";
             }
             return Json(_list, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CheckAllMsgRead(int prmReceiverId)
+        public ActionResult LoadProjectMessages(int prmReceiverId)
         {
             MatchBXMessageModel _objModel = new MatchBXMessageModel();
             List<MatchBXMessage> _list = new List<MatchBXMessage>();
-            _list = _objModel.GetAllChatMessage(prmReceiverId);
-            return Json(_list.Where(m => m.ReadStatus == 0).ToList().Count, JsonRequestBehavior.AllowGet);
+            _list = _objModel.GetProjectMessages(prmReceiverId);
+            if (_list.Where(m => m.ReadStatus == 0 && m.JobId != 0).ToList().Count == 0)
+            {
+                Session["ProjectMsgStatus"] = "N";
+            }
+            return Json(_list, JsonRequestBehavior.AllowGet);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult LoadProjectMessageForJob(int _prmSendUserId, int _prmJobID)
+        {
+            var userId = Convert.ToInt32(Session["UserId"]);
+            int messageJobId = _prmJobID;
+            MatchBXMessageModel _objModel = new MatchBXMessageModel();
+            List<MatchBXMessage> _list = new List<MatchBXMessage>();
+            _list = _objModel.GetChatMessage(userId, _prmSendUserId, _prmJobID);
+
+            if (_list.Where(m => m.ReadStatus == 0).ToList().Count > 0 && _prmSendUserId != userId)
+            {
+                var _objMsg = new MatchBXMessage();
+                _objMsg.ReceiverId = _prmSendUserId;
+                _objMsg.SendUserId = userId;
+                _objMsg.ReadStatus = 1;
+                _objMsg.JobId = _prmJobID;
+                _objModel.ChangeReadStatus(_objMsg);
+            }
+            Session["messageJobId"] = _prmJobID;
+            return Json(_list, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CheckAllMsgRead(int prmReceiverId)
+        {
+            MatchBXMessageModel _objModel = new MatchBXMessageModel();
+            //List<MatchBXMessage> _list = new List<MatchBXMessage>();
+            var msgStatus = _objModel.GetMessageStatus(prmReceiverId);
+            if(msgStatus.MessageStatus == "N")
+            {
+                Session["MessageStatus"] = "N";
+            }
+            if (msgStatus.ProjectMsgStatus == "N")
+            {
+                Session["ProjectMsgStatus"] = "N";
+            }
+            return Json(msgStatus, JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetNotification()
         {

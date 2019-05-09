@@ -18,6 +18,7 @@ namespace Business
         public string IsOnline { get; set; }
         public int SendUserId { get; set; }
         public int IsMailSent { get; set; }
+        public string ProfilePic { get; set; }
     }
 }
  

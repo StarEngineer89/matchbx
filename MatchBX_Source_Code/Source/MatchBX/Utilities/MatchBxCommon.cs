@@ -199,10 +199,15 @@ namespace MatchBx.Utilities
                 try
                 {
                     client.Headers.Add("content-type", "application/json");//
-                    string response = client.DownloadString("https://api.coinmarketcap.com/v2/ticker/2466/?convert=USD");
+                    //string response = client.DownloadString("https://api.coinmarketcap.com/v2/ticker/2466/?convert=USD"); // coinmarketcap
+                    //string response = client.DownloadString("https://api.coingecko.com/api/v3/simple/price?ids=axpire&vs_currencies=usd"); // coingecko
+                    //string response = client.DownloadString("https://api.coinpaprika.com/v1/price-converter?base_currency_id=axpr-axpire&quote_currency_id=usd-us-dollars&amount=1"); // coinpaprika
+                    string response = client.DownloadString(ConfigurationManager.AppSettings["ExchangeRateAPI"]);
 
                     dynamic dynamicObject = JsonConvert.DeserializeObject(response);
-                    exchangerate = Convert.ToDecimal(dynamicObject.data.quotes.USD.price);
+                    //exchangerate = Convert.ToDecimal(dynamicObject.data.quotes.USD.price);  // coinmarketcap
+                    //exchangerate = Convert.ToDecimal(dynamicObject.axpire.usd); // coingecko
+                    exchangerate = Convert.ToDecimal(dynamicObject.price);  // coinpaprika
                     return exchangerate;
                 }
                 catch (Exception e)

@@ -16,7 +16,7 @@ AS
 BEGIN
 declare @UnreadCount int
 
-set @UnreadCount=(select Count(*) from MatchBXMessage where ReceiverId=@ReceiverId and ReadStatus=0)
+set @UnreadCount=(select Count(*) from MatchBXMessage where ReceiverId=@ReceiverId and ReadStatus=0 and ISNULL(JobId,0)=0)
 
 select A.*,B.UserName as ReceiverName,  case when A.[SendUserId ]=@ReceiverId then B.UserName else C.UserName  end as SendUserName ,
 --C.UserName as SendUserName,
@@ -41,7 +41,7 @@ select A.*,ROW_NUMBER() over (partition by NewSendUserId     order by MatchBXMes
 where (ReceiverId=@ReceiverId  or SendUserId=@ReceiverId)
  ) 
 
-select A.MatchBXMessageId,A.Message,case when( A.ReadStatus=0 and SendUserId=@ReceiverId) then 1 else A.ReadStatus end as ReadStatus ,A.ReceiverId, NewSendUserId as SendUserId,dbo.fnChatTimeStamp(A.CreatedDateTime) as CreatedDateTime,A.ReceiverName,A.SendUserName,
+select A.MatchBXMessageId,A.Message,case when( A.ReadStatus=0 and [SendUserId ]=@ReceiverId) then 1 else A.ReadStatus end as ReadStatus ,A.ReceiverId, NewSendUserId as SendUserId,dbo.fnChatTimeStamp(A.CreatedDateTime) as CreatedDateTime,A.ReceiverName,A.SendUserName,
 case when B.ProfilePic is null then '/Content/images/user.png' else B.ProfilePic end as ProfilePic ,L.HubId,@UnreadCount as UnreadCount,b.UserId
 from cte A left join UserProfile B on A.NewSendUserId=B.UserId left join #tempLogin L on L.UserId=A.NewSendUserId where A.row=1 order by MatchBXMessageId desc
 

@@ -13,7 +13,7 @@ CREATE PROCEDURE spCancelBid
 )
 AS
 BEGIN	
-	Update JobBidding set IsActive='N' where JobBiddingId=@JobBiddingId;
+	Update JobBidding set IsActive='N', BidDuration=0 where JobBiddingId=@JobBiddingId;
 	select * from JobBidding where JobBiddingId=@JobBiddingId;	
 END
 GO

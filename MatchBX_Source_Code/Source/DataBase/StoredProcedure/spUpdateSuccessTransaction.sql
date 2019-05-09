@@ -16,7 +16,7 @@ AS
 BEGIN	
 
 	DECLARE @UserId INT,@Notification NVARCHAR(300),@JobSeekerName NVARCHAR(300),@NotificationSeeker NVARCHAR(300),@PosterName NVARCHAR(300),
-	@JobTitle NVARCHAR(300),@SeekerId INT,@Url NVARCHAR(50),@GigSubscriptionId INT,@GigId INT
+	@JobTitle NVARCHAR(300),@SeekerId INT,@Url NVARCHAR(50),@GigSubscriptionId INT,@GigId INT,@BidDuration INT
 	
 	IF EXISTS (SELECT 1 FROM Job WHERE JobId = @JobId AND ISNULL(GigSubscriptionId,0) = 0)
 	BEGIN	
@@ -29,10 +29,10 @@ BEGIN
 		UPDATE JobTransactionHashLog SET Status = 'Y' WHERE Hash = @Hash AND JobId = @JobId
 		
 		--Get userid
-		SELECT @SeekerId = UserId FROM JobBidding WHERE JobId = @JobId AND ISNULL(IsPending,'N') = 'Y'
+		SELECT @SeekerId = UserId,@BidDuration = ISNULL(BidDuration,0) FROM JobBidding WHERE JobId = @JobId AND ISNULL(IsPending,'N') = 'Y'
 		
 		--Update Job
-		UPDATE Job SET JobStatus = 'A',JobSeekerId = @SeekerId ,JobStatusSeeker='A' WHERE JobId = @JobId
+		UPDATE Job SET JobStatus = 'A',JobSeekerId = @SeekerId ,JobStatusSeeker='A',JobCompletionDate = DATEADD(D,@BidDuration,GETDATE()) WHERE JobId = @JobId
 		
 		--Update JobBidding
 		UPDATE JobBidding SET IsAccepted = 'Y' WHERE JobId = @JobId AND ISNULL(IsPending,'N') = 'Y'

@@ -81,7 +81,9 @@ namespace MatchBX.Controllers
                     objGigList.FirstOrDefault().GigTrendingTagsMappingList = objGigMod.GetTagsByGigId(gigid);
                     objGigList.FirstOrDefault().GigDocumentsList = objGigMod.GetDocumentsByGigId(gigid);
                     objGig = objGigList.FirstOrDefault();
-                    objGig.BudgetASPString = objGigList.FirstOrDefault().BudgetASP.ToString();
+                    objGig.BudgetInDollar = objGig.BudgetASP;
+                    objGig.BudgetASP = objGig.BudgetASP * (decimal)Session["ExRate"];
+                    objGig.BudgetASPString = "$ " + objGig.BudgetASP.ToString("#,##0.00");
                     objGig.GigId = Convert.ToInt32(id);
                     TempData["SelectedTags"] = objGig.GigTrendingTagsMappingList;
                     TempData["SelectedSkills"] = objGig.GigSkillsMappingList;
@@ -647,7 +649,7 @@ namespace MatchBX.Controllers
                     _GigList.FirstOrDefault().GigSkillsMappingList = _GigModel.GetSkillsByGigId(gigid);
                     _GigList.FirstOrDefault().GigTrendingTagsMappingList = _GigModel.GetTagsByGigId(gigid);
                     _Gig = _GigList.FirstOrDefault();
-                    //Session["JobPoster"] = objJob.UserId;
+                    Session["JobPoster"] = _Gig.UserId;
 
                     Session["JobCategory"] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_Gig.Category.ToLower());
                     Session["JobCategoryHeader"] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_Gig.Category.ToLower());
@@ -662,7 +664,7 @@ namespace MatchBX.Controllers
                     }
 
                     decimal exchangerate = MatchBxCommon.GetExchangeRate();
-                    int bid = Convert.ToInt32(_Gig.BudgetASP);
+                    decimal bid = Convert.ToDecimal(_Gig.BudgetASP);
                     decimal perc = (Convert.ToDecimal(bid) * 3) / 100;
                     TempData["AXPRFeeAmt"] = perc.ToString("#,##0.00");
                     string totalfees = (bid + perc).ToString("#,##0.00");

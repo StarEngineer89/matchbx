@@ -11,7 +11,8 @@ CREATE PROCEDURE [spJobBidAccept]
 (	 
 	@JobBiddingId int,
 	@JobId int,
-	@JobStatus char(1)	
+	@JobStatus char(1),
+	@JobCompletionDate datetime	
 )
 AS
 BEGIN
@@ -23,6 +24,7 @@ BEGIN
 		UPDATE JobBidding SET IsPending = 'Y' WHERE JobBiddingId = @JobBiddingId
 		--UPDATE JobBidding SET IsActive = 'N' WHERE JobId = @JobId AND JobBiddingId <> @JobBiddingId		
 		--UPDATE Job SET JobStatus = 'A',JobSeekerId = @BidUserId,JobStatusSeeker='A' WHERE JobId = @JobId
+		--UPDATE Job SET JobCompletionDate = @JobCompletionDate WHERE JobId = @JobId
 		SELECT @JobBiddingId AS JobBiddingId
 	END	
 	ELSE

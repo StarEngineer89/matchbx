@@ -7,7 +7,6 @@ using System.Linq;
 using System.Web;
 using Business;
 using DBFramework;
-
 namespace Model
 {
    public class TrendingTagsModel : DBContext

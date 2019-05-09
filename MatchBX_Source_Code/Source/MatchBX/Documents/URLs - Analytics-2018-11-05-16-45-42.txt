@@ -1,0 +1,23 @@
+Analytics Dashboard
+-------------------
+https://analytics.google.com/analytics/web/#/report-home/a125223685w183758332p181233996
+
+Embed API
+---------
+https://ga-dev-tools.appspot.com/embed-api/
+
+Analytics Dev Guide
+-------------------
+https://developers.google.com/analytics/devguides/reporting/embed/v1/
+
+Realtime API Guide
+------------------
+https://developers.google.com/analytics/devguides/reporting/realtime/v3/
+
+Dimensions & Matrices
+---------------------
+https://developers.google.com/analytics/devguides/reporting/core/dimsmets
+
+Analytics API Explorer
+----------------------
+https://developers.google.com/apis-explorer/#p/analytics/v3/

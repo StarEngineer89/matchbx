@@ -1,2 +1,2 @@
-for %%G in (*.sql) do sqlcmd /S {DB server} /d {DB name} -U {user} -P {paswword} -i"%%G"
+for %%G in (*.sql) do sqlcmd /S {DB link} /d {DB name} -U {DB username} -P {DB password} -i"%%G"
 pause

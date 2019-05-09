@@ -83,7 +83,7 @@ namespace MatchBX.Controllers
                 }
                 objJob.SkillsList = "0";
                 List<Job> _JobList = new List<Job>();
-                objJob.SortBy = "N";
+                objJob.SortBy = "B";
                 GetCategory();
                 objJob.FromPage = category;
                 //if (Session["UserId"] != null)
@@ -203,7 +203,7 @@ namespace MatchBX.Controllers
             objTrending.FromPage = category;
             List<Job> _JobList = new List<Job>();
             
-            objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetJobDetails(objJob).OrderByDescending(x => x.CreatedDate).ToList());
+            objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetJobDetails(objJob).OrderByDescending(x => x.Rownumber).ToList());
             _JobList = objJobList;
             if (string.IsNullOrWhiteSpace(_searchtext))
             {
@@ -342,29 +342,33 @@ namespace MatchBX.Controllers
                 if (jobid != 0)
                 {
                     objJobList = objJobMod.GetJobPost(jobid);
-                    if (objJobList.Count() > 0)
-                    {
-                        TrendingTagsModel _TrendingTagsModel = new TrendingTagsModel();
-                        SkillsModel _SkillsModel = new SkillsModel();
+                if (objJobList.Count() > 0)
+                {
+                    TrendingTagsModel _TrendingTagsModel = new TrendingTagsModel();
+                    SkillsModel _SkillsModel = new SkillsModel();
                     //TempData["Tags"] = objJobMod.GetTrendingTags(objJobList[0].JobCategoryId);
                     //TempData["Skills"] = objJobMod.GetTopSkills(objJobList[0].JobCategoryId);
                     if (jobid != 0)
                     {
                         TempData["Tags"] = _TrendingTagsModel.GetList(" * ", " JobCategoryId = " + objJobList[0].JobCategoryId);
-                    } else
+                    }
+                    else
                     {
                         TempData["Tags"] = _TrendingTagsModel.GetList(" * ", " JobCategoryId = " + objJobList[0].JobCategoryId + " and TagType = 'S'");
                     }
-                        TempData["Skills"] = _SkillsModel.GetList(" * ", " JobCategoryId = " + objJobList[0].JobCategoryId);
-                        objJobList.FirstOrDefault().JobSkillsMappingList = objJobMod.GetSkillsByJobId(jobid);
-                        objJobList.FirstOrDefault().JobTrendingTagsMappingList = objJobMod.GetTagsByJobId(jobid);
-                        objJobList.FirstOrDefault().JobDocumentsList = objJobMod.GetDocumentsByJobId(jobid);
-                        objJob = objJobList.FirstOrDefault();
-                        objJob.JobId = Convert.ToInt32(id);
-                       TempData["SelectedTags"] = objJob.JobTrendingTagsMappingList;
-                       TempData["SelectedSkills"] = objJob.JobSkillsMappingList;
-                       Session["TrendingTagsList"]= objJob.JobTrendingTagsMappingList;
-                       Session["SkillsList"] = objJob.JobSkillsMappingList;
+                    TempData["Skills"] = _SkillsModel.GetList(" * ", " JobCategoryId = " + objJobList[0].JobCategoryId);
+                    objJobList.FirstOrDefault().JobSkillsMappingList = objJobMod.GetSkillsByJobId(jobid);
+                    objJobList.FirstOrDefault().JobTrendingTagsMappingList = objJobMod.GetTagsByJobId(jobid);
+                    objJobList.FirstOrDefault().JobDocumentsList = objJobMod.GetDocumentsByJobId(jobid);
+                    objJob = objJobList.FirstOrDefault();
+                    objJob.BudgetInDollar = objJob.BudgetASP;
+                    objJob.BudgetASP = objJob.BudgetASP * (decimal)Session["ExRate"];
+                    objJob.BudgetASPString = "$ " + objJob.BudgetASP.ToString("#,##0.00");
+                    objJob.JobId = Convert.ToInt32(id);
+                    TempData["SelectedTags"] = objJob.JobTrendingTagsMappingList;
+                    TempData["SelectedSkills"] = objJob.JobSkillsMappingList;
+                    Session["TrendingTagsList"] = objJob.JobTrendingTagsMappingList;
+                    Session["SkillsList"] = objJob.JobSkillsMappingList;
 
                 }
 
@@ -657,7 +661,7 @@ namespace MatchBX.Controllers
             {
                 decimal bidbudget = Convert.ToDecimal(budget);
                 decimal exchangerate = MatchBxCommon.GetExchangeRate();
-                decimal budgetindollar = exchangerate * bidbudget;
+                decimal budgetindollar = bidbudget / exchangerate;
                 return Json(budgetindollar, JsonRequestBehavior.AllowGet);
             }
             catch(Exception ex)
@@ -687,11 +691,12 @@ namespace MatchBX.Controllers
         [HttpPost]
         [AllowAnonymous]
       
-        public ActionResult BidJob(decimal bidamount,string bidmessage, int jobid, int bidid,int jobposterid,string jobtitle, int _TokenDistributionId, string _AccountInfo)
+        public ActionResult BidJob(decimal bidamount, int bidDuration, string bidmessage, int jobid, int bidid,int jobposterid,string jobtitle, int _TokenDistributionId, string _AccountInfo)
         {
             Users _objuser = new Users();
             objBidding.UserId = Convert.ToInt32(Session["UserId"]);
             objBidding.BidAmount = bidamount;
+            objBidding.BidDuration = bidDuration;
             objBidding.BidMessage = bidmessage;
             objBidding.JobId = jobid;
             objBidding.JobBiddingId = bidid;
@@ -712,7 +717,7 @@ namespace MatchBX.Controllers
                     _objMessage.Message = bidmessage;
                     _objMessage.ReceiverId = jobposterid;
                     _objMessage.ReadStatus = 0;
-                    _objMessage.MessageType = "M";
+                    _objMessage.MessageType = "J";
                     _objMessage.FileSize = 0;
                     _objMessage.FileName = "";
                     _objMessage.JobId = jobid;
@@ -772,7 +777,7 @@ namespace MatchBX.Controllers
         }
         [NoCache]
         //[SessionExpire]
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, string type = "")
         {
             TempData["TrendingTagsFooter"] = MatchBxCommon.GetTrendingTagsFooter();
             TempData["BidMessage"] = "";
@@ -804,9 +809,17 @@ namespace MatchBX.Controllers
                     objJobList.FirstOrDefault().JobTrendingTagsMappingList = objJobMod.GetTagsByJobId(jobid);
                     objJob = objJobList.FirstOrDefault();
                     JobModel _ObjModel = new JobModel();
-                    objJob.CurrentOffersList = _ObjModel.GetCurrentBidsForJob(new Job { JobId= jobid });
                     decimal exchangerate1 = MatchBxCommon.GetExchangeRate();
-                    objJob.CurrentOffersList.ForEach(x => x.DollarCount = Math.Round(exchangerate1 * (x.BidAmount), 2));
+                    if (type == "A")
+                    {
+                        objJob.CurrentOffersList = _ObjModel.GetCurrentBidsForJob(new Job { JobId = jobid });
+                        objJob.CurrentOffersList.ForEach(x => x.DollarCount = Math.Round(exchangerate1 * (x.BidAmount), 2));
+                    }
+                    else if(type == "C")
+                    {
+                        objJob.DeclinedOffersList = _ObjModel.GetDeclinedBidsForJob(new Job { JobId = jobid });
+                        objJob.DeclinedOffersList.ForEach(x => x.DollarCount = Math.Round(exchangerate1 * (x.BidAmount), 2));
+                    }
                     Session["JobPoster"] = objJob.UserId;
                 
                     Session["JobCategory"] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(objJob.Category.ToLower());
@@ -822,11 +835,11 @@ namespace MatchBX.Controllers
                     }
 
                     TimeSpan span = objJob.JobCompletionDate.Subtract(DateTime.Now);
-                    string EndingIn = span.Days + " DAYS, " + span.Hours + " HOURS, " + span.Minutes + " MINS";
+                    string EndingIn = (span.Days + 1) + " DAYS, " + (span.Hours + 1) + " HOURS, " + span.Minutes + " MINS";
                     if (span.Days == 0 ||  objJob.JobStatus == "P" )
                     {
                         Session["Expired"] = "N";
-                        EndingIn = span.Days + " DAYS, " + Math.Abs( span.Hours) + " HOURS, " +Math.Abs( span.Minutes) + " MINS";
+                        EndingIn = (span.Days + 1) + " DAYS, " + Math.Abs(span.Hours + 1) + " HOURS, " +Math.Abs(span.Minutes) + " MINS";
                     }
                    else  if (span.Days < 0 || span.Hours < 0 || span.Minutes < 0 || objJob.JobStatus == "A" || objJob.JobStatus == "C" || objJob.JobStatusSeeker == "C")
                     {
@@ -842,32 +855,35 @@ namespace MatchBX.Controllers
                         objBiddingList = objBiddingMod.LoadJobBiddingDetails(_JobBidding);
                         if (objBiddingList.Count() > 0)
                         {
+                            decimal exchangerate = MatchBxCommon.GetExchangeRate();
                             TempData["BidMessage"] = objBiddingList.FirstOrDefault().BidMessage;
-                            TempData["BidAmount"] = (objBiddingList.FirstOrDefault().BidAmount).ToString("#,##0") + " AXPR";
-                            int bid = Convert.ToInt32(objBiddingList.FirstOrDefault().BidAmount);
+                            TempData["BidAmount"] = "$ " + (objBiddingList.FirstOrDefault().BidAmount * exchangerate).ToString("#,##0.00");
+                            TempData["BidDuration"] = objBiddingList.FirstOrDefault().BidDuration;
+                            decimal bid = Convert.ToDecimal(objBiddingList.FirstOrDefault().BidAmount);
                             decimal perc = (Convert.ToDecimal(bid) * 3) / 100;
                             TempData["AXPRFeeAmt"] = perc.ToString("#,##0.00");
                             
                             string totalfees= (bid - perc).ToString("#,##0.00");
                             TempData["AXPRFeeTotAmt"] = totalfees;
-                            decimal exchangerate = MatchBxCommon.GetExchangeRate();
-                            TempData["BidAmountinDollar"] = (Math.Round(exchangerate * (objBiddingList.FirstOrDefault().BidAmount),2)).ToString("#,##0.00");
+                            
+                            TempData["BidAmountinDollar"] = objBiddingList.FirstOrDefault().BidAmount.ToString("#,##0.00");
                             TempData["JobBiddingId"] = objBiddingList.FirstOrDefault().JobBiddingId;
                             TempData["TokenDistributionId"] = objBiddingList.FirstOrDefault().TokenDistributionId;
                             TempData["IsPendingStatus"] = objBiddingList.FirstOrDefault().IsPending;
                         }
                         else
                         {
+                            decimal exchangerate = MatchBxCommon.GetExchangeRate();
                             TempData["IsPendingStatus"] = "N";
-                            TempData["BidAmount"]  = objJob.BudgetASP.ToString("#,##0") + " AXPR";
-                            int bid = Convert.ToInt32(objJob.BudgetASP);
+                            TempData["BidAmount"]  = "$ " + (objJob.BudgetASP * exchangerate).ToString("#,##0.00");
+                            TempData["BidDuration"] = 0;
+                            decimal bid = Convert.ToDecimal(objJob.BudgetASP);
                             decimal perc = (Convert.ToDecimal(bid) * 3) / 100;
                             TempData["AXPRFeeAmt"] = perc.ToString("#,##0.00");
 
                             string totalfees = (bid - perc).ToString("#,##0.00");
                             TempData["AXPRFeeTotAmt"] = totalfees;
-                            decimal exchangerate = MatchBxCommon.GetExchangeRate();
-                            TempData["BidAmountinDollar"] = (Math.Round(exchangerate * objJob.BudgetASP, 2)).ToString("#,##0.00");
+                            TempData["BidAmountinDollar"] = objJob.BudgetASP.ToString("#,##0.00");
                         }
                     }
 

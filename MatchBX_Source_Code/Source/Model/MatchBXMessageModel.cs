@@ -7,7 +7,6 @@ using System.Linq;
 using System.Web;
 using Business;
 using DBFramework;
-
 namespace Model
 {
    public class MatchBXMessageModel : DBContext
@@ -57,6 +56,19 @@ namespace Model
         {
             return base.GetCustomFunction<MatchBXMessage>("spMessageReadStatus", _object);
         }
-
+        public List<MatchBXMessage> GetProjectMessages(int ReceiverId)
+        {
+            MatchBXMessage _object = new MatchBXMessage();
+            _object.ReceiverId = ReceiverId;
+            _object.JobId = 0;
+            return base.GetCustomFunction<MatchBXMessage>("spGetAllProjectMessage", _object);
+        }
+        public Users GetMessageStatus(int SenderId)
+        {
+            Users _object = new Users();
+            _object.UserId = SenderId;
+            var result = base.GetCustomFunction<Users>("spGetMessageStatus", _object);
+            return result.FirstOrDefault();
+        }
     }
 }

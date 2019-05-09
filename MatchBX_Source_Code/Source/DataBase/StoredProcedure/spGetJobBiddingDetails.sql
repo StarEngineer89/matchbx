@@ -2,7 +2,7 @@
 --Created Date  :	22-02-2019
 --Purpose       :	To get gig details for Dashboard
 
---EXEC spGetJobBiddingDetails 3115
+--EXEC spGetJobBiddingDetails 4142
 
 
 
@@ -21,6 +21,7 @@ BEGIN
 		COALESCE(U.FullName,'@'+U.UserName) AS SeekerFullName,
 		ISNULL(UP.ProfilePic,'/Content/images/user.png') AS SeekerProfilePic,
 		JB.BidAmount,
+		JB.BidDuration,
 		JB.BidMessage,
 		TD.TokenAddress,
 		JB.UserId AS SeekerId,

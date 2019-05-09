@@ -13,7 +13,7 @@ CREATE PROCEDURE [spGetAutomatedJobsForTrendingTags]
 AS
 BEGIN
 CREATE TABLE #Result1 (
-[JobTitle] [nvarchar](30) NOT NULL,
+[JobTitle] [nvarchar](200) NOT NULL,
 [Type] [nvarchar](2)
 )
 IF(@FromPage='')

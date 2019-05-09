@@ -603,8 +603,10 @@ namespace MatchBX.Controllers
         {
         
             string message = "";
-            //objJob.JobId = JobId;
-            objJob = objJobMod.GetARecord(JobId);
+            objJob.JobId = JobId;
+            objJob.UserId = UserId;
+            //objJob = objJobMod.GetARecord(JobId);
+            objJob = objJobMod.GetJobAndPosterDetails(objJob).FirstOrDefault();
             if (Convert.ToInt32(Session["UserType"]) == 1)
             {
                 objJob.JobStatusSeeker = "C";
@@ -634,9 +636,9 @@ namespace MatchBX.Controllers
                 //objNotification.Header = "Job completed";
                 //objNotiMod.Save(objNotification);
 
-                objUser = objUsersMod.GetList("*", " UserId = '" + UserId + "'").FirstOrDefault();
-                string email = objUser.Email;
-                string postername = objUser.FullName != null ? objUser.FullName : "@"+objUser.UserName;
+                //objUser = objUsersMod.GetList("*", " UserId = '" + UserId + "'").FirstOrDefault();
+                string email = objJob.Email;
+                string postername = objJob.FullName;
                 string seekername = "@" + Session["UserName"].ToString();
                 string jobtitle = JobTitle;
                 if (MatchBxCommon.checkuseremailpreferences("4,2", Convert.ToInt32(Session["UserId"])) == true)
@@ -697,12 +699,16 @@ namespace MatchBX.Controllers
             return Json(message, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult BidOffer(int JobId, int JobBiddingId, string Status, string JobTitle, int UserId, string TokenAddressSeeker, string IsApprovedSeeker, decimal bidamount)
+        public JsonResult BidOffer(int JobId, int JobBiddingId, string Status, string JobTitle, int UserId, string TokenAddressSeeker, string IsApprovedSeeker, decimal bidamount, int bidDuration)
         {
            
             string message = "";
             objJobbidding = objJobbiddingMod.GetList("*", " JobBiddingId = '" + JobBiddingId + "'").FirstOrDefault();
             objJobbidding.JobStatus = Status;
+            //if(Status == "A")
+            //{
+            //    objJobbidding.JobCompletionDate = DateTime.Now.AddDays(bidDuration);
+            //}
             if (objJobbiddingMod.JobBidAcceptorDecline(objJobbidding))
             {
                 message = "Success";                  
@@ -756,14 +762,16 @@ namespace MatchBX.Controllers
             {
                 BurnPer = Convert.ToDecimal(ConfigurationManager.AppSettings["BurnPercentage"]);
                 //var jobObj = objJobMod.GetARecord(JobId);
-                var jobObj = objJobMod.GetList("*", "JobId =" + JobId).FirstOrDefault();
-                if (jobObj.GigSubscriptionId > 0)
-                {
-                    BidAmount = jobObj.BudgetASP;
-                }
-                else {
-                    BidAmount = objJobbiddingMod.GetList(" BidAmount ", " JobId = " + JobId + " and IsAccepted = 'Y' ").FirstOrDefault().BidAmount;
-                }
+                //var jobObj = objJobMod.GetList(" * ", "JobId =" + JobId).FirstOrDefault();
+                //if (jobObj.GigSubscriptionId > 0)
+                //{
+                //    BidAmount = jobObj.BudgetASP;
+                //}
+                //else {
+                //    BidAmount = objJobbiddingMod.GetList(" BidAmount ", " JobId = " + JobId + " and IsAccepted = 'Y' ").FirstOrDefault().BidAmount;
+                //}
+                objJobbidding.JobId = JobId;
+                BidAmount = objJobbiddingMod.GetBudgetAmount(objJobbidding).FirstOrDefault().BidAmount;
             }
             string message = "";
             TransactionDetailModel _TransactionDetailModel = new TransactionDetailModel();
@@ -1757,7 +1765,7 @@ namespace MatchBX.Controllers
         //    #endregion
         //    return PartialView("GigsRow", objGigListFiltered);
         //}
-        public PartialViewResult LoadMoreServices(string type, int id)
+        public PartialViewResult LoadMoreServices(string type, int id, string filterBy)
         {
             objJob.UserId = Convert.ToInt32(Session["UserId"]);
             decimal exchangerate = MatchBxCommon.GetExchangeRate();
@@ -1769,7 +1777,7 @@ namespace MatchBX.Controllers
                 objGig = new Gig()
                 {
                     JobCategoryId = 0,
-                    UserId = objUser.UserId,
+                    UserId = objJob.UserId,
                     TrendingTagsIdList = "0",
                     SkillsList = "0",
                     MinBudget = 0,
@@ -1808,9 +1816,39 @@ namespace MatchBX.Controllers
                     MaxBudget = 0,
                     SortBy = "Y"
                 };
-                objGigList = MatchBxCommon.GenerateBadgeForGig(objGigMod.GetPurchasedServices(objGig).Where(g => g.GigSubscriptionId < id).OrderByDescending(g => g.GigSubscriptionId).ToList());
+                if (id != 0)
+                {
+                    objGigList = MatchBxCommon.GenerateBadgeForGig(objGigMod.GetPurchasedServices(objGig).Where(g => g.GigSubscriptionId < id).OrderByDescending(g => g.GigSubscriptionId).ToList());
+                }
+                else
+                {
+                    objGigList = MatchBxCommon.GenerateBadgeForGig(objGigMod.GetPurchasedServices(objGig).OrderByDescending(g => g.GigSubscriptionId).ToList());
+                }
+                //objGigList = MatchBxCommon.GenerateBadgeForGig(objGigMod.GetPurchasedServices(objGig).Where(g => g.GigSubscriptionId < id).OrderByDescending(g => g.GigSubscriptionId).ToList());
                 objGigList.ForEach(s => s.BudgetASPInt = Convert.ToInt32(s.BudgetASP));
                 objGigList.ForEach(s => s.BudgetInDollar = Math.Round((s.BudgetInDollar * exchangerate), 2));
+               
+                switch(filterBy)
+                {
+                    case "jc":
+                        objGigList = objGigList.Where(x => x.JobStatus == "C").ToList();
+                        break;
+                    case "jp":
+                        objGigList = objGigList.Where(x => x.GigSubscriptionStatus == "J" && x.IsApproved == "Y" && x.JobStatus != "C" && x.JobStatusSeeker != "C").ToList();
+                        break;
+                    case "pf":
+                        objGigList = objGigList.Where(x => x.GigSubscriptionStatus == "S").ToList();
+                        break;
+                    case "pp":
+                        objGigList = objGigList.Where(x => x.GigSubscriptionStatus == "A" && x.TransactionType != "D" && x.IsApproved != "Y").ToList();
+                        break;
+                    case "pc":
+                        objGigList = objGigList.Where(x => x.GigSubscriptionStatus == "A" && x.TransactionType == "D" && x.IsApproved != "Y").ToList();
+                        break;
+                    case "pr":
+                        objGigList = objGigList.Where(x => x.GigSubscriptionStatus == "J" && x.JobStatusSeeker == "C" && x.JobStatus == "A").ToList();
+                        break;
+                }
 
                 postedRecord = objGigList.Count();
                 if (postedRecord > recordDisplay)
@@ -1823,6 +1861,7 @@ namespace MatchBX.Controllers
                 }
 
                 objGigList.ForEach(x => { x.Isloadmore = postedloadmore; x.Category = "purchasedservices"; });
+
                 objGigListFiltered = objGigList.Take(recordDisplay).ToList();
             }
             #endregion
@@ -1835,9 +1874,45 @@ namespace MatchBX.Controllers
                     CurrentDate = DateTime.Now
                 };
                 dynamic model = new ExpandoObject();
-                List<Job> objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetMyJobs(objJob).Where(g => g.JobId < id).OrderByDescending(g => g.JobId).ToList());
+                List<Job> objJobList = new List<Job>();
+                if (id != 0)
+                {
+                    objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetMyJobs(objJob).Where(g => g.JobId < id).OrderByDescending(g => g.JobId).ToList());
+                }
+                else
+                {
+                    objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetMyJobs(objJob).OrderByDescending(g => g.JobId).ToList());
+                }
                 objJobList.ForEach(s => s.BudgetASPInt = Convert.ToInt32(s.BudgetASP));
                 objJobList.ForEach(s => s.BudgetInDollar = Math.Round((s.BudgetInDollar * exchangerate), 2));
+
+                switch (filterBy)
+                {
+                    case "aj":
+                        objJobList = objJobList.Where(x => x.IsActive == "Y" && x.IsExpired != "Y" && (x.JobStatus == "P" || x.JobStatus == "B") && x.PendingBid == 0).ToList();
+                        break;
+                    case "jc":
+                        objJobList = objJobList.Where(x => x.JobStatus == "C").ToList();
+                        break;
+                    case "jb":
+                        objJobList = objJobList.Where(x => x.IsExpired == "Y" && x.JobStatus != "C" && (x.JobStatusSeeker == "A" || x.JobStatusSeeker == "C")).ToList();
+                        break;
+                    case "je":
+                        objJobList = objJobList.Where(x => x.IsExpired == "Y" && x.JobStatus != "C" && x.JobStatusSeeker == null).ToList();
+                        break;
+                    case "jp":
+                        objJobList = objJobList.Where(x => x.IsActive == "Y" && x.IsExpired != "Y" && x.JobStatus == "A" && x.JobStatusSeeker == "A").ToList();
+                        break;
+                    case "jr":
+                        objJobList = objJobList.Where(x => x.IsActive == "Y" && x.IsExpired != "Y" && x.JobStatus == "A" && x.JobStatusSeeker == "C").ToList();
+                        break;
+                    case "pa":
+                        objJobList = objJobList.Where(x => x.JobStatus == "R" && x.IsExpired != "Y").ToList();
+                        break;
+                    case "pp":
+                        objJobList = objJobList.Where(x => x.IsActive == "Y" && x.IsExpired != "Y" && x.JobStatus == "B" && x.PendingBid != 0).ToList();
+                        break;
+                }
 
                 postedRecord = objJobList.Count();
                 if (postedRecord > recordDisplay)
@@ -1850,6 +1925,7 @@ namespace MatchBX.Controllers
                 }
 
                 objJobList.ForEach(x => { x.Isloadmore = postedloadmore; x.Category = "myjobs"; });
+
                 return PartialView("JobsRow", objJobList.Take(recordDisplay).ToList());
             }
             #endregion
@@ -1862,9 +1938,37 @@ namespace MatchBX.Controllers
                     CurrentDate = DateTime.Now
                 };
                 dynamic model = new ExpandoObject();
-                List<Job> objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetJobsBidOn(objJob).Where(g => g.JobId < id).OrderByDescending(g => g.JobId).ToList());
+                List<Job> objJobList = new List<Job>();
+                if (id != 0)
+                {
+                    objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetJobsBidOn(objJob).Where(g => g.JobId < id).OrderByDescending(g => g.JobId).ToList());
+                }
+                else
+                {
+                    objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetJobsBidOn(objJob).OrderByDescending(g => g.JobId).ToList());
+                }
+                //List<Job> objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetJobsBidOn(objJob).Where(g => g.JobId < id).OrderByDescending(g => g.JobId).ToList());
                 objJobList.ForEach(s => s.BudgetASPInt = Convert.ToInt32(s.BudgetASP));
                 objJobList.ForEach(s => s.BudgetInDollar = Math.Round((s.BudgetInDollar * exchangerate), 2));
+
+                switch (filterBy)
+                {
+                    case "jc":
+                        objJobList = objJobList.Where(x => x.JobStatus == "C" && x.JobStatusSeeker == "C" && x.TransactionDetailId != 0).ToList();
+                        break;
+                    case "jp":
+                        objJobList = objJobList.Where(x => x.JobStatusSeeker == "A" && x.JobStatus == "A").ToList();
+                        break;
+                    case "pc":
+                        objJobList = objJobList.Where(x => x.JobStatusSeeker == "C" && x.JobStatus == "A").ToList();
+                        break;
+                    case "pi":
+                        objJobList = objJobList.Where(x => x.JobStatus == "C" && x.JobStatusSeeker == "C" && x.TransactionDetailId == 0).ToList();
+                        break;
+                    case "pp":
+                        objJobList = objJobList.Where(x => x.JobStatus == "B" && x.IsAccepted != "Y" && x.IsPending == "Y").ToList();
+                        break;
+                }
 
                 postedRecord = objJobList.Count();
                 if (postedRecord > recordDisplay)
@@ -1877,6 +1981,7 @@ namespace MatchBX.Controllers
                 }
 
                 objJobList.ForEach(x => { x.Isloadmore = postedloadmore; x.Category = "jobsBidOn"; });
+
                 return PartialView("JobsRow", objJobList.Take(recordDisplay).ToList());
             }
             #endregion

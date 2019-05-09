@@ -30,7 +30,7 @@ namespace MatchBX.Hubs
             Business.Login _objLogin = new Business.Login();
             _objLogin = _objLoginModel.CheckUserOnlineStatus(receiverUserId, sendUserId);
 
-            Clients.All.addNewMessageToPage(message, receiverUserId, sendUserId, "Chat", _objLogin.IsOnline, roomId, type, filesize, filename);
+            Clients.All.addNewMessageToPage(message, receiverUserId, sendUserId, "Chat", _objLogin.IsOnline, roomId, type, filesize, filename,_objLogin.ProfilePic);
             if (_objLogin.IsMailSent == 0)
             {
                 MatchBxCommon.OfflineMessageMail(sendUserId, receiverUserId, _model.Id);

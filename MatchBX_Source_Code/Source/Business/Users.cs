@@ -52,5 +52,6 @@ namespace Business
         public string NotificationStatus { get; set; }
         public string MessageStatus { get; set; }
         public string VerifiedPartner { get; set; }
+        public string ProjectMsgStatus { get; set; }
     }
 }

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Web;
 using Business;
 using DBFramework;
-
 namespace Model
 {
    public class JobModel : DBContext
@@ -154,6 +153,13 @@ namespace Model
         {
             return base.GetCustomFunction<Job>("spGetJobBiddingDetails", _object);
         }
-
+        public List<Job> GetDeclinedBidsForJob(Job _object)
+        {
+            return base.GetCustomFunction<Job>("spGetDeclinedJobBiddingDetails", _object);
+        }
+        public List<Job> GetJobAndPosterDetails(Job _object)
+        {
+            return base.GetCustomFunction<Job>("spGetJobAndPosterDetails", _object);
+        }
     }
 }

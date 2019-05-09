@@ -1,3 +1,175 @@
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\csc.exe
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\System.Collections.Immutable.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\System.Reflection.Metadata.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\vbc.exe
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\VBCSCompiler.exe
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\roslyn\VBCSCompiler.exe.config
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\MatchBX.dll.config
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\MatchBX.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\MatchBX.pdb
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Antlr3.Runtime.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\EntityFramework.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\EntityFramework.SqlServer.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AI.Agent.Intercept.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AI.DependencyCollector.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AI.Web.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AI.WindowsServer.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.ApplicationInsights.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AspNet.Identity.Core.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.Cookies.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.Facebook.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.Google.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.OAuth.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.Twitter.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Web.Infrastructure.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Newtonsoft.Json.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Owin.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.Helpers.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.Mvc.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.Optimization.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.Razor.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.WebPages.Deployment.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.WebPages.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.WebPages.Razor.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\WebGrease.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AI.DependencyCollector.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AI.Web.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AI.WindowsServer.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.ApplicationInsights.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.Helpers.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.Mvc.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.Optimization.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.Razor.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.WebPages.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.WebPages.Deployment.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\System.Web.WebPages.Razor.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Antlr3.Runtime.pdb
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Newtonsoft.Json.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\EntityFramework.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\EntityFramework.SqlServer.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AspNet.Identity.Core.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.Facebook.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.Cookies.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.OAuth.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.Google.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.Twitter.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\obj\Debug\MatchBX.csprojResolveAssemblyReference.cache
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\obj\Debug\MatchBX.dll
+D:\LSG Projects\MatchBX\MatchBX\MatchBX\obj\Debug\MatchBX.pdb
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\csc.exe
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\System.Collections.Immutable.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\System.Reflection.Metadata.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\vbc.exe
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\VBCSCompiler.exe
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\roslyn\VBCSCompiler.exe.config
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\MatchBX.dll.config
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\MatchBX.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\MatchBX.pdb
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Antlr3.Runtime.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Business.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\EntityFramework.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\EntityFramework.SqlServer.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AI.Agent.Intercept.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AI.DependencyCollector.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AI.Web.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AI.WindowsServer.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.ApplicationInsights.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AspNet.Identity.Core.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AspNet.SignalR.Core.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.Security.Cookies.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.Security.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.Security.Facebook.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.Security.OAuth.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Web.Infrastructure.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Model.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\MvcSiteMapProvider.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\MvcSiteMapProvider.WebActivator.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Newtonsoft.Json.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Owin.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Quartz.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.Helpers.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.Mvc.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.Optimization.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.Razor.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.WebPages.Deployment.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.WebPages.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.WebPages.Razor.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\WebActivatorEx.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\WebGrease.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Business.pdb
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Model.pdb
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AI.DependencyCollector.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AI.Web.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AI.WindowsServer.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.ApplicationInsights.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.Security.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.Security.Cookies.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.Security.Facebook.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.Owin.Security.OAuth.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\MvcSiteMapProvider.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\MvcSiteMapProvider.WebActivator.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Newtonsoft.Json.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Quartz.pdb
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Quartz.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.Helpers.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.Mvc.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.Optimization.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.Razor.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.WebPages.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.WebPages.Deployment.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\System.Web.WebPages.Razor.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Antlr3.Runtime.pdb
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\EntityFramework.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\EntityFramework.SqlServer.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AspNet.Identity.Core.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\obj\Debug\MatchBX.csprojResolveAssemblyReference.cache
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\obj\Debug\MatchBX.dll
+D:\LSG Projects\MatchBX\SourceCode\MatchBX\obj\Debug\MatchBX.pdb
 D:\LSG Projects\SourceCode\MatchBX\bin\roslyn\csc.exe
 D:\LSG Projects\SourceCode\MatchBX\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 D:\LSG Projects\SourceCode\MatchBX\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -15,6 +187,7 @@ D:\LSG Projects\SourceCode\MatchBX\bin\MatchBX.dll
 D:\LSG Projects\SourceCode\MatchBX\bin\MatchBX.pdb
 D:\LSG Projects\SourceCode\MatchBX\bin\Antlr3.Runtime.dll
 D:\LSG Projects\SourceCode\MatchBX\bin\Business.dll
+D:\LSG Projects\SourceCode\MatchBX\bin\DBFramework.dll
 D:\LSG Projects\SourceCode\MatchBX\bin\EntityFramework.dll
 D:\LSG Projects\SourceCode\MatchBX\bin\EntityFramework.SqlServer.dll
 D:\LSG Projects\SourceCode\MatchBX\bin\Microsoft.AI.Agent.Intercept.dll
@@ -52,11 +225,9 @@ D:\LSG Projects\SourceCode\MatchBX\bin\System.Web.WebPages.dll
 D:\LSG Projects\SourceCode\MatchBX\bin\System.Web.WebPages.Razor.dll
 D:\LSG Projects\SourceCode\MatchBX\bin\WebActivatorEx.dll
 D:\LSG Projects\SourceCode\MatchBX\bin\WebGrease.dll
-D:\LSG Projects\SourceCode\MatchBX\bin\Microsoft.Web.Administration.dll
+D:\LSG Projects\SourceCode\MatchBX\bin\log4net.dll
 D:\LSG Projects\SourceCode\MatchBX\bin\Business.pdb
-D:\LSG Projects\SourceCode\MatchBX\bin\Business.dll.config
 D:\LSG Projects\SourceCode\MatchBX\bin\Model.pdb
-D:\LSG Projects\SourceCode\MatchBX\bin\Model.dll.config
 D:\LSG Projects\SourceCode\MatchBX\bin\Microsoft.AI.DependencyCollector.xml
 D:\LSG Projects\SourceCode\MatchBX\bin\Microsoft.AI.ServerTelemetryChannel.xml
 D:\LSG Projects\SourceCode\MatchBX\bin\Microsoft.AI.Web.xml
@@ -89,102 +260,6 @@ D:\LSG Projects\SourceCode\MatchBX\bin\EntityFramework.SqlServer.xml
 D:\LSG Projects\SourceCode\MatchBX\bin\Microsoft.AspNet.Identity.Core.xml
 D:\LSG Projects\SourceCode\MatchBX\bin\Microsoft.AspNet.Identity.Owin.xml
 D:\LSG Projects\SourceCode\MatchBX\bin\Microsoft.AspNet.Identity.EntityFramework.xml
-D:\LSG Projects\SourceCode\MatchBX\obj\Debug\MatchBX.csprojAssemblyReference.cache
-D:\LSG Projects\SourceCode\MatchBX\obj\Debug\MatchBX.csproj.CoreCompileInputs.cache
-D:\LSG Projects\SourceCode\MatchBX\obj\Debug\MatchBX.csproj.CopyComplete
+D:\LSG Projects\SourceCode\MatchBX\obj\Debug\MatchBX.csprojResolveAssemblyReference.cache
 D:\LSG Projects\SourceCode\MatchBX\obj\Debug\MatchBX.dll
 D:\LSG Projects\SourceCode\MatchBX\obj\Debug\MatchBX.pdb
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\csc.exe
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\Microsoft.CodeAnalysis.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\Microsoft.CSharp.Core.targets
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\Microsoft.VisualBasic.Core.targets
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\System.Collections.Immutable.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\System.Reflection.Metadata.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\vbc.exe
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\VBCSCompiler.exe
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\roslyn\VBCSCompiler.exe.config
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\MatchBX.dll.config
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\MatchBX.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\MatchBX.pdb
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Antlr3.Runtime.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Business.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\DBFramework.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\EntityFramework.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\EntityFramework.SqlServer.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AI.Agent.Intercept.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AI.DependencyCollector.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AI.PerfCounterCollector.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AI.ServerTelemetryChannel.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AI.Web.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AI.WindowsServer.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.ApplicationInsights.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AspNet.Identity.Core.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AspNet.Identity.EntityFramework.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AspNet.Identity.Owin.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AspNet.SignalR.Core.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.Host.SystemWeb.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.Security.Cookies.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.Security.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.Security.Facebook.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.Security.OAuth.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Web.Infrastructure.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Model.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\MvcSiteMapProvider.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\MvcSiteMapProvider.WebActivator.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Newtonsoft.Json.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Owin.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Quartz.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.Helpers.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.Mvc.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.Optimization.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.Razor.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.WebPages.Deployment.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.WebPages.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.WebPages.Razor.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\WebActivatorEx.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\WebGrease.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\log4net.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Web.Administration.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Business.pdb
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Model.pdb
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AI.DependencyCollector.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AI.ServerTelemetryChannel.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AI.Web.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AI.WindowsServer.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.ApplicationInsights.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AspNet.SignalR.Core.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.Host.SystemWeb.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.Security.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.Security.Cookies.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.Security.Facebook.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.Owin.Security.OAuth.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\MvcSiteMapProvider.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\MvcSiteMapProvider.WebActivator.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Newtonsoft.Json.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Quartz.pdb
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Quartz.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.Helpers.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.Mvc.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.Optimization.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.Razor.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.WebPages.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.WebPages.Deployment.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\System.Web.WebPages.Razor.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Antlr3.Runtime.pdb
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\EntityFramework.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\EntityFramework.SqlServer.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AspNet.Identity.Core.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AspNet.Identity.Owin.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\bin\Microsoft.AspNet.Identity.EntityFramework.xml
-D:\PRK\Code Transfer\Code Transfer\MatchBX\obj\Debug\MatchBX.csprojResolveAssemblyReference.cache
-D:\PRK\Code Transfer\Code Transfer\MatchBX\obj\Debug\MatchBX.dll
-D:\PRK\Code Transfer\Code Transfer\MatchBX\obj\Debug\MatchBX.pdb

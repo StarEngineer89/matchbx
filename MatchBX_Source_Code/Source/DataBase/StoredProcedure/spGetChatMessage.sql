@@ -34,11 +34,12 @@ set @IsOnline=(select top 1 case when LogoutDate is null then 'Online' else 'Act
 
 
 select A.MatchBXMessageId,A.Message,A.ReadStatus,A.ReceiverId,A.SendUserId as SendUserId,dbo.fnChatTimeStamp(A.CreatedDateTime) CreatedDateTime,
-B.UserName as ReceiverName,C.UserName as SendUserName,@IsOnline IsOnline  ,@Room RoomId,ISNULL(MessageType,'M') AS MessageType,
+B.UserName as ReceiverName,C.UserName as SendUserName,case when U.ProfilePic is null then '/Content/images/user.png' else U.ProfilePic end as ProfilePic,@IsOnline IsOnline  ,@Room RoomId,RTRIM(ISNULL(MessageType,'M')) AS MessageType,
 ISNULL(FileSize,0) AS FileSize,ISNULL(FileName,'') AS FileName,ISNULL(JobId,0) AS JobId
 from MatchBXMessage A 
 left join Users B on A.ReceiverId =B.UserId
 left join Users C on A.SendUserId=C.UserId
+left join UserProfile U on A.[SendUserId ] = U.UserId
 where (ReceiverId=@ReceiverId or @ReceiverId=0 or SendUserId=@ReceiverId) and (SendUserId=@SendUserId or @SendUserId=0 or ReceiverId=@SendUserId)
 and (ISNULL(JobId,0)= CASE WHEN @JobId = 0 THEN 0 ELSE @JobId END)
 		

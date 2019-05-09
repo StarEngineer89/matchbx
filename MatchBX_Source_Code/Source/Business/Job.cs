@@ -156,5 +156,7 @@ namespace Business
         public string BidMessageDisplay { get; set; }
         public string IsAccepted { get; set; }
         public int TransactionDetailId { get; set; }
+        public int BidDuration { get; set; }
+        public List<Job> DeclinedOffersList { get; set; }
     }
 }

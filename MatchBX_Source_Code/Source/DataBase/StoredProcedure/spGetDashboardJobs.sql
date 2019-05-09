@@ -42,18 +42,29 @@ SELECT
 	J.JobStatus,
 	J.JobStatusSeeker,
 	J.IsActive,
-	CASE WHEN DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) > 0 THEN 'Y' ELSE 'N' END AS [IsExpired],
+	CASE WHEN J.JobStatus IN ('P','B') THEN
+		CASE WHEN DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) > 0 THEN 'Y' ELSE 'N' END 
+	ELSE
+		CASE WHEN DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) > 0 THEN 'Y' ELSE 'N' END END
+	 AS [IsExpired],
+	CASE WHEN J.JobStatus IN ('P','B') THEN	
 	CASE WHEN DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) > 0 THEN 'Job Expired' ELSE
 		CASE WHEN  (DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)/24 = 0 
 			 THEN  CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)%24) + ' Hours'
 			 ELSE CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)/24) + ' Days, ' +
-			 CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)%24) + ' Hours' END
-	END AS [TimeRemaining],
+			 CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)%24) + ' Hours' END END
+	ELSE	
+	CASE WHEN DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) > 0 THEN 'Job Expired' ELSE
+		CASE WHEN  (DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) * -1)/24 = 0 
+			 THEN  CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) * -1)%24) + ' Hours'
+			 ELSE CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) * -1)/24) + ' Days, ' +
+			 CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) * -1)%24) + ' Hours' END
+	END END AS [TimeRemaining],
 	COALESCE(COALESCE(US.FullName,USB.FullName),'@'+COALESCE(US.UserName,USB.UserName)) AS SeekerFullName,
 	COALESCE(ISNULL(USP.ProfilePic,'/Content/images/user.png'),ISNULL(USBP.ProfilePic,'/Content/images/user.png')) AS SeekerProfilePic,
 	COALESCE(JB.BidAmount,JBS.BidAmount) AS BidAmount,
 	COALESCE(JB.BidMessage,JBS.BidMessage) AS BidMessage,
-	ISNULL(JBS.UserId,0) AS SeekerId,
+	ISNULL(COALESCE(JBS.UserId,JB.UserId),0) AS SeekerId,
 	ISNULL(JBS.JobBiddingId,0) AS JobBiddingId, 
 	CASE 
 		WHEN J.JobStatus = 'R'THEN 'Pending Admin Approval'

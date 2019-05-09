@@ -35,6 +35,7 @@ namespace Business
         public string IsPending { get; set; }
         public string AcceptStatus { get; set; }
         public string AcceptStatusHover { get; set; }
-
+        public int BidDuration { get; set; }
+        public DateTime JobCompletionDate { get; set; }
     }
 }

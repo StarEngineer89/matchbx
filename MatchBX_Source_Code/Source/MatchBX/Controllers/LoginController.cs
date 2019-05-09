@@ -323,6 +323,7 @@ namespace MatchBX.Controllers
                     Session["Email"] = objUsersList[0].Email;
                     Session["NotificationStatus"] = objUsersList[0].NotificationStatus;
                     Session["MessageStatus"] = objUsersList[0].MessageStatus;
+                    Session["ProjectMsgStatus"] = objUsersList[0].ProjectMsgStatus;
                     //Session["ProfilePic"] = objProfileMod.GetARecord(objUsersList[0].UserId).ProfilePic;
                     SetSession();
                     if (objProfileMod.GetList("*", "UserId=" + objUsersList[0].UserId).Count() > 0)

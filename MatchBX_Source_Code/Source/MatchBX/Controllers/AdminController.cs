@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 namespace MatchBX.Controllers
 {
     [SessionExpire]
+    [ExceptionLog]
     public class AdminController : Controller
     {
         AdminFeatures _objadmFeaturesbus = new AdminFeatures();

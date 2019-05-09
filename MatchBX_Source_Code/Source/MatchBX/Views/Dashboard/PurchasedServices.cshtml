@@ -6,8 +6,17 @@
 @if (Model.PurchasedServices != null)
 {
     <div id="job_bid_on_id_dash" class="tab-pane fade clearfix active in gig_dash">
-        <div class="col-md-12 dash_tab_con_heading_bg padd_left_right_o">
+        <div class="col-md-12 dash_tab_con_heading_bg padd_left_right_o h3andselect_headingbg clearfix">
             <h3 class="dash_tab_con_heading_h3">Purchased Services <span id="spancount">(@TempData["PurchasedServices"])</span></h3>
+            <select id="ddFilter" class="form-control">
+                <option value="all" selected>All Jobs</option>
+                <option value="jc">Jobs Completed</option>
+                <option value="jp">Jobs in Progress</option>
+                <option value="pf">Pending Freelancer Acceptance</option>
+                <option value="pp">Pending Payment</option>
+                <option value="pc">Pending Payment Confirmation</option>
+                <option value="pr">Pending Review</option>
+            </select>
         </div>
         @foreach (var item in Model.PurchasedServices)
         {
@@ -21,7 +30,7 @@
                     <div class="timeframe_budget_small clearfix">
                         <div class="timeframe_only"><span>Delivery time: </span>&nbsp;<span>@item.GigDuration Days</span></div>
                         <div class="timeframe_only"><span>Purchased:</span>&nbsp;<span>@item.GigSubscribed Times</span></div>
-                        <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(item.BudgetASPInt.ToString("#,##0"), " AXPR ", "($", item.DollarCount.ToString("N2"), ")")</span></div>
+                        <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(item.BudgetASP.ToString("#,##0.00"), " AXPR ", "($", item.DollarCount.ToString("N2"), ")")</span></div>
                         <div class="axp_star_only">
                             <ul>
                                 @if (item.BadgeCount == 1)
@@ -47,7 +56,7 @@
                             <div class="gig_deliverable_box_inn clearfix">
                                 <h3 class="">@item.Title</h3>
                                 <div class="readmoretext more">
-                                    @if (item.GigSubscriptionDisplay.Length > 100)
+                                    @if (item.GigSubscriptionDisplay != null && item.GigSubscriptionDisplay.Length > 100)
                                     {
                                         html = item.GigSubscriptionDisplay.Substring(0, 100);
                                         h = item.GigSubscriptionDisplay.Substring(100 - 1, item.GigSubscriptionDisplay.Length - 100);
@@ -58,7 +67,7 @@
                                     }
 
                                     @html
-                                    @if (item.GigSubscriptionDisplay.Length > 100)
+                                    @if (item.GigSubscriptionDisplay != null && item.GigSubscriptionDisplay.Length > 100)
                                     {
                                         <span class="moreellipses">...&nbsp;</span>
                                         <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = item.GigSubscriptionId })" class="morelink">Read More</a></span>
@@ -126,14 +135,14 @@
                     {
                         <div class="pull-left"><div class="pending_box_alert panding_alert">Pending Payment Confirmation</div></div>
                         <div class="pull-right dash_time_allmenus">
-                            <a href="#" onclick="LoadMessages('GigPurchased',@item.UserId,'@item.FullName','',@item.GigId, event)" class="dash_time_right_menu">Send Message</a>
+                            @*<a href="#" onclick="LoadMessages('GigPurchased',@Html.Raw(Json.Encode(Session["UserId"])),'@item.FullName','',@item.JobId, '@item.GigTitle',@item.UserId, event)" class="dash_time_right_menu">Send Message</a>*@
                         </div>
                     }
                     else if (item.GigSubscriptionStatus == "A" && item.TransactionType != "D" && item.IsApproved != "Y")
                     {
                         <div class="pull-left"><div class="pending_box_alert panding_alert">Pending Payment</div></div>
                         <div class="pull-right dash_time_allmenus">
-                            <a href="#" onclick="LoadMessages('GigPurchased',@item.UserId,'@item.FullName','',@item.GigId, event)" class="dash_time_right_menu">Send Message</a>
+                            @*<a href="#" onclick="LoadMessages('GigPurchased',@Html.Raw(Json.Encode(Session["UserId"])),'@item.FullName','',@item.JobId, '@item.GigTitle',@item.UserId, event)" class="dash_time_right_menu">Send Message</a>*@
                         </div>
                     }
                     else if (item.GigSubscriptionStatus == "J" && item.JobStatusSeeker == "C" && item.JobStatus == "A")
@@ -141,7 +150,7 @@
                         <div class="pull-left"><div class="pending_box_alert panding_alert">Pending Review</div></div>
                         <div class="pull-right dash_time_allmenus">
                             <a href="#" id="btnComplete" class="dash_time_right_menu decenabled" title="Mark as Complete">Mark as Complete</a>
-                            <a href="#" onclick="LoadMessages('GigPurchased',@item.UserId,'@item.FullName','',@item.GigId, event)" class="dash_time_right_menu">Send Message</a>
+                            <a href="#" onclick="LoadMessages('GigPurchased',@Html.Raw(Json.Encode(Session["UserId"])),'@item.FullName','',@item.JobId, '@item.Title',@item.UserId, event)" class="dash_time_right_menu">Send Message</a>
                             <input type="hidden" id="hfJobId_@item.JobId" value="@item.JobId">
                             <input type="hidden" id="hfJobPosterId_@item.UserId" value="@item.UserId">
                             <input type="hidden" id="hfJobtitle_@item.JobId" value="@item.Title">
@@ -157,7 +166,7 @@
                     {
                         <div class="pull-left"><div class="pending_box_alert progress_alert">Job in Progress</div></div>
                         <div class="pull-right dash_time_allmenus">
-                            <a href="#" onclick="LoadMessages('GigPurchased',@item.UserId,'@item.FullName','',@item.GigId, event)" class="dash_time_right_menu" id="">Send Message</a>
+                            <a href="#" onclick="LoadMessages('GigPurchased',@Html.Raw(Json.Encode(Session["UserId"])),'@item.FullName','',@item.JobId, '@item.Title',@item.UserId, event)" class="dash_time_right_menu" id="">Send Message</a>
                         </div>
                     }
                     else if(item.JobStatus == "C")
@@ -171,6 +180,11 @@
         }
         @if (Model.PurchasedServices != null && Model.PurchasedServices.Count == 0)
         {
+            <script>
+                $(function() {
+                    $('#ddFilter').hide();
+                });
+            </script>
             <div class="nojob_diplytable" id="divmsg">
                 <div class="col-md-12 category_nojob_bg clearfix">
                     <h3>You have not purchased a service yet</h3>
@@ -199,10 +213,11 @@
     var chat = $.connection.chatHub;
     var notification = $.connection.notificationHub;
     var _hubid = $.connection.hub.id;
+    var filterBy = "all";
 
     $(document).ready(function () {
-        //var _count = $("#spancount").text();
-        //$("#gigsubpending span").text(_count);
+        var _count = $("#spancount").text();
+        $("#purchasedService span").text(_count);
 
         $("#job_bid_on_id_dash").on("click", "#cancelSub", function () {
             _Id = $(this).parent().find('input[id^="hfGigId_"]').val();
@@ -239,11 +254,12 @@
         })
 
         function LoadMore(id) {
+            $("#divloadmore").hide();
             $.ajax({
                 type: 'POST',
                 cache: false,
                 url: '@Url.Action("LoadMoreServices", "Dashboard")',
-                data: { 'type': 'purchasedservices', 'id': id },
+                data: { 'type': 'purchasedservices', 'id': id, 'filterBy': filterBy },
                 success: function (response) {
                     $("#divloadmore").remove();
                     $('#job_bid_on_id_dash').append(response);
@@ -400,16 +416,57 @@
 
         $('#dontReview').click(function() {
             closebox('mark_complete_rating_pop_id');
-            window.location.reload();
+            $('#purchasedService').trigger('click');
+        });
+
+        $('#ddFilter').change(function() {
+            debugger;
+            var _Id = $('#job_bid_on_id_dash div.dash_timeremaining_box_bg').last().find('input[id^="hfGigSubId_"]').val();
+            if(filterBy != this.value) {
+                _Id = 0;
+            }
+            filterBy = this.value;
+            $('.dash_jobs_box_1_bg').remove();
+            $('.nojob_diplytable').remove();
+            switch(filterBy) {
+                case 'jc': LoadMore(_Id); break;
+                case 'jp': LoadMore(_Id); break;
+                case 'pf': LoadMore(_Id); break;
+                case 'pp': LoadMore(_Id); break;
+                case 'pc': LoadMore(_Id); break;
+                case 'pr': LoadMore(_Id); break;
+                default: LoadMore(_Id); break;
+            }
         });
     });
 
-    function LoadMessages(_from, _prmSendUserId, _prmJobSeeker, _prmBidUserProfilePic, _prmJobId, evt) {
+    //function filterJobs(by) {
+    //    var displayedJobs = 0;
+    //    $('.dash_jobs_box_1_bg').each(function(index, element) {
+    //        if (by != 'All') {
+    //            if($(this).find('.pending_box_alert').text().toUpperCase().indexOf(by.toUpperCase()) != -1){
+    //                $(this).show();
+    //                displayedJobs++;
+    //            } else {
+    //                $(this).hide();
+    //            }
+    //        } else {
+    //            $(this).show();
+    //        }
+    //    });
+    //    if(displayedJobs == 0) {
+    //        $('#btnloadmore').hide();
+    //    } else {
+    //        $('#btnloadmore').show();
+    //    }
+    //}
+
+    function LoadMessages(_from, _prmSendUserId, _prmJobSeeker, _prmBidUserProfilePic, _prmJobId, _prmJobTitle, _prmReceiverId, evt) {
         $.ajax({
             type: 'POST',
             cache: false,
             url: '@Url.Action("ChatForSendMessage", "Home")',
-            data: { "_prmSendUserId": _prmSendUserId, "from": _from, "_prmJobSeeker": _prmJobSeeker, "_prmBidUserProfilePic": _prmBidUserProfilePic, "_prmJobID": _prmJobId },
+            data: { "_prmSendUserId": _prmSendUserId, "from": _from, "_prmJobSeeker": _prmJobSeeker, "_prmBidUserProfilePic": _prmBidUserProfilePic, "_prmJobID": _prmJobId, "_prmJobTitle": _prmJobTitle, "_prmReceiverId": _prmReceiverId },
             success: function (response) {
                 $("#divChat").html(response);
                 openbox(1, 'divChat');
@@ -491,7 +548,8 @@
             });
         }
 
-        function AcceptGigOffer(GigSubscriptionId, status) {            
+        function AcceptGigOffer(GigSubscriptionId, status) {   
+            $("#loaderDiv").show();
             $.ajax({
                 type: 'POST',
                 cache: false,
@@ -505,7 +563,7 @@
                     var _userName = "@Session["FullName"]";
                     var _notification = "";
                     var _header = "";
-                    var _Url = "";                   
+                    var _Url = "";      
                     if (response.JobId != 0) {                        
                         var jobid = response.JobId                       
                         if (status == "A") {
@@ -538,13 +596,17 @@
                                 } else {
                                     UpdateTransactionDetail(jobid, _sendUserId, 'D', 'D', txhash, _GigBudget);
                                     //location.reload();
-                                    $('#purchasedService').trigger('click');
+                                    //$('#purchasedService').trigger('click');
+                                    //setTimeout(function () {
+                                    //    $('#purchasedService').trigger('click');
+                                    //}, 5000);
                                     closebox('gigPayForGig_pop');
                                 }
                             }
 
                             App.handleDeposit(jobid, _TokenAddress, _GigBudget * Math.pow(10, 18), callBack);
                         }
+                        $("#loaderDiv").hide();
                     } 
                     else 
                     {
@@ -555,8 +617,12 @@
                             notification.server.send(_sendUserId, _receiverUserId, _fullname, _notification, _header, _Url);
                         }).fail(function(){ console.log('Could not connect'); });
 
-                        $('#purchasedService').trigger('click');
-                        closebox('gigPayForGig_pop');
+                        setTimeout(function () {
+                            $("#loaderDiv").hide();
+                            closebox('gigPayForGig_pop');
+                            $('#purchasedService').trigger('click');
+                        }, 5000);
+                        //$('#purchasedService').trigger('click');
                     }
 
                     //JobsListedWithoutExchangeRate();
@@ -588,13 +654,15 @@
         }
 
         function UpdateTransactionDetail(jobid, userid, transactiontype, processtype, hash) {
+            $("#loaderDiv").show();
             $.ajax({
                 type: 'POST',
                 cache: false,
                 url: '@Url.Action("UpdateTransactionDetail", "Dashboard")',
                 data: { 'JobId': jobid, 'UserId': userid, 'TransactionType': transactiontype, 'ProcessType': processtype, 'Hash': hash },
                 success: function (response) {
-
+                    $("#loaderDiv").hide();
+                    $('#purchasedService').trigger('click');
                 },
                 error: function (jqXHR, exception) {
                     console.log(jqXHR.status);
@@ -759,7 +827,10 @@
                         }
                         else
                         {
-                            closebox('mark_complete_confirmation_pop_id');
+                            setTimeout(function () {
+                                closebox('mark_complete_confirmation_pop_id');
+                                $('#purchasedService').trigger('click');
+                            }, 5000);
                         }
                     }
                     SaveTransactionDetail(jobid,_posterid,'S','C','',0,'',callback); // save spent transaction details

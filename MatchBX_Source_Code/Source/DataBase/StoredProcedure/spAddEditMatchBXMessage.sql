@@ -14,7 +14,7 @@ CREATE PROCEDURE spAddEditMatchBXMessage
 @Message  nvarchar(1000),
 @ReadStatus  bit,
 @IsMailSent int,
-@MessageType char(1),
+@MessageType char(2),
 @FileSize FLOAT,
 @FileName NVARCHAR(1000),
 @JobId INT

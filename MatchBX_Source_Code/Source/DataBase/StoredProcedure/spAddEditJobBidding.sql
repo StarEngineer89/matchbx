@@ -12,6 +12,7 @@ CREATE PROCEDURE spAddEditJobBidding
 	@JobId	int,
 	@UserId	int,
 	@BidAmount	decimal(18,3),
+	@BidDuration int,
 	@BidMessage	nvarchar(1000),
 	@IsActive	char(1),
 	@IsAccepted char(1)	
@@ -27,7 +28,8 @@ BEGIN
 		BidMessage,
 		IsActive,
 		CreatedDate,
-		IsAccepted		
+		IsAccepted,
+		BidDuration	
 	)
 	VALUES 
 	(
@@ -37,7 +39,8 @@ BEGIN
 		@BidMessage,
 		@IsActive,
 		GETDATE(),
-		@IsAccepted
+		@IsAccepted,
+		@BidDuration
 	)
     SELECT MAX(JobBiddingId) AS JobBiddingId  FROM JobBidding
 
@@ -51,7 +54,8 @@ BEGIN
    BidMessage = @BidMessage,
    IsActive = @IsActive,
    ModifiedDate = GETDATE(),
-   IsAccepted = @IsAccepted   
+   IsAccepted = @IsAccepted,
+   BidDuration = @BidDuration   
    WHERE JobBiddingId = @JobBiddingId
 
    SELECT @JobBiddingId as JobBiddingId

@@ -41,13 +41,24 @@ SELECT
 	J.IsActive,
 	ISNULL(JB.IsPending,'N') AS IsPending,
 	ISNULL(TD.TransactionDetailId,0) AS TransactionDetailId,
-	CASE WHEN DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) > 0 THEN 'Y' ELSE 'N' END AS [IsExpired],
-	CASE WHEN DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) > 0 THEN 'Job Expired' ELSE
-		CASE WHEN  (DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)/24 = 0 
-			 THEN  CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)%24) + ' Hours'
-			 ELSE CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)/24) + ' Days, ' +
-			 CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)%24) + ' Hours' END
-	END AS [TimeRemaining],
+	CASE WHEN J.JobStatus IN ('P','B') THEN
+		CASE WHEN DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) > 0 THEN 'Y' ELSE 'N' END 
+	ELSE
+		CASE WHEN DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) > 0 THEN 'Y' ELSE 'N' END END
+	 AS [IsExpired],
+	CASE WHEN J.JobStatus IN ('P','B') THEN
+		CASE WHEN DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) > 0 THEN 'Job Expired' ELSE
+			CASE WHEN  (DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)/24 = 0 
+				 THEN  CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)%24) + ' Hours'
+				 ELSE CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)/24) + ' Days, ' +
+				 CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),@CurrentDate) * -1)%24) + ' Hours' END END
+	ELSE	
+	CASE WHEN DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) > 0 THEN 'Job Expired' ELSE
+		CASE WHEN  (DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) * -1)/24 = 0 
+			 THEN  CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) * -1)%24) + ' Hours'
+			 ELSE CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) * -1)/24) + ' Days, ' +
+			 CONVERT(NVARCHAR(10),(DATEDIFF(HOUR,J.JobCompletionDate,@CurrentDate) * -1)%24) + ' Hours' END
+	END END AS [TimeRemaining],
 	CASE WHEN LEN(JB.BidMessage) > 50 THEN SUBSTRING(JB.BidMessage,0,50) + '...' ELSE JB.BidMessage END AS 'BidMessageDisplay',
 	CASE 
 		WHEN J.JobStatus = 'B' AND JB.IsAccepted = 'N' AND ISNULL(JB.IsPending,'N') = 'N' THEN 'Bid'

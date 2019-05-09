@@ -7,7 +7,6 @@ using System.Linq;
 using System.Web;
 using Business;
 using DBFramework;
-
 namespace Model
 {
    public class JobBiddingModel : DBContext
@@ -56,6 +55,11 @@ namespace Model
         {
             List<JobBidding> _list = base.GetCustomFunction<JobBidding>("spCancelBid", _obj);
             return _list.Count > 0 ? true : false;
+        }
+        public List<JobBidding> GetBudgetAmount(JobBidding _obj)
+        {
+            List<JobBidding> _list = base.GetCustomFunction<JobBidding>("spGetBudgetAmount", _obj);
+            return _list;
         }
     }
 }

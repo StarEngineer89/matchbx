@@ -2,7 +2,7 @@
 --Created Date  :	22-02-2019
 --Purpose       :	To get gig details for Dashboard
 
---EXEC spGetDeclinedJobBiddingDetails 1161
+--EXEC spGetDeclinedJobBiddingDetails 383
 
 
 
@@ -28,7 +28,7 @@ BEGIN
 FROM JobBidding JB 
 INNER JOIN Users U ON U.UserId = JB.UserId
 LEFT JOIN UserProfile UP ON UP.UserId = U.UserId
-WHERE JB.JobId = @JobId AND JB.IsActive = 'N'
+WHERE JB.JobId = @JobId AND JB.IsActive = 'N' AND JB.BidDuration <> 0
 END
 GO
 

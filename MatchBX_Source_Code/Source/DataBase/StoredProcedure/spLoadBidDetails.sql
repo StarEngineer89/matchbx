@@ -24,7 +24,8 @@ SELECT
 	JB.IsAccepted,
 	JB.JobBiddingId,
 	ISNULL(TD.TokenDistributionId,0) AS TokenDistributionId,
-	ISNULL(IsPending,'N') AS IsPending
+	ISNULL(IsPending,'N') AS IsPending,
+	JB.BidDuration
 FROM JobBidding JB
 LEFT JOIN TokenDistribution TD ON JB.JobBiddingId = TD.JobBiddingId
 WHERE JB.JobId = @JobId AND JB.UserId = @UserId AND JB.IsActive = 'Y'

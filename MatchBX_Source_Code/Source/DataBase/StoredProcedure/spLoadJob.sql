@@ -2,7 +2,7 @@
 --Created Date  :	29-06-2018
 --Purpose       :	Load job details for edit
 
---EXEC spLoadJob 1
+--EXEC spLoadJob 382
 
 IF EXISTS (SELECT * FROM sys.procedures where schema_id = schema_id('dbo')and name=N'spLoadJob')
 DROP procedure spLoadJob
@@ -16,6 +16,8 @@ BEGIN
 
 SELECT COUNT(JobId) AS 'TotalJobs',UserId into #JobCompletedPoster
 FROM Job WHERE JobStatus = 'C' AND IsActive = 'Y' GROUP BY UserId
+
+SELECT COUNT(JobBiddingId) AS 'ActiveBids',JobId into #JobBidding FROM JobBidding WHERE IsActive='Y' GROUP BY JobId
 
 SELECT 
 	J.JobId,
@@ -37,13 +39,18 @@ SELECT
 	JR.Category,
 	J.UserId,
 	J.JobStatus,
-	J.BudgetASP AS 'BudgetASPString'
+	J.BudgetASP AS 'BudgetASPString',
+	CASE WHEN DATEDIFF(HOUR,DATEADD(d,1,J.JobCompletionDate),GETDATE()) > 0 THEN 'Y' ELSE 'N' END AS IsExpired,
+	JB.ActiveBids
 FROM Job J 
 INNER JOIN Users U ON U.UserId = J.UserId
 LEFT JOIN UserProfile UP ON UP.UserId = U.UserId
 INNER JOIN JobCategory JR ON JR.JobCategoryId = J.JobCategoryId
 LEFT JOIN #JobCompletedPoster JC ON JC.UserId = J.UserId
-WHERE JobId = @JobId AND (J.IsActive = 'Y' OR (J.IsActive = 'N' AND J.JobStatus = 'R'))
+LEFT JOIN #JobBidding JB ON JB.JobId = J.JobId
+WHERE J.JobId = @JobId AND (J.IsActive = 'Y' OR (J.IsActive = 'N' AND J.JobStatus = 'R'))
+
+drop table #JobBidding
 		
 END
 GO

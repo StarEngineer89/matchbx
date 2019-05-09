@@ -1,0 +1,85 @@
+Build and deploy #Ethereum smart contracts using Visual Studio
+--------------------------------------------------------------
+https://koukia.ca/build-and-deploy-an-ethereum-smart-contracts-using-visual-studio-10218d3b8091
+
+
+Introduction to Nethereum Blockchain in dotNetCore 
+--------------------------------------------------
+https://www.vicompany.nl/magazine/start-with-blockchain-in-dotnetcore
+
+
+Integration with Smart Contract
+-------------------------------
+http://ethdocs.org/en/latest/
+
+
+https://github.com/Nethereum/Nethereumy
+
+
+https://nethereum.readthedocs.io/en/latest/
+
+
+https://hyperonomy.com/2017/12/19/ethereum-net-examples-using-the-nethereum-libraries/
+
+
+https://koukia.ca/deploy-ethereum-smart-contracts-using-c-and-visualstudio-5be188ae928c
+
+
+https://github.com/E01D/Ethereum/wiki/Nethereum-Basic-Tutorial
+
+
+DTO Generation from smart contract - Nethereum
+----------------------------------------------
+https://nethereum.readthedocs.io/en/latest/nethereum-code-generation/
+
+
+Web3.js
+-------
+https://ethereum.stackexchange.com/questions/8461/web3-js-and-local-html-ui
+
+http://hypernephelist.com/2016/06/21/a-simple-smart-contract-ui-web3.html
+
+http://hypernephelist.com/2016/06/01/deploying-my-first-smart-contract.html
+
+https://github.com/ethereum/wiki/wiki/JavaScript-API
+
+https://forum.ethereum.org/discussion/15325/how-to-pass-bytes-to-smart-contract-function-from-web3-js
+
+https://github.com/truffle-box/react-auth-box/issues/6
+
+
+Bower with MVC
+--------------
+https://volaresystems.com/blog/post/2014/12/08/Getting-started-with-Bower-on-an-ASPNET-MVC-project
+
+https://www.thereformedprogrammer.net/converting-your-asp-net-mvc5-application-to-use-bower-grunt-and-gulp/
+
+https://stackoverflow.com/questions/38851535/visual-studio-doesnt-show-manage-bower-packages-context-menu
+
+https://www.google.co.in/search?rlz=1C1GGRV_enIN788IN788&ei=AfPBWrnwEIPRvgSqlLHgCQ&q=bower+with+mvc&oq=bower+with+mvc&gs_l=psy-ab.3.0.0i22i30k1l4.3520197.3535735.0.3537365.38.28.2.1.1.0.170.3056.11j16.27.0....0...1c.1.64.psy-ab..12.26.2703...0j46j0i67k1j0i131k1j0i46k1j33i22i29i30k1j0i22i10i30k1.0.3IVIUzKXiLo&safe=active&ssui=on
+
+
+Truffle
+-------
+https://ethereum.stackexchange.com/questions/18574/how-to-get-deployed-contract-address-using-truffle-3-x-console
+
+https://stackoverflow.com/questions/43935520/who-is-the-owner-of-the-contracts-deployed-using-truffle
+
+
+Interact with smart contract
+----------------------------
+https://coursetro.com/posts/code/99/Interacting-with-a-Smart-Contract-through-Web3.js-(Tutorial)
+
+
+Infura Account
+--------------
+https://infura.io/setup?key=ZtoytI3O4Ajva5jdKEyp
+
+
+Webpack with Visual Studio
+--------------------------
+https://developer.telerik.com/featured/webpack-for-visual-studio-developers/
+
+Webpack CLI issue:- https://github.com/webpack/webpack-cli/issues/230
+
+https://github.com/webpack/webpack.js.org/issues/107

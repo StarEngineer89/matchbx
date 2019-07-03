@@ -1,0 +1,1520 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+
+    <style>
+<!--
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;}
+p.MsoNormalCxSpFirst, li.MsoNormalCxSpFirst, div.MsoNormalCxSpFirst
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;}
+p.MsoNormalCxSpMiddle, li.MsoNormalCxSpMiddle, div.MsoNormalCxSpMiddle
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;}
+p.MsoNormalCxSpLast, li.MsoNormalCxSpLast, div.MsoNormalCxSpLast
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;}
+h1
+	{margin-top:20.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:20.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:normal;}
+h1.CxSpFirst
+	{margin-top:20.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:20.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:normal;}
+h1.CxSpMiddle
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:20.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:normal;}
+h1.CxSpLast
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:20.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:normal;}
+h2
+	{margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:normal;}
+h2.CxSpFirst
+	{margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:normal;}
+h2.CxSpMiddle
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:normal;}
+h2.CxSpLast
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:normal;}
+h3
+	{margin-top:16.0pt;
+	margin-right:0in;
+	margin-bottom:4.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Arial",sans-serif;
+	color:#434343;
+	font-weight:normal;}
+h3.CxSpFirst
+	{margin-top:16.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Arial",sans-serif;
+	color:#434343;
+	font-weight:normal;}
+h3.CxSpMiddle
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Arial",sans-serif;
+	color:#434343;
+	font-weight:normal;}
+h3.CxSpLast
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:4.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Arial",sans-serif;
+	color:#434343;
+	font-weight:normal;}
+h4
+	{margin-top:14.0pt;
+	margin-right:0in;
+	margin-bottom:4.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;}
+h4.CxSpFirst
+	{margin-top:14.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;}
+h4.CxSpMiddle
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;}
+h4.CxSpLast
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:4.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;}
+h5
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:4.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;}
+h5.CxSpFirst
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;}
+h5.CxSpMiddle
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;}
+h5.CxSpLast
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:4.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;}
+h6
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:4.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;
+	font-style:italic;}
+h6.CxSpFirst
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;
+	font-style:italic;}
+h6.CxSpMiddle
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;
+	font-style:italic;}
+h6.CxSpLast
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:4.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;
+	font-weight:normal;
+	font-style:italic;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:26.0pt;
+	font-family:"Arial",sans-serif;}
+p.MsoTitleCxSpFirst, li.MsoTitleCxSpFirst, div.MsoTitleCxSpFirst
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:26.0pt;
+	font-family:"Arial",sans-serif;}
+p.MsoTitleCxSpMiddle, li.MsoTitleCxSpMiddle, div.MsoTitleCxSpMiddle
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:26.0pt;
+	font-family:"Arial",sans-serif;}
+p.MsoTitleCxSpLast, li.MsoTitleCxSpLast, div.MsoTitleCxSpLast
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:26.0pt;
+	font-family:"Arial",sans-serif;}
+p.MsoSubtitle, li.MsoSubtitle, div.MsoSubtitle
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:16.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:15.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;}
+p.MsoSubtitleCxSpFirst, li.MsoSubtitleCxSpFirst, div.MsoSubtitleCxSpFirst
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:15.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;}
+p.MsoSubtitleCxSpMiddle, li.MsoSubtitleCxSpMiddle, div.MsoSubtitleCxSpMiddle
+	{margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:15.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;}
+p.MsoSubtitleCxSpLast, li.MsoSubtitleCxSpLast, div.MsoSubtitleCxSpLast
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:16.0pt;
+	margin-left:0in;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:15.0pt;
+	font-family:"Arial",sans-serif;
+	color:#666666;}
+.MsoChpDefault
+	{font-family:"Arial",sans-serif;}
+.MsoPapDefault
+	{line-height:115%;}
+/*page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:.85in .85in .85in .85in;}*/
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+    </style>
+
+
+
+
+
+    <div class=WordSection1>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in .25in 0in'>
+
+            <h1 style='margin:0in;margin-bottom:.0001pt;line-height:105%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_2nwzdliq4x6t"></a><b>
+                    <span lang=EN
+                          style='font-size:25.5pt;line-height:105%;color:#0E0E0F'>
+                        MatchBX Terms of
+                        Service
+                    </span>
+                </b>
+            </h1>
+
+            <h1 style='margin:0in;margin-bottom:.0001pt;line-height:105%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_m653lgmnbfwd"></a><span lang=EN
+                                                  style='font-size:12.0pt;line-height:105%;color:#777777'>&nbsp;</span>
+            </h1>
+
+            <h1 style='margin:0in;margin-bottom:.0001pt;line-height:105%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_rbdjgih9o7v2"></a><span lang=EN
+                                                  style='font-size:12.0pt;line-height:105%;color:#777777'>Last Update: Sept 2018</span>
+            </h1>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    Welcome to
+                    MatchBX.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    The following
+                    terms and conditions (these <b>&quot;Terms of Service&quot;</b>), govern your
+                    access to and use of the MatchBX website, including any content, functionality
+                    and services offered on or through www.matchbx.io (the <b>&quot;Site&quot;</b>),
+                    by aXpire (80 Broad Street, New York, NY. 10004) as applicable.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    Please read the
+                    Terms of Service carefully before you start to use the Site. <b>
+                        By using the
+                        Site, opening an account or by clicking to accept or agree to the Terms of
+                        Service when this option is made available to you, you accept and agree to be
+                        bound and abide by these Terms of Service and our Privacy Policy, incorporated
+                        herein by reference.
+                    </b> If you do not want to agree to these Terms of Service
+                    or the Privacy Policy, you must not access or use the Site. For more detailed
+                    policies surrounding the activity and usage on the Site, please access the
+                    designated articles herein.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    This Site is
+                    offered and available to users who are 13 years of age or older. If you are
+                    under 13 you may not use this Site or the MatchBX services. By using this Site,
+                    you represent and warrant that you are of legal age to form a binding contract
+                    and meet all of the foregoing eligibility requirements. If you do not meet all
+                    of these requirements, you must not access or use the Site.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    Our Customer
+                    Support team is available 24/7 if you have any questions regarding the Site or
+                    Terms of Service. Contacting our Customer Support team can be performed by
+                    emailing hello@matchbx.io
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_sx8z1kw4blx7"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>Key Terms</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>AXPR</span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    - the
+                    cryptocurrency used by Job seekers and job posters on the MatchBX platform
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>MetaMask</span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    - the chrome
+                    extension used to enact payment on the MatchBX platform
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>job poster</span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    - someone who
+                    posts a job on MatchBX
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>Job seeker</span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    - someone who
+                    bids for a job on MatchBX - a freelancer
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>Burn</span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    - in the
+                    context of MatchBX a small amount extra is added to the amount job seekers
+                    receive and job posters pay. This rate is 3% - an amount voted for by the
+                    aXpire community. This extra amount of AXPR is then burnt - removed from AXPR
+                    circulation.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>MatchBX</span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    - a new job’s
+                    portal, created by aXpire
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_rp769uc2zxtw"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>Overview</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 7.0pt 0in;
+margin-left:30.0pt;margin-right:0in'>
+
+            <p class=MsoNormalCxSpFirst style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Only registered
+                    users may buy and sell on MatchBX. Registration is free.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Job posters pay
+                    into an escrow account in advance of the job seeker finishing the job. These
+                    funds are released when a job is marked as completed by both the job seeker and
+                    job poster.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Users may not
+                    offer or accept payments using any method other than placing an order through
+                    MatchBX.io.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Buyers are
+                    granted all rights for the delivered work, unless otherwise specified by the
+                    seller.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    MatchBX retains
+                    the right to use all published delivered works for MatchBX marketing and
+                    promotion purposes.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpLast style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    We care about
+                    your privacy. The Privacy Policy is a part of these Terms of Service and
+                    incorporated herein by reference.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h2 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in;padding-bottom:7.0pt;border-bottom:0in none windowtext'>
+                <a name="_hfah787b2y47"></a><b>
+                    <span lang=EN style='font-size:24.0pt;line-height:
+120%;color:#0E0E0F'>Job posters</span>
+                </b>
+            </h2>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in;padding-top:7.0pt'>
+                <a name="_9j9wyez7ck1j"></a><span lang=EN style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>Basics</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 7.0pt 0in;
+margin-left:30.0pt;margin-right:0in'>
+
+            <p class=MsoNormalCxSpFirst style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Job posters
+                    create jobs on MatchBX to allow job seekers to purchase their services.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Each job which
+                    is successfully completed, means you are charged 103% of the rate you agree to
+                    pay. In other words, 3% is charged on top of the job’s cost. This is taken away
+                    and burnt.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    The job
+                    poster’s rating is calculated based on the reviews posted by job seekers. In
+                    certain cases, exceedingly low ratings may lead to the suspension of the job
+                    poster’s account.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpLast style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Job posters are
+                    responsible for paying any direct or indirect taxes, including any GST, VAT or
+                    otherwise, which may apply to them depending on residency or location. Job
+                    posters represent and warrant that they comply, and will comply at all times,
+                    with their obligations under income tax provisions in their jurisdiction.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_zen4fnf4rv1q"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>
+                    Shipping Physical
+                    Deliverables
+                </span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    Some of the
+                    services on MatchBX are delivered physically
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 7.0pt 0in;
+margin-left:30.0pt;margin-right:0in'>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    MatchBX does
+                    not handle or guarantee shipping, tracking, quality, and condition of items or
+                    their delivery and shall not be responsible or liable for any damages or other
+                    problems resulting from shipping.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpLast style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    A tracking
+                    number is a great way to avoid disputes related to shipping.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h2 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in;padding-bottom:7.0pt;border-bottom:0in none windowtext'>
+                <a name="_z0n083lovy6l"></a><b>
+                    <span lang=EN style='font-size:24.0pt;line-height:
+120%;color:#0E0E0F'>Matching</span>
+                </b>
+            </h2>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in;padding-top:7.0pt'>
+                <a name="_lkbkupqtuznd"></a><span lang=EN style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>Basics</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 7.0pt 0in;
+margin-left:30.0pt;margin-right:0in'>
+
+            <p class=MsoNormalCxSpFirst style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Before a
+                    contract is confirmed, the fee for the work is taken and hell in escrow until
+                    the job i completed.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Sellers must
+                    deliver completed files and/or proof of work according to the service that was
+                    purchased.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpLast style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    An order is
+                    marked as complete after the order is marked as ‘completed’ by both parties.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_vnzlnn61n2pt"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>Reviews</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 7.0pt 0in;
+margin-left:30.0pt;margin-right:0in'>
+
+            <p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:11.0pt;
+margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Feedback
+                    reviews provided by all parties while completing an order are an essential part
+                    of the MatchBX rating system. Reviews demonstrate the overall experience with
+                    the job seekers and job poster.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_trtj9azgow82"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>
+                    Disputes and
+                    Cancellations
+                </span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    We encourage
+                    our job seekers and job posters to try and settle conflicts amongst themselves.
+                    If for any reason this fails users can contact MatchBX’s Customer Support by
+                    emailing hello@matchbx.io
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h2 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in;padding-bottom:7.0pt;border-bottom:0in none windowtext'>
+                <a name="_s7qhfxfq4eqm"></a><b>
+                    <span lang=EN style='font-size:24.0pt;line-height:
+120%;color:#0E0E0F'>&nbsp;</span>
+                </b>
+            </h2>
+
+            <h2 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in;padding-top:7.0pt'>
+                <a name="_6ayuaqhxy5y5"></a><b>
+                    <span lang=EN style='font-size:24.0pt;line-height:120%;color:#0E0E0F'>
+                        User Conduct
+                        and Protection
+                    </span>
+                </b>
+            </h2>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    MatchBX enables
+                    people around the world to create, share, sell and purchase nearly any service
+                    they need at an unbeatable value.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_w6qoppvwcn9h"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>Basics</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 7.0pt 0in;
+margin-left:30.0pt;margin-right:0in'>
+
+            <p class=MsoNormalCxSpFirst style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    To protect our
+                    users' privacy, user identities are kept anonymous. Requesting or providing
+                    Email addresses, Skype/IM usernames, telephone numbers or any other personal
+                    contact details to communicate outside of MatchBX in order to circumvent or
+                    abuse the MatchBX messaging system or MatchBX platform is not permitted.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Any necessary
+                    exchange of personal information required to continue a service may be
+                    exchanged within the order page.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    MatchBX does
+                    not provide any guarantee of the level of service offered to job posters.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    MatchBX does
+                    not provide protection for users who interact outside of the MatchBX platform.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    All information
+                    and file exchanges must be performed exclusively on MatchBX’s platform.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Rude, abusive,
+                    improper language, or violent messages will not be tolerated and may result in
+                    an account warning or the suspension/removal of your account.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    MatchBX is open
+                    to everyone. Discrimination against a community member based on gender, race,
+                    age, religious affiliation, sexual preference or otherwise is not acceptable
+                    and may result in the suspension/removal of your account.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Users may not
+                    submit proposals or solicit parties introduced through MatchBX to contract,
+                    engage with, or pay outside of MatchBX.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 7.0pt 0in;
+margin-left:.5in;margin-right:0in'>
+
+            <p class=MsoNormal style='margin-bottom:11.0pt;line-height:128%;border:none;
+padding:0in'><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>&nbsp;</span></p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_n9ae2be192je"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>Reporting Violations</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    If you come
+                    across any content that may violate our Terms of Service, you should report it
+                    to us through the appropriate channels created to handle those issues as
+                    outlined in our Terms of Service. You can review our Privacy Policy for more
+                    information.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_t3cyfv9l1856"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>Violations</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    Users may
+                    receive a warning to their account for violations of our Terms of Service or
+                    any user misconduct reported to our Trust and Safety team. A warning will be
+                    sent to the user's email address and will be displayed for such user on the
+                    Site. Warnings do not limit account activity, but can lead to your account
+                    losing seller statuses or becoming permanently disabled based on the severity
+                    of the violation.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:3.0pt 0in 3.0pt 0in'>
+
+            <h4 style='margin:0in;margin-bottom:.0001pt;line-height:150%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_c8xi1dfspp5a"></a><span lang=EN
+                                                  style='color:#555555'>Non-Permitted Usage</span>
+            </h4>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                        Adult Services
+                        &amp; Pornography
+                    </span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:
+142%;color:#555555'>
+                    - MatchBX does not allow any exchange of adult oriented or
+                    pornographic materials and services.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                        Inappropriate
+                        Behavior &amp; Language
+                    </span>
+                </b><span lang=EN style='font-size:10.5pt;
+line-height:142%;color:#555555'>
+                    - Communication on MatchBX should be friendly,
+                    constructive, and professional. MatchBX condemns bullying, harassment, and hate
+                    speech towards others. We allow users a medium for which messages are exchanged
+                    between individuals, a system to rate orders, and to engage on larger platforms
+                    such as our Community Forum and Social Media pages.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                        Privacy &amp;
+                        Identity
+                    </span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:142%;
+color:#555555'>
+                    - You may not publish or post other people's private and
+                    confidential information. Any exchange of personal information required for the
+                    completion of a service must be provided in the order page. Sellers further
+                    confirm that whatever information they receive from the buyer, which is not
+                    public domain, shall not be used for any purpose whatsoever other than for the
+                    delivery of the work to the buyer. Any users who engage and communicate off of
+                    MatchBX will not be protected by our Terms of Service.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                        Authentic
+                        MatchBX Profile
+                    </span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:
+142%;color:#555555'>
+                    - You may not create a false identity on MatchBX,
+                    misrepresent your identity, create a MatchBX profile for anyone other than
+                    yourself (a real person), or use or attempt to use another user’s account or
+                    information; Your profile information, including your description, skills,
+                    location, etc., while may be kept anonymous, must be accurate and complete and
+                    may not be misleading, illegal, offensive or otherwise harmful.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                        Intellectual
+                        Property Claims
+                    </span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:
+142%;color:#555555'>
+                    - MatchBX will respond to clear and complete notices of
+                    alleged copyright or trademark infringement, and/or violation of third party’s
+                    terms of service.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                        Fraud /
+                        Unlawful Use
+                    </span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:142%;
+color:#555555'>
+                    - You may not use MatchBX for any unlawful purposes or to
+                    conduct illegal activities.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:3.0pt 0in 3.0pt 0in'>
+
+            <h4 style='margin:0in;margin-bottom:.0001pt;line-height:150%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_l1ycvp1uhn4"></a><span lang=EN
+                                                 style='color:#555555'>Abuse and Spam</span>
+            </h4>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                        Multiple
+                        Accounts
+                    </span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:142%;
+color:#555555'>
+                    - To prevent fraud and abuse, users are limited to one active
+                    account. Any additional account determined to be created to circumvent
+                    guidelines, promote competitive advantages, or mislead the MatchBX community
+                    will be disabled. Mass account creation may result in disabling of all related accounts.
+                    Note: any violations to MatchBX Terms of Service is cause for permanent
+                    suspension of all accounts.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>Targeted Abuse</span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    - We do not
+                    tolerate users who engage in targeted abuse or harassment towards other users
+                    on MatchBX. This includes creating new multiple accounts to harass members
+                    through our message or ordering system.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <b>
+                    <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                        Selling
+                        Accounts
+                    </span>
+                </b><span lang=EN style='font-size:10.5pt;line-height:142%;
+color:#555555'>- You may not buy or sell MatchBX accounts.</span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_v021sn58u35z"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>General Terms</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 7.0pt 0in;
+margin-left:30.0pt;margin-right:0in'>
+
+            <p class=MsoNormalCxSpFirst style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    MatchBX
+                    reserves the right to put any account on hold or permanently disable accounts
+                    due to breach of these Terms of Service or due to any illegal or inappropriate
+                    use of the Site or services.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Violation of
+                    MatchBX’s Terms of Service may get your account disabled permanently.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Users with
+                    disabled accounts will not be able to participate on MatchBX.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Users who have
+                    violated our Terms of Service and had their account disabled may contact our
+                    Customer Support team for more information surrounding the violation and status
+                    of the account.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    Users must be
+                    able to verify their account ownership through Customer Support by providing
+                    materials that prove ownership of that account.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpMiddle style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    MatchBX may
+                    make changes to its Terms of Service from time to time. When these changes are made,
+                    MatchBX will make a new copy of the terms of service available on this page.
+                </span>
+            </p>
+
+            <p class=MsoNormalCxSpLast style='margin-top:0in;margin-right:0in;margin-bottom:
+11.0pt;margin-left:.25in;text-indent:-.25in;line-height:128%;border:none;
+padding:0in'>
+                <span lang=EN style='font-size:9.0pt;line-height:128%;color:#555555'>
+                    &#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span><span lang=EN style='font-size:10.5pt;line-height:128%;color:#555555'>
+                    You understand
+                    and agree that if you use MatchBX after the date on which the Terms of Service
+                    have changed, MatchBX will treat your use as acceptance of the updated Terms of
+                    Service.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_4f0h3r145bgc"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>User Generated Content</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    User Generated
+                    Content (&quot;UGC&quot;) refers to the content added by users as opposed to
+                    content created by the Site. All content uploaded to MatchBX by our users
+                    (Buyers and Sellers) is User Generated Content. MatchBX does not check user
+                    uploaded/created content for appropriateness, violations of copyright,
+                    trademarks, other rights or violations. We invite everyone to report violations
+                    together with proof of ownership as appropriate. Reported violating content may
+                    be removed or disabled.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    Furthermore,
+                    MatchBX is not responsible for the content, quality or the level of service
+                    provided by the Sellers. We provide no warranty with respect to the contracts,
+                    their delivery, and any communications between job seekers and job posters. We
+                    encourage users to take advantage of our rating system, our community and
+                    common sense in choosing appropriate matching.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    By offering a
+                    service, the job seeker undertakes that he/she has sufficient permissions,
+                    rights and/or licenses to provide, sell or resell the service that is offered
+                    on MatchBX.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>&nbsp;</span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:15.0pt;line-height:142%;color:#0E0E0F'>Ownership</span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    Ownership and
+                    limitations: Unless clearly stated otherwise on the job posters
+                    page/description, when the work is delivered, and subject to payment, the job
+                    poster is granted all intellectual property rights, including but not limited
+                    to, copyrights for the work delivered from the job seeker, and the job seeker
+                    waives any and all moral rights therein.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_2ctw511bnnln"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>Commercial Use License</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    By purchasing a
+                    “Commercial Use License” with your order, the Seller grants you a perpetual,
+                    exclusive, non-transferable, worldwide license to use the purchased delivery
+                    for Permitted Commercial Purposes. All intellectual property rights of the
+                    purchased delivery are hereby assigned to you. “Permitted Commercial Purposes”
+                    means any business related use, such as (by way of example) advertising,
+                    promotion, creating web pages, integration into product, software or other
+                    business related tools etc., and strictly excludes any illegal, immoral or
+                    defamatory purpose. This License is subject to MatchBX’s Terms of Service.
+                    There is no warranty, express or implied, with the purchase of this delivery,
+                    including with respect to fitness for a particular purpose. Neither the Seller
+                    nor MatchBX will be liable for any claims, or incidental, consequential or
+                    other damages arising out of this license, the delivery or your use of the
+                    delivery.
+                </span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_oobbgssdc8t"></a><span lang=EN
+                                                 style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>
+                    Disclaimer of
+                    Warranties
+                </span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    YOUR USE OF THE
+                    SITE, ITS CONTENT AND ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE IS AT
+                    YOUR OWN RISK. THE SITE, ITS CONTENT AND ANY SERVICES OR ITEMS OBTAINED THROUGH
+                    THE WEBSITE ARE PROVIDED ON AN &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot;
+                    BASIS, WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. NEITHER
+                    MatchBX NOR ANY PERSON ASSOCIATED WITH MatchBX MAKES ANY WARRANTY OR
+                    REPRESENTATION WITH RESPECT TO THE COMPLETENESS, SECURITY, RELIABILITY,
+                    QUALITY, ACCURACY OR AVAILABILITY OF THE WEBSITE.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    THE FOREGOING
+                    DOES NOT AFFECT ANY WARRANTIES WHICH CANNOT BE EXCLUDED OR LIMITED UNDER
+                    APPLICABLE LAW.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>&nbsp;</span>
+            </p>
+
+        </div>
+
+        <div style='border-top:windowtext 1.0pt;border-bottom:windowtext 1.0pt;
+border-style:none;padding:7.0pt 0in 7.0pt 0in'>
+
+            <h3 style='margin:0in;margin-bottom:.0001pt;line-height:120%;page-break-after:
+auto;border:none;padding:0in'>
+                <a name="_izj50stn6apm"></a><span lang=EN
+                                                  style='font-size:15.0pt;line-height:120%;color:#0E0E0F'>Limitation on Liability</span>
+            </h3>
+
+        </div>
+
+        <div style='border:none;border-bottom:none windowtext 1.0pt;padding:0in 0in 13.0pt 0in'>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    IN NO EVENT
+                    WILL MatchBX, ITS AFFILIATES OR THEIR LICENSORS, SERVICE PROVIDERS, EMPLOYEES,
+                    AGENTS, OFFICERS OR DIRECTORS BE LIABLE FOR DAMAGES OF ANY KIND, UNDER ANY
+                    LEGAL THEORY, ARISING OUT OF OR IN CONNECTION WITH YOUR USE, OR INABILITY TO
+                    USE, THE WEBSITE, ANY WEBSITES LINKED TO IT, ANY CONTENT ON THE WEBSITE OR SUCH
+                    OTHER WEBSITES OR ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE OR SUCH
+                    OTHER WEBSITES, INCLUDING ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL,
+                    CONSEQUENTIAL OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO, PERSONAL
+                    INJURY, PAIN AND SUFFERING, EMOTIONAL DISTRESS, LOSS OF REVENUE, LOSS OF
+                    PROFITS, LOSS OF BUSINESS OR ANTICIPATED SAVINGS, LOSS OF USE, LOSS OF
+                    GOODWILL, LOSS OF DATA, AND WHETHER CAUSED BY TORT (INCLUDING NEGLIGENCE), BREACH
+                    OF CONTRACT OR OTHERWISE, EVEN IF FORESEEABLE.
+                </span>
+            </p>
+
+            <p class=MsoNormal style='line-height:142%;border:none;padding:0in'>
+                <span lang=EN style='font-size:10.5pt;line-height:142%;color:#555555'>
+                    THE FOREGOING
+                    DOES NOT AFFECT ANY LIABILITY WHICH CANNOT BE EXCLUDED OR LIMITED UNDER
+                    APPLICABLE LAW.
+                </span>
+            </p>
+
+        </div>
+
+        <p class=MsoNormal><span lang=EN>&nbsp;</span></p>
+
+    </div>
+
+

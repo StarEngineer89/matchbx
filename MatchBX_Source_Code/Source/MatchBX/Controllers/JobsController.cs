@@ -46,11 +46,10 @@ namespace MatchBX.Controllers
         int _TotalRecord = 0;
         int _loadmore = 0;
         string category = string.Empty;
-        [NoCache]
 
+        [NoCache]
         public ActionResult Index(int? id)
         {
-
             if (Session["IsEmailAlready"] != null)
             {
                 ViewBag.IsEmailAlready = "Y";
@@ -71,7 +70,8 @@ namespace MatchBX.Controllers
                 Session["FromDetails"] = null;
                 Session["DynModel"] = null;
             }
-            else {
+            else
+            {
                 if (id.GetValueOrDefault() == 0)
                 {
                     objJob.TrendingTagsIdList = "0";

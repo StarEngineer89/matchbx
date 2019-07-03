@@ -1,0 +1,26 @@
+{
+	"name": "SITENAME",
+	"short_name": "SITENAME",
+	"description": "",
+	"icons": [
+		{
+			"src": "\/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image\/png"
+		},
+		{
+			"src": "\/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image\/png"
+		}
+	],
+	"lang": "en-US",
+	"background_color": "#ffffff",
+	"theme_color": "#ffffff",
+	"display": "browser",
+	"author": "https://psdhtml.me",
+	"developer": {
+		"name": "psdHTML.me",
+		"url": "https://psdhtml.me"
+	}
+}

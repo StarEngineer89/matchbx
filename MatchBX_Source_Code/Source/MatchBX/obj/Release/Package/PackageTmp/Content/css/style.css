@@ -3424,20 +3424,12 @@ footer p {
 .social_Youtube {color: #cd201f;}
 .social_Reddit {color: #ff5700;}
 
-
-
-
-
 .container_inner{margin-right: auto;  margin-left: auto;}
-
-
-
 
 @media (min-width: 768px){
 	.container_inner {  width: 700px;}
 	.mobile_view_table_label {display: none !important;}
 }
-
 
 @media (min-width: 992px){
 	.container_inner {  width: 900px;}
@@ -3446,19 +3438,18 @@ footer p {
 
 @media (min-width: 1400px){
 	
-.container { width: 1395px;}
-.container_inner {  width: 1100px;}	
+    .container { width: 1395px;}
+    .container_inner {  width: 1100px;}	
 	
-.verified_partner_box span {
-    padding: 3px 10px 3px 20px;
-    margin-top: 3px;
-    font-size: 10px;
-    line-height: 11px;
-}	
-.verified_partner_box span::before {
-    margin-top: 2px;
-}	
-	
+    .verified_partner_box span {
+        padding: 3px 10px 3px 20px;
+        margin-top: 3px;
+        font-size: 10px;
+        line-height: 11px;
+    }	
+    .verified_partner_box span::before {
+        margin-top: 2px;
+    }
 }
 
 @media (min-width: 1900px){
@@ -3469,32 +3460,28 @@ footer p {
 }
 @media (max-width: 1399.98px){
 	
-.verified_partner_box span {
-    padding: 3px 10px 3px 20px;
-    margin-top: 3px;
-    font-size: 10px;
-	line-height: 11px;}	
-.verified_partner_box span::before {content: " ";
-    border-top: 9px solid transparent;
-    border-bottom: 9px solid transparent;
-    border-left: 11px solid #fff;
-    margin-top: 3px;
-}
-	
-	
+    .verified_partner_box span {
+        padding: 3px 10px 3px 20px;
+        margin-top: 3px;
+        font-size: 10px;
+	    line-height: 11px;}	
+    .verified_partner_box span::before {content: " ";
+        border-top: 9px solid transparent;
+        border-bottom: 9px solid transparent;
+        border-left: 11px solid #fff;
+        margin-top: 3px;
+    }
 }
 
 @media (max-width: 1399.98px) and (min-width: 992px){
 
-.pro_pub_cont_tab_bg .nav-tabs.fourtabuser>li {
-    width: 45%;
-}
-.nav.fourtabuser>li>a {
-        padding-top: 6px;
-    padding-bottom: 6px;
-}
-
-
+    .pro_pub_cont_tab_bg .nav-tabs.fourtabuser>li {
+        width: 45%;
+    }
+    .nav.fourtabuser>li>a {
+            padding-top: 6px;
+        padding-bottom: 6px;
+    }
 } 
 
 

@@ -123,7 +123,7 @@ namespace Model
         }
         public List<Gig> GetMyServices(Gig _obj)
         {
-            return base.GetCustomFunction<Gig>("spGetDashboardServiceDetails", _obj);
+            return GetCustomFunction<Gig>("spGetDashboardServiceDetails", _obj);
         }
         public List<Gig> GetPurchasedServices(Gig _obj)
         {

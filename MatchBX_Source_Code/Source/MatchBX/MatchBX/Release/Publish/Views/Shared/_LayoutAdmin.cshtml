@@ -1,0 +1,515 @@
+﻿@*<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>*@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="x-ua-compatible" content="IE=10">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MatchBX</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Bootstrap -->
+
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/font-awesome.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/animate.css")">
+    <link href="@Url.Content("~/Content/css/animate.min.css")" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" type="text/css" media="all">
+
+    <link href="@Url.Content("~/Content/css/style.css")" rel="stylesheet">
+    <link rel="icon" href="@Url.Content("~/Content/images/favicon.ico")" type="image/x-icon">
+    <link rel="shortcut icon" href="@Url.Content("~/Content/images/favicon.ico")" type="image/x-icon">
+    <style></style>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type='text/javascript'>
+(function (d, t) {
+  var bh = d.createElement(t), s = d.getElementsByTagName(t)[0];
+  bh.type = 'text/javascript';
+  bh.src = 'https://www.bugherd.com/sidebarv2.js?apikey=1sxow0t6swmo3wydqddx3a';
+  s.parentNode.insertBefore(bh, s);
+  })(document, 'script');
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117453064-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-117453064-1');
+    </script>
+
+    <script type="text/javascript">
+        @*$(function () {
+            $(window).load(function () {
+
+                var Url='@(System.Configuration.ConfigurationManager.AppSettings["BaseURL"].ToString())'
+                var userid = '@Session["UserId"].ToString()'
+                App.init(Url,userid);
+            });
+        });*@
+        var iddleTimeoutWarning = null;
+        var iddleTimeout = null;
+        var IsloggedOut=false;
+        $(document).ready(function(){
+            InitializeTimers();
+            function InitializeTimers() {
+                IsloggedOut=false;
+                if (iddleTimeoutWarning != null)
+                    clearTimeout(iddleTimeoutWarning);
+                if (iddleTimeout != null)
+                    clearTimeout(iddleTimeout);
+                var _TimeOutWarning = '@(System.Configuration.ConfigurationManager.AppSettings["SessionTimeoutWarning"].ToString())';
+                var millisecTimeOutWarning = parseInt(_TimeOutWarning) * 60 * 1000 ;
+                var _TimeOut =  '@(System.Configuration.ConfigurationManager.AppSettings["SessionTimeout"].ToString())';
+                var millisecTimeOut =  parseInt(_TimeOut) * 60 * 1000 ;
+                iddleTimeoutWarning = setTimeout("DisplayIddleWarning()", millisecTimeOutWarning);
+                //iddleTimeout = setTimeout("TimeoutPage()", millisecTimeOut);
+            }
+            $("a.timeoutpop_button ").click(function(){
+                location.reload();
+            })
+            $("#TimeOutPopup_id").on('click','a',function(){
+                location.reload();
+
+            });
+            $('body').on('keypress keydown  click dblclick', function(e) {
+                if( IsloggedOut==true)
+                {
+                    location.reload();
+                }
+                else{
+
+                    clearInterval(iddleTimeoutWarning);
+                    clearTimeout(iddleTimeoutWarning);
+                    InitializeTimers();
+                }
+
+            });
+        });
+        function DisplayIddleWarning() {
+
+                CallTimer();
+
+        }
+        function CallTimer()
+        {
+            openbox(1, 'TimeOutPopup_id');
+            var _SessionOut = '@(System.Configuration.ConfigurationManager.AppSettings["SessionTimeoutWarning"].ToString())';
+            var _TimeOutWarning = '@(System.Configuration.ConfigurationManager.AppSettings["SessionSlidingExpiration"].ToString())';
+            var time_in_minutes = _TimeOutWarning;
+            $("#timeout").text(_SessionOut);
+            var current_time = Date.parse(new Date());
+            var deadline = new Date(current_time + time_in_minutes*60*1000);
+            function time_remaining(endtime){
+                var t = Date.parse(endtime) - Date.parse(new Date());
+                var seconds = Math.floor( (t/1000) % 60 );
+                var minutes = Math.floor( (t/1000/60) % 60 );
+                var hours = Math.floor( (t/(1000*60*60)) % 24 );
+                var days = Math.floor( t/(1000*60*60*24) );
+                return {'total':t, 'days':days, 'hours':hours, 'minutes':minutes, 'seconds':seconds};
+            }
+            function run_clock(endtime){
+                function update_clock(){
+                    var t = time_remaining(endtime);
+
+                    $('#divm').text(t.minutes);
+
+                    $('#divs').text(t.seconds);
+                    if(t.total<=0){
+
+                        clearInterval(timeinterval);
+                        IsloggedOut=true
+                        closebox('TimeOutPopup_id');
+                        TimeoutPage();
+                    }
+                }
+                update_clock(); // run function once at first to avoid delay
+                var timeinterval = setInterval(update_clock,1000);
+            }
+            run_clock(deadline);
+        }
+        function TimeoutPage() {
+            debugger;
+            if(IsloggedOut==true)
+            {
+                $.ajax({
+                    type: 'GET',
+                    cache: false,
+                    url: '@Url.Action("LogOff", "Login")',
+                    success: function (response) {
+                        var Backlen=history.length;
+                        if (Backlen > 0) history.go(-Backlen);
+                        if(window.history.forward(1) != null)
+                            window.history.forward(1);
+                        window.location.href="/Jobs/Index";
+                    },
+                    error: function (jqXHR, exception) {
+
+                    }
+                });
+            }
+
+        }
+
+    </script>
+</head>
+
+<body style="">
+    <header id="header" class="loged_header_bg">
+        <nav class="navbar navbar-default navbar-static-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <div class="navbar-brand"> <a class="" href="#"> <img src="@Url.Content("~/Content/images/MatchBX-logo.svg")" alt=""> </a> </div>
+                </div>
+                @*<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-nav-m" id="ulcategory">
+
+                        <li class=""><a href="@Url.Action("Index","Category",new { id = "1" })">MARKETING</a></li>
+                        <li><a href="@Url.Action("Index","Category",new { id = "2" })">DEVELOPMENT</a></li>
+                        <li><a href="@Url.Action("Index","Category",new { id = "3" })">CREATIVE</a></li>
+                        <li><a href="@Url.Action("Index","Category",new { id = "4" })">WRITING</a></li>
+                        <li><a href="@Url.Action("Index","Category",new { id = "5" })">ADMIN</a></li>
+                        <li><a href="@Url.Action("Index","Category",new { id = "6" })">TOKEN SALE</a></li>
+                        <li><a href="@Url.Action("Index","Category",new { id = "7" })">TRANSLATION</a></li>
+                        <li><a href="@Url.Action("Index","Category",new { id = "8" })">OTHER</a></li>
+                    </ul>
+                </div>*@
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                           <ul class="nav navbar-nav navbar-nav-m" id="ulcategory">
+                        <li data-lid="1"><a href="@Url.Action("Index","Admin" ,new {@id=1 })">Manage User <span></span></a></li>
+                        <li data-lid="2"><a href="@Url.Action("Index","Admin" ,new {@id=2 })">Manage Jobs <span></span></a></li>
+                        <li data-lid="3"><a href="@Url.Action("Index","Admin" ,new {@id=3 })">Jobs pending to be approved <span></span></a></li>
+                        <li data-lid="4"><a href="@Url.Action("Analytics","Admin")" id="_liAnalytcs">Analytics <span></span></a></li>
+                        <li data-lid="5"><a href="@Url.Action("GigReview","Admin",new {@id=5 })" >Services pending to be approved<span></span></a></li>
+                        <li data-lid="5"><a href="@Url.Action("GigFeedBackReview","Admin",new {@id=6 })">Approve user reviews<span></span></a></li>
+                             </ul>
+                </div>
+                <div class="pull-right header_loged_right_menubg clearfix">
+                    @*<a href="#" class="header_loged_menua">
+                        <span class="header_loged_menua_ispan"><i class="header_axp_icon"></i></span>
+                        <span class="header_loged_menua_textspan">1000 AXP</span>
+                    </a>
+                    <a href="#" onclick="openbox(1, 'notifications_pop_id')" class="header_loged_menua">
+                        <span class="header_loged_menua_ispan"><i class="header_notification_icon"></i></span>
+                        <span class="header_loged_menua_textspan">Notifications</span>
+                    </a>
+                    <a href="#" onclick="openbox(1, 'notifications_pop_id')" class="header_loged_menua">
+                        <span class="header_loged_menua_ispan"><i class="header_message_icon"></i></span>
+                        <span class="header_loged_menua_textspan">Messages</span>
+                    </a>*@
+                    <div class="dropdown header_profile_bg">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="header_profile_picspan">
+                                <img src="/Content/images/user.png" alt="">
+
+                            </span>
+                            <span>Me</span>
+                        </button>
+                        <div class="dropdown-menu dropdown_menu_style">
+                            
+                            <a class="dropdown-item" href="@Url.Action("LogOff", "Login")"><i class="fa fa-lock" aria-hidden="true"></i><span>Logout</span></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.container-->
+        </nav>
+        <!--/nav-->
+    </header>
+    <!--/header-->
+    <!--/#slider-->
+
+    <div class="largebox_middile_full clearfix">
+
+       
+            <div class="top_heading_section">
+                <div class="container">
+                    <div class="container_inner">
+                    <div class="matchbx_topsection matchbx_topsection_2side clearfix text-center">
+                        <div class="col-md-9 text-left">
+                            <h2><span id="pageTitle"></span></h2>
+                            @*<h3>Complete jobs to earn AXP, or post a job and have great freelancers come to you</h3>*@
+                            @*<a href="#" class="btn btn_banner secondary_color_bg">Get hired</a>
+                <a href="#" class="btn btn_banner secondary_color_2_bg">Post a job</a>*@
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+      
+        
+
+        
+            @RenderBody()
+            @Scripts.Render("~/bundles/jqueryval")
+      
+
+
+
+
+    </div>
+    <footer>
+        <div class="footer_top_box_menubg clearfix">
+            <div class="container">
+                <div class="container_inner clearfix">
+                   
+                </div>
+            </div>
+        </div><!-- // footer_top_box_menubg-->
+
+        <div class="footer_middile_menubg">
+            <div class="container">
+                <div class="footer_inner_bg clearfix">
+                    <div class="container_inner clearfix">
+                        <div class="col-md-12 padd_left_right_o">
+                            <div class="col-md-3">
+                                <div class="footer_links_col clearfix">
+                                    <h3 class="footer_heading">JOB SECTIONS</h3>
+                                    <ul id="ulcategoryfooter">
+
+                                        <li class=""><a href="#">Marketing</a></li>
+                                        <li><a href="#">Development</a></li>
+                                        <li><a href="#">Creative</a></li>
+                                        <li><a href="#">Writing</a></li>
+                                        <li><a href="#">Admin</a></li>
+                                        <li><a href="#">Token sale</a></li>
+                                        <li><a href="#">Translation</a></li>
+                                        <li><a href="#">Other</a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="footer_links_col clearfix">
+                                    <h3 class="footer_heading">TRENDING TAGS</h3>
+                                    <ul>
+                                        @if (TempData["TrendingTagsFooter"] != null)
+                                        {
+                                            foreach (var item in TempData["TrendingTagsFooter"] as List<Business.TrendingTags>)
+                                            {
+                                                <li><a href="@Url.Action("Index","Jobs",new { id =@item.TrendingTagsId })">@item.Description</a></li>
+                                            }
+                                        }
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="footer_links_col clearfix">
+                                    <h3 class="footer_heading">WHO WE ARE</h3>
+                                    <ul>
+                                        <li><a href="https://axpire.io/" target="_blank">aXpire</a></li>
+                                        <li><a href="https://axpire.io/" target="_blank">About Us</a></li>
+                                        <li><a href="#">Blog</a></li>
+                                    </ul>
+                                </div>
+                                <div class="footer_links_col clearfix">
+                                    <h3 class="footer_heading">CONTACT</h3>
+                                    <p><a target="_blank" href="https://matchbx.zendesk.com/hc/en-us">Help Center</a></p>
+                                    <p>info@axpire.com</p>
+                                    <p>+1-844-7-AXPIRE (297473)</p>
+                                    @*<p><a href="mailto:Support@example.com">Help centre</a></p>*@
+                                </div>
+                            </div>
+                            <div class="col-md-3 footer_socialmedia_col pull-right">
+                                <div class="footer_links_col clearfix">
+                                    <h3 class="footer_heading">GET SOCIAL</h3>
+                                    <ul class="footer_socialmedia_ul">
+                                        <li><a href="https://twitter.com/aXpire_official" target="_blank" class="social_twitter" title="Twitter"><i class="fa fa-twitter"></i><span>Twitter</span></a> </li>
+                                        <li><a href="https://www.facebook.com/Axpire-537274833301303" target="_blank" class="social_facebook" title="Facebook"><i class="fa fa-facebook-official"></i><span>Facebook</span></a></li>
+                                        <li><a href="https://www.linkedin.com/company/axpire/" target="_blank" class="social_linkedIn" title="LinkedIn"><i class="fa fa-linkedin"></i><span>LinkedIn</span></a> </li>
+                                        <li><a href="https://www.youtube.com/channel/UCGk_ARm1Dg0o8VgjYIpouFg" target="_blank" class="social_Youtube" title="Youtube"><i class="fa fa-youtube-play"></i><span>Youtube</span></a> </li>
+                                        <li><a href="https://www.reddit.com/r/aXpire/" target="_blank" class="social_Reddit" title="Reddit"><i class="fa fa-reddit-alien"></i><span>Reddit</span></a> </li>
+                                        <li><a href="https://t.me/AxpireOfficial" target="_blank" class="social_telegram" title="Telegram"><i class="fa fa-telegram"></i><span>Telegram</span></a></li>
+                                        <li><a href="" target="_blank" class="social_medium" title="Medium" id="medLink"><i class="fa fa-medium"></i><span>Medium</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 footer_coppy_bg padd_left_right_o">
+                            <p>© 2019 Copyright aXpire. All Rights Reserved</p>
+                        </div>
+                    </div>
+                    <!-- // container_inner-->
+
+                </div>
+            </div><!-- //container-->
+        </div>
+
+        <!-- // footer_middile_menubg-->
+    </footer>
+
+    <!--lightbox popup section-->
+    <div id="shadowing" class="shadowing_overlay myshadow"></div>
+    <div id="TimeOutPopup_id" class="popup_box clearfix myshadow">
+        <span class="col-md-12 popup_box_title timeout_popup_title popup_box_title_small admin_primary_color_bg clearfix">
+            Logging you out
+            <a href="#" class="popup_close_bg" title="Close"></a>
+        </span>
+        <div class="col-md-12 pop_container_bg logout_popbg text-center">
+            <div class="form-group timeout_popup_style clearfix">
+                <!-- {{idleState}} -->
+                <!-- <img src="assets/images/seession_expired_icon.png" alt="" /> -->
+                <label class="input_label_style"> For security, you will be logged out after <b id="timeout"></b> minutes of inactivity.</label>
+                <p>
+                    Logging you out in
+
+                </p><div id="divtimer" class="demo4" style="color:red">
+                    <span class="mainsp"><span>minutes: </span><span id="divm"></span></span>
+                    <span class="mainsp"><span>seconds: </span><span id="divs"></span></span>
+                </div>
+                <p></p>
+                <a href="#" class="btn btn_banner secondary_color_bg maxwidth325 timeoutpop_button">Stay logged in</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!--notifications pop -->
+
+    
+
+    <!-- // notifications pop -->
+    <!-- // lightbox popup section-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    @*<script src="@Url.Content("~/Content/js/jquery.js")"></script>*@
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <script src="@Url.Content("~/Content/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/wow.min.js")"></script>
+    <!--<script src="js/lightbox.min.js"></script> -->
+    <script src="@Url.Content("~/Content/js/lightbox-form.js")" type="text/javascript"></script>
+    <!-- nicescroll -->
+    <script src="@Url.Content("~/Content/js/jquery.nicescroll.min.js")"></script>
+    <!-- // nicescroll -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/Content/js/price_range_script.js")" type="text/javascript"></script>*@
+    <script>
+        wow = new WOW({}).init();
+
+
+        $(document).on('click', 'a[href^="#"].smothscroll', function (event) {
+            event.preventDefault();
+
+            $('html, body').animate({
+                scrollTop: $($.attr(this, 'href')).offset().top
+            }, 700);
+        });
+
+
+
+        $(document).ready(function () {
+            $(document).on('click', '.shadowing_overlay', function () {
+
+                closeboxOutSide();
+            });
+
+            /*("#dublepopup").click(function(){
+                alert("dfsf");
+                $("#Purchase_id").addClass(".hhdh");
+             });*/
+
+        });
+
+
+        /* // email placeholder*/
+
+
+
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            /*nicescroll */
+           
+                $("#topskilles_scroll").niceScroll({ cursorborder: "", cursorcolor: "#ced1d7", cursoropacitymax: 1, boxzoom: false, autohidemode: false });
+                $("#populartag_scroll").niceScroll({ cursorborder: "", cursorcolor: "#ced1d7", cursoropacitymax: 1, boxzoom: false, autohidemode: false });
+                /* // nicescroll */
+            
+
+        });
+
+
+        $(document).ready(function () {
+
+
+            /*("#dublepopup").click(function(){
+				alert("dfsf");
+                $("#Purchase_id").addClass(".hhdh");
+             });*/
+
+            /*Messages view slide*/
+
+            //$( ".message_chat_pop_screen_slide" ).hide();
+    
+            $(".message_chat_pop_screen_slide").addClass('message_chat_pop_screen_hide');
+
+            var popupwidth = $(".popup_box").width()
+            $(".popup_box_message_slide_all").width(popupwidth * 2 + 15);
+            $(".message_and_note_slide").css("maxWidth", popupwidth + "px");
+            $(".message_chat_pop_screen_slide").css("maxWidth", popupwidth + "px");
+
+
+            $("#message_list_link").click(function () {
+                //$( ".message_and_note_slide" ).toggle( "slide" );
+                $(".message_and_note_slide").css('margin-left', -popupwidth + "px");
+                $(".message_chat_pop_screen_slide").addClass('message_chat_pop_screen_show');
+
+                //$( ".message_chat_pop_screen_slide" ).fadeIn();
+
+            });
+
+
+            $("#message_chat_back_buttonid").click(function () {
+                //$( ".message_chat_pop_screen_slide" ).toggle( "slide" );
+                //$( ".message_chat_pop_screen_slide" ).fadeOut();
+                //$( ".message_and_note_slide" ).fadeIn();
+                $(".message_and_note_slide").css('margin-left', 0 + "px");
+                $(".message_chat_pop_screen_slide").removeClass('message_chat_pop_screen_show');
+            });
+
+
+        });
+
+
+
+        $(window).resize(function () {
+            /*Messages view slide*/
+            var popupwidth = $(".popup_box").width()
+            $(".popup_box_message_slide_all").width(popupwidth * 2 + 15);
+            $(".message_and_note_slide").css("maxWidth", popupwidth + "px");
+            $(".message_chat_pop_screen_slide").css("maxWidth", popupwidth + "px");
+
+
+        });
+        $("#medLink").click(function mediumurl() {
+
+            window.open("https://medium.com/@@aXpire/");
+
+        })
+
+    </script>
+
+
+</body>
+</html>

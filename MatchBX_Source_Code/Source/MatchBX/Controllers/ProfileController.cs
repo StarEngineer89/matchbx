@@ -1,4 +1,5 @@
 ﻿using Business;
+using Google.Authenticator;
 using MatchBx.Utilities;
 using MatchBX.Models;
 using Model;
@@ -10,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services;
 
 namespace MatchBX.Controllers
 {
@@ -47,6 +49,15 @@ namespace MatchBX.Controllers
             {
                 Session["MemberNo"] = userid;
                 Session["PublicProfileId"] = userid;
+
+                // Gus: 2FA
+                TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+                string useruniquekey = Convert.ToString(userid) + Session["UserName"];
+                Session["Useruniquekey"] = useruniquekey;
+                var setupinfo = tfa.GenerateSetupCode("MatchBX-" + Session["email"], useruniquekey, 280, 280);
+                ViewBag.qrcode = setupinfo.QrCodeSetupImageUrl;
+                ViewBag.manualcode = setupinfo.ManualEntryKey;
+
             }
             
             objProfile = objProfileMod.LoadUserProfile(userid).FirstOrDefault();
@@ -140,6 +151,16 @@ namespace MatchBX.Controllers
             return View("Index", model);
         }
 
+        //[HttpPost]        
+        //[WebMethod]
+        public bool VerifyAuth(string code) //FormCollection fc)
+        {
+            TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+            string useruniquekey = Convert.ToString(Session["UserId"]) + Session["UserName"];
+            bool isvalid = tfa.ValidateTwoFactorPIN(useruniquekey, code);            
+            return isvalid && objProfileMod.Save2FA(Convert.ToInt32(Session["UserId"]), isvalid) > 0;
+        }
+
         double Adjust(double input)
         {
             double whole = Math.Truncate(input);
@@ -189,7 +210,6 @@ namespace MatchBX.Controllers
             model.PurchasedGig = objPurchasedGigList.Where(x => x.GigSubscriptionId > id).ToList().Take(_RecordDisplay);
             return Json(model.PurchasedGig, JsonRequestBehavior.AllowGet);
         }
-
 
         [HttpPost]
         public JsonResult CompletedJobLoadMore(int id, string skillid)
@@ -277,7 +297,6 @@ namespace MatchBX.Controllers
             
             return Json(message, JsonRequestBehavior.AllowGet);
         }
-
 
     }
 }

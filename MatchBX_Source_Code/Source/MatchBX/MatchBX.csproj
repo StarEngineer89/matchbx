@@ -53,6 +53,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\DBFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Authenticator, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GoogleAuthenticator.1.2.1\lib\net45\Google.Authenticator.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -235,6 +238,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DashboardController_FIX.cs" />
     <Compile Include="Controllers\GigsController.cs" />
     <Compile Include="Controllers\GigsTempController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -528,6 +532,17 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="images\content\a.png" />
+    <Content Include="images\content\b.png" />
+    <Content Include="images\content\c.png" />
+    <Content Include="images\content\map.png" />
+    <Content Include="images\profile_pic_star.png" />
+    <Content Include="javascript\custom-async.js" />
+    <Content Include="javascript\custom.js" />
+    <Content Include="javascript\jquery.js" />
+    <Content Include="javascript\popup.js" />
+    <Content Include="javascript\scripts-async.js" />
+    <Content Include="javascript\scripts.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -608,9 +623,11 @@
     <Content Include="Content\web3\lib\version.json" />
     <Content Include="Content\Escrow.json" />
     <Content Include="Content\web3\Escrow.json" />
+    <Content Include="libman.json" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\MatchBX.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -628,6 +645,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="styles\screen.css" />
     <Content Include="Template\Email\AdminNotificationEdit.html" />
     <Content Include="Template\Email\AdminNotificationEditGig.html" />
     <Content Include="Template\Email\AdminNotificationNew.html" />
@@ -674,7 +692,7 @@
     <Content Include="Views\Jobs\Jobsearch.cshtml" />
     <Content Include="Views\Jobs\Index.cshtml" />
     <Content Include="Views\Login\Onboarding.cshtml" />
-    <Content Include="Views\Shared\_LayoutCategory.cshtml" />
+    <Content Include="Views\Shared\_LayoutCategory_CRP.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Login\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Jobs\PostJob.cshtml" />
@@ -735,6 +753,26 @@
     <Content Include="Views\Dashboard\PurchasedServices.cshtml" />
     <Content Include="Views\Dashboard\MyJobs.cshtml" />
     <Content Include="Views\Shared\JobsRow.cshtml" />
+    <Content Include="Views\Jobs\Index_OLD.cshtml" />
+    <Content Include="Views\Shared\_LayoutCategory_OLD.cshtml" />
+    <Content Include="styles\icons\icomoon.ttf" />
+    <Content Include="styles\icons\icomoon.woff" />
+    <Content Include="styles\icons\icomoon.woff2" />
+    <Content Include="Views\Shared\_LayoutCategory_RC.cshtml" />
+    <Content Include="Views\Shared\_LayoutCategory_CRP_RCX.cshtml" />
+    <Content Include="Views\Profile\Index_OLD.cshtml" />
+    <Content Include="Views\Shared\_LayoutProfile_OLD.cshtml" />
+    <Content Include="Views\Shared\_LayoutCategory.cshtml" />
+    <Content Include="Views\Dashboard\Index_OLD.cshtml" />
+    <Content Include="Web_SRVR.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web_SRVR.Debug.config">
+      <DependentUpon>Web_SRVR.config</DependentUpon>
+    </Content>
+    <Content Include="Web_SRVR.Release.config">
+      <DependentUpon>Web_SRVR.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

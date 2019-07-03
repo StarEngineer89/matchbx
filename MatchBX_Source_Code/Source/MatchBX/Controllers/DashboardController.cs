@@ -1,27 +1,32 @@
 ﻿using Business;
-using MatchBx.Utilities;
-using MatchBX.Models;
 using Model;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.IO;
+using MatchBx.Utilities;
 using System.Configuration;
+using System.IO;
+using MatchBX.Models;
 using Microsoft.Ajax.Utilities;
+using System.Globalization;
 
 namespace MatchBX.Controllers
 {
     [CustomExceptionFilter]
+
     public class DashboardController : Controller
     {
         // GET: Dashboard
         Job objJob = new Job();
         JobModel objJobMod = new JobModel();
         List<Job> objJobList = new List<Job>();
+
+        TrendingTags objTrending = new TrendingTags();
+        TrendingTagsModel objTrendingMod = new TrendingTagsModel();
+
         List<Job> objJobListFiltered = new List<Job>();
         Users objUser = new Users();
         List<Users> objUsersList = new List<Users>();
@@ -49,9 +54,148 @@ namespace MatchBX.Controllers
         Gig objGig = new Gig();
         GigModel objGigMod = new GigModel();
 
+        int _RecordDisplay = 5;
+        int _TotalRecord = 0;
+        int _loadmore = 0;
+        string category = string.Empty;
+
         [NoCache]
+        public ActionResult Index(int? id)
+        {
+            if (Session["IsEmailAlready"] != null)
+            {
+                ViewBag.IsEmailAlready = "Y";
+                Session["IsEmailAlready"] = null;
+            }
+            else
+            {
+                //Session["IsEmailAlready"] = "N";
+                ViewBag.IsEmailAlready = "N";
+                Session["IsEmailAlready"] = null;
+            }
+            dynamic model = new ExpandoObject();
+            if (Session["FromDetails"] != null && Session["DynModel"] != null)
+            {
+                model = (dynamic)Session["DynModel"];
+                model.TopJobPosters = (List<Job>)Session["TopJobPosters"];
+                model.VerifiedPartners = (List<Job>)Session["VerifiedPartners"];
+                model.TrendingTags = (List<TrendingTags>)Session["TrendingTags"];
+                Session["FromDetails"] = null;
+                Session["DynModel"] = null;
+            }
+            else
+            {
+                if (id.GetValueOrDefault() == 0)
+                {
+                    objJob.TrendingTagsIdList = "0";
+                }
+                else
+                {
+                    objJob.TrendingTagsIdList = id.GetValueOrDefault().ToString();
+                    ViewBag.CurrentTag = id.GetValueOrDefault().ToString();
+                }
+                objJob.SkillsList = "0";
+                List<Job> _JobList = new List<Job>();
+                objJob.SortBy = "B";
+                GetCategory();
+                objJob.FromPage = category;
+                //if (Session["UserId"] != null)
+                //{
+                //    objJob.FromPage = "J";
+                //}
+                //else
+                //{
+                //    objJob.FromPage = "B";
+                //}  
+
+                _JobList = objJobMod.GetJobDetails(objJob).OrderByDescending(x => x.Rownumber).ToList();
+
+                if (_JobList.Count == 1)
+                {
+                    ViewBag.MetaTag = HomeMetaTags(_JobList[0].JobTitle.ToString(), _JobList[0].JobDescription.ToString());
+                }
+                else if (_JobList.Count > 1)
+                {
+                    ViewBag.MetaTag = HomeMetaTags("Hire freelancers, pay in cryptocurrency", "Complete jobs to earn AXPR, or post a job and have great freelancers come to you");
+                }
+
+                _TotalRecord = _JobList.Count();
+                if (_TotalRecord > _RecordDisplay)
+                {
+                    _loadmore = 1;
+                }
+                else
+                {
+                    _loadmore = 0;
+                }
+
+
+                _JobList.ForEach(x => x.Isloadmore = _loadmore);
+                _JobList = _JobList.Take(_RecordDisplay).ToList();
+                model.Job = MatchBxCommon.GenerateBadge(_JobList);
+                model.TopJobPosters = objJobMod.GetTopJobPosters(objJob);
+                model.VerifiedPartners = objJobMod.GetVerifiedPartners(objJob);
+                Session["TopJobPosters"] = model.TopJobPosters;
+                //if (Session["UserId"] != null)
+                //{
+                //    objTrending.FromPage = "J";
+                //}
+                //else
+                //{
+                //    objTrending.FromPage = "B";
+                //}
+                // GetCategory();
+                objTrending.FromPage = category;
+                model.TrendingTags = objTrendingMod.GetTrendingTags(objTrending);
+                Session["TrendingTags"] = model.TrendingTags;
+                Session["JobCategoryName"] = "";
+                Session["JobCategoryId"] = 0;
+                //TempData["TrendingTagsFooter"] = MatchBxCommon.GetTrendingTagsFooter();
+
+            }
+            List<JobCategory> _JobcategoryList = new List<JobCategory>();
+            JobCategoryModel JobModel = new JobCategoryModel();
+            _JobcategoryList = JobModel.GetList();
+            Session["JobCategory"] = _JobcategoryList;
+            model.messageSender = 0;
+            if (Request.QueryString["mailMessagId"] != null)
+            {
+                string _messageSender = Request.QueryString["mailMessagId"].ToString();
+                model.messageSender = Convert.ToInt32(_messageSender);
+                Session["mailMessagId"] = _messageSender;
+            }
+
+            TempData["TrendingTagsFooter"] = MatchBxCommon.GetTrendingTagsFooter(objTrending.FromPage);
+            return View("Index", model);
+        }
+
+        public string HomeMetaTags(string JobTitle, string JobDescription)
+        {
+            System.Text.StringBuilder strMetaTag = new System.Text.StringBuilder();
+            string imgUrl = ConfigurationManager.AppSettings["ImgURL"].ToString();
+            strMetaTag.AppendFormat(@"<meta name='Keywords' content='{0}' itemprop='keywords' />", JobTitle);
+            strMetaTag.AppendFormat(@"<meta name='description' content='{0}' itemprop='description' />", JobDescription);
+            strMetaTag.AppendFormat(@"<meta property ='og: tags' />");
+            strMetaTag.AppendFormat(@"<meta property ='og:site_name' content ='MatchBX' />");
+            strMetaTag.AppendFormat(@"<meta property ='og: title' content='{0}'/>", JobTitle);
+            strMetaTag.AppendFormat(@"<meta property ='og:image' content='" + imgUrl + "'/>");
+            strMetaTag.AppendFormat(@"<meta property ='og:image:type' content='image/png'/>");
+            strMetaTag.AppendFormat(@"<meta property ='og:image:alt' content='{0}'/>", JobTitle);
+            strMetaTag.AppendFormat(@"<meta property ='og:image:width' content='50'/>");
+            strMetaTag.AppendFormat(@"<meta property ='og:image:height' content='25'/>");
+            strMetaTag.AppendFormat(@"<meta property ='og:description' content='{0}'/>", JobDescription);
+
+            strMetaTag.AppendFormat(@"<meta name ='twitter:card' content='summary'/>");
+            strMetaTag.AppendFormat(@"<meta name ='twitter:title' content='{0}'/>", JobTitle);
+            strMetaTag.AppendFormat(@"<meta property ='twitter:image:src' content='" + imgUrl + "'/>");
+            strMetaTag.AppendFormat(@"<meta name ='twitter:description' content='{0}'/>", JobDescription);
+
+            return strMetaTag.ToString();
+        }
+
+
         [SessionExpire]
-        public ActionResult Index()
+        public ActionResult XXXIndex()
         {
            
             Session["JobCategoryId"] = 0;
@@ -1041,7 +1185,6 @@ namespace MatchBX.Controllers
                     {
                         message = "Success";
                     }
-
                 }
                 else
                 {
@@ -2203,5 +2346,49 @@ namespace MatchBX.Controllers
                 return Json(msg, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+        [NonAction]
+        public void GetCategory()
+        {
+            //AjaxSession obj = new AjaxSession();
+            //AjaxSessionModel ObjModel = new AjaxSessionModel();
+            //if (Session["UserId"] != null)
+            //{
+            //    obj = ObjModel.GetList("*", "UserId=" + Convert.ToInt32(Session["UserId"].ToString())).FirstOrDefault();
+            //    if (obj != null)
+            //    {
+            //        category = obj.SessionString;
+            //    }
+            //    else
+            //    {
+            //        category = "J";
+            //    }
+            //}
+            //else
+            //{
+            //    obj = ObjModel.GetList("*", "UserId=0").FirstOrDefault();
+            //    if (obj != null)
+            //    {
+            //        category = obj.SessionString;
+            //    }
+            //    else
+            //    {
+            //        category = "J";
+            //    }
+            //}
+            if (Session["category"] != null)
+            {
+                category = Session["category"].ToString();
+            }
+
+            else
+            {
+                category = "B";
+            }
+
+
+        }
+
     }
 }

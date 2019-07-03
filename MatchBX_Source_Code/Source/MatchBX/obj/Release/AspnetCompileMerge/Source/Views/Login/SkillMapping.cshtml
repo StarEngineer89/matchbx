@@ -1,0 +1,161 @@
+﻿@model Business.UserSkillsMapping
+
+
+<span id="" class="col-md-12 popup_box_title clearfix">
+    What are your top skills?
+    <a href="#" id="closeskills"  class="popup_close_bg" title="Close"></a>
+</span>
+
+
+   <div class="col-md-12 pop_container_bg">
+
+                    <div class="form-group clearfix">
+                        <label for="" class="input_label_style">Your skills</label>
+                        @Html.DropDownList("ddlSkills", new SelectList((IEnumerable<Business.Skills>)TempData["Skills"], "SkillsId", "Description"), new { @placeholder = "Select Skills...", @multiple = "multiple", @tabindex = "4", @class = "chosen-select", @id = "SkillsId",@title="Select your skills" })
+                        <span id="errormsg" class="error_span">Sorry, you need to create a title</span>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <a href="#" class="btn btn-default register_small_button secondary_color_bg" id="btnsubmit" title="NEXT STEP">Next step</a>
+                    </div>
+                    <div class="form-group register_small_already_reg clearfix">
+                        <p><a href="#" id="skipskills"  class="text_color_combo">Skip this section</a></p>
+                    </div>
+
+                </div>
+
+
+
+    <!-- // lightbox popup section-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="@Url.Content("~/Content/js/jquery.js")"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="@Url.Content("~/Content/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/wow.min.js")"></script>
+    <!--<script src="js/lightbox.min.js"></script> -->
+    <script src="@Url.Content("~/Content/js/lightbox-form.js")" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/Content/js/chosen.jquery.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/Content/js/init.js")" type="text/javascript" charset="utf-8"></script>
+    <link href="@Url.Content("~/Content/css/chosen.css")" rel="stylesheet">
+
+    <script>
+        wow = new WOW({}).init();
+
+
+        $(document).on('click', 'a[href^="#"].smothscroll', function (event) {
+            event.preventDefault();
+
+            $('html, body').animate({
+                scrollTop: $($.attr(this, 'href')).offset().top
+            }, 700);
+        });
+
+        function SkipSkills() {
+            sessionStorage.setItem("FirstLogin", "N");  
+            closebox('skillmapping_pop_id')
+            window.location.href = "/Jobs/Index";
+        }
+
+        $(document).ready(function ()
+        {
+            $chosen = $("#SkillsId").chosen();
+
+            var chosen = $chosen.data("chosen");
+            var _fn = chosen.result_select;
+            chosen.result_select = function(evt) {    
+                evt["metaKey"] = true;
+                evt["ctrlKey"] = true;
+                chosen.result_highlight.addClass("result-selected");
+                return _fn.call(chosen, evt);
+            };
+
+            $("#errormsg").hide();
+            $('#SkillsId').chosen().change(function(){
+                $("#SkillsId_chosen").find('.chosen-search-input').val("");
+            });
+            $("#skipskills").click(function () {
+               //  
+                SkipSkills();
+            });
+
+            $("#closeskills").click(function () {
+               //  
+                SkipSkills();
+            });
+
+
+            $("#btnsubmit").click(function () {
+              //   
+                var isvalid=true;
+
+                if($("#SkillsId_chosen ul li span").length==0)
+                {
+                    $("#errormsg").show();
+                    isvalid=false;
+                    event.preventDefault();
+                }
+                else
+                {
+                    var SkillSelect=$("#SkillsId_chosen ul li span").text();
+                    if(SkillSelect==="--Select--")
+                    {
+                        isvalid=false;
+                        $("#errormsg").show();
+                        event.preventDefault();
+                    }
+                    else
+                    {
+                        $("#errormsg").hide();
+                    }
+                }
+
+                if (isvalid==true)
+                {
+                    $("#errormsg").hide();
+                    var objSkillsMappingList = [];
+                    var arraySkills = [];
+                    $("#SkillsId_chosen ul:first li.search-choice").each(function (index) {
+                        var valSkills = $(this).text().trim();
+                        arraySkills.push(valSkills);
+                    });
+
+                    $("#SkillsId > option").each(function () {
+                        var _UserId = @Convert.ToInt32(Session["UserId"]);
+                       
+                        if (arraySkills.indexOf(this.text) > -1) {
+                            objSkillsMappingList.push({
+                                SkillsId: this.value,
+                                Description: this.text,
+                                UserId:_UserId
+                            })
+                        }
+                    });
+
+                    var _userSkills = {
+
+                        UserSkillsMappingList: objSkillsMappingList
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("SaveUserSkillMapping", "Login")',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ userSkills: _userSkills }),
+                        type: "POST",
+                        success: function (data) {
+                            closebox('skillmapping_pop_id')
+                            window.location.href = "/Jobs/Index";
+                        },
+                        error: function (){}
+                    });
+
+                }
+
+            });
+        })
+
+
+    </script>
+   
+
+

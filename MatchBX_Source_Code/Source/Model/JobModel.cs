@@ -43,9 +43,8 @@ namespace Model
             return base.DeleteRecord<Job>( Id);
         }
         public List<Job> GetJobDetails(Job _object)
-        {
-           
-            return base.GetCustomFunction<Job>("spGetJobDetails", _object);
+        {           
+            return GetCustomFunction<Job>("spGetJobDetails", _object);
         }
         public List<Job> GetTopJobPosters(Job _object)
         {

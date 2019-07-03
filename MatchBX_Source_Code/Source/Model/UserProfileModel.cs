@@ -32,6 +32,16 @@ namespace Model
              int _returnValue= base.Save<UserProfile>("spAddEditUserProfile", _object);
              return _returnValue;
         }
+        public int Save2FA(int UserId, bool status)
+        {
+            UserProfile _object = new UserProfile();
+            int iStatus = status ? 1 : 0;
+            _object.UserId = UserId;            
+            _object.TwoFA = iStatus;
+            int _returnValue = base.Save<UserProfile>("spAddEdit2FA", _object);
+            return _returnValue;
+        }
+
         public bool DeleteRecord(int Id)
         {
             return base.DeleteRecord<UserProfile>( Id);

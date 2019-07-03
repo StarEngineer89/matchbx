@@ -755,7 +755,7 @@ namespace MatchBX.Controllers
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
-     {
+        {
             objLogin.UserId = Convert.ToInt32(Session["UserId"]);
             objLogin.LogoutDate = DateTime.Now;
             objLogin.LoginId = Convert.ToInt32(Session["LoginId"]);

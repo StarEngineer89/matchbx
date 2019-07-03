@@ -19,5 +19,7 @@ namespace Business
         public int RatingCount { get; set; }
         public int UserType { get; set; }
         public string VerifiedPartner { get; set; }
+        // Gus:
+        public int TwoFA { get; set; }
     }
 }

@@ -40,6 +40,43 @@
 </head>
 
 <body style="">
+
+    <header id="top">
+        <p id="logo"><a href="./" accesskey="h">MatchBX</a> <span>Hire freelancers, pay in cryptocurrency</span></p>
+        <nav id="skip">
+            <ul>
+                <li><a href="#up" accesskey="n">Skip to navigation (n)</a></li>
+                <li><a href="#content" accesskey="c">Skip to content (c)</a></li>
+                <li><a href="#footer" accesskey="f">Skip to footer (f)</a></li>
+            </ul>
+        </nav>
+        <nav id="up">
+            <ul>
+                <li class="btn"><a href="./"><i class="icon-logout"></i> Login</a></li>
+                <li class="btn a"><a href="./">Register</a></li>
+                <li>
+                    <a href="./"><i class="icon-theme-light"></i> <span class="hidden">Theme</span></a>
+                    <ul>
+                        <li class="active"><a href="./">Light theme</a></li>
+                        <li><a href="./">Dark theme</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="./"><img src="http://placehold.it/16x11" alt="Placeholder" width="16" height="11"> <span>En<span class="hidden">glish</span></span></a>
+                    <ul>
+                        <li class="active"><a hreflang="en" href="./"><img src="http://placehold.it/16x11" alt="Placeholder" width="16" height="11"> <span>English</span></a></li>
+                        <li><a hreflang="de" href="./"><img src="http://placehold.it/16x11" alt="Placeholder" width="16" height="11"> <span>Deutsch</span></a></li>
+                        <li><a hreflang="fr" href="./"><img src="http://placehold.it/16x11" alt="Placeholder" width="16" height="11"> <span>Français</span></a></li>
+                        <li><a hreflang="no" href="./"><img src="http://placehold.it/16x11" alt="Placeholder" width="16" height="11"> <span>Norsk</span></a></li>
+                        <li><a hreflang="pl" href="./"><img src="http://placehold.it/16x11" alt="Placeholder" width="16" height="11"> <span>Polski</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+
+
     <header id="" class="login_header_bg">
         <nav class="navbar navbar-default navbar-static-top" role="banner">
             <div class="container-fluid">
@@ -68,7 +105,7 @@
             @RenderBody()
             @Scripts.Render("~/bundles/jqueryval")
             @RenderSection("scripts", required: false)
-            
+
         </div>
     </div>
     <!--/#slider-->

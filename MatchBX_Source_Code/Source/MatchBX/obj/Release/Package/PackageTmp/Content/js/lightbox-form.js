@@ -7,7 +7,7 @@ function gradient(id, level)
 	//box.style.MozOpacity = level;
 	//box.style.KhtmlOpacity = level;
 	//box.style.filter = "alpha(opacity=" + level * 100 + ")";
-	box.style.display="block";
+    box.style.display = "block";
 	return;
 }
 
@@ -27,8 +27,11 @@ function gradient(id, level)
 
 
 function openbox(fadin, id)
-{
-  var box = document.getElementById(id); 
+{    
+    console.log(id);
+
+    var box = document.getElementById(id);
+
   document.getElementById('shadowing').style.display='block';
 
   /*var btitle = document.getElementById('boxtitle');

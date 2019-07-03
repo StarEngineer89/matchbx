@@ -517,7 +517,7 @@ var Dropzone = function (_Emitter) {
         },
 
 
-        /**
+        /*
          * A function that gets a [file](https://developer.mozilla.org/en-US/docs/DOM/File)
          * and a `done` function as parameters.
          *
@@ -531,7 +531,7 @@ var Dropzone = function (_Emitter) {
         },
 
 
-        /**
+        /*
          * The callback that will be invoked when all chunks have been uploaded for a file.
          * It gets the file for which the chunks have been uploaded as the first parameter,
          * and the `done` function as second. `done()` needs to be invoked when everything
@@ -541,7 +541,7 @@ var Dropzone = function (_Emitter) {
           done();
         },
 
-        /**
+        /*
          * Gets called when the browser is not supported.
          * The default implementation shows the fallback input field and adds
          * a text.
@@ -589,7 +589,7 @@ var Dropzone = function (_Emitter) {
         },
 
 
-        /**
+        /*
          * Gets called to calculate the thumbnail dimensions.
          *
          * It gets `file`, `width` and `height` (both may be `null`) as parameters and must return an object containing:
@@ -659,7 +659,7 @@ var Dropzone = function (_Emitter) {
         },
 
 
-        /**
+        /*
          * Can be used to transform the file (for example, resize an image if necessary).
          *
          * The default implementation uses `resizeWidth` and `resizeHeight` (if provided) and resizes

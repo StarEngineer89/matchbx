@@ -1,0 +1,21 @@
+.awesome-cropper {
+    display: inline-block;
+    padding-top: 20px;
+    vertical-align: top;
+}
+.awesome-cropper-drop-area {
+}
+.awesome-cropper .preview {
+}
+.awesome-cropper .modal, .awesome-cropper .modal.fade.in {
+  top: 0%
+}
+.awesome-cropper .modal-dialog {
+  top: 10%;
+  max-width: 900px;    width: 98%;
+    margin: 0 auto;
+}
+.awesome-cropper input[type=file] {
+    display: none !important;
+}
+

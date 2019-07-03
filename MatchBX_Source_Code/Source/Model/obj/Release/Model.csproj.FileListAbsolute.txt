@@ -18,3 +18,28 @@ D:\LSG Projects\MatchBX\SourceCode\Model\bin\Business.pdb
 D:\LSG Projects\MatchBX\SourceCode\Model\obj\Release\Model.csprojResolveAssemblyReference.cache
 D:\LSG Projects\MatchBX\SourceCode\Model\obj\Release\Model.dll
 D:\LSG Projects\MatchBX\SourceCode\Model\obj\Release\Model.pdb
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\csc.exe
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\System.Collections.Immutable.dll
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\System.Reflection.Metadata.dll
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\vbc.exe
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\VBCSCompiler.exe
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\roslyn\VBCSCompiler.exe.config
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\Model.dll.config
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\Model.dll
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\Model.pdb
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\Business.dll
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\DBFramework.dll
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\log4net.dll
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\Business.pdb
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\bin\Business.dll.config
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\obj\Release\Model.csprojAssemblyReference.cache
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\obj\Release\Model.csproj.CoreCompileInputs.cache
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\obj\Release\Model.csproj.CopyComplete
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\obj\Release\Model.dll
+C:\PROJECTS\matchbx_RCX_NEW\MatchBX_Source_Code\Source\Model\obj\Release\Model.pdb

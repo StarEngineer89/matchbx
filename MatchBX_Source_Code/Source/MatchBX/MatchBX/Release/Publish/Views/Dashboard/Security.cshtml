@@ -1,0 +1,432 @@
+﻿<script>
+
+    $(function () {
+        var notification = $.connection.notificationHub;
+
+        $.connection.hub.start().done(function () {
+            $("#form").validate({
+                errorClass: "error_span",
+                errorElement: "span",
+                ignore: "",
+                rules: {
+                    currentpassword: {
+                        required: true,
+                        chkcurrpswd:true
+                    },
+
+                    password: {
+                        required: true,
+                        pwcheck:true
+                    },
+
+                    confirmpassword: {
+                        required: true,
+                        matchpswd:true
+                    }
+                },
+                messages: {
+                    currentpassword: {
+                        required: "Current password can’t be blank! Please correct",
+                        chkcurrpswd:"Current password don’t match! Please correct"
+                    },
+                    password: {
+                        required: "Password can’t be blank! Please correct",
+                        pwcheck:' '
+                    },
+                    confirmpassword: {
+                        required: "Confirm password can’t be blank! Please correct",
+                        matchpswd: "Passwords don’t match! Please correct"
+                    }
+                },
+                highlight: function (element, errorClass) {
+                    $(element).removeClass(errorClass);
+                },
+                submitHandler: function (form) {
+                
+                    var newpassword=$("#password").val();
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        url: '@Url.Action("UpdateSecurity", "Dashboard")',
+                        data: { "Password": newpassword},
+                        success: function (data) {
+                            debugger
+                            if(data=="Success")
+                            {
+                                var _sendUserId = "@Session["UserId"]";
+                                var _receiverUserId = "@Session["UserId"]";
+                                var _fullname ="@@" + "@Session["UserName"]";
+                                var _notification = "Your password has been reset";
+                                var _header = "Reset Password";
+                                notification.server.send(_sendUserId, _receiverUserId, _fullname, _notification, _header,'');
+                                openbox(1, 'securityupdatesuccess');
+                            }
+                            else
+                            {
+
+                            }
+                        },
+                        error: function (jqXHR, exception) {
+                            console.log(jqXHR.status);
+                            console.log(exception);
+                        }
+
+                    });
+                }
+            });
+            $.validator.addMethod("chkcurrpswd", function (value, element) {
+                var oldpassword=@Html.Raw(Json.Encode(TempData["Password"]));
+                var pswd = $("#currentpassword").val();
+                if(oldpassword!=$("#currentpassword").val())
+                {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            });
+            $.validator.addMethod("matchpswd", function (value, element) {
+                var conpswd = value;
+                var pswd = new RegExp($("#password").val());
+                var res = pswd.test(conpswd);
+                if (res == true) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            });
+            
+            $.validator.addMethod("pwcheck", function (value, element) {
+                let valid = 0, uCase = false, lCase = false, dig = false, spec = false, mLen = false;
+                // tslint:disable-next-line:prefer-const
+                let upperCase = new RegExp('^(?=.*?[A-Z])');
+                // tslint:disable-next-line:prefer-const
+                let lowerCase = new RegExp('^(?=.*?[a-z])');
+                // tslint:disable-next-line:prefer-const
+                let digit = new RegExp('^(?=.*?[0-9])');
+                // tslint:disable-next-line:prefer-const
+                let special = new RegExp('^(?=.*?[#?!@@$%^&*-])');
+                // tslint:disable-next-line:prefer-const
+                let minLength = new RegExp('^.{8,}');
+
+                // tslint:disable-next-line:prefer-const
+                let pwd = value;
+                if (!special.test(pwd)) {
+                    spec = false;
+                    $('#password_input_bg').show();
+                } else {
+                    spec = true;
+                }
+                if (!upperCase.test(pwd)) {
+                    uCase = false;
+                    $('#password_input_bg').show();
+                } else {
+                    uCase = true;
+                }
+                if (!lowerCase.test(pwd)) {
+                    lCase = false;
+                    $('#password_input_bg').show();
+                } else {
+                    lCase = true;
+                }
+                if (!digit.test(pwd)) {
+                    dig = false;
+                    $('#password_input_bg').show();
+                } else {
+                    dig = true;
+                }
+                if (!minLength.test(pwd)) {
+                    mLen = false;
+                    $('#password_input_bg').show();
+                } else {
+                    mLen = true;
+                }
+
+                if (spec && uCase && lCase && dig && mLen) {
+                    valid = 1;
+
+                } else {
+                    valid = 0;
+                    $('#password_input_bg').show();
+                }
+                if (valid != 1) {
+                    return false
+                } else if (valid == 1) {
+                    return true;
+                }
+                //var pwd = value;
+                //var digits = pwd.replace(/[^0-9]/g, "").length;
+                //var characters = pwd.replace(/[^a-zA-Z]/g, "").length;
+                //if(digits>=1 && characters>=8)
+                //{
+                //    return true;
+                //}
+                //else
+                //{
+                //    return false;
+                //}
+
+            });
+        })
+    });
+    //$(function () {
+        //var notification = $.connection.notificationHub;
+
+        //$.connection.hub.start().done(function () {
+        //    $("#btnSave").click(function () {
+                
+        //        $("#form").valid();
+
+                //*****************//
+
+                @*var oldpassword=@Html.Raw(Json.Encode(TempData["Password"]));
+                var condition1=true;
+                var condition2=true;
+                if(oldpassword!=$("#currentpassword").val())
+                {
+                    condition1=false;
+                    if($("#currentpassword").val()=="")
+                    {
+                        $("#errorMsgCurrentPassword").html("Current password can’t be blank! Please correct");
+                    }
+                    else
+                    {
+                        $("#errorMsgCurrentPassword").html("Current password don’t match! Please correct");
+                    }
+
+                }
+                else
+                {
+                    $('#errorMsgCurrentPassword').empty();
+                }
+                var newpassword=$("#password").val();
+                var confirmpassword=$("#confirmpassword").val();
+
+                var reg=/[0-9a-zA-Z]/;
+
+                var digits=newpassword.replace(/[^0-9]/g,"").length;
+                var characters=newpassword.replace(/[^a-zA-Z]/g,"").length;
+
+                var upperCase = /^(?=.*?[A-Z])/;
+                var lowerCase = /^(?=.*?[a-z])/;
+                var digit = /^(?=.*?[0-9])/;
+                var special = /^(?=.*?[#?!@@$%^&*-])/;
+                var minLength = /^.{8,}/;
+
+
+                if(newpassword=="" && confirmpassword=="")
+                {
+                    condition2=false;
+                    $('#errorMsgNewPassword').html("Passwords can’t be blank! Please correct");
+                }
+                else if(digits>=1 && characters>=8)
+                {
+                    $('#errorMsgNewPassword').empty();
+                    if(newpassword!=confirmpassword)
+                    {
+                        condition2=false;
+                        $('#errorMsgNewPassword').html("Passwords don’t match! Please correct");
+                    }
+
+                }
+                else
+                {
+                    condition2=false;
+                    $('#errorMsgNewPassword').html("Password must contain at least 8 letters and 1 number");
+                }
+                if(condition1 && condition2)
+                {
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        url: '@Url.Action("UpdateSecurity", "Dashboard")',
+                        data: { "Password": newpassword},
+                        success: function (data) {
+                            if(data=="Success")
+                            {
+                                var _sendUserId = "@Session["UserId"]";
+                                var _receiverUserId = "@Session["UserId"]";
+                                var _fullname ="@@" + "@Session["UserName"]";
+                                var _notification = "Your password has been reset";
+                                var _header = "Reset Password";
+                                notification.server.send(_sendUserId, _receiverUserId, _fullname, _notification, _header,'');
+                                openbox(1, 'securityupdatesuccess');
+                            }
+                            else
+                            {
+
+                            }
+                        },
+                        error: function (jqXHR, exception) {
+                            console.log(jqXHR.status);
+                            console.log(exception);
+                        }
+
+                    });
+                }*@
+
+        //        //*****************//
+        //    });
+        //});
+    //})
+
+    $(document).ready(function(){
+        //$('#errorMsgCurrentPassword').empty();
+        //$('#errorMsgNewPassword').empty();
+
+        $('#password').focus(function () {
+            $('#password_input_bg').css('display', 'inline-block');
+        });
+        $('#password').focusout(function () {
+            $('#password_input_bg').css('display', 'none');
+        });
+        $('#password').on('change keyup copy paste cut', function () { //function() {
+            let valid = 0;
+            let upperCase = new RegExp('^(?=.*?[A-Z])');
+            let lowerCase = new RegExp('^(?=.*?[a-z])');
+            let digit = new RegExp('^(?=.*?[0-9])');
+            let special = new RegExp('^(?=.*?[#?!@@$%^&*-])');
+            let minLength = new RegExp('^.{8,}');
+
+            let pwd = $('#password').val();
+            if (!minLength.test(pwd)) {
+                $('#password_input_bg').show();
+                $('.minlength').show();
+                $('.minlength').addClass('pass_error_style');
+                valid = 0;
+            } else {
+                $('.minlength').show().removeClass('pass_error_style').addClass('pass_style');
+                valid = 1;
+            }
+            if (!upperCase.test(pwd)) {
+                $('#password_input_bg').show();
+                $('.capital_letter').show();
+                $('.capital_letter').addClass('pass_error_style');
+                valid = 0;
+            } else {
+                $('.capital_letter').show().removeClass('pass_error_style').addClass('pass_style');
+                valid = 1;
+            }
+            if (!lowerCase.test(pwd)) {
+                $('#password_input_bg').show();
+                $('.letter').show();
+                $('.letter').addClass('pass_error_style');
+                valid = 0;
+            } else {
+                $('.letter').show().removeClass('pass_error_style').addClass('pass_style');
+                valid = 1;
+            }
+            if (!digit.test(pwd)) {
+                $('#password_input_bg').show();
+                $('.number').show();
+                $('.number').addClass('pass_error_style');
+                valid = 0;
+            } else {
+                $('.number').show().removeClass('pass_error_style').addClass('pass_style');
+                valid = 1;
+            }
+            if (!special.test(pwd)) {
+                $('#password_input_bg').show();
+                $('.special').show();
+                $('.special').addClass('pass_error_style');
+                valid = 0;
+            } else {
+                $('.special').show().removeClass('pass_error_style').addClass('pass_style');
+                valid = 1;
+            }
+
+            if ($("#form").valid()) {
+                if (valid != 1) {
+                    $('#password_input_bg').show();
+                } else if (valid == 1) {
+                    $('#password_input_bg').hide();
+                }
+            } else {
+                $('#password_input_bg').show();
+            }
+        });
+    });
+    function closePopUp()
+    {
+        closebox('securityupdatesuccess');
+        $("#jobsecurity").trigger( "click" );
+    }
+</script>
+<div id="security_id_dash" class="tab-pane fade clearfix active in">
+    <div class="col-md-12 dash_tab_con_heading_bg padd_left_right_o">
+        <h3 class="dash_tab_con_heading_h3">Security</h3>
+    </div>
+    <form id="form">
+        <div class="col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix">
+            <div class="profile_dash_form_box clearfix">
+                <div class="col-md-12 dash_you_profile_bg clearfix">
+                    <h4 class="dash_you_profile_heding_h4">Update your password</h4>
+                    <div class="form-group clearfix">
+                        <label for="" class="input_label_style">Current password</label>
+                        @Html.Password("currentpassword", null, new { @class = "form-control form_input", @autocomplete = "off", @maxlength = "30",@name= "currentpassword" })
+                        @*<span id="errorMsgCurrentPassword" class="error_span"></span>*@
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="" class="input_label_style">New password</label>
+                        @Html.Password("password", null, new { @class = "form-control form_input", @autocomplete = "off", @maxlength = "30", @name = "password" })
+                        @*<span id="errorMsgNewPassword" class="error_span"></span>*@
+                        <div id="password_input_bg" class="password_input_bg" style="display: none;">
+                            <div class="password_must_contain_bg clearfix">
+                                <p>Password must contain</p>
+                                <ul>
+                                    <li class="letter pass_error_style">
+                                        <i class="letter pass_error_style"></i>
+                                        <span>
+                                            A least
+                                            <b>one letter</b>
+                                        </span>
+                                    </li>
+                                    <li class="capital_letter pass_error_style">
+                                        <i class="capital_letter pass_error_style"></i>
+                                        <span>
+                                            A least
+                                            <b>one capital letter</b>
+                                        </span>
+                                    </li>
+                                    <li class="number pass_error_style">
+                                        <i class="number pass_error_style"></i>
+                                        <span>
+                                            A least
+                                            <b>one number</b>
+                                        </span>
+                                    </li>
+                                    <li class="minlength pass_error_style">
+                                        <!-- pass_error_style -->
+                                        <i class="minlength pass_error_style"></i>
+                                        <span>
+                                            A least
+                                            <b>8 characters</b>
+                                        </span>
+                                    </li>
+                                    <li class="special pass_error_style">
+                                        <i class="special pass_error_style"></i>
+                                        <span>
+                                            A least
+                                            <b>one special character</b>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="" class="input_label_style">Confirm new password</label>
+                        @Html.Password("confirmpassword", null, new { @class = "form-control form_input", @autocomplete = "off", @maxlength = "30", @name = "confirmpassword" })
+                    </div>
+                    <div class="form-group clearfix">
+                        @*<a href="#header" class="btn btn-default register_small_button secondary_color_bg smothscroll" title="Save changes" id="btnSave">Save changes</a>*@
+                        <input type="submit" class="btn btn-default register_small_button secondary_color_bg smothscroll" title="Save changes" value="Save changes" id="btnSave"/>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

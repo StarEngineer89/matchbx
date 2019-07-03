@@ -1,1051 +1,334 @@
-﻿<script>
-    jQuery(function ($) {
-        $.validator.addMethod('date',
-        function (value, element) {
-            if (this.optional(element)) {
-                return true;
-            }
+﻿@model dynamic
+@{
+    ViewBag.Title = "Index";
+}
+<main id="content" class="cols">
+    <header>
+        <form action="./" method="post" class="form-filter">
+            <h1>Search</h1>
+            <p class="input-search">
+                <label for="ffa">Search jobs, services ...</label>
+                <input type="text" id="ffa" name="ffa" required>
+                <button type="submit">Search</button>
+            </p>
+            <p class="ui-slider-a">
+                <span class="label">Budget</span>
+                <span>
+                    <label for="ffb">Min :</label>
+                    <input type="number" id="ffb" name="ffb" value="123.45" min="1">
+                </span>
+                <span>
+                    <label for="ffc">Max :</label>
+                    <input type="number" id="ffc" name="ffc" value="12345.67" max="12345.67">
+                </span>
+            </p>
+            <p>
+                <span class="label">Classification</span>
+                <span class="check-a">
+                    <span><input type="radio" id="ffd" name="ffd"> <label for="ffd">Jobs</label></span>
+                    <span><input type="radio" id="ffe" name="ffd"> <label for="ffe">Services</label></span>
+                </span>
+            </p>
+            <p>
+                <span class="label">Sort by</span>
+                <span class="check-a">
+                    <span><input type="radio" id="fff" name="fff"> <label for="fff">Highest pay</label></span>
+                    <span><input type="radio" id="ffg" name="fff"> <label for="ffg">Newest</label></span>
+                </span>
+            </p>
+            <p>
+                <label for="ffh">Category</label>
+                <select id="ffh" name="ffh">
+                    <option value="./" selected disabled>Select Category</option>
+                    <option value="./">Position #1</option>
+                    <option value="./">Position #2</option>
+                    <option value="./">Position #3</option>
+                    <option value="./">Position #4</option>
+                    <option value="./">Position #5</option>
+                </select>
+            </p>
+            <p>
+                <label for="ffi">Skills</label>
+                <select id="ffi" name="ffi">
+                    <option value="./" selected disabled>Select Skills</option>
+                    <option value="./">Position #1</option>
+                    <option value="./">Position #2</option>
+                    <option value="./">Position #3</option>
+                    <option value="./">Position #4</option>
+                    <option value="./">Position #5</option>
+                </select>
+            </p>
+            <p>
+                <span class="label">Difficulty</span>
+                <span class="check-a">
+                    <span><input type="radio" id="ffj" name="ffj"> <label for="ffj">Beginner</label></span>
+                    <span><input type="radio" id="ffk" name="ffj"> <label for="ffk">Intermediate</label></span>
+                    <span><input type="radio" id="fff" name="ffj"> <label for="ffl">Advanced</label></span>
+                    <span><input type="radio" id="ffm" name="ffj"> <label for="ffm">Professional</label></span>
+                </span>
+            </p>
+            <p>
+                <label for="ffn">Payment</label>
+                <select id="ffn" name="ffn">
+                    <option value="./" selected disabled>Select Currency</option>
+                    <option value="./">Position #1</option>
+                    <option value="./">Position #2</option>
+                    <option value="./">Position #3</option>
+                    <option value="./">Position #4</option>
+                    <option value="./">Position #5</option>
+                </select>
+            </p>
+            <p class="sticky"><button type="reset">Reset</button></p>
+        </form>
+    </header>
+    <div class="tabs-a">
+        <nav>
+            <ul>
+                <li><a href="./">All Listings</a></li>
+                <li><a href="./">All Jobs</a></li>
+                <li><a href="./">All Services</a></li>
+            </ul>
+        </nav>
+        <div>
+            <div>
+                <form action="./" method="post" class="form-sort">
+                    <p>
+                        <label for="taa" class="hidden">Sort by</label>
+                        <select id="taa" name="taa">
+                            <option value="./">Newest first</option>
+                            <option value="./">Position #1</option>
+                            <option value="./">Position #2</option>
+                            <option value="./">Position #3</option>
+                            <option value="./">Position #4</option>
+                            <option value="./">Position #5</option>
+                        </select>
+                    </p>
+                </form>
+                @if (Model.Job != null)
+                {
+                    <ul class="list-post">
+                        @foreach (var item in Model.Job)
+                        {
+                            <li id="@item.Rownumber">
+                                @*item.CssClass*@
+                                <input name="JobId" type="hidden" id="hdnJobId" value=@item.JobId />
 
-            var ok = true;
-            try {
-                $.datepicker.parseDate('dd/mm/yy', value);
-            }
-            catch (err) {
-                ok = false;
-            }
-            return ok;
-        });
-    });
-</script>
-<div class="largebox_content_containerbg">
-    <div class="container">
+                                @*<a class="myjob" href="@item.RedirectUrl"><h2>@item.JobTitle</h2></a>*@
+                                <h2><a class="myjob" href="@item.RedirectUrl">@item.JobTitle</a></h2>
+                                @*<a class="myjob" href="@Url.Action("Details", "Gigs", new { @id = @item.JobId, @subid = 0 })"></a>*@
 
-
-        <div class="container_inner middile_con_inner_bg clearfix">
-
-            <div class="col-md-12 dash_con_top_bg clearfix">
-                @*<div class="row">
-                        <div class="col-md-8">
-                            <div class="pull-left">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="@Url.Action("Home","Dashboard")">MatchBX</a></li>
-                                    <li class="breadcrumb-item active" id="divcategory_brdcum"></li>
-                                </ol>
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            &nbsp;
-                        </div>
-                    </div>*@
-            </div>
-            <!-- // catagory_con_top_bg-->
-
-
-            <div class="col-md-12 con_8_4_outer_bg clearfix">
-                <div class="row con_row">
-
-                    <div class="col-md-4 catagory_right_4">
-
-
-                        <div class="col-md-12 bg_color_comen dashboard_tablemenu_bg clearfix">
-                            <!--<div class="home_top_jobs_heding">
-                               <h2>Top skills </h2>
-                            </div>-->
-                            <ul class="nav nav-tabs sideMenu">
-                                <li class="active">
-                                    <a data-toggle="tab" href="#divcontent" id="myServices">My Services 
-                                        <span>
-                                            @if (Model.MyServices != null)
-                                            { 
-                                                @String.Concat("(", Model.MyServices.Count, ")") 
-                                            }
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a data-toggle="tab" href="#divcontent" id="purchasedService">Purchased Services 
-                                        <span>
-                                            @if (Model.PurchasedServices != null)
-                                            {
-                                                @String.Concat("(", Model.PurchasedServices.Count, ")")
-                                            }
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <div class="border_buttom_only"></div>
-                                </li>
-                                <li>
-                                    <a data-toggle="tab" href="#job_in_progress_id_dash" id="myJobs">My Jobs 
-                                        <span>
-                                            @if (Model.MyJobs != null)
-                                            {
-                                                @String.Concat("(", Model.MyJobs.Count, ")")
-                                            }
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a data-toggle="tab" href="#job_complete_id_dash" id="jobsBidOn">Jobs Bid On 
-                                        <span>
-                                            @if (Model.JobsBidOn != null)
-                                            {
-                                                @String.Concat("(", Model.JobsBidOn.Count, ")")
-                                            }
-                                        </span>
-                                    </a>
-                                </li>
-
-                                @*@if (Session["UserType"].ToString() != "2")
-                                {
-                                    <li class="active">
-                                        <a href="#divcontent" id="giglibrary" class="smothscroll">
-                                            GIGs library <span>
-                                                @if (Model.GigsLibrary != null)
-                                                { @String.Concat("(", Model.GigsLibrary.Count, ")") }
-                                            </span>
-                                        </a>
+                                @*<a class="myjob" href="@item.RedirectUrl">*@
+                                <p>@item.JobDescriptionDisplay</p>
+                                @*</a>*@
+                                <ul class="list-icon">
+                                    <li class="price">
+                                        @item.BudgetASP.ToString("#,##0.00")&nbsp;<span class=small>AXPR</span>
+                                        <span>$@item.DollarCount.ToString("#,##0.00")</span>
                                     </li>
-                                    <li>
-                                        <a href="#divcontent" id="gigpending" class="smothscroll">
-                                            GIGs in pending <span>
-                                                @if (Model.GigsInPending != null)
-                                                { @String.Concat("(", Model.GigsInPending.Count, ")") }
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#divcontent" id="gigsubrequest" class="smothscroll">
-                                            GIGs subscription request <span>
-                                                @if (Model.GigsSubscriptionRequest != null)
-                                                { @String.Concat("(", Model.GigsSubscriptionRequest.Count, ")") }
-                                            </span>
-                                        </a>
-                                    </li>
-                                }
-                                @if (Session["UserType"].ToString() != "1")
-                                {
-                                    <li>
-                                        <a href="#divcontent" id="gigsubpending" class="smothscroll">
-                                            GIGs subscription pending <span>
-                                                @if (Model.GigsSubscriptionPending != null)
-                                                { @String.Concat("(", Model.GigsSubscriptionPending.Count, ")") }
-                                            </span>
-                                        </a>
-                                    </li>
-                                }
-                                <li>
-                                    <a href="#divcontent" id="gigpaypending" class="smothscroll">
-                                        GIGs payment pending <span>
-                                            @if (Model.GigsPaymentPending != null)
-                                            { @String.Concat("(", Model.GigsPaymentPending.Count, ")") }
-                                        </span>
-                                    </a>
-                                </li>
-                                @if (Session["UserType"].ToString() != "1")
-                                {
-                                    <li>
-                                        <a href="#divcontent" id="jobpending" class="smothscroll">
-                                            Jobs in pending <span>
-                                                @if (@TempData["JobsPendingCount"] != null)
-                                                { @String.Concat("(", @TempData.Peek("JobsPendingCount").ToString(), ")") }
-                                            </span>
-                                        </a>
-                                    </li>
-                                }
-                                @if (Convert.ToInt32(Session["UserType"].ToString()) == 2 || Convert.ToInt32(Session["UserType"].ToString()) == 3)
-                                {
-                                    <li><a href="#divcontent" id="listedjobs" class="smothscroll">Jobs listed <span>@if (@TempData["JobsListedCount"] != null){ @String.Concat("(", @TempData.Peek("JobsListedCount").ToString(), ")") }</span></a></li>
-                                }
+                                    <li><i class="icon-time"></i> @item.JobCompletionDateDisplay days remaining</li>
+                                    <li><i class="icon-upload"></i> 2 submissions</li>
+                                    <li><i class="icon-bulb"></i> Intermediate</li>
+                                    <li><i class="icon-list"></i> Writing</li>
+                                </ul>
 
-                                @if (Convert.ToInt32(Session["UserType"].ToString()) == 1 || Convert.ToInt32(Session["UserType"].ToString()) == 3)
-                                {
-                                    <li><a href="#divcontent" id="jobids" class="smothscroll">Jobs bid on <span>@if (@TempData["JobsBidOnCount"] != null){ @String.Concat("(", @TempData.Peek("JobsBidOnCount").ToString(), ")") }</span></a></li>
-                                }
-                                <li><a href="#divcontent" id="jobprogress" class="smothscroll">Jobs in progress <span>@if (@TempData["JobsProgressCount"] != null)
-                                { @String.Concat("(", @TempData.Peek("JobsProgressCount").ToString(), ")") }</span></a></li>
-                                <li><a href="#divcontent" id="jobcompleted" class="smothscroll">Jobs completed <span>@if (@TempData["JobsCompleteCount"] != null)
-                                { @String.Concat("(", @TempData.Peek("JobsCompleteCount").ToString(), ")") }</span></a></li>*@
-                                <li><div class="border_buttom_only"></div></li>
-                                <li><a href="#divcontent" id="jobprofile" class="smothscroll">Your profile</a></li>
-                                <li><a href="#divcontent" id="jobemail" class="smothscroll">Email preferences</a></li>
-                                <li><a href="#divcontent" id="jobsecurity" class="smothscroll">Security</a></li>
+                                <div class="module-author">
 
-
-                            </ul>
-
-                        </div>
-
-                        <!-- // Top job posters section-->
-
-                    </div><!-- //col-md-4-->
-
-                    <div class="col-md-8 home_left_8">
-                        <div class="pro_pub_cont_tab_bg clearfix">
-                            <!--tab div section-->
-
-
-                            <div class="tab-content" id="divcontent">
-                                <div id="imgloader" style="display:none;position: absolute;  top: 0;left: 0; right: 0; text-align: center; background: #fff;z-index: 5; padding: 20px;">
-                                    <img src="~/Content/images/loader.gif" />
+                                    <figure>
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="@item.ProfilePic" alt="Placeholder" width="46" height="46">
+                                            </div>
+                                            @*<i class="profile_pic_star"></i>*@
+                                        </div>
+                                    </figure>
+                                    @{
+                                        string verified = item.VerifiedPartner == "Y" ? "overlay-c" : "";
+                                    }
+                                    <h3><a href="@Url.Action("Index", "Profile", new { @id = @item.UserId })">@item.FullName</a> <span><i class="icon-badge-check @verified"></i> Administrator</span></h3>
+                                    <ul>
+                                        <li>@item.JobsCompleted jobs completed</li>
+                                        <li class="rating-a" data-val="@item.BadgeCount" data-of="5">@item.BadgeCount</li>
+                                    </ul>
                                 </div>
-                            </div>
-                        </div><!-- // tab div section-->
-
-
-
-
-                    </div><!-- //col-md-8-->
-
-
-
-                </div><!-- //row-->
-
-            </div>
-
-
-
-
-
-        </div>
-        <!--container_inner -->
-        <!--lightbox popup section-->
-
-    </div>
-</div>
-<!--lightbox popup section-->
-<div id="shadowing" class="shadowing_overlay myshadow"></div>
-
-<div id="preference_update" class="popup_box popup_fixed_middle clearfix myshadow">
-    <span class="col-md-12 popup_box_title clearfix"><span id="lblMsg"></span><a href="javascript:;" onclick="closebox('preference_update')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <a href="#" onclick="closebox('preference_update')" class="btn btn_banner secondary_color_bg maxwidth325" title="Yes make offer">OK</a>
-        </div>
-    </div>
-</div>
-<div id="profileupdatesuccess" class="popup_box popup_fixed_middle clearfix myshadow">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Profile updated <a href="javascript:;" onclick="popUpClose()" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            @*<label for="" class="input_label_style">Profile details updated</label>*@
-            <a href="#" onclick="popUpClose()" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">OK</a>
-        </div>
-    </div>
-</div>
-<div id="profilepicsize" class="popup_box popup_fixed_middle clearfix myshadow">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Profile <a href="#" onclick="popUpSizeClose()" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">File size exceeds 2 MB</label>
-            <a href="#" onclick="popUpSizeClose()" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">OK</a>
-        </div>
-    </div>
-</div>
-<div id="profilepictype" class="popup_box popup_fixed_middle clearfix myshadow">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Profile <a href="#" onclick="popUpTypeClose()" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">This is not an allowed file type</label>
-            <a href="#" onclick="popUpTypeClose()" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">OK</a>
-        </div>
-    </div>
-</div>
-<div id="securityupdatesuccess" class="popup_box popup_fixed_middle clearfix myshadow">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Security <a href="#" onclick="closePopUp()" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">&nbsp;&nbsp;Password updated </label>
-            <a href="#" onclick="closePopUp()" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">OK</a>
-        </div>
-    </div>
-</div>
-
-
-
-<div id="skillmapping_pop_id" class="popup_box clearfix myshadow">
-
-</div>
-
-
-<div id="postjob_view_pop_id" class="popup_box clearfix myshadow">
-
-</div>
-
-<div id="creategig_view_pop_id" class="popup_box clearfix myshadow">
-
-</div>
-
-
-<div id="mark_complete_rating_pop_id" class="popup_box clearfix myshadow popup_fixed_middle">
-
-    @*<a href="#" onClick="closebox('mark_complete_rating_pop_id')" class="popup_close_bg" title="Close"></a>*@
-    <a href="#" class="popup_close_bg" title="Close" id="popupReviewJob"></a>
-    <span id="spanrole" class="col-md-12 popup_box_title clearfix">
-        Review job poster
-        @*<a href="#" onClick="closebox('mark_complete_rating_pop_id')" class="popup_close_bg" title="Close"></a>*@
-    </span>
-
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">How would you rate <span class="blue_color_text" id="spname"></span> ?</label>
-            <input type="hidden" id="hfjobid" value="" />
-            <input type="hidden" id="hfuserrole" value="" />
-        </div>
-        <div class="form-group clearfix">
-
-            <!--Rating star bg-->
-            <div class="star-rating">
-                <span class="fa fa-star fa_star_gray" data-rating="1"></span>
-                <span class="fa fa-star fa_star_gray" data-rating="2"></span>
-                <span class="fa fa-star fa_star_gray" data-rating="3"></span>
-                <span class="fa fa-star fa_star_gray" data-rating="4"></span>
-                <span class="fa fa-star fa_star_gray" data-rating="5"></span>
-                <input type="hidden" name="whatever1" id="txtrating" class="rating-value" value="5">
-            </div>
-            <!-- //Rating star bg-->
-        </div>
-        <div class="form-group clearfix" id="divGigReview" style="display:none">
-            <textarea class="form-control form_input form_textarea" id="txtgigReview" placeholder="How was your experience" maxlength="1000"></textarea>
-        </div>
-        <div class="form-group clearfix">
-            <a href="#" id="btnGigrvwSub" class="btn btn-default register_small_button secondary_color_bg" title="">SUBMIT</a>
-        </div>        
-        <div class="form-group register_small_already_reg delete_job_link clearfix">
-            <p><a href="#" id="dontReviewJob">I DONʼT WANT TO LEAVE A REVIEW</a></p>
-        </div>
-
-    </div>
-
-</div>
-
-<div id="mark_complete_confirmation_pop_id" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Job completion confirmation<a href="#" onClick="closebox('mark_complete_confirmation_pop_id'); event.preventDefault();" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">Are you sure you want to mark the job <span id="spnJobTitle"></span> as complete?<a href="#" onClick=" closebox('mark_complete_confirmation_pop_id')" class="popup_close_bg" title="Close"></a> </label>
-            <input type="hidden" id="hfjobid" value="" />
-            <input type="hidden" id="hfuserrole" value="" />
-        </div>
-        <div class="form-group clearfix">
-            <a href="#" id="btnyes1" class="btn btn_banner secondary_color_bg maxwidth325">Yes mark as complete </a>
-        </div>
-        <div class="form-group register_small_already_reg delete_job_link clearfix">
-            <p><a href="#" onClick="closebox('mark_complete_confirmation_pop_id')" id="btncancel">NO, CANCEL MARKING AS COMPLETE </a></p>
-        </div>
-    </div>
-</div>
-
-
-<!-- // lightbox popup section-->
-
-<div id="offer_deletion_id_list" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Offer deletion <a href="#" onClick="closebox('offer_deletion_id_list')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">Are you sure you want to delete offer for <span id="spanJob"></span><span>?</span></label>
-            <a href="#" id="btnyes" class="btn btn_banner secondary_color_bg maxwidth325" title="Yes delete offer">Yes delete offer</a>
-        </div>
-        <div class="form-group register_small_already_reg delete_job_link clearfix">
-            <p><a href="#" onClick="closebox('offer_deletion_id_list')">NO, CANCEL OFFER</a></p>
-        </div>
-    </div>
-</div>
-<!--Accept Confirmation Message-->>
-<div id="offer_comfirmation_id_list" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Offer confirmation <a href="#" onClick="closebox('offer_comfirmation_id_list')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">Are you sure you want to accept <span class="blue_color_text" id="spanaxp"></span><span id="spanJob"></span><span>'s offer?</span></label>
-            <a href="#" id="btnacceptoffer" class="btn btn_banner secondary_color_bg maxwidth325" title="Yes accept offer">Yes accept offer</a>
-        </div>
-        <div class="form-group register_small_already_reg delete_job_link clearfix">
-            <p><a href="#" onClick="closebox('offer_comfirmation_id_list')">NO, CANCEL OFFER</a></p>
-        </div>
-    </div>
-</div>
-
-<!--Decline Confirmation Message-->>
-<div id="offer_comfirmation_id_decline" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Decline offer <a href="#" onClick="closebox('offer_comfirmation_id_decline')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">Are you sure you want to decline <span class="blue_color_text" id="spanaxpDecline"></span><span id="spanJobDecline"></span><span>?</span></label>
-            <a href="#" id="btnyesDecline" class="btn btn_banner secondary_color_bg maxwidth325" title="Yes decline offer">Yes decline offer</a>
-        </div>
-        <div class="form-group register_small_already_reg delete_job_link clearfix">
-            <p><a href="#" onClick="closebox('offer_comfirmation_id_decline')">NO, CANCEL OFFER</a></p>
-        </div>
-    </div>
-</div>
-
-<div id="bid_message_popup" class="popup_box clearfix myshadow popup_fixed_middle popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Message Title <a href="#" onClick="closebox('bid_message_popup')" class="popup_close_bg" title="Close"></a></span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style"><span id="spanBidMsg"></span></label>
-        </div>
-        @*<div class="form-group clearfix">
-            <p><a href="#" class="btn button_all secondary_color_bg" onClick="closebox('bid_message_popup')">CANCEL</a></p>
-        </div>*@
-    </div>
-</div>
-
-<div id="metamask_comfirmation_id" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Set Up metamask <a href="#" onclick="closebox('metamask_comfirmation_id')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            @*<label for="" class="input_label_style"> To use MatchBX you need to install and run MetaMask </label>
-                <a href="#" onclick="closebox('metamask_comfirmation_id')" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">OK</a>*@
-            <label for="" class="input_label_style">To use MatchBX you need to install and run MetaMask. <br /></label>
-            <ol class="metamask_infoul text-left">
-                <li style="">Download MetaMask from MetaMask <a target="_blank" class="blue_color_text" href="https://metamask.io/">website</a></li>
-                <li>Make sure your MetaMask is linked to your AXPR wallet address when using MatchBX</li>
-                <li>Get started on MatchBX</li>
-            </ol>
-            <a href="https://metamask.io/" target="_blank" onclick="closebox('metamask_comfirmation_id')" class="btn btn_banner secondary_color_bg maxwidth325" title="Next step">Set Up MetaMask</a>
-        </div>
-    </div>
-</div>
-
-<div id="metamaskamountempty" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix">Getting started with MetaMask<a href="#" onclick="closebox('metamaskamountempty')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">
-                &nbsp;&nbsp;Sorry, you do not have enough AXPR tokens in your MetaMask wallet. Please add some more to make the transaction.
-            </label>
-            <a href="#" id="btnApproveMetaMask" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">Approve Amount</a>
-        </div>
-    </div>
-</div>
-
-<div id="metamaskreset" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix">Reset Wallet<a href="#" onclick="closebox('metamaskreset')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">
-                &nbsp;&nbsp;Sorry, you do not have enough approved AXPR tokens in your MetaMask wallet. Please reset the wallet to continue.
-            </label>
-            <a href="#" id="btnResetMetaMask" class="btn btn_banner secondary_color_bg maxwidth325" title="Reset">Reset Wallet</a>
-        </div>
-    </div>
-</div>
-
-<div id="pendingTransactions" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix">Pending Transaction<a href="#" onclick="closebox('pendingTransactions')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">You have already approved a bid which <span class="blue_color_text" id="spanTranUser"></span> submitted. This was for <span id="spanTranJob"></span>. Please wait for the transaction process to be completed.
-  </label>
-            <a href="#" onclick="closebox('pendingTransactions')" class="btn btn_banner secondary_color_bg maxwidth325" title="Next step">Ok</a>
-        </div>
-    </div>
-</div>
-
-<div id="metamaskinsufficientamount" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix">Insufficient Tokens<a href="#" onclick="closebox('metamaskinsufficientamount')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">
-                &nbsp;&nbsp;Sorry, you do not have enough AXPR tokens in your MetaMask wallet. Please add some more to make the transaction.
-            </label>
-            <a href="#" onclick="closebox('metamaskinsufficientamount')" class="btn btn_banner secondary_color_bg maxwidth325" title="OK">OK</a>
-        </div>
-    </div>
-</div>
-
-<div id="bidonpending_pop_id" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix">Pending Transaction<a href="#" onclick="closebox('bidonpending_pop_id')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">
-                @*You have already approved a bid which <span class="blue_color_text" id="spanTranUser"></span> submitted. This was for <span id="spanTranJob"></span>. Please wait for the transaction process to be completed.*@
-                Your bid is already approved. Please wait for the transaction process to be completed.
-            </label>
-            <a href="#" onclick="closebox('bidonpending_pop_id')" class="btn btn_banner secondary_color_bg maxwidth325" title="Next step">Ok</a>
-        </div>
-    </div>
-</div>
-
-<div id="gigStatus_pop" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix"><span id="gigStatus_title"></span><a href="#" onclick="closebox('gigStatus_pop')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style" id="gigStatus_msg">
-            </label>
-            <a href="#" onclick="closebox('gigStatus_pop')" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">Ok</a>
-        </div>
-    </div>
-</div>
-
-<div id="gigAccept_pop" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix"><span id="gigAccept_title"></span><a href="#" onclick="closebox('gigAccept_pop')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style" id="gigAccept_msg">
-            </label>
-            <a href="#" id="gigAcceptOk" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">Ok</a>
-            <a href="#" id="gigDeclineOk" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">Ok</a>
-        </div>
-        <div class="form-group register_small_already_reg delete_job_link clearfix">
-            <a href="#" onclick="closebox('gigAccept_pop')" title="Cancel">Cancel</a>
-        </div>
-    </div>
-</div>
-<div id="gigRequest_pop" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix"><span id="gigRequest_title"></span><a href="#" onclick="closebox('gigRequest_pop')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style" id="gigRequest_msg">
-            </label>
-            <a href="#" id="gigRequestOk" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">Ok</a>
-        </div>
-    </div>
-</div>
-<div id="gigPayForGig_pop" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix"><span id="gigPayForGig_title"></span><a href="#" onclick="closebox('gigPayForGig_pop')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style" id="gigPayForGig_msg">
-            </label>
-            <a href="#" id="gigPayOk" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">Ok</a>
-            <a href="#" id="gigNoPayOk" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">Ok</a>
-        </div>
-        <div class="form-group register_small_already_reg delete_job_link clearfix">
-            <a href="#" onclick="closebox('gigPayForGig_pop')" title="Cancel">Cancel</a>
-        </div>
-    </div>
-</div>
-<div id="gigSubscriptionCancel_pop" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix">Cancel Order<a href="#" onclick="closebox('gigRequest_pop')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style" id="gigRequest_msg">
-                Do you want to cancel the order?
-            </label>
-            <a href="#" id="gigCancelSubOk" class="btn btn_banner secondary_color_bg maxwidth325" title="Yes">Yes</a>
-        </div>
-        <div class="form-group register_small_already_reg delete_job_link clearfix">
-            <a href="#" onclick="closebox('gigSubscriptionCancel_pop')" title="No">No</a>
-        </div>
-    </div>
-</div>
-<div id="gigSubscriptionCancelSuccess" class="popup_box popup_fixed_middle clearfix myshadow">
-    <span id="" class="col-md-12 popup_box_title clearfix"> Service Order Cancelled <a href="#" onclick="closebox('gigSubscriptionCancelSuccess')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style">Cancelled the service order successfully</label>
-            <a href="#" id="cancelOrderOk" class="btn btn_banner secondary_color_bg maxwidth325" title="Okay">OK</a>
-        </div>
-    </div>
-</div>
-<div id="bidCancel_pop" class="popup_box clearfix myshadow popup_fixed_middle">
-    <span id="" class="col-md-12 popup_box_title clearfix">Cancel Bid<a href="#" onclick="closebox('bidCancel_pop')" class="popup_close_bg" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style" id="bidCancel_msg">
-                Do you want to cancel the bid?
-            </label>
-            <a href="#" id="bidCancelOk" class="btn btn_banner secondary_color_bg maxwidth325" title="Yes">Yes</a>
-        </div>
-        <div class="form-group register_small_already_reg delete_job_link clearfix">
-            <a href="#" onclick="closebox('bidCancel_pop')" title="No">No</a>
-        </div>
-    </div>
-</div>
-<div id="bidCancelSuccess" class="popup_box popup_fixed_middle clearfix myshadow">
-    <span id="bidCancelTitle" class="col-md-12 popup_box_title clearfix"> <a href="#" class="popup_close_bg btnBidCancelSuccess" title="Close"></a> </span>
-    <div class="col-md-12 pop_container_bg text-center">
-        <div class="form-group clearfix">
-            <label for="" class="input_label_style" id="bidCancelMsg"></label>
-            <a href="#" class="btn btn_banner secondary_color_bg maxwidth325 btnBidCancelSuccess" title="Okay">OK</a>
-        </div>
-    </div>
-</div>
-<script type="text/javascript">
-
-
-    $(document).ready(function () {
-
-        $(document).on('click', '.shadowing_overlay', function () {
-            closeboxOutSide();
-        });
-
-        //$(document).on('click', '#preference_update', function() {
-        //
-        //    new closebox('preference_update');
-        //});
-
-        //$("#divcategory_brdcum").text("Jobs listed");
-        //
-
-        var userType = @Html.Raw(Json.Encode(Session["UserType"]));
-        var JobPosted= @Html.Raw(Json.Encode(Session["JobPosted"]));
-        var NotificationStatus= @Html.Raw(Json.Encode(Session["NotificationStatus"]));
-        var MessageStatus= @Html.Raw(Json.Encode(Session["MessageStatus"]));
-        var ProjectMsgStatus= @Html.Raw(Json.Encode(Session["ProjectMsgStatus"]));
-       // alert (sessionStorage.getItem("FirstLogin"));
-        var FirstLogin=""
-        if(sessionStorage.getItem("FirstLogin")!=null)
-        {
-             FirstLogin = sessionStorage.getItem("FirstLogin");
-        }
-        else
-        {
-             FirstLogin= @Html.Raw(Json.Encode(Session["FirstLogin"]));
-        }
-       // alert(FirstLogin);
-
-        if(NotificationStatus == "Y")
-        {
-            //
-            $(".header_notification_icon").addClass('notify_indication');
-        }
-        else
-        {
-            $(".header_notification_icon").removeClass('notify_indication');
-        }
-        if(MessageStatus == "Y" || ProjectMsgStatus == "Y")
-        {
-            //
-            $(".header_message_icon").addClass('notify_indication');
-        }
-        else
-        {
-            $(".header_message_icon").removeClass('notify_indication');
-        }
-        //if(userType == 1 || userType == 3)
-        //{
-            // LoadBidonJobs();
-            LoadMyServices();
-        // }
-        //else
-        //{
-        //    // LoadListedJobs();
-        //    // LoadPendingJobs();
-        //    LoadGigsSubPending();
-        //}
-
-        if(FirstLogin=="Y")
-        {
-            if(userType == 1)
-            {
-                // alert ("jobseeker");
-                $.ajax({
-                    type: 'POST',
-                    cache: false,
-                    url: '@Url.Action("SkillMapping", "Login")',
-                    success: function (response) {
-                        $("#skillmapping_pop_id").html(response)
-                        openbox(1, 'skillmapping_pop_id');
-                    },
-                    error: function (jqXHR, exception) {
-
-                        console.log(jqXHR.status);
-                        console.log(exception);
-                    }
-                });
-            }
-
-            else
-            {
-                if(JobPosted=="Y")
-                {
-                    $.ajax({
-                        type: 'POST',
-                        cache: false,
-                        url: '@Url.Action("SkillMapping", "Login")',
-                        success: function (response) {
-                            $("#skillmapping_pop_id").html(response)
-                            openbox(1, 'skillmapping_pop_id');
-                        },
-                        error: function (jqXHR, exception) {
-
-                            console.log(jqXHR.status);
-                            console.log(exception);
+                            </li>
                         }
-                    });
+                    </ul>
                 }
-                else
+                <nav class="nav-pagination">
+                    @*
+                    <ol>
+                        <li class="prev"><a href="./">Prev</a></li>
+                        <li class="active"><a href="./">1</a></li>
+                        <li><a href="./">2</a></li>
+                        <li><a href="./">3</a></li>
+                        <li><a href="./">4</a></li>
+                        <li><a href="./">5</a></li>
+                        <li><a href="./">6</a></li>
+                        <li><a href="./">7</a></li>
+                        <li><a href="./">8</a></li>
+                        <li><a href="./">9</a></li>
+                        <li class="next"><a href="./">Next</a></li>
+                    </ol>
+                    *@
+                    <p class="link-btn"><a href="./">Load more</a></p>
+                </nav>
+            </div>
+            <div>
+                <form action="./" method="post" class="form-sort">
+                    <p>
+                        <label for="taa" class="hidden">Sort by</label>
+                        <select id="taa" name="taa">
+                            <option value="./">Newest first</option>
+                            <option value="./">Position #1</option>
+                            <option value="./">Position #2</option>
+                            <option value="./">Position #3</option>
+                            <option value="./">Position #4</option>
+                            <option value="./">Position #5</option>
+                        </select>
+                    </p>
+                </form>
+                @if (Model.Job != null)
                 {
-                    var JobId = 0;
-                    $.ajax({
-                        type: 'POST',
-                        cache: false,
-                        url: '@Url.Action("PostJob", "Jobs")',
-                        data: { "id": JobId },
-                        success: function (response) {
-                            $("#postjob_view_pop_id").html(response)
-                            openbox(1, 'postjob_view_pop_id');
-                        },
-                        error: function (jqXHR, exception) {
+                    <ul class="list-post">
+                        @foreach (var item in Model.Job)
+                        {
+                            <li id="@item.Rownumber">
+                                @*item.CssClass*@
+                                <input name="JobId" type="hidden" id="hdnJobId" value=@item.JobId />
 
-                            console.log(jqXHR.status);
-                            console.log(exception);
+                                @*<a class="myjob" href="@item.RedirectUrl"><h2>@item.JobTitle</h2></a>*@
+                                <h2><a class="myjob" href="@item.RedirectUrl">@item.JobTitle</a></h2>
+                                @*<a class="myjob" href="@Url.Action("Details", "Gigs", new { @id = @item.JobId, @subid = 0 })"></a>*@
+
+                                @*<a class="myjob" href="@item.RedirectUrl">*@
+                                <p>@item.JobDescriptionDisplay</p>
+                                @*</a>*@
+                                <ul class="list-icon">
+                                    <li class="price">
+                                        @item.BudgetASP.ToString("#,##0.00")&nbsp;<span class=small>AXPR</span>
+                                        <span>$@item.DollarCount.ToString("#,##0.00")</span>
+                                    </li>
+                                    <li><i class="icon-time"></i> @item.JobCompletionDateDisplay days remaining</li>
+                                    <li><i class="icon-upload"></i> 2 submissions</li>
+                                    <li><i class="icon-bulb"></i> Intermediate</li>
+                                    <li><i class="icon-list"></i> Writing</li>
+                                </ul>
+
+                                <div class="module-author">
+
+                                    <figure>
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="@item.ProfilePic" alt="Placeholder" width="46" height="46">
+                                            </div>
+                                            @*<i class="profile_pic_star"></i>*@
+                                        </div>
+                                    </figure>
+                                    @{
+                                        string verified = item.VerifiedPartner == "Y" ? "overlay-c" : "";
+                                    }
+                                    <h3><a href="@Url.Action("Index", "Profile", new { @id = @item.UserId })">@item.FullName</a> <span><i class="icon-badge-check @verified"></i> Administrator</span></h3>
+                                    <ul>
+                                        <li>@item.JobsCompleted jobs completed</li>
+                                        <li class="rating-a" data-val="@item.BadgeCount" data-of="5">@item.BadgeCount</li>
+                                    </ul>
+                                </div>
+                            </li>
                         }
-                    });
+                    </ul>
                 }
+                <nav class="nav-pagination">
+                    <p class="link-btn"><a href="./">Load more</a></p>
+                </nav>
+            </div>
+            <div>
+                <form action="./" method="post" class="form-sort">
+                    <p>
+                        <label for="taa" class="hidden">Sort by</label>
+                        <select id="taa" name="taa">
+                            <option value="./">Newest first</option>
+                            <option value="./">Position #1</option>
+                            <option value="./">Position #2</option>
+                            <option value="./">Position #3</option>
+                            <option value="./">Position #4</option>
+                            <option value="./">Position #5</option>
+                        </select>
+                    </p>
+                </form>
+                @*
+                @if (Model.Services != null)
+                {
+                    <ul class="list-post">
+                        @foreach (var item in Model.Services)
+                        {
+                            <li id="@item.Rownumber">
+                                <input name="JobId" type="hidden" id="hdnJobId" value=@item.JobId />
+                                <h2><a class="myjob" href="@item.RedirectUrl">@item.JobTitle</a></h2>
+                                <p>@item.JobDescriptionDisplay</p>
+                                <ul class="list-icon">
+                                    <li class="price">
+                                        @item.BudgetASP.ToString("#,##0.00")&nbsp;<span class=small>AXPR</span>
+                                        <span>$@item.DollarCount.ToString("#,##0.00")</span>
+                                    </li>
+                                    <li><i class="icon-time"></i> @item.JobCompletionDateDisplay days remaining</li>
+                                    <li><i class="icon-upload"></i> 2 submissions</li>
+                                    <li><i class="icon-bulb"></i> Intermediate</li>
+                                    <li><i class="icon-list"></i> Writing</li>
+                                </ul>
 
+                                <div class="module-author">
+
+                                    <figure>
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="@item.ProfilePic" alt="Placeholder" width="46" height="46">
+                                            </div>
+                                        </div>
+                                    </figure>
+                                    @{
+                                        string verified = item.VerifiedPartner == "Y" ? "overlay-c" : "";
+                                    }
+                                    <h3><a href="@Url.Action("Index", "Profile", new { @id = @item.UserId })">@item.FullName</a> <span><i class="icon-badge-check @verified"></i> Administrator</span></h3>
+                                    <ul>
+                                        <li>@item.JobsCompleted jobs completed</li>
+                                        <li class="rating-a" data-val="@item.BadgeCount" data-of="5">@item.BadgeCount</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+                *@
+                <div id="divcontent">&nbsp;</div>
+
+                <nav class="nav-pagination">
+                    <p class="link-btn"><a href="./">Load more</a></p>
+                </nav>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+
+    $("document").ready(function () {
+
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("JobsListed", "Dashboard")',
+            data: "{ }",
+            success: function (response) {
+
+                $("#divcontent").html(response)
+            },
+            error: function (jqXHR, exception) {
+
+                console.log(jqXHR.status);
+                console.log(exception);
             }
-
-        }
-        //else{ window.location.href = "/Jobs/Index";}
-
-
-
-        $("#listedjobs").click(function () {
-            //$("#divcategory_brdcum").text("Jobs listed");
-            LoadListedJobs();
-        });
-        function LoadListedJobs()
-        {
-
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("JobsListed", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-        $('ul.sideMenu li a').click(function () {
-            $('li').removeClass();
-            $(this).parent().addClass('active');
         });
 
-        $("#jobids").click(function () {
-
-            //$("#divcategory_brdcum").text("Job bid on");
-            var Id= @Html.Raw(Json.Encode(Session["UserType"]));
-            //if(Id!=2)
-            //{
-            LoadBidonJobs();
-            //}
-
-        });
-
-        function LoadBidonJobs()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("JobsBidOn", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-
-        $("#jobprogress").click(function () {
-            //$("#divcategory_brdcum").text("Jobs in progress");
-            LoadProgressJobs();
-        });
-
-        function LoadProgressJobs()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("JobsInProgress", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    var htm = response;
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-
-        }
-
-        $("#jobpending").click(function () {
-            //$("#divcategory_brdcum").text("Jobs complete");
-            LoadPendingJobs();
-        });
-
-        function LoadPendingJobs()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("JobsPending", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-
-        $("#jobcompleted").click(function () {
-            //$("#divcategory_brdcum").text("Jobs complete");
-            LoadCompletedJobs();
-        });
-
-        function LoadCompletedJobs()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("JobsCompleted", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-
-        $("#jobprofile").click(function () {
-
-            //$("#divcategory_brdcum").text("Your profile");
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("AddProfile", "Dashboard")',
-                dataType:'html',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        });
-
-        $("#jobemail").click(function () {
-            //$("#divcategory_brdcum").text("Email preferences");
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("EmailPreferences", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        });
-        $("#jobsecurity").click(function () {
-            //$("#divcategory_brdcum").text("Security");
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("Security", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        });
-        $("#myServices").click(function () {
-            //$("#divcategory_brdcum").text("Jobs listed");
-            LoadMyServices()
-        });
-        function LoadMyServices()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("LoadMyServices", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-        $('#purchasedService').click(function () {
-            //$("#divcategory_brdcum").text("Jobs listed");
-            LoadPurchasedServices()
-        });
-        function LoadPurchasedServices()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("LoadPurchasedServices", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-        $('#myJobs').click(function () {
-            LoadMyJobs();
-        });
-        function LoadMyJobs()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("LoadMyJobs", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-        $('#jobsBidOn').click(function () {
-            LoadJobsBidOn()
-        });
-        function LoadJobsBidOn()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("LoadJobsBidOn", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-        $("#gigpending").click(function () {
-            //$("#divcategory_brdcum").text("Jobs listed");
-            LoadGigsPending();
-        });
-        function LoadGigsPending()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("LoadGigsPending", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-        $("#gigsubrequest").click(function () {
-            //$("#divcategory_brdcum").text("Jobs listed");
-            LoadGigsSubRequest();
-        });
-        function LoadGigsSubRequest()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("LoadGigsSubRequest", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-        $("#gigsubpending").click(function () {
-            //$("#divcategory_brdcum").text("Jobs listed");
-            LoadGigsSubPending();
-        });
-        function LoadGigsSubPending()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("LoadGigsSubPending", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-        $("#gigpaypending").click(function () {
-            //$("#divcategory_brdcum").text("Jobs listed");
-            LoadGigsPayPending();
-        });
-        function LoadGigsPayPending()
-        {
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                url: '@Url.Action("LoadGigsPayPending", "Dashboard")',
-                data: "{ }",
-                success: function (response) {
-                    $("#divcontent").html(response)
-                },
-                error: function (jqXHR, exception) {
-
-                    console.log(jqXHR.status);
-                    console.log(exception);
-                }
-            });
-        }
-
-        $('.get_hired').click(function() {
-            setCategory('J');
-            window.location.href="/Jobs/index";
-        })
-    })
+    });
 
 </script>

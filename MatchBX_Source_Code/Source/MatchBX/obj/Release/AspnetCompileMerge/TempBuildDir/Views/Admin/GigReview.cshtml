@@ -1,0 +1,823 @@
+﻿
+@{
+    ViewBag.Title = "GigReview";
+    Layout = Layout;
+}
+@model dynamic
+<div class="largebox_content_containerbg">
+    <div class="container">
+
+
+        <div class="container_inner middile_con_inner_bg clearfix" id="divcontent">
+            <div id="loaderDiv" class="loaderDivclass " style="display:none"></div>
+            @if (Model != null)
+            {
+                <div class="col-md-12 home_con_top_search_bg bg_color_comen clearfix">
+                    <div class="col-md-5 padd_left_right_o">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="btnsearch"><i class="home_search_icon"></i></button>
+                            </span>
+                            <input id="txt_search" type="text" class="form-control job_review_search" placeholder="Search for...">
+                        </div>
+                    </div>
+                    <!-- /input-group -->
+                    <div class="col-md-7 catagory_con_top_bg job_review_sortbg_bg">
+
+                        <div class="pull-right category_sort_by_bg">
+                            <div class="form-group clearfix">
+                                <div>
+                                    <label for="" class="">Sort by:</label>
+                                    <select id="ddlSort" class="form-control">
+                                        <option value="N">Newest</option>
+                                        <option value="O">Oldest</option>
+                                    </select>
+                                </div>
+                                <div>
+
+                                    <label for="" class="">Filter by:</label>
+
+
+                                    @Html.DropDownList("JobCategoryId", new SelectList((IEnumerable<Business.JobCategory>)TempData["Category"], "JobCategoryId", "Category"), "--Select Category--", new { @class = "form-control form_input", @id = "JobCategoryId" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="divjobs">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-12 con_8_4_outer_bg clearfix">
+                            <div class="row con_row">
+                                <div class="col-md-12 home_left_8">
+
+                                    <div class="col-md-12 home_user_box_1_bg bg_color_comen padd_left_right_o clearfix">
+                                        <div class="box_paddleftright_15 clearfix">
+                                            <h3>@item.GigTitle</h3>
+                                            <div class="timeframe_budget_small clearfix">
+                                                <div class="timeframe_only"><span>Delivery time: </span><span>@item.GigDuration</span><span>&nbsp;Days</span></div>
+                                                <div class="timeframe_only posted_day">
+                                                    <span>Posted: </span><span>@item.CreatedDateDisplay</span>
+                                                    @*@if (item.GigDuration > 1)
+                                                    { <span> days ago</span>}
+                                                    else
+                                                    { <span> day ago</span>}*@
+                                                </div>
+                                                <div class="timeframe_only"><span>Purchased: </span><span>@item.GigsCompleted</span><span>&nbsp;Times</span></div>
+                                                <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(item.BudgetASP.ToString("#,##0.00"), " AXPR ", "($", (Math.Round(item.DollarCount, 2)).ToString("#,##0.00"), ")")</span></div>
+                                                <div class="axp_star_only">
+                                                    <ul>
+                                                        @if (item.BadgeCount == 1)
+                                                        {
+                                                            <li><i></i></li>
+                                                        }
+                                                        else if (item.BadgeCount == 2)
+                                                        {
+                                                            <li><i></i></li>
+                                                            <li><i></i></li>
+                                                        }
+                                                        else if (item.BadgeCount == 3)
+                                                        {
+                                                            <li><i></i></li>
+                                                            <li><i></i></li>
+                                                            <li><i></i></li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div><!--box_paddleftright_15-->
+                                        <div class="border_buttom_only job_details_linewithspace"></div>
+                                        <div class="box_paddleftright_15 clearfix">
+                                            <div class="home_client_discription_small clearfix">                                                
+                                                <div class="readmoretext more">@item.GigDescription</div>
+                                                <h5 class="job_skill_textshow">
+                                                    <span>SKILL REQUIRED: </span>
+                                                    <span>
+                                                        @item.SkillsList
+                                                    </span>
+                                                </h5>
+                                                <div class="job_tags_textshow" id="detailTagList">
+                                                    <div class="home_trending_tags clearfix">
+                                                        <span class="job_tags_textlabel">Tags:</span>
+                                                        @item.TrendingTagsIdList
+                                                    </div>
+                                                    @if (item.NoOfDocuments > 0)
+                                                    {
+                                                        <div class="home_trending_tags job_review_attach clearfix attachments">
+                                                            <input type="hidden" id="hdngigid_@item.GigId" value="@item.GigId" />
+                                                            <a href="#" title="View Attachment"><span class="job_tags_textlabel">View Attachment</span></a>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div><!--box_paddleftright_15-->
+                                        <div class="border_buttom_only job_details_linewithspace"></div>
+                                        <div class="box_paddleftright_15 clearfix">
+                                            <div class="client_profile_imgname_bg clearfix">
+                                                <div class="pull-left">
+                                                    <div class="client_profile_pic">
+                                                        <div class="client_profile_pic_1">
+                                                            <img src="@item.ProfilePic" alt="" />
+                                                        </div>
+                                                        <i class="profile_pic_star"></i>
+                                                    </div>
+                                                    <div class="client_profile_name">
+
+                                                        <a href="javascript:;" style="cursor:default;">
+                                                            <h4>@item.FullName</h4>
+                                                        </a>
+
+                                                        <span>@item.JobsCompleted jobs completed</span>
+                                                    </div>
+                                                </div><!--pull-left-->
+                                                <div class="pull-right text-right">
+                                                    <div class="company_profile_refedit">
+                                                        <input type="hidden" id="hfgigid_@item.GigId" value="@item.GigId" />
+                                                        <input type="hidden" id="hfgigtitle_@item.GigTitle" value="@item.GigTitle" />
+                                                        <input type="hidden" id="hfgigposter_@item.FullName" value="@item.FullName" />
+                                                        <input type="hidden" id="hfgigposterid_@item.UserId" value="@item.UserId" />
+                                                        <input type="hidden" id="hfgigposteremail_@item.Email" value="@item.Email" />
+                                                        <input type="hidden" id="hfgigcreateddate_@item.CreatedDateDisplay" value="@item.CreatedDateDisplay" />
+                                                        <!--job_review_approve_bu job_review_reject_bu-->
+                                                        @*<input type="hidden" id="hfgigidpop" />
+                                                            <input type="hidden" id="hfgigposteridpop" />
+                                                            <input type="hidden" id="hfgigpostername" />
+                                                            <input type="hidden" id="hfgigposteremailpop" />
+                                                            <input type="hidden" id="hfgigtitlepop" />
+                                                            <input type="hidden" id="hfgigcreateddatepop" />*@
+                                                        <div>
+                                                            <a href="#" class="btn button_all secondary_color_2_bg job_review_app_reg apprv" title="Approve"><i class="fa fa-check-circle"></i><span>Approve</span></a>
+                                                            <a href="#" class="btn button_all secondary_color_bg job_review_app_reg rjct" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i><span>Reject</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div><!--pull-right-->
+                                            </div>
+                                        </div><!--box_paddleftright_15-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @*<input type="hidden" id="hfgigidpop" />
+                        <input type="hidden" id="hfgigposteridpop" />
+                        <input type="hidden" id="hfgigpostername" />
+                        <input type="hidden" id="hfgigposteremailpop" />
+                        <input type="hidden" id="hfgigtitlepop" />
+                        <input type="hidden" id="hfgigcreateddatepop" />*@
+                    @if (Model != null && Model.Count == 0)
+                    {
+                        <div class="nojob_diplytable" id="divmsg">
+                            <div class="col-md-12 category_nojob_bg clearfix">
+                                @if (@TempData.Peek("message").ToString() != string.Empty)
+                                {
+                                    <h3>@TempData.Peek("message").ToString()</h3>
+                                }
+                                else
+                                {
+                                    <h3>There are no services to approve</h3>
+                                }
+
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div id="loadMore">
+                    @if (Model != null && Model.Count > 0 && Model[0].Isloadmore == 1)
+                    {
+                        <div class="col-md-12 category_loadmore_bg clearfix" id="divloadmore">
+                            <a href="javascript:;" class="btn button_all secondary_color_bg" id="btnloadmore">Load more</a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+            <!--===============Manage Jobs Popup Section================= -->
+            @*Approve job confirmation - admin*@
+            <div id="gigapproveadmin" class="popup_box clearfix myshadow">
+                <span id="" class="col-md-12 popup_box_title clearfix">Approve Service<a href="javascript:;" onclick="closebox('gigapproveadmin')" class="popup_close_bg" title="Close"></a> </span>
+                <div class="col-md-12 pop_container_bg text-center">
+                    <div class="form-group clearfix">
+                        <label for="" class="input_label_style">Are you sure to approve the service<span class="" id="spanadminapprove"></span></label>
+                        <a href="#" id="btnAdminGigApprove" class="btn btn_banner secondary_color_bg maxwidth325" title="Approve Service">Approve Service</a>
+                    </div>
+                    <div class="form-group register_small_already_reg delete_job_link clearfix">
+                        <p><a href="javascript:;" onclick="closebox('gigapproveadmin')">Cancel</a></p>
+                    </div>
+                </div>
+            </div>
+
+            @*Reject job - reason pick*@
+            <div id="popup_rejectreason" class="popup_box clearfix myshadow">
+                <span id="" class="col-md-12 popup_box_title clearfix">Reject Service <a href="javascript:;" onclick="closebox('popup_rejectreason')" class="popup_close_bg" title="Close"></a> </span>
+                <div class="col-md-12 pop_container_bg text-center">
+                    <div class="form-group clearfix">
+
+                        <label for="" class="input_label_style">Reason for the rejection<span class="" id="spanrej"></span></label>
+                        @Html.DropDownList("ddlRejectJob", new SelectList((IEnumerable<Business.JobCancellation>)TempData["CancelJobReason"], "JobCancellationId", "Reason"), "--Select Reason for Rejection--", new { @class = "form-control formall_textbox_design", @id = "ddlRejectJob" })
+                        <br /> <br />
+                        <span id="errorMsgRejectReason" class="error_span"></span>
+                        <a href="#" id="btnRejectGigAdmin" class="btn btn_banner secondary_color_bg maxwidth325" title="Reject Service">Reject Service</a>
+                    </div>
+                    <div class="form-group register_small_already_reg delete_job_link clearfix">
+                        <p><a href="javascript:;" onclick="closebox('popup_rejectreason')">Cancel</a></p>
+                    </div>
+                </div>
+            </div>
+
+            @*View attachment admin*@
+            <div id="attachement_pop_id" class="popup_box clearfix">
+                <span id="" class="col-md-12 popup_box_title clearfix"> Attachment  <a href="#" onClick="closebox('attachement_pop_id')" class="popup_close_bg" title="Close"></a> </span>
+                <div class="col-md-12 pop_container_bg">
+                    <div class="form-group clearfix">
+                        <div class="home_trending_tags job_review_attach clearfix">
+                            <ul id="view_attachment_ul"></ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+
+                        <a href="#" onClick="closebox('attachement_pop_id')" class="btn btn-default register_small_button secondary_color_bg" title="Close">Close</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="CancelSuccess" class="popup_box clearfix myshadow">
+                <span id="" class="col-md-12 popup_box_title clearfix"> Manage Job <a href="@Url.Action("Index", "Admin" ,new {@id=2})" class="popup_close_bg" title="Close"></a> </span>
+                <div class="col-md-12 pop_container_bg text-center">
+                    <div class="form-group clearfix">
+
+                        <label for="" class="input_label_style" id="cancelsucesslbl"><span class="blue_color_text" id="spanaxp"></span></label>
+                        <br /> <br />
+                    </div>
+                    <div class="form-group register_small_already_reg delete_job_link clearfix">
+
+                    </div>
+                </div>
+            </div>
+            <script src="~/Scripts/jquery.signalR-2.3.0.min.js"></script>
+            <script src="~/signalr/hubs"></script>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#pageTitle").text("Services pending to be approved")
+                    var showChar = 100;
+                    var ellipsestext = "...";
+                    var moretext = "Read More";
+                    var lesstext = "Read less";
+                    $('.more').each(function() {
+                        var content = $(this).html();
+
+                        if(content.length > showChar) {
+
+                            var c = content.substr(0, showChar);
+                            var h = content.substr(showChar-1, content.length - showChar);
+
+                            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="#" class="morelink">' + moretext + '</a></span>';
+
+                            $(this).html(html);
+                        }
+
+                    });
+                    $("#divjobs").on("click", ".morelink", function(){
+                        if($(this).hasClass("less")) {
+                            $(this).removeClass("less");
+                            $(this).html(moretext);
+                        } else {
+                            $(this).addClass("less");
+                            $(this).html(lesstext);
+                        }
+                        $(this).parent().prev().toggle();
+                        $(this).prev().toggle();
+                        return false;
+                    });
+                    $("#divjobs").on("click", "a.apprv", function () {
+                        debugger;
+                        var _gigid = $(this).closest('div.company_profile_refedit').find('input[id^="hfgigid_"]').val();
+                        var _gigtitledispaly = $(this).closest('div.company_profile_refedit').find('input[id^="hfgigtitle_"]').val();
+                        var _gigposter = $(this).closest('div.company_profile_refedit').find('input[id^="hfgigposter_"]').val();
+                        $("#spanadminapprove").html(" <b>" + _gigtitledispaly + "</b> posted by <b> " + _gigposter + "</b>");
+
+
+                        $("#hfgigpostername").val(_gigposter);
+                        $("#hfgigidpop").val(_gigid);
+                        var  _gigposteridpop = $(this).closest('div.company_profile_refedit').find('input[id^="hfgigposterid_"]').val();
+                        var _gigposteremailpop = $(this).closest('div.company_profile_refedit').find('input[id^="hfgigposteremail_"]').val();
+                        var _gigcreateddatepop= $(this).closest('div.company_profile_refedit').find('input[id^="hfgigcreateddate_"]').val();
+
+                        $("#hfgigposteridpop").val(_gigposteridpop)
+                        $("#hfgigposteremailpop").val(_gigposteremailpop)
+                        $("#hfgigcreateddatepop").val(_gigcreateddatepop)
+                        $("#hfgigtitlepop").val(_gigtitledispaly)
+
+
+
+                        openbox(1, 'gigapproveadmin');
+                    });
+
+                    $("#divjobs").on("click", "a.rjct", function () {
+                        debugger;
+                        var _gigid = $(this).closest('div.company_profile_refedit').find('input[id^="hfgigid_"]').val();
+                        var _gigtitledispaly = $(this).closest('div.company_profile_refedit').find('input[id^="hfgigtitle_"]').val();
+                        var _gigposter = $(this).closest('div.company_profile_refedit').find('input[id^="hfgigposter_"]').val();
+                        $("#spanrej").html(" of the service <b>" + _gigtitledispaly + "</b> posted by <b>" + _gigposter + "</b>");
+
+
+                        var  _gigposteridpop = $(this).closest('div.company_profile_refedit').find('input[id^="hfgigposterid_"]').val();
+                        var _gigposteremailpop = $(this).closest('div.company_profile_refedit').find('input[id^="hfgigposteremail_"]').val();
+                        var _gigcreateddatepop= $(this).closest('div.company_profile_refedit').find('input[id^="hfgigcreateddate_"]').val();
+
+                        $("#hfgigpostername").val(_gigposter);
+                        $("#hfgigidpop").val(_gigid);
+                        $("#hfgigposteridpop").val(_gigposteridpop)
+                        $("#hfgigposteremailpop").val(_gigposteremailpop)
+                        $("#hfgigcreateddatepop").val(_gigcreateddatepop)
+                        $("#hfgigtitlepop").val(_gigtitledispaly)
+
+
+                        $('#ddlRejectJob').prop('selectedIndex', 0);
+                        $("#errorMsgRejectReason").empty();
+                        openbox(1, 'popup_rejectreason');
+                    });
+                    $("#btnAdminGigApprove").click(function()
+                    {
+                        debugger;
+                        var _Gigid = $("#hfgigidpop").val();
+                        var _PosterId = $("#hfgigposteridpop").val();
+                        var _PosterName = $('#hfgigpostername').val();
+                        var _Email = $("#hfgigposteremailpop").val();
+                        var _AdminUserId = @Session["UserId"];
+                        var _GigTitle = $("#hfgigtitlepop").val();
+                        var _GigCreatedDate = $("#hfgigcreateddatepop").val();
+
+                        $.ajax({
+                            url: '@Url.Action("GigReviewProcess", "Admin")',
+                            data: {
+                                "GigId": _Gigid,
+                                "UserId": _PosterId,
+                                "Email": _Email,
+                                "RejectionReason": 0,
+                                "AdminUserId": _AdminUserId,
+                                "GigTitle":_GigTitle,
+                                "CreatedDateDisplay":_GigCreatedDate
+                            },
+                            beforeSend: function() {
+                                $("#loaderDiv").show();
+                            },
+                            type: "POST",
+                            success: function (response) {
+                                debugger
+                                $("#loaderDiv").hide();
+                                if(response == "Success")
+                                {
+
+                                    var notification = $.connection.notificationHub;
+                                    var _notification = "Your service " + _GigTitle + " has been approved";
+                                    var _header = "Service Approved";
+                                    $.connection.hub.start().done(function () {
+                                        notification.server.send(_AdminUserId, _PosterId, _PosterName, _notification, _header, ' ');
+                                    }).fail(function(){ console.log('Could not connect'); });
+                                    closebox("gigapproveadmin");
+                                    window.location.reload();
+                                }
+                            },
+                            error: function () {
+                                $("#loaderDiv").hide();
+                            }
+                        });
+
+                    });
+
+
+                    $("#btnRejectGigAdmin").click(function()
+                    {
+                        var _Gigid = $("#hfgigidpop").val();
+                        var _PosterId = $("#hfgigposteridpop").val();
+                        var _PosterName = $('#hfgigpostername').val();
+                        var _Email = $("#hfgigposteremailpop").val();
+                        var _AdminUserId = @Session["UserId"];
+                        var _GigTitle = $("#hfgigtitlepop").val();
+                        var _GigCreatedDate = $("#hfgigcreateddatepop").val();
+                        var dropdwnval = $("#ddlRejectJob").val();
+
+
+                        if (dropdwnval == null || dropdwnval == 0 || dropdwnval == "")
+                        {
+                            $("#errorMsgRejectReason").html("Please select reason for rejecting the service.");
+                        } else {
+                            $("#errorMsgRejectReason").empty();
+                            $.ajax({
+                                url: '@Url.Action("GigReviewProcess", "Admin")',
+                                data: {
+                                    "Gigid": _Gigid,
+                                    "UserId": _PosterId,
+                                    "Email": _Email,
+                                    "RejectionReason": dropdwnval,
+                                    "AdminUserId": _AdminUserId,
+                                    "GigTitle":_GigTitle,
+                                    "CreatedDateDisplay":_GigCreatedDate
+                                },
+                                type: "POST",
+                                success: function (response) {
+                                    if(response == "Success")
+                                    {
+                                        var notification = $.connection.notificationHub;
+                                        var _notification = "Your service " + _GigTitle + " has been rejected";
+                                        var _header = "Service Rejected";
+                                        //notification.server.send(_AdminUserId, _PosterId, _PosterName, _notification, _header,'');
+                                        $.connection.hub.start().done(function () {
+                                            notification.server.send(_AdminUserId, _PosterId, _PosterName, _notification, _header, ' ');
+                                        }).fail(function(){ console.log('Could not connect'); });
+                                        closebox("popup_rejectreason");
+                                        window.location.reload();
+                                    }
+                                },
+                                error: function () {
+
+                                }
+                            });
+                        }
+
+                    });
+
+                    function LoadJobs(_searchtext)
+                    {
+                        debugger;
+                        var _JobCategoryId = $("#JobCategoryId").val();
+                        _JobCategoryId=_JobCategoryId==""?0:_JobCategoryId;
+                        var _SortBy = $("#ddlSort").val();
+                        $("#divnorecord").empty();
+                        $.ajax({
+                            type: 'POST',
+                            cache: false,
+                            url: '@Url.Action("GigReviewFilter", "Admin")',
+                            data: {
+                                "_searchtext": _searchtext,
+                                "JobCategoryId": _JobCategoryId,
+                                "SortBy": _SortBy
+                            },
+                            success: function (response) {
+                                $("#divjobs").empty();
+                                $("#divloadmore").remove();
+                                genaratehtml(response);
+                            },
+                            error: function (jqXHR, exception) {
+                                console.log(jqXHR.status);
+                                console.log(exception);
+                            }
+                        });
+
+                    }
+                    $("#ddlSort").change(function () {
+                        debugger;
+                        var _JobCategoryId = $("#JobCategoryId").val()==""? 0:$("#JobCategoryId").val();
+
+                        var _SortBy = $("#ddlSort").val();
+                        GigReviewFilter(_JobCategoryId, _SortBy);
+                    });
+                    $("#JobCategoryId").change(function () {
+                        debugger;
+                        var _JobCategoryId = $("#JobCategoryId").val();
+                        var _SortBy = $("#ddlSort").val();
+                        GigReviewFilter(_JobCategoryId, _SortBy);
+                    });
+                    function GigReviewFilter(_JobCategoryId,_SortBy)
+                    {
+                        var _searchtext = $("#txt_search").val().trim();
+                        $.ajax({
+                            url: '@Url.Action("GigReviewFilter", "Admin")',
+                            data: {
+                                "_searchtext": _searchtext,
+                                "JobCategoryId": _JobCategoryId,
+                                "SortBy": _SortBy
+                            },
+                            type: "POST",
+                            success: function (response) {
+                                $("#divjobs").empty();
+                                $("#divloadmore").remove();
+                                if(response != "Failed") {
+                                    genaratehtml(response);
+
+                                } else {
+                                    $("#divjobs").append('<div class="nojob_diplytable" id="divmsg"><div class="col-md-12 category_nojob_bg clearfix"><h3>There don\'t seem to be any Services matching this search criterion.</h3></div></div>');
+                                }
+                            },
+                            error: function () {
+
+                            }
+                        });
+                    }
+                    $("#loadMore").on("click", " #btnloadmore", function (e) {
+                        debugger;
+                        var _Id = $('div.company_profile_refedit').last().find('input[id^="hfgigid_"]').val();
+                        LoadMore(_Id);
+                        e.preventDefault();
+                    });
+                    function LoadMore(id) {
+                        debugger;
+                        var _searchtext = $("#txt_search").val().trim();
+                        var _JobCategoryId = $("#JobCategoryId").val();
+                        _JobCategoryId=_JobCategoryId.trim()=="" ? 0:_JobCategoryId
+                        var _SortBy = $("#ddlSort").val();
+                        $.ajax({
+                            type: 'POST',
+                            cache: false,
+                            url: '@Url.Action("LoadMoreGig", "Admin")',
+                            data: {
+                                'id': id,
+                                "_searchtext": _searchtext,
+                                "JobCategoryId": _JobCategoryId,
+                                "SortBy": _SortBy
+                            },
+                            success: function (response) {
+                                $("#divloadmore").remove();
+                                genaratehtml(response);
+                            },
+                            error: function (jqXHR, exception) {
+                                console.log(jqXHR.status);
+                                console.log(exception);
+                            }
+                        });
+                    }
+                    $("#txt_search").autocomplete({
+
+                        source: function (request, response) {
+                            var param = $('#txt_search').val().trim();
+                            $.ajax({
+                                url: "/Admin/GetAutomatedSearchForGigs",
+                                data: { '_searchtext': param, 'trendingtagsid': 0 },
+                                dataType: "json",
+                                type: "POST",
+                                dataFilter: function (data) { return data; },
+                                success: function (data) {
+                                    debugger;
+                                    if(data.length != 0){
+                                        if(param == "")
+                                        {
+                                            value:""
+                                        }
+                                        else{
+
+                                            response($.map(data, function (item) {
+                                                return {
+                                                    value: item.GigTitle
+                                                }
+                                            })) }}
+                                    else
+                                    {
+                                        $("#divjobs").empty();
+                                        var _Msg = "";
+                                        _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live services for this category</h3></div>"
+                                        $("#divjobs").append(_Msg);
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    var err = eval("(" + XMLHttpRequest.responseText + ")");
+                                    alert(err.Message)
+                                }
+                            });
+                        },
+                        select: function (e, ui) {
+                            var _searchtext = ui.item.value;
+                            localStorage.setItem("keyword", _searchtext);
+                            sessionStorage.setItem("tagsId", '0');
+                            if(_searchtext) {
+                                LoadJobs(_searchtext);
+                            }
+                            else {
+                                LoadJobs();
+                            }
+                        },
+
+                        minLength: 1 //This is the Char length of inputTextBox
+                    });
+
+                    $('#txt_search').on("keyup", function(e) {
+                        debugger;
+                        var keycode = e.keyCode;
+                        var which = e.which;
+                        var c = String.fromCharCode(keycode == "" ? which :keycode )
+                        var _searchtext=c.trim()+ $("#txt_search").val().trim();
+                        if(e.keyCode == 8 || e.keyCode == 46 || e.keyCode == 32)
+                        {
+                            if(_searchtext == "" || _searchtext ==" " || _searchtext == "\b" || _searchtext == ".")
+                            {
+                                _searchtext="";
+
+                                $("#btnsearch").trigger("click");
+                            }
+
+                        }
+
+                        else if (e.keyCode == 13) {
+                            localStorage.setItem("keyword", _searchtext);
+                            sessionStorage.setItem("tagsId", '0');
+                            $("#btnsearch").trigger("click");
+                        }
+
+
+                    });
+
+                    $("#btnsearch").click(function () {
+                        debugger;
+                        var _searchtext = $("#txt_search").val().trim();
+                        if (_searchtext) {
+
+                            var _TagsId= sessionStorage.getItem("tagsId");
+                            LoadJobs(_searchtext, _TagsId);
+                            sessionStorage.setItem("tagsId", '0');
+
+                        }
+                        else
+                        {
+                            LoadJobs(null,0);
+                        }
+
+                    });
+                    function genaratehtml(response)
+                    {
+                        $.each(response, function (key, value) {
+                            var SkillList = response[key].SkillsList;
+                            var TagList = response[key].TrendingTagsIdList;
+                            var DocumentList = response[key].JobDocumentsList;
+                            var elem = " ";
+                            elem = "<div class='col-md-12 con_8_4_outer_bg clearfix'>";
+                            elem = elem + "<div class='row con_row'>";
+                            elem = elem + "<div class='col-md-12 home_left_8'>";
+                            elem = elem + "<div class='col-md-12 home_user_box_1_bg bg_color_comen padd_left_right_o clearfix'>";
+                            elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                            elem = elem + "<h3>"+response[key].GigTitle+"</h3>";
+                            elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                            elem = elem + "<div class='timeframe_only'><span>Delivery time: </span><span>"+response[key].GigDuration+"</span><span>&nbsp;Days</span></div>";
+                            elem = elem + "<div class='timeframe_only posted_day'><span>Posted: </span><span>"+response[key].CreatedDateDisplay+"</span>";
+                            elem = elem + "<span>&nbsp;</span></div>";
+                            //if (response[key].GigDuration > 1)
+                            //{
+                            //    elem = elem + "<span> days ago</span></div>";
+                            //}
+                            //else
+                            //{
+                            //    elem = elem + "<span> day ago </span></div>";
+                            //}
+                            elem = elem + "<div class='timeframe_only'><span>Purchased: </span><span>" + response[key].GigsCompleted + "</span><span>&nbsp;Times</span></div>";
+                            elem = elem + "<div class='budget_only'><span>Cost: </span>&nbsp;<span>" + response[key].BudgetASP.toFixed(2).toLocaleString() + " AXPR ($ " + response[key].DollarCount + " ) </span></div>";
+                            elem = elem + "<div class='axp_star_only'>";
+                            elem = elem + "<ul>";
+                            if (response[key].BadgeCount == 1)
+                            {
+                                elem = elem + "<li><i></i></li>";
+                            }
+                            else if (response[key].BadgeCount == 2)
+                            {
+                                elem = elem + "<li><i></i></li>";
+                                elem = elem + "< li><i></i></li>";
+                            }
+                            else if (response[key].BadgeCount == 3)
+                            {
+                                elem = elem + "<li><i></i></li>";
+                                elem = elem + "< li><i></i></li>";
+                                elem = elem + "< li><i></i></li>";
+                            }
+                            elem = elem + "</ul>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div><!--box_paddleftright_15-->";
+                            elem = elem + "<div class='border_buttom_only job_details_linewithspace'></div>";
+                            elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                            elem = elem + "<div class='home_client_discription_small clearfix'>";
+                            elem = elem + "<h5 class='job_skill_textshow'>";
+                            elem = elem + "<span>SKILL REQUIRED: </span> ";
+                            elem = elem + "<span>"+ response[key].SkillsList+"";
+                            elem = elem + "</span>";
+                            elem = elem + "</h5>";
+                            elem = elem + "<div class='readmoretext more'>";
+                            elem = elem + response[key].GigDescription;
+                            elem = elem + "</div>";
+                            elem = elem + "<div class='job_tags_textshow' id='detailTagList'>";
+                            elem = elem + "<div class='home_trending_tags clearfix'>";
+                            elem = elem + "<span class='job_tags_textlabel'>Tags:</span>";
+                            elem = elem + response[key].TrendingTagsIdList;
+                            elem = elem + "</div>";
+                            if(response[key].NoOfDocuments > 0) {
+                                elem = elem + "<div class='home_trending_tags job_review_attach clearfix attachments'>";
+                                var hdngigid_ = "hdngigid_" + response[key].GigId;
+                                elem = elem + "<input type='hidden' id=" + hdngigid_ + " value=" + response[key].GigId + " />";
+                                elem = elem + "<a href='#' title='View Attachment'><span class='job_tags_textlabel'>View Attachment</span></a>";
+                                elem = elem + "</div>";
+                            }
+                            elem = elem + "</div>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div><!--box_paddleftright_15-->";
+                            elem = elem + "<div class='border_buttom_only job_details_linewithspace'></div>";
+                            elem = elem + "<div class='box_paddleftright_15 clearfix'>";
+                            elem = elem + "<div class='client_profile_imgname_bg clearfix'>";
+                            elem = elem + "<div class='pull-left'>";
+                            elem = elem + "<div class='client_profile_pic'>";
+                            elem = elem + "<div class='client_profile_pic_1'>";
+                            elem = elem + "<img src='"+response[key].ProfilePic+"' alt='' />";
+                            elem = elem + "</div>";
+                            elem = elem + "<i class='profile_pic_star'></i>";
+                            elem = elem + "</div>";
+                            elem = elem + "<div class='client_profile_name'>";
+                            var _href = "javascript:;";
+                            elem = elem + "<a href=" + _href + " style='cursor:default;'><h4>" + response[key].FullName + "</h4></a>";
+                            elem = elem + "</a>";
+                            elem = elem + "<span>"+response[key].JobsCompleted+" jobs completed</span>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div><!--pull-left-->";
+                            elem = elem + "<div class='pull-right text-right'>";
+                            elem = elem + "<div class='company_profile_refedit'>";
+                            var hfgigid_ = "hfgigid_" + response[key].GigId;
+                            elem = elem + "<input type='hidden' id='" + hfgigid_ + "' value='" + response[key].GigId + "' />";
+                            var hfgigtitle_ = "hfgigtitle_" + response[key].GigTitle;
+                            elem = elem + "<input type='hidden' id='" + hfgigtitle_ + "' value='" + response[key].GigTitle + "' />";
+                            var hfgigposter_ = "hfgigposter_" + response[key].FullName;
+                            elem = elem + "<input type='hidden' id='" + hfgigposter_ + "' value='" + response[key].FullName + "' />";
+                            var hfgigposterid_ = "hfgigposterid_" + response[key].UserId;
+                            elem = elem + "<input type='hidden' id='" + hfgigposterid_ + "' value='" + response[key].UserId + "' />";
+                            var hfgigposteremail_ = "hfgigposteremail_" + response[key].Email;
+                            elem = elem + "<input type='hidden' id='" + hfgigposteremail_ + "' value='" + response[key].Email + "' />";
+                            var hfgigcreateddate_ = "hfgigcreateddate_" + response[key].CreatedDateDisplay;
+                            elem = elem + "<input type='hidden' id='" + hfgigcreateddate_ + "' value='" + response[key].CreatedDateDisplay + "' />";
+                            elem = elem + "<!--job_review_approve_bu job_review_reject_bu-->";
+                            elem = elem + "<div>";
+                            elem = elem + "<a href='#' class='btn button_all secondary_color_2_bg job_review_app_reg apprv' title='Approve'><i class='fa fa-check-circle'></i><span>Approve</span></a>";
+                            elem = elem + "<a href='#' onclick=\"openbox(1, 'popup_rejectreason')\" class='btn button_all secondary_color_bg job_review_app_reg rjct' title='Reject'><i class='fa fa-times-circle' aria-hidden='true'></i><span>Reject</span></a>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div><!--pull-right-->";
+                            elem = elem + "</div>";
+                            elem = elem + "</div><!--box_paddleftright_15-->";
+                            elem = elem + "</div>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div>";
+                            elem = elem + "</div>";
+
+                            $("#divjobs").append(elem);
+                            elem = " ";
+                        })
+
+                        var showChar = 100;
+                        var ellipsestext = "...";
+                        var moretext = "Read More";
+                        var lesstext = "Read less";
+                        $('.more').each(function() {
+                            debugger;
+                            var content = $(this).html();
+                            var _text=$($.parseHTML(content)).filter('.moreellipses').text();
+                            if(_text=="")
+                            {
+                                if(content.length > showChar) {
+                                    var c = content.substr(0, showChar);
+                                    var h = content.substr(showChar-1, content.length - showChar);
+                                    var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="#" class="morelink">' + moretext + '</a></span>';
+                                    $(this).html(html);
+                                }
+                            }
+
+
+                        });
+                        var _morebutton = response[0].Isloadmore;
+                        if (_morebutton == 1) {
+                            var _elment2 = " ";
+                            _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadmore'>";
+                            _elment2 = _elment2 + " <a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadmore'>Load more</a></div></div>";
+                            $("#loadMore").append(_elment2)
+                        }
+                    }
+                    $("#divjobs").on("click", ".attachments", function(){
+                        debugger;
+                        var _gigid = $(this).closest('.attachments').find('input[id^="hdngigid_"]').val();
+                        $.ajax({
+                            url: '@Url.Action("GigDocuments", "Admin")',
+                            data: {
+                                "GigId": _gigid
+                            },
+                            type: "POST",
+                            success: function (response) {
+                                if(response != "Failed")
+                                {
+                                    $("#view_attachment_ul").empty();
+                                    $.each(response, function (key, value) {
+                                        var _documentName = response[key].DocumentName;
+                                        $("#view_attachment_ul").append('<li><a href="/Dashboard/DownloadFile?FileName=' + _documentName + '" id ="'+ _documentName +'"><span class="tab">'+_documentName+'</span></a></li>');
+                                       // $("#view_attachment_ul").append('<li><a href="/Dashboard/DownloadFile?FileName=' + _documentName + '" id ='+ _documentName +'<span class="tab">'+_documentName+'</span></a></li>');
+                                    });
+                                    openbox(1,'attachement_pop_id');
+                                }
+                            },
+                            error: function () {
+
+                            }
+                        });
+                    })
+                })
+            </script>
+            <input type="hidden" id="hfgigidpop" />
+            <input type="hidden" id="hfgigposteridpop" />
+            <input type="hidden" id="hfgigpostername" />
+            <input type="hidden" id="hfgigposteremailpop" />
+            <input type="hidden" id="hfgigtitlepop" />
+            <input type="hidden" id="hfgigcreateddatepop" />

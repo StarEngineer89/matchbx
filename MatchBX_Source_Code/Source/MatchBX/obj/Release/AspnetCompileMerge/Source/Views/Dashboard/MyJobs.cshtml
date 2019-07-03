@@ -1,0 +1,743 @@
+﻿@{
+    Layout = null;
+    var html = ""; var h = "";
+}
+
+@if (Model.MyJobs != null)
+{
+    <div id="job_in_progress_id_dash" class="tab-pane fade in active clearfix job_dash">
+        <div class="col-md-12 dash_tab_con_heading_bg padd_left_right_o h3andselect_headingbg clearfix">
+            <h3 class="dash_tab_con_heading_h3">My Jobs <span id="spancount">(@TempData["MyJobs"])</span></h3>
+            <select id="ddFilter" class="form-control">
+                <option value="all" selected>All Jobs</option>
+                <option value="aj">Active Jobs</option>
+                <option value="jc">Jobs Completed</option>
+                <option value="jb">Timeframe Breached</option>
+                <option value="je">Jobs Expired</option>
+                <option value="jp">Jobs in Progress</option>
+                <option value="jr">Jobs Pending Review</option>
+                <option value="pa">Pending Admin Approval</option>
+                <option value="pp">Pending Payment Confirmation</option>
+            </select>
+        </div>
+        @foreach (var item in Model.MyJobs)
+        {
+            <div class="col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix">
+                <div class="dash_jobs_box_1_inner">
+                    <a href="@Url.Action("Details", "Jobs",new { @id= @item.JobId })">
+                        <h3>@item.JobTitle</h3>
+                    </a>
+                    <div class="timeframe_budget_small clearfix">
+                        <input type="hidden" id="hfjobid_@item.JobId" value="@item.JobId" />
+                        <div class="timeframe_only"><span>Deadline: </span>&nbsp;<span>@item.JobCompletionDateDisplay</span></div>
+                        <div class="budget_only"><span>Budget: </span>&nbsp;<span>@String.Concat(@item.BudgetASP.ToString("#,##0.00"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span></div>
+                        <div class="axp_star_only">
+                            <ul>
+                                @if (item.BadgeCount == 1)
+                                {
+                                    <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 2)
+                                {
+                                    <li><i></i></li>
+                                    <li><i></i></li>
+                                }
+                                else if (item.BadgeCount == 3)
+                                {
+                                    <li><i></i></li>
+                                    <li><i></i></li>
+                                    <li><i></i></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="home_client_discription_small clearfix">
+                        <p>
+                            @item.JobDescription
+                        </p>
+                    </div>
+                    <div class="client_profile_imgname_bg clearfix">
+                        <div class="client_profile_pic">
+                            <div class="client_profile_pic_1"> <img src="@Url.Content("~/" + @item.PosterProfilePic.ToString().Replace("..", ""))" alt=""></div>
+                            <i class="profile_pic_star"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "Profile",new { @id=item.JobPosterId })">
+                            <div class="client_profile_name">
+                                <h4>@item.PosterFullName</h4>
+                                <span>@item.JobsCompleted jobs completed</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!--dash_jobs_box_1_inner-->
+                @if (item.JobStatus != "C")
+                {
+                    <div class="border_buttom_only"></div>
+                    <div class="dash_timeremaining_box_bg clearfix">
+                        <div class="pull-left">
+                            <span class="dash_time_span_label">Time remaining:</span> 
+                            @if (item.IsExpired == "Y" && item.JobStatus != "C" && (item.JobStatusSeeker == "A" || item.JobStatusSeeker == "C"))
+                            {
+                                <span class="dash_time_span_sp">Timeframe Breached</span>
+                            }
+                            else
+                            {
+                                <span class="dash_time_span_sp">@item.TimeRemaining</span>
+                            }
+                            <input type="hidden" id="hfJobId_@item.JobId" value="@item.JobId" />
+                        </div>
+                        @if (item.JobStatus == "R" && item.IsExpired != "Y")
+                        {
+                            <div class="pull-right gig_dash_admin_pendingbg">
+                                <div class="pending_box_alert panding_alert">Pending Admin Approval</div>
+                            </div>
+                        }
+                        else if (item.JobStatus != "C" && ((item.JobStatus == "P" && item.ActiveBids == 0) || item.JobStatus == "R" || item.IsExpired == "Y") && item.JobStatusSeeker == null)
+                        {
+                            <div class="pull-right">
+                                <input type="hidden" id="hfjobid_@item.JobId" value="@item.JobId" />
+                                <a href="#" id="btnEditJob" class="dash_time_right_menu bu_enable">Edit this job</a>
+                            </div>
+                        }
+                    </div>
+                    <div class="border_buttom_only"></div>
+                }
+                @if (item.IsActive == "Y" && item.IsExpired != "Y" && (item.JobStatus == "P" || item.JobStatus == "B") && item.PendingBid == 0)
+                {
+                    <div class="dash_timeremaining_box_bg gig_dash_mygig_bu clearfix">
+                        <div class="pull-left">
+                            <div class="pending_box_alert completed_alert">Active Job</div>
+                            <input type="hidden" id="hfJobId_@item.JobId" value="@item.JobId">
+                        </div>
+                        <div class="pull-right dash_time_allmenus"> <a href="@Url.Action("Details", "Jobs",new { @id = item.JobId, @type = "A" })" class="dash_time_right_menu">Active Bids (@item.ActiveBids)</a> <a href="@Url.Action("Details", "Jobs",new { @id = item.JobId, @type = "C" })" class="dash_time_right_menu">Declined Bids (@item.DeclinedBids)</a> </div>
+                    </div>
+                }
+                else if (item.IsExpired == "Y" && item.JobStatus != "C")
+                {
+                    <div class="border_buttom_only"></div>
+                    <div class="dash_timeremain_corrent_offer_box_bg gig_dash_mygig_bu clearfix"> @*dash_timeremaining_box_bg*@
+                        @*<div class="pull-left">
+                            @if (item.JobStatusSeeker != "A" && item.JobStatusSeeker != "C")
+                            {
+                                <div class="pending_box_alert expaire_alert">Job Expired </div>
+                            }
+                            else
+                            {
+                                <div class="pending_box_alert expaire_alert">Job Extended</div>
+                            }
+                            <input type="hidden" id="hfJobId_@item.JobId" value="@item.JobId">
+                        </div>*@
+                        @if (item.JobStatusSeeker == "A" || item.JobStatusSeeker == "C")
+                        {
+                            <div id="div_offers_accept" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix padd_top_10px">
+                                <div class="pull-left">
+                                    <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="@Url.Content("~/" + @item.SeekerProfilePic.ToString().Replace("..", ""))" alt="">
+                                            </div>
+                                            <i class="profile_pic_star"></i>
+                                        </div>
+                                        <a href="@Url.Action("Index", "Profile", new { @id = item.SeekerId })">
+                                            <div class="client_profile_name">
+                                                <h4>@item.SeekerFullName</h4>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="dash_time_corrent_off_timeremaining text_border_left">
+                                        <span class="dash_time_span_label">Offering:</span>
+                                        <span class="dash_time_span_sp">&nbsp;@String.Concat(@item.BidAmount.ToString("#,##0.00"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span>
+                                    </div>
+                                </div><!--pull-left-->
+                                <div class="pull-right">
+                                    <div class="pull-right dash_time_allmenus">
+                                        @if (item.JobStatus == "A" && item.JobStatusSeeker == "C")
+                                        {
+                                            <a href="#" id="btnMarkComplete" class="dash_time_right_menu decenabled" title="Mark as Complete">Mark as Complete</a>
+                                        }
+                                        <a href="javascript:;" onclick="LoadMessageJobsIP('MyJobs',@Html.Raw(Json.Encode(Session["UserId"])),'@item.SeekerFullName','@item.SeekerProfilePic',@item.JobId,'@item.JobTitle',@item.SeekerId)" class="dash_time_right_menu">Send message</a>
+                                        <input type="hidden" id="hfJobId_@item.JobId" value="@item.JobId">
+                                        <input type="hidden" id="hfJobPosterId_@item.JobId" value="@item.JobPosterId">
+                                        <input type="hidden" id="hfJobtitle_@item.JobId" value="@item.JobTitle">
+                                        <input type="hidden" id="hfUserRole_@item.JobId" value="P">
+                                        <input type="hidden" id="hfSeekerName_@item.JobId" value="@item.SeekerFullName">
+                                        <input type="hidden" id="hfPostername_@item.JobId" value="@item.PosterFullName">
+                                        <input type="hidden" id="hfSeekerId_@item.JobId" value="@item.SeekerId" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
+                                    <div class="readmoretext comment more clearfix">
+                                        @if (item.BidMessage != null && item.BidMessage.Length > 100)
+                                        {
+                                            html = item.BidMessage.Substring(0, 100);
+                                            h = item.BidMessage.Substring(100 - 1, item.BidMessage.Length - 100);
+                                        }
+                                        else
+                                        {
+                                            html = item.BidMessage;
+                                        }
+
+                                        @html
+                                        @if (item.BidMessage != null && item.BidMessage.Length > 100)
+                                        {
+                                            <span class="moreellipses">...&nbsp;</span>
+                                            <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="#" class="morelink">Read More</a></span>
+                                        }
+                                    </div>
+                                    <div class="coment_readmore_bgg">
+                                        <input type="hidden" id="hfbidmessage_@item.BidMessage" value="@item.BidMessage">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 border_buttom_only padd_left_right_o"></div>
+                        }
+                        <div class="col-md-12 dash_timeremaining_box_bg padd_left_right_o clearfix">
+                            <div class="pull-left">
+                                @if (item.JobStatusSeeker != "A" && item.JobStatusSeeker != "C")
+                                {
+                                    <div class="pending_box_alert expaire_alert">Job Expired </div>
+                                }
+                                @*else
+                                {
+                                    <div class="pending_box_alert expaire_alert">Timeframe Breached</div>
+                                }*@
+                                else if (item.IsActive == "Y" && item.JobStatus == "A" && item.JobStatusSeeker == "C")
+                                {
+                                    <div class="pending_box_alert panding_alert">Job Pending Review</div>
+                                }
+                                else if (item.IsActive == "Y" && item.JobStatus == "A" && item.JobStatusSeeker == "A")
+                                {
+                                    <div class="pending_box_alert progress_alert">Job in progress</div>
+                                }
+                                else if (item.IsActive == "Y" && item.JobStatus == "B" && item.PendingBid != 0)
+                                {
+                                    <div class="pending_box_alert panding_alert">Pending Payment Confirmation</div>
+                                }
+                                <input type="hidden" id="hfJobId_@item.JobId" value="@item.JobId">
+                            </div>
+                        </div>
+                        <div class="pull-right dash_time_allmenus"></div>
+                    </div>
+                }
+                else if (item.IsActive == "Y" && item.JobStatus != "R")
+                {
+                    <div class="border_buttom_only"></div>
+                    <div class="dash_timeremain_corrent_offer_box_bg clearfix">
+                        @if (item.JobStatus == "C" || (item.IsActive == "Y" && item.IsExpired != "Y" && (item.JobStatus == "B" || (item.JobStatus == "A" && item.JobStatusSeeker == "A") || (item.JobStatus == "A" && item.JobStatusSeeker == "C"))))
+                        {
+                            <div id="div_offers_accept" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix padd_top_10px">
+                                <div class="pull-left">
+                                    <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
+                                        <div class="client_profile_pic">
+                                            <div class="client_profile_pic_1">
+                                                <img src="@Url.Content("~/" + @item.SeekerProfilePic.ToString().Replace("..", ""))" alt="">
+                                            </div>
+                                            <i class="profile_pic_star"></i>
+                                        </div>
+                                        <a href="@Url.Action("Index", "Profile", new { @id = item.SeekerId })">
+                                            <div class="client_profile_name">
+                                                <h4>@item.SeekerFullName</h4>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="dash_time_corrent_off_timeremaining text_border_left">
+                                        <span class="dash_time_span_label">Offering:</span>
+                                        <span class="dash_time_span_sp">&nbsp;@String.Concat(@item.BidAmount.ToString("#,##0.00"), " AXPR ", "($", @item.DollarCount.ToString("N2"), ")")</span>
+                                    </div>
+                                </div><!--pull-left-->
+                                <div class="pull-right">
+                                    <div class="pull-right dash_time_allmenus">
+                                        @if (item.JobStatus == "A" && item.JobStatusSeeker == "C")
+                                        {
+                                            <a href="#" id="btnMarkComplete" class="dash_time_right_menu decenabled" title="Mark as Complete">Mark as Complete</a>
+                                        }
+                                        <a href="javascript:;" onclick="LoadMessageJobsIP('MyJobs',@Html.Raw(Json.Encode(Session["UserId"])),'@item.SeekerFullName','@item.SeekerProfilePic',@item.JobId,'@item.JobTitle',@item.SeekerId)" class="dash_time_right_menu">Send message</a>
+                                        <input type="hidden" id="hfJobId_@item.JobId" value="@item.JobId">
+                                        <input type="hidden" id="hfJobPosterId_@item.JobId" value="@item.JobPosterId">
+                                        <input type="hidden" id="hfJobtitle_@item.JobId" value="@item.JobTitle">
+                                        <input type="hidden" id="hfUserRole_@item.JobId" value="P">
+                                        <input type="hidden" id="hfSeekerName_@item.JobId" value="@item.SeekerFullName">
+                                        <input type="hidden" id="hfPostername_@item.JobId" value="@item.PosterFullName">
+                                        <input type="hidden" id="hfSeekerId_@item.JobId" value="@item.SeekerId" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
+                                    @*<div class="comment more clearfix">
+                                        <div class="comment_text">&nbsp;@item.BidMessage</div>
+                                        <div class="coment_readmore_bgg">
+                                            <input type="hidden" id="hfbidmessage_@item.BidMessage" value="@item.BidMessage" />
+                                            @if (item.BidMessage != "" && item.BidMessage != null)
+                                            {
+                                                <a href="#" id="btnMsg" class="coment_readmore_link coment_readmore_link_show">Read message</a>
+                                            }
+                                        </div>
+                                    </div>*@
+                                    <div class="readmoretext comment more clearfix">
+                                        @if (item.BidMessage != null && item.BidMessage.Length > 100)
+                                        {
+                                            html = item.BidMessage.Substring(0, 100);
+                                            h = item.BidMessage.Substring(100 - 1, item.BidMessage.Length - 100);
+                                        }
+                                        else
+                                        {
+                                            html = item.BidMessage;
+                                        }
+
+                                        @html
+                                        @if (item.BidMessage != null && item.BidMessage.Length > 100)
+                                        {
+                                            <span class="moreellipses">...&nbsp;</span>
+                                            <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="#" class="morelink">Read More</a></span>
+                                        }
+                                    </div>
+                                    <div class="coment_readmore_bgg">
+                                        <input type="hidden" id="hfbidmessage_@item.BidMessage" value="@item.BidMessage">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 border_buttom_only padd_left_right_o"></div>
+                        }
+                        <div class="col-md-12 dash_timeremaining_box_bg padd_left_right_o clearfix">
+                            <div class="pull-left">
+                                @if (item.IsActive == "Y" && item.IsExpired != "Y" && item.JobStatus == "A" && item.JobStatusSeeker == "C")
+                                {
+                                    <div class="pending_box_alert panding_alert">Job Pending Review</div>
+                                }
+                                else if (item.IsActive == "Y" && item.IsExpired != "Y" && item.JobStatus == "A" && item.JobStatusSeeker == "A")
+                                {
+                                    <div class="pending_box_alert progress_alert">Job in progress</div>
+                                }
+                                else if (item.JobStatus == "C")
+                                {
+                                    <div class="pending_box_alert completed_alert">Job Completed</div>
+                                }
+                                else if (item.IsActive == "Y" && item.IsExpired != "Y" && item.JobStatus == "B" && item.PendingBid != 0)
+                                {
+                                    <div class="pending_box_alert panding_alert">Pending Payment Confirmation</div>
+                                }
+                                <input type="hidden" id="hfJobId_@item.JobId" value="@item.JobId">
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        @if (Model.MyJobs != null && Model.MyJobs.Count == 0)
+        {
+            <script>
+                $(function() {
+                    $('#ddFilter').hide();
+                });
+            </script>
+            <div class="nojob_diplytable" id="divmsg">
+                <div class="col-md-12 category_nojob_bg clearfix">
+                    <h3>You have not listed any jobs</h3>
+                    <a href="#" id="postJobBtn" class="btn button_all secondary_color_bg">POST A JOB</a>
+                </div>
+            </div>
+        }
+        <!-- // box 1-->
+        @if (Model.MyJobs != null && Model.MyJobs.Count > 0 && Model.MyJobs[0].Isloadmore == 1)
+        {
+            <div class="col-md-12 category_loadmore_bg clearfix" id="divloadmore">
+                <a href="javascript:" class="btn button_all secondary_color_bg" id="btnloadmore">Load more</a>
+            </div>
+        }
+        <input type="hidden" id="hfjobtitle" />
+        <input type="hidden" id="hfuserid" />
+        <input type="hidden" id="hfrole" />
+        <input type="hidden" id="hfseekername" />
+        <input type="hidden" id="hfpostername" />
+        <input type="hidden" id="hfseekerId" />
+        <input type="hidden" id="hfgigSubId" />
+    </div>
+}
+
+
+<script type="text/javascript">
+    var chat = $.connection.chatHub;
+    var notification = $.connection.notificationHub;
+    var _hubid = $.connection.hub.id;
+    var filterBy = "all";
+
+    $(document).ready(function () {
+
+        var moretext = "Read More";
+        var lesstext = "Read less";
+
+        $("#job_in_progress_id_dash").on("click", ".morelink", function () {
+            if ($(this).hasClass("less")) {
+                $(this).removeClass("less");
+                $(this).html(moretext);
+            } else {
+                $(this).addClass("less");
+                $(this).html(lesstext);
+            }
+            $(this).parent().prev().toggle();
+            $(this).prev().toggle();
+            return false;
+        });
+
+        $("#job_in_progress_id_dash").on("click", "#btnloadmore", function () {
+            var _Id = $('#job_in_progress_id_dash div.pull-left').last().find('input[id^="hfJobId_"]').val();
+            LoadMore(_Id);
+        })
+
+        function LoadMore(id) {
+            $("#divloadmore").hide();
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("LoadMoreServices", "Dashboard")',
+                data: { 'type': 'myjobs', 'id': id, 'filterBy': filterBy },
+                success: function (response) {
+                    $("#divloadmore").remove();
+                    $('#job_in_progress_id_dash').append(response);
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+
+        $('#job_in_progress_id_dash').on('click', '#btnEditJob', function () {
+            var jobId = $(this).parent().find('input[id ^= "hfjobid_"]').val();
+            $("#loaderDiv").show();
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("PostJob", "Jobs")',
+                data: { "id": jobId },
+                success: function (response) {
+                    $("#postjob_view_pop_id").html(response)
+                    openbox(1, 'postjob_view_pop_id');
+                    $("#loaderDiv").hide();
+                },
+                error: function (jqXHR, exception) {
+                    $("#loaderDiv").hide();
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        });
+
+        $('#postJobBtn').click(function() {
+            var JobId = 0;
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("PostJob", "Jobs")',
+                dataType:'html',
+                data: { "id": JobId },
+                beforeSend: function() {
+                    $("#loaderDiv").show();
+                },
+                success: function (response) {
+
+                    $("#loaderDiv").hide();
+                    $("#postjob_view_pop_id").html(response)
+                    openbox(1, 'postjob_view_pop_id');
+                },
+                error: function (jqXHR, exception) {
+                    $("#loaderDiv").hide();
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        });
+
+        $("#job_in_progress_id_dash").on("click", "#btnMarkComplete", function () {
+            var _jobid = $(this).parent().find('input[id^="hfJobId_"]').val();
+            var _userid = $(this).parent().find('input[id^="hfJobPosterId_"]').val();
+            var _jobtitle = $(this).parent().find('input[id^="hfJobtitle_"]').val();
+            var _userrole = $(this).parent().find('input[id^="hfUserRole_"]').val();
+            var _jobseekername = $(this).parent().find('input[id^="hfSeekerName_"]').val();
+            var _jobpostername = $(this).parent().find('input[id^="hfPostername_"]').val();
+            var _jobsekerId = $(this).parent().find('input[id^="hfSeekerId_"]').val();
+            var _hfgigSubId = $(this).parent().find('input[id^="hfGigSubId_"]').val();
+
+            _SubId = $(this).parent().find('input[id^="hfGigSubId_"]').val();
+
+            debugger;
+            $("#hfjobtitle").val(_jobtitle);
+            $("#hfjobid").val(_jobid);
+            $("#hfuserrole").val(_userrole);
+            $("#hfuserid").val(_userid);
+            $("#hfseekername").val(_jobseekername);
+            $("#hfpostername").val(_jobpostername);
+            $("#hfseekerId").val(_jobsekerId);
+            $("#spnJobTitle").html(_jobtitle);
+            $("#hfgigSubId").val(_hfgigSubId);
+            openbox(1, 'mark_complete_confirmation_pop_id');
+        });
+
+        var $star_rating = $('.star-rating .fa');
+        var SetRatingStar = function () {
+            //
+            return $star_rating.each(function () {
+                if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+                    return $(this).removeClass('fa_star_gray').addClass('fa_star_active');
+                } else {
+                    return $(this).removeClass('fa_star_active').addClass('fa_star_gray');
+                }
+
+            });
+            var _ratings = $("#txtrating").val();
+            //alert(_ratings);
+            RateJobs(_ratings)
+        };
+
+        $star_rating.on('click', function () {
+            debugger;
+            $star_rating.siblings('input.rating-value').val($(this).data('rating'));
+            var _rating = $("#txtrating").val();
+            var _jobid = $("#hfjobid").val();
+            var _userrole = $("#hfuserrole").val();
+            //RateJobs(_jobid, _rating, _userrole)
+            return SetRatingStar();
+        });
+
+        $("#btnGigrvwSub").unbind("click").bind( "click",function()
+        {
+            debugger;
+            var _rating = $("#txtrating").val();
+            var _jobid = $("#hfjobid").val();
+            var _userrole = $("#hfuserrole").val();
+            RateJobs(_jobid, _rating, _userrole);
+        });
+
+        SetRatingStar();
+        function RateJobs(jobid, ratings, userrole) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("RateUser", "Dashboard")',
+                data: { 'JobId': jobid, 'rating': ratings, 'UserRole': userrole },
+                success: function (response) {
+                    debugger;
+                    if($("#hfgigSubId").val() > 0 && $("#hfuserrole").val() == "P" && $("#txtgigReview").val() != "")
+                    {
+                        var _GigReview = {
+                            JobId:$("#hfjobid").val(),
+                            Review: $("#txtgigReview").val(),
+                            GigReviewStatus: 'R',
+                            GigSubscriptionId: $("#hfgigSubId").val()
+                        }
+                        $.ajax({
+                            type: 'POST',
+                            cache:false,
+                            contentType: 'application/json; charset=utf-8',
+                            data: JSON.stringify({ GigReview: _GigReview }),
+                            url: '@Url.Action("ReviewGig", "Dashboard")',
+                            success: function (response) {
+                                closebox('mark_complete_rating_pop_id');
+                                $('#myJobs').trigger('click');
+                            }
+                        });
+                    }
+                    else
+                    {
+                        closebox('mark_complete_rating_pop_id');
+                        $('#myJobs').trigger('click');
+                    }
+
+                },
+                error: function (jqXHR, exception) {
+
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+
+        $("#popupReviewJob").click(function () {
+            $('#myJobs').trigger('click');
+            closebox('mark_complete_rating_pop_id');
+        });
+
+        $('#dontReviewJob').click(function() {
+            closebox('mark_complete_rating_pop_id');
+            $("#myJobs").trigger("click");
+        });
+
+        $('#ddFilter').change(function() {
+            debugger;
+            var _Id = $('#job_in_progress_id_dash div.pull-left').last().find('input[id^="hfJobId_"]').val();
+            if(filterBy != this.value) {
+                _Id = 0;
+            }
+            filterBy = this.value;
+            $('.dash_jobs_box_1_bg').remove();
+            $('.nojob_diplytable').remove();
+            switch(filterBy) {
+                case 'aj': LoadMore(_Id); break;
+                case 'jc': LoadMore(_Id); break;
+                case 'jb': LoadMore(_Id); break;
+                case 'je': LoadMore(_Id); break;
+                case 'jp': LoadMore(_Id); break;
+                case 'jr': LoadMore(_Id); break;
+                case 'pa': LoadMore(_Id); break;
+                case 'pp': LoadMore(_Id); break;
+                default: LoadMore(_Id); break;
+            }
+        });
+    });
+
+    //function filterJobs(by) {
+    //    var displayedJobs = 0;
+    //    $('.dash_jobs_box_1_bg').each(function(index, element) {
+    //        if (by != 'All') {
+    //            if($(this).find('.pending_box_alert').text().toUpperCase().indexOf(by.toUpperCase()) != -1){
+    //                $(this).show();
+    //                displayedJobs++;
+    //            } else {
+    //                $(this).hide();
+    //            }
+    //        } else {
+    //            $(this).show();
+    //        }
+    //    });
+    //    if(displayedJobs == 0) {
+    //        $('#btnloadmore').hide();
+    //    } else {
+    //        $('#btnloadmore').show();
+    //    }
+    //}
+
+    function LoadMessageJobsIP(_from, _prmSendUserId, _prmJobSeeker, _prmBidUserProfilePic, _prmJobId, _prmJobTitle, _prmReceiverId) {
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("ChatForSendMessage", "Home")',
+            data: { "_prmSendUserId": _prmSendUserId, "from": _from, "_prmJobSeeker": _prmJobSeeker, "_prmBidUserProfilePic": _prmBidUserProfilePic, "_prmJobID": _prmJobId, "_prmJobTitle": _prmJobTitle, "_prmReceiverId": _prmReceiverId },
+            success: function (response) {
+                $("#divChat").html(response);
+                openbox(1, 'divChat');
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+    }
+
+    $(function () {
+
+        function MarkasComplete(jobid, userid, jobtitle, userrole) {
+
+            var chat = $.connection.chatHub;
+            var notification = $.connection.notificationHub;
+            var _hubid=  $.connection.hub.id;
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("MarkasComplete", "Dashboard")',
+                data: { 'JobId': jobid, 'UserRole': userrole, 'UserId': userid, 'JobTitle': jobtitle },
+                success: function (response) {
+
+                    var _sendUserId= @Html.Raw(Json.Encode(Session["UserId"]));
+                    var _fullname = @Html.Raw(Json.Encode(Session["FullName"]));
+                    var _header = "Job completed";
+                    var _notification = "";
+                    var _receiverUserId = "";
+                    var _Url = "/Jobs/Details/" + jobid;
+                    var _gigSubId = $("#hfgigSubId").val();
+
+                    if (userrole == 'P') {
+
+                        _receiverUserId = userid;
+                        _notification =" Your payment for " + jobtitle + " is being processed and should be on its way";
+                        $.connection.hub.start().done(function () {
+                            notification.server.send(_sendUserId, _receiverUserId, _fullname, _notification, _header, _Url);
+                        }).fail(function(){ console.log('Could not connect'); });;
+                        //notification.server.send(_sendUserId, _receiverUserId, _fullname, _notification, _header, _Url);
+
+                        var _posterid = $("#hfuserid").val();
+                        function callback(result)
+                        {
+                            debugger;
+                            if(result =="Success")
+                            {
+                                closebox('mark_complete_confirmation_pop_id');
+                                if(_gigSubId > 0)
+                                {
+                                    $("#divGigReview").css("display", "block");
+                                }
+                                else
+                                {
+                                    $("#divGigReview").css("display", "none");
+                                }
+                                openbox(1, 'mark_complete_rating_pop_id');
+                            }
+                            else
+                            {
+                                closebox('mark_complete_confirmation_pop_id');
+                            }
+                        }
+                        SaveTransactionDetail(jobid,_posterid,'S','C','',0,'',callback); // save spent transaction details
+                    }
+                    else
+                    {
+                        _receiverUserId = userid;
+                        _notification ="@@"+@Html.Raw(Json.Encode(Session["UserName"]))  + " just marked " + jobtitle + " as complete - please check the job and when you're happy, mark it also as complete";
+                        notification.server.send(_sendUserId, _receiverUserId, _fullname, _notification, _header, _Url);
+                        closebox('mark_complete_confirmation_pop_id');
+                        $("#divGigReview").css("display", "none");
+                        openbox(1, 'mark_complete_rating_pop_id');
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+
+        }
+
+        function SaveTransactionDetail(jobid, userid, transactiontype, processtype, hash, bidamount, address,callback) {
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("SaveTransactionDetail", "Dashboard")',
+                data: { 'JobId': jobid, 'UserId': userid, 'TransactionType': transactiontype, 'ProcessType': processtype, 'Hash': hash, 'BidAmount' : bidamount, 'Address' : address },
+                success: function (response) {
+                    callback(response);
+
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR.status);
+                    console.log(exception);
+                }
+            });
+        }
+
+        $.connection.hub.start().done(function () {
+            $('#btnyes1').unbind("click").bind( "click",function () {
+
+
+                var _jobtitle = $("#hfjobtitle").val();
+                var _jobid = $("#hfjobid").val();
+                var _userrole = $("#hfuserrole").val();
+                var _userid = ""
+                if (_userrole == "P") {
+                    _userid = $("#hfseekerId").val();
+                    var name = $("#hfseekername").val();
+                    $("#spname").text(name);
+                    $("#spanrole").text("Review job seeker");
+                }
+                else if (_userrole == "S") {
+                    _userid = $("#hfuserid").val();
+                    var name = $("#hfpostername").val();
+                    $("#spname").text(name);
+                    $("#spanrole").text("Review job poster");
+                }
+
+                MarkasComplete(_jobid, _userid, _jobtitle, _userrole);
+            });
+        });
+
+    });
+</script>

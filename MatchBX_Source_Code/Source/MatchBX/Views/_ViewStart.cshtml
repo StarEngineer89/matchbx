@@ -1,6 +1,6 @@
 ﻿@{
     var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString().ToLower();
-    var action= HttpContext.Current.Request.RequestContext.RouteData.Values["Action"].ToString().ToLower();
+    var action = HttpContext.Current.Request.RequestContext.RouteData.Values["Action"].ToString().ToLower();
     string cLayout = "";
     var UserId = 0;
 
@@ -56,7 +56,14 @@
     }
     else if(controller=="home")
     {
-        cLayout = "~/Views/Shared/_LayoutProfile.cshtml";
+        if (UserId == 0)
+        {
+            cLayout = "~/Views/Shared/_LayoutCategory.cshtml";
+        }
+        else
+        {
+            cLayout = "~/Views/Shared/_LayoutProfile.cshtml";
+        }
     }
     else if (controller == "admin")
     {

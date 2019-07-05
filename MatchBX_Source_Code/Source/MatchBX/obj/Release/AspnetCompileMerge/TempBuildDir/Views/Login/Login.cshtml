@@ -144,13 +144,10 @@
     <a href="#" onClick="closebox('login_view_pop_id')" class="popup_close_bg" title="Close"></a>
 </span>
 
-<main XXXid="content" class="middle" XXXstyle="background-color:yellow">
-    @*<figure class="mobile-hide text-center"><img src="http://placehold.it/190x50" alt="Placeholder" width="190" height="50"></figure>*@
-    @*<form action="./" method="post" class="form-a a">*@
+<main class="middle">
     @using (Html.BeginForm("Login", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-a a", role = "form", @id = "FormLogin" }))
     {
         @Html.AntiForgeryToken()
-        @*<h1>Log in</h1>*@
         <ul class="list-social a">
             <li class="fb"><a href="#"><i class="icon-facebook-circle"></i> Log in with Facebook</a></li>
             <li class="gl"><a href="#"><i class="icon-google-plus-circle"></i> Log in with Google+</a></li>
@@ -158,15 +155,15 @@
         <p XXXclass="hr" style="text-align:center"><span>or</span></p>
         <p>
             <label for="txt_email">Email address</label>
-            <input type="email" id="txt_email" name="txt_email" class="text-center" required>
+            <input type="email" id="txt_email" name="txt_email" class="text-center" spellcheck="false" required>
         </p>
         <p>
             <label for="txt_password">Password</label>
-            <input type="password" id="txt_password" name="txt_password" class="text-center" required>
+            <input type="password" id="txt_password" name="txt_password" class="text-center" spellcheck="false" required>
         </p>
         <p class="m20">
             <label for="fac">2FA</label>
-            <input type="text" id="twofactor" name="twofactor" class="text-center">
+            <input type="text" id="twofactor" name="twofactor" class="text-center" spellcheck="false">
         </p>
 
         <div class="form-group currencies_checkbox_bg clearfix test">
@@ -188,59 +185,4 @@
             <span>By registering you confirm you accept the<br> <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a></span>
         </p>
     }
-    @*</form>*@
 </main>
-@*
-<div class="col-md-12 pop_container_bg">
-    @using (Html.BeginForm("Login", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "pp", role = "form", @id = "FormLogin" }))
-    {
-        @Html.AntiForgeryToken()
-        <div class="form-group clearfix">
-            <label for="email" class="input_label_style">Email Address</label>
-            <input type="email" class="form-control form_input" name="txt_email" id="txt_email">
-
-        </div>
-        <div class="form-group clearfix">
-            <label for="password" class="input_label_style">Password</label>
-            <input type="password" class="form-control form_input" name="txt_password" id="txt_password">
-
-        </div>
-        <div class="form-group forgot_pass_link clearfix">
-            <span class="text_color_combo">Forgot password? </span>
-            <a href="#" class="login_resetpass_a link_color_combo" title="Reset here" id="resethere">Reset here</a>
-        </div>
-
-        <div class="form-group clearfix">
-            <span class="text_color_combo">2FAxxx: </span>
-            <input title="Insert 2FA code here..." id="twofactor" />
-        </div>
-
-        <div class="form-group currencies_checkbox_bg clearfix test">
-            <div class="only_one_check">
-                <label class="" for="Powered_check" id="chkremember">
-                    Remember me
-                    <input type="checkbox" id="chkb_RememberMe" name="chk_Remember" class="RememberMe">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-        </div>
-        <div class="form-group clearfix" style="display:none" id="errorMsgdiv">
-            <span id="errorMsg" class="error_span"></span>
-        </div>
-
-        <div class="form-group clearfix">
-
-            <input type="submit" class="btn btn-default register_small_button secondary_color_bg" id="btnLogin" title="Log me in" value="Log me in" />
-        </div>
-        <div class="form-group register_small_already_reg clearfix">
-            <p>
-                Not a member yet?
-
-                <a href="#" class="link_color_combo" title="Sign up" id="signup">Sign up</a>
-
-            </p>
-        </div>
-
-    }
-</div>
-*@

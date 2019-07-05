@@ -5,11 +5,53 @@
 
 @if (Model.Services != null)
 {
+    <ul class="list-post">
+
+        @foreach (var item in Model.Services)
+        {
+            <li @*id="@item.Rownumber"*@>
+                @*<input name="JobId" type="hidden" id="hdnJobId" value=@item.JobId />*@
+                <h2><a class="myjob" href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0 })">@item.GigTitle</a></h2>
+                <p>@*item.JobDescriptionDisplay*@</p>
+                <ul class="list-icon">
+                    <li class="price">
+                        @item.BudgetASP.ToString("#,##0.00")&nbsp;<span class=small>AXPR</span>
+                        <span>$@item.DollarCount.ToString("#,##0.00")</span>
+                    </li>
+                    <li><i class="icon-time"></i> @item.GigDuration days remaining</li>
+                    <li><i class="icon-upload"></i> 2 submissions</li>
+                    <li><i class="icon-bulb"></i> Intermediate</li>
+                    <li><i class="icon-list"></i> Writing</li>
+                </ul>
+                <div class="module-author">
+
+                    <figure>
+                        <div class="client_profile_pic">
+                            <div class="client_profile_pic_1">
+                                <img src="@item.ProfilePic" alt="Placeholder" width="46" height="46">
+                            </div>
+                            @*<i class="profile_pic_star"></i>*@
+                        </div>
+                    </figure>
+                    @{
+                        string verified = item.VerifiedPartner == "Y" ? "overlay-c" : "";
+                    }
+                    <h3><a href="@Url.Action("Index", "Profile", new { @id = @item.UserId })">@item.FullName</a> <span><i class="icon-badge-check @verified"></i> Administrator</span></h3>
+                    <ul>
+                        <li>@item.JobsCompleted jobs completed</li>
+                        <li class="rating-a" data-val="@item.BadgeCount" data-of="5">@item.BadgeCount</li>
+                    </ul>
+                </div>
+            </li>
+        }
+    </ul>
+
+    @*
     <div id="jobs_listed_id_dash" class="tab-pane fade in active clearfix gig_dash">
         <div class="col-md-12 dash_tab_con_heading_bg padd_left_right_o">
             <h3 class="dash_tab_con_heading_h3">My Services <span id="spancount">(@TempData["MyServices"])</span></h3>
         </div>
-        <div id="divgigs">
+        <div id="divgigs" style="background-color:red">
             @foreach (var item in Model.Services)
             {
                 <div class="gigcol col-md-12 dash_jobs_box_1_bg bg_color_comen clearfix">
@@ -98,13 +140,13 @@
                         <div class="dash_timeremaining_box_bg gig_dash_mygig_bu clearfix">
                             <div class="pull-left dash_time_allmenus">
                                 <a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0, type = "R" })" class="dash_time_right_menu">Purchase Requests (@item.SubscriedGigs)</a>
-                                <a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0, type = "A" })" class="dash_time_right_menu">Active Orders (@item.ActiveGigs)</a> 
+                                <a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0, type = "A" })" class="dash_time_right_menu">Active Orders (@item.ActiveGigs)</a>
                                 <a href="@Url.Action("Details", "Gigs",new { id = item.GigId, subid = 0, type = "C" })" class="dash_time_right_menu">Completed (@item.CompletedGigs)</a>
                             </div>
                             <div class="pull-right dash_time_allmenus"> </div>
                         </div>
                     }
-                    else if(item.GigStatus == "R")
+                    else if (item.GigStatus == "R")
                     {
                         <div class="dash_timeremaining_box_bg gig_dash_mygig_bu clearfix">
                             <div class="pull-left dash_time_allmenus"> </div>
@@ -136,8 +178,8 @@
             </div>
         }
     </div>
+    *@
 }
-
 
 <script type="text/javascript">
     $(document).ready(function () {

@@ -411,37 +411,15 @@
 
 
 </script>
-@*
-    <div class="largebox_middile_full clearfix">
-        <div class="largebox_content_containerbg">
-            <div class="container_inner middile_con_inner_bg clearfix">
-*@
-@*
-    <article>
-        <div class="col-md-12 home_con_top_search_bg bg_color_comen clearfix">
-            <div>
-                <div class="input-group">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" id="btnsearch"><i class="home_search_icon"></i></button>
-                    </span>
-                    <div class="dropdown-content" id="divauto">
-                        <div class="autocomplete">
-                            <input id="txt_search" type="text" name="myCountry" placeholder="Search jobs, services, tags..." class="form-control">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </article>
-*@
+
 <main id="content">
 
     <article class="module-featured">
         <h1>Hire freelancers,<br> pay in cryptocurrency</h1>
         <p>Complete freelance work to earn crypto, or post a job and have great freelancers come to you</p>
-        <p class="link-btn">
-            <a href="#" id="view_jobs">Get hired</a>
-            <a href="#" id="view_gigs" class="d">Hire freelancers</a>
+        <p class="link-btn" id="ulcategory">
+            <a href="#" XXXid="view_jobs" class="signuplogin">Get hired</a>
+            <a href="#" XXXid="view_gigs" class="signuplogin d">Hire freelancers</a>
         </p>
         <figure><img src="images/content/a.png" alt="Placeholder" width="823" height="500"></figure>
         <figure class="bg"><img src="images/content/map.png" alt="Placeholder" width="744" height="304"></figure>
@@ -521,13 +499,13 @@
             <figure><img src="images/content/b.png" alt="Placeholder" width="713" height="583"></figure>
             <h2>Browse jobs and bid for those that match your skills</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi arcu tortor, imperdiet eu augue at, ultrices viverra nibh. Aenean non dapibus leo, in tincidunt sem. Duis molestie neque arcu. Etiam malesuada sed lectus hendrerit aliquam. Pellentesque volutpat</p>
-            <p class="link-btn"><a href="#" id="view_jobs">Get hired</a></p>
+            <p class="link-btn"><a href="#" XXXid="view_jobs" class="signuplogin">Get hired</a></p>
         </article>
         <article>
             <figure><img src="images/content/c.png" alt="Placeholder" width="674" height="594"></figure>
             <h2>Find the best freelancer and get your work completed with ease</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi arcu tortor, imperdiet eu augue at, ultrices viverra nibh. Aenean non dapibus leo, in tincidunt sem. Duis molestie neque arcu. Etiam malesuada sed lectus hendrerit aliquam. Pellentesque volutpat</p>
-            <p class="link-btn"><a href="#" id="view_gigs" class="d">Post a job</a></p>
+            <p class="link-btn"><a href="#" XXXid="view_gigs" class="signuplogin d">Post a job</a></p>
         </article>
     </div>
 
@@ -632,89 +610,14 @@
     <article class="module-cta">
         <h2>Complete freelance work to earn crypto, or post a job and have great freelancers come to you</h2>
         <p class="link-btn">
-            <a href="#" id="view_jobs">Get hired</a>
-            <a href="#" id="view_gigs" class="d">Hire freelancers</a>
+            <a href="#" XXXid="view_jobs" class="signuplogin">Get hired</a>
+            <a href="#" XXXid="view_gigs" class="signuplogin d">Hire freelancers</a>
         </p>
     </article>
 
-    @*
-        <div class="col-md-12 bg_color_comen home_top_jobs_bg clearfix">
-            <div class="home_top_jobs_heding">
-                <h2>Trending Tags</h2>
-            </div>
-            <div class="home_trending_tags clearfix" id="divtrendingtags">
-                @if (Model.TrendingTags != null)
-                {
-                    if (Model.TrendingTags.Count > 1)
-                    {
-                        foreach (var result in Model.TrendingTags)
-                        {
-
-                            if (Model.TrendingTags.IndexOf(result) == Model.TrendingTags.Count - 1)
-                            {
-                                <a href="/Jobs/Index/@result.TrendingTagsId" id="@result.TrendingTagsId" class="smothscroll"> @result.Description</a>
-                            }
-                            else
-                            {
-                                <a href="/Jobs/Index/@result.TrendingTagsId" id="@result.TrendingTagsId" class="smothscroll"> @result.Description,</a>
-                            }
-                        }
-                    }
-                    else if (Model.TrendingTags.Count == 1)
-                    {
-                        foreach (var result in Model.TrendingTags)
-                        {
-                            <a href="/Jobs/Index/@result.TrendingTagsId" id="@result.TrendingTagsId">@result.Description</a>
-                        }
-                    }
-                }
-            </div>
-        </div>
-    *@
 </main>
-@*
-            </div>
-        </div>
-    </div>
-*@
 
 <div id="shadowing" class="shadowing_overlay myshadow"></div>
-
-@*
-    <div id="confirm_search_pop_id" class="popup_box clearfix myshadow">
-        <span id="" class="col-md-12 popup_box_title clearfix">
-            <h3>Please enter a keyword to search</h3><a href="#" onClick="closebox('confirm_search_pop_id')" class="popup_close_bg" title="Close"></a>
-        </span>
-        <div class="col-md-12 pop_container_bg text-center">
-            <a href="#" onClick="closebox('confirm_search_pop_id')" id="deletejobcancel" class="popup_close_bg" title="Close"></a>
-            <p class="popup_box_title_p">
-                <h4></h4>
-            </p>
-            <br />
-            <div class="form-group clearfix">
-                <a href="#" id="btnsearchok" class="btn button_all secondary_color_2_bg">OK</a>*@
-@*<a href="#" id="btnsearchcancel" class="btn button_all secondary_color_bg">CANCEL </a>*@
-@*</div>
-            <div class="form-group register_small_already_reg delete_job_link clearfix">
-
-            </div>
-        </div>
-    </div>
-    <div id="disabled_user_pop_id" class="popup_box clearfix myshadow">
-        <span id="" class="col-md-12 popup_box_title clearfix">Email already verified<a href="#" onclick="closebox('disabled_user_pop_id')" class="popup_close_bg" title="Close"></a> </span>
-        <div class="col-md-12 pop_container_bg text-center">
-            <div class="form-group clearfix">
-                <label for="" class="input_label_style">The account in reference to this email is already activated, kindly login using credentials </label>
-                <a href="#" onclick="closebox('disabled_user_pop_id')" class="btn btn_banner secondary_color_bg maxwidth325" title="CANCEL">CANCEL</a>
-            </div>*@
-@*
-    <div class="form-group register_small_already_reg delete_job_link clearfix">
-        <p><a href="#">NO, CANCEL OFFER</a></p>
-    </div>
-*@
-@*</div>
-    </div>
-*@
 
 <script>
     wow = new WOW({}).init();
@@ -731,139 +634,4 @@
             });*/
     });
     /* // email placeholder*/
-</script>
-
-<script type="text/javascript">
-
-        $(document).ready(function(){
-            $("#anchor_home").click(function(){
-                localStorage.removeItem("frmPage");
-
-                //setCategory("B");
-                //window.location.href="/Jobs/index";
-                setCategoryAndLoad('B', 'job', '');
-            })
-
-            $("#ulcategory").on('click','a',function(){
-                debugger;
-                var _id = $(this).prop("id");
-
-                alert(_id)
-
-                //if(_id!="")
-                //{
-
-                //    localStorage.setItem("catid",_id);
-                //    var _text=titleCase($(this).text());
-                //    localStorage.setItem("cattext",_text)
-                //   // resizeMenu();
-                //    window.location.href="/Category/index?id="+_id;
-                //}
-                if(_id=="view_jobs")
-                {
-                    debugger;
-                    //setCategory("J");
-                    //window.location.href="/Jobs/index";
-                    setCategoryAndLoad('J', 'job', '');
-                }
-                else if(_id=="view_gigs")
-                {  debugger;
-
-                    //window.location.href="/Gigs/search";
-                    setCategoryAndLoad('G', 'gig', '');
-                }
-
-            })
-
-            $("#ulcategoryfooter").on('click','a',function(){
-                debugger;
-                var _id=$(this).prop("id");
-                localStorage.setItem("catid",_id);
-                var _text=titleCase($(this).text());
-                localStorage.setItem("cattext",_text)
-                //setCategory("J");
-                //window.location.href="/Category/index?id="+_id+"&type=1";
-                setCategoryAndLoad('J', 'category', '/Category/index?id='+_id+'&type=1');
-            })
-            $("#ulcategoryfootergig").on('click','a',function(){
-                debugger;
-                var _id=$(this).prop("id");
-                localStorage.setItem("catid",_id);
-                var _text=titleCase($(this).text());
-                localStorage.setItem("cattext",_text)
-                //setCategory("G");
-                //window.location.href="/Category/index?id="+_id+"&type=2";
-                setCategoryAndLoad('G', 'category', '/Category/index?id='+_id+'&type=2');
-            })
-            $("#ulfootertopcat").on('click','a',function(){
-                var _id=$(this).prop("id");
-                localStorage.setItem("catid",_id);
-                var _text=titleCase($(this).text());
-                localStorage.setItem("cattext",_text)
-                window.location.href="/Category/index?id="+_id+"&type=1";
-            })
-            function titleCase(str) {
-                str = str.toLowerCase();
-                str = str.split(' ');
-                for (var i = 0; i < str.length; i++) {
-                    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-                }
-                return str.join(' ');
-            }
-            @*function setCategory(_SortDirCat)
-            {
-                $.ajax({
-                    type: 'POST',
-                    cache: false,
-                    url: '@Url.Action("SetSearchCategory", "category")',
-                    data: {"cat":_SortDirCat},
-                    success: function (response) {
-
-                    },
-                    error: function (jqXHR, exception) {
-
-                        console.log(jqXHR.status);
-                        console.log(exception);
-                    }
-                });
-            }*@
-            function setCategoryAndLoad(_SortDirCat, type, urls)
-            {
-                alert(type);
-
-                $.ajax({
-                    type: 'POST',
-                    cache: false,
-                    url: '@Url.Action("SetSearchCategory", "category")',
-                    data: {"cat":_SortDirCat},
-                    success: function (response) {
-                        debugger;
-                        if(type == 'job') {
-                            window.location.href = "/Jobs/index";
-                        } else if(type == "gig") {
-                            window.location.href = "/Gigs/search";
-                        } else if(type == "category" && urls != null) {
-                            window.location.href = urls;
-                        }
-                        //SetSearchCriteria();
-                    },
-                    error: function (jqXHR, exception) {
-
-                        console.log(jqXHR.status);
-                        console.log(exception);
-                    }
-                });
-            }
-            //$('.navbar-toggle').click(function(){
-            //    alert("sdfsd");
-            //    if($('#navbar').hasClass('in')){
-
-            //        $(".slider").addClass("sliderMove");
-            //    }else{
-            //        $(".slider").removeClass("sliderMove");
-            //    }
-            //});
-
-
-        })
 </script>

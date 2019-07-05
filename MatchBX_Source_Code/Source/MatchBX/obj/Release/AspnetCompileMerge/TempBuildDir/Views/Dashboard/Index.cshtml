@@ -104,167 +104,16 @@
                         </select>
                     </p>
                 </form>
-                @if (Model.Job != null)
-                {
-                    <ul class="list-post">
-                        @foreach (var item in Model.Job)
-                        {
-                            <li id="@item.Rownumber">
-                                @*item.CssClass*@
-                                <input name="JobId" type="hidden" id="hdnJobId" value=@item.JobId />
-
-                                @*<a class="myjob" href="@item.RedirectUrl"><h2>@item.JobTitle</h2></a>*@
-                                <h2><a class="myjob" href="@item.RedirectUrl">@item.JobTitle</a></h2>
-                                @*<a class="myjob" href="@Url.Action("Details", "Gigs", new { @id = @item.JobId, @subid = 0 })"></a>*@
-
-                                @*<a class="myjob" href="@item.RedirectUrl">*@
-                                <p>@item.JobDescriptionDisplay</p>
-                                @*</a>*@
-                                <ul class="list-icon">
-                                    <li class="price">
-                                        @item.BudgetASP.ToString("#,##0.00")&nbsp;<span class=small>AXPR</span>
-                                        <span>$@item.DollarCount.ToString("#,##0.00")</span>
-                                    </li>
-                                    <li><i class="icon-time"></i> @item.JobCompletionDateDisplay days remaining</li>
-                                    <li><i class="icon-upload"></i> 2 submissions</li>
-                                    <li><i class="icon-bulb"></i> Intermediate</li>
-                                    <li><i class="icon-list"></i> Writing</li>
-                                </ul>
-
-                                <div class="module-author">
-
-                                    <figure>
-                                        <div class="client_profile_pic">
-                                            <div class="client_profile_pic_1">
-                                                <img src="@item.ProfilePic" alt="Placeholder" width="46" height="46">
-                                            </div>
-                                            @*<i class="profile_pic_star"></i>*@
-                                        </div>
-                                    </figure>
-                                    @{
-                                        string verified = item.VerifiedPartner == "Y" ? "overlay-c" : "";
-                                    }
-                                    <h3><a href="@Url.Action("Index", "Profile", new { @id = @item.UserId })">@item.FullName</a> <span><i class="icon-badge-check @verified"></i> Administrator</span></h3>
-                                    <ul>
-                                        <li>@item.JobsCompleted jobs completed</li>
-                                        <li class="rating-a" data-val="@item.BadgeCount" data-of="5">@item.BadgeCount</li>
-                                    </ul>
-                                </div>
-                            </li>
-                        }
-                    </ul>
-                }
-                <nav class="nav-pagination">
-                    @*
-                    <ol>
-                        <li class="prev"><a href="./">Prev</a></li>
-                        <li class="active"><a href="./">1</a></li>
-                        <li><a href="./">2</a></li>
-                        <li><a href="./">3</a></li>
-                        <li><a href="./">4</a></li>
-                        <li><a href="./">5</a></li>
-                        <li><a href="./">6</a></li>
-                        <li><a href="./">7</a></li>
-                        <li><a href="./">8</a></li>
-                        <li><a href="./">9</a></li>
-                        <li class="next"><a href="./">Next</a></li>
-                    </ol>
-                    *@
-                    <p class="link-btn"><a href="./">Load more</a></p>
-                </nav>
-            </div>
-            <div>
-                <form action="./" method="post" class="form-sort">
-                    <p>
-                        <label for="taa" class="hidden">Sort by</label>
-                        <select id="taa" name="taa">
-                            <option value="./">Newest first</option>
-                            <option value="./">Position #1</option>
-                            <option value="./">Position #2</option>
-                            <option value="./">Position #3</option>
-                            <option value="./">Position #4</option>
-                            <option value="./">Position #5</option>
-                        </select>
-                    </p>
-                </form>
-                @if (Model.Job != null)
-                {
-                    <ul class="list-post">
-                        @foreach (var item in Model.Job)
-                        {
-                            <li id="@item.Rownumber">
-                                @*item.CssClass*@
-                                <input name="JobId" type="hidden" id="hdnJobId" value=@item.JobId />
-
-                                @*<a class="myjob" href="@item.RedirectUrl"><h2>@item.JobTitle</h2></a>*@
-                                <h2><a class="myjob" href="@item.RedirectUrl">@item.JobTitle</a></h2>
-                                @*<a class="myjob" href="@Url.Action("Details", "Gigs", new { @id = @item.JobId, @subid = 0 })"></a>*@
-
-                                @*<a class="myjob" href="@item.RedirectUrl">*@
-                                <p>@item.JobDescriptionDisplay</p>
-                                @*</a>*@
-                                <ul class="list-icon">
-                                    <li class="price">
-                                        @item.BudgetASP.ToString("#,##0.00")&nbsp;<span class=small>AXPR</span>
-                                        <span>$@item.DollarCount.ToString("#,##0.00")</span>
-                                    </li>
-                                    <li><i class="icon-time"></i> @item.JobCompletionDateDisplay days remaining</li>
-                                    <li><i class="icon-upload"></i> 2 submissions</li>
-                                    <li><i class="icon-bulb"></i> Intermediate</li>
-                                    <li><i class="icon-list"></i> Writing</li>
-                                </ul>
-
-                                <div class="module-author">
-
-                                    <figure>
-                                        <div class="client_profile_pic">
-                                            <div class="client_profile_pic_1">
-                                                <img src="@item.ProfilePic" alt="Placeholder" width="46" height="46">
-                                            </div>
-                                            @*<i class="profile_pic_star"></i>*@
-                                        </div>
-                                    </figure>
-                                    @{
-                                        string verified = item.VerifiedPartner == "Y" ? "overlay-c" : "";
-                                    }
-                                    <h3><a href="@Url.Action("Index", "Profile", new { @id = @item.UserId })">@item.FullName</a> <span><i class="icon-badge-check @verified"></i> Administrator</span></h3>
-                                    <ul>
-                                        <li>@item.JobsCompleted jobs completed</li>
-                                        <li class="rating-a" data-val="@item.BadgeCount" data-of="5">@item.BadgeCount</li>
-                                    </ul>
-                                </div>
-                            </li>
-                        }
-                    </ul>
-                }
-                <nav class="nav-pagination">
-                    <p class="link-btn"><a href="./">Load more</a></p>
-                </nav>
-            </div>
-            <div>
-                <form action="./" method="post" class="form-sort">
-                    <p>
-                        <label for="taa" class="hidden">Sort by</label>
-                        <select id="taa" name="taa">
-                            <option value="./">Newest first</option>
-                            <option value="./">Position #1</option>
-                            <option value="./">Position #2</option>
-                            <option value="./">Position #3</option>
-                            <option value="./">Position #4</option>
-                            <option value="./">Position #5</option>
-                        </select>
-                    </p>
-                </form>
                 @*
-                @if (Model.Services != null)
+                @if (Model.Job != null)
                 {
                     <ul class="list-post">
-                        @foreach (var item in Model.Services)
+                        @foreach (var item in Model.Job)
                         {
                             <li id="@item.Rownumber">
                                 <input name="JobId" type="hidden" id="hdnJobId" value=@item.JobId />
                                 <h2><a class="myjob" href="@item.RedirectUrl">@item.JobTitle</a></h2>
-                                <p>@item.JobDescriptionDisplay</p>
+                                <p>@item.JobDescriptionDisplay</p>                                
                                 <ul class="list-icon">
                                     <li class="price">
                                         @item.BudgetASP.ToString("#,##0.00")&nbsp;<span class=small>AXPR</span>
@@ -275,9 +124,7 @@
                                     <li><i class="icon-bulb"></i> Intermediate</li>
                                     <li><i class="icon-list"></i> Writing</li>
                                 </ul>
-
                                 <div class="module-author">
-
                                     <figure>
                                         <div class="client_profile_pic">
                                             <div class="client_profile_pic_1">
@@ -299,12 +146,67 @@
                     </ul>
                 }
                 *@
-                <div id="divcontent">&nbsp;</div>
-
-                <nav class="nav-pagination">
+                @*
+                <nav class="nav-pagination">                    
+                    <ol>
+                        <li class="prev"><a href="./">Prev</a></li>
+                        <li class="active"><a href="./">1</a></li>
+                        <li><a href="./">2</a></li>
+                        <li><a href="./">3</a></li>
+                        <li><a href="./">4</a></li>
+                        <li><a href="./">5</a></li>
+                        <li><a href="./">6</a></li>
+                        <li><a href="./">7</a></li>
+                        <li><a href="./">8</a></li>
+                        <li><a href="./">9</a></li>
+                        <li class="next"><a href="./">Next</a></li>
+                    </ol>
                     <p class="link-btn"><a href="./">Load more</a></p>
                 </nav>
+                *@
+
+                <div id="divAllListings">&nbsp;</div>
+
             </div>
+
+            <div>
+                <form action="#" method="post" class="form-sort">
+                    <p>
+                        <label for="taa" class="hidden">Sort by</label>
+                        <select id="taa" name="taa">
+                            <option value="./">Newest first</option>
+                            <option value="./">Position #1</option>
+                            <option value="./">Position #2</option>
+                            <option value="./">Position #3</option>
+                            <option value="./">Position #4</option>
+                            <option value="./">Position #5</option>
+                        </select>
+                    </p>
+                </form>
+
+                <div id="divAllJobs">&nbsp;</div>
+
+            </div>
+
+            <div>
+                <form action="#" method="post" class="form-sort">
+                    <p>
+                        <label for="taa" class="hidden">Sort by</label>
+                        <select id="taa" name="taa">
+                            <option value="./">Newest first</option>
+                            <option value="./">Position #1</option>
+                            <option value="./">Position #2</option>
+                            <option value="./">Position #3</option>
+                            <option value="./">Position #4</option>
+                            <option value="./">Position #5</option>
+                        </select>
+                    </p>
+                </form>
+
+                <div id="divAllServices">&nbsp;</div>
+
+            </div>
+
         </div>
     </div>
 </main>
@@ -320,7 +222,49 @@
             data: "{ }",
             success: function (response) {
 
-                $("#divcontent").html(response)
+                $("#divAllListings").html(response)
+            },
+            error: function (jqXHR, exception) {
+
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+
+    });
+
+    $("document").ready(function () {
+
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("LoadMyJobs", "Dashboard")',
+            data: "{ }",
+            success: function (response) {
+
+                $("#divAllJobs").html(response)
+            },
+            error: function (jqXHR, exception) {
+
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+
+    });
+
+    $("document").ready(function () {
+
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("LoadMyServices", "Dashboard")',
+            data: "{ }",
+            success: function (response) {
+
+                console.log(response);
+
+                $("#divAllServices").html(response)
             },
             error: function (jqXHR, exception) {
 

@@ -1,5 +1,4 @@
 ﻿@model Business.Gig
-
 @{
     Layout = Layout;
     var html = "";
@@ -7,7 +6,6 @@
     var subscriptions = Model.GigSubscriptionList != null ? Model.GigSubscriptionList.Count() : 0;
     var activeOrders = Model.GigActiveOrdersList != null ? Model.GigActiveOrdersList.Count() : 0;
 }
-
 @*<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
@@ -38,9 +36,9 @@
                 },
                 GigCompletionDate: {
                     required: true,
-                    dateFormat : true,
+                    dateFormat: true,
                 },
-                GigTitle:{
+                GigTitle: {
                     required: true,
 
                 }
@@ -50,63 +48,63 @@
                     required: "Please provide a job description",
                     //minlength: "Your password must be at least 5 characters long"
                 },
-                GigCompletionDate:{
+                GigCompletionDate: {
 
-                    required:"Please tell us your job completion date",
+                    required: "Please tell us your job completion date",
 
-                    dateFormat:"Please enter a valid date"
+                    dateFormat: "Please enter a valid date"
 
                 },
-                GigTitle:{
-                    required:"Please tell us your job title",
+                GigTitle: {
+                    required: "Please tell us your job title",
 
                 }
 
             },
-            highlight: function(element, errorClass) {
+            highlight: function (element, errorClass) {
                 $(element).removeClass(errorClass);
             },
 
             submitHandler: function (form) {
                 debugger;
                 $("#ui-datepicker-div").css("display", "none")
-                var _hubidSend=  $.connection.hub.id;
+                var _hubidSend = $.connection.hub.id;
                 var gigtitle = hdngigtitle.value;
                 $("#span_gig_subs").text(gigtitle + ' Service?');
                 openbox(1, 'gig_subscription_id');
 
             },
-            invalidHandler: function(event, validator) {
+            invalidHandler: function (event, validator) {
                 debugger;
                 $("#ui-datepicker-div").css("display", "none")
             }
         });
 
         $.validator.addMethod(
-    "dateFormat",
-    function(value, element) {
-        debugger;
-        var check = false;
-        var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
-        if( re.test(value)){
-            var adata = value.split('/');
-            var dd = parseInt(adata[0],10);
-            var mm = parseInt(adata[1],10);
-            var yyyy = parseInt(adata[2],10);
-            var xdata = new Date(yyyy,mm-1,dd);
-            if ( ( xdata.getFullYear() === yyyy ) && ( xdata.getMonth () === mm - 1 ) && ( xdata.getDate() === dd ) ) {
-                check = true;
-            }
-            else {
-                check = false;
-            }
-        } else {
-            check = false;
-        }
-        return this.optional(element) || check;
-    },
-    "Wrong date format"
-);
+            "dateFormat",
+            function (value, element) {
+                debugger;
+                var check = false;
+                var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+                if (re.test(value)) {
+                    var adata = value.split('/');
+                    var dd = parseInt(adata[0], 10);
+                    var mm = parseInt(adata[1], 10);
+                    var yyyy = parseInt(adata[2], 10);
+                    var xdata = new Date(yyyy, mm - 1, dd);
+                    if ((xdata.getFullYear() === yyyy) && (xdata.getMonth() === mm - 1) && (xdata.getDate() === dd)) {
+                        check = true;
+                    }
+                    else {
+                        check = false;
+                    }
+                } else {
+                    check = false;
+                }
+                return this.optional(element) || check;
+            },
+            "Wrong date format"
+        );
     });
 </script>
 <script type="text/javascript">
@@ -578,721 +576,987 @@
                 }
 
 </script>
-@using (Html.BeginForm("SaveGigSubscription", "Gigs", null, FormMethod.Post, new { @id = "FormSubscription" }))
-{
+@*using (Html.BeginForm("SaveGigSubscription", "Gigs", null, FormMethod.Post, new { @id = "FormSubscription" }))
+{*@
+    <main id="content" class="cols">
+        <header>
+            <nav class="nav-a">
+                <h2>Job Details</h2>
+                <ul>
+                    <li><a href="./">Basic Information</a></li>
+                    <li><a href="./">Budget</a></li>
+                    <li class="active"><a href="./">Details</a></li>
+                    <li><a href="./">Skill(s) Required</a></li>
+                    <li><a href="./">Deadline</a></li>
+                    <li><a href="./">Tags</a></li>
+                    <li><a href="./">Attachment</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div>
+            <div class="cols-a">
+                <article class="module-post">
+                    <header>
+                        @Html.Hidden("hdnGigId", Model.GigId, new { @id = "hdnGigId" })
+                        <input type="hidden" id="hdngigtitle" value="@Model.GigTitle" />
+                        <input type="hidden" id="hdnseekerid" value="@Model.UserId" />
+                        <input type="hidden" id="hdnuserid" value="@Model.UserId" />
 
-    <div class="largebox_content_containerbg" id="detail_div">
-        <div class="">
-
-            <div id="loaderDiv" class="loaderDivclass " style="display:none"></div>
-            <div class="container_inner middile_con_inner_bg clearfix">
-
-                <div class="col-md-12 catagory_con_top_bg clearfix">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="pull-left">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="@Url.Action("Home", "Dashboard")">MatchBX</a></li>
-                                    <li class="breadcrumb-item" id="category"></li>
-                                    <li class="breadcrumb-item active">@Model.GigTitle</li>
-                                </ol>
-                            </div>
-
+                        <h1>@Model.GigTitle</h1>
+                        <div class="module-author big">
+                            <figure>
+                                @*<img src="http://placehold.it/60" alt="Placeholder" width="60" height="60">*@
+                                <div class="client_profile_pic">
+                                    <div class="client_profile_pic_1">
+                                        <img src="@Model.ProfilePic" alt="Placeholder" width="60" height="60">
+                                    </div>
+                                    @*<i class="profile_pic_star"></i>*@
+                                </div>
+                            </figure>
+                            <h3>
+                                <a href="@Url.Action("Index", "Profile", new { @id = @Model.UserId })">@Model.FullName</a> <span>@Model.GigsCompleted jobs completed</span>
+                            </h3>
+                            @{
+                                string verified = Model.VerifiedPartner == "Y" ? "overlay-c" : "";
+                            }
+                            <ul>
+                                <li><i class="icon-badge-check @verified"></i> Administrator</li>
+                                <li class="rating-a" data-val="@Model.BadgeCount" data-of="5">@Model.BadgeCount</li>
+                            </ul>
+                            @{
+                                string postedDays = Model.PostedDays > 1 ? "days" : "day";
+                                string postedDate = DateTime.Now.AddDays(-Model.PostedDays).ToString("dddd, dd MMMM yyyy");
+                            }
+                            <ul class="list-col a">
+                                <li><span>Posted:</span> @Model.PostedDays @postedDays ago (@postedDate)</li>
+                                <li><span>Category:</span> Writing</li>
+                            </ul>
                         </div>
-                        <div class="col-md-4">
-                            &nbsp;
-                        </div>
-                    </div><!--row-->
-                </div>
-                <!-- // catagory_con_top_bg-->
-
-
-                <div class="col-md-12 con_8_4_outer_bg clearfix">
-                    <div class="row con_row">
-                        @if (Model.GigId > 0)
-                        {
-                            <div class="col-md-8 home_left_8">
-
-                                <div class="col-md-12 home_user_box_1_bg bg_color_comen padd_left_right_o clearfix">
-                                    <div class="box_paddleftright_15 clearfix">
-                                        @Html.Hidden("hdnGigId", Model.GigId, new { @id = "hdnGigId" })
-                                        <h3>@Model.GigTitle</h3>
-                                        <input type="hidden" id="hdngigtitle" value="@Model.GigTitle" />
-                                        <input type="hidden" id="hdnseekerid" value="@Model.UserId" />
+                    </header>
+                    <h2>Budget</h2>
+                    <p class="scheme-price">@Model.BudgetASP.ToString("#,##0.00") <span class="small">AXPR</span> <span>$@Model.DollarCount.ToString("#,##0.00")</span></p>
+                    <h2>Details</h2>
+                    <p>@Model.GigDescription</p>
+                    <h2>Deadline</h2>
+                    <!--
+                    @*
+                    @if (Model.GigActiveOrdersList != null && Model.GigActiveOrdersList.Count > 0)
+                    {
+                        var first = Model.GigActiveOrdersList.First();
+                        <div class="border_buttom_only"></div>
+                        <div class="dash_timeremain_corrent_offer_box_bg clearfix">
+                            <h4 class="dash_time_corrent_offh3 clearfix">Active Orders</h4>
+                            @foreach (var sub in Model.GigActiveOrdersList)
+                            {
+                                if (sub.GigSubscriptionId != first.GigSubscriptionId)
+                                {
+                                    <div id="border_buttom_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o border_buttom_only job_details_linewithspace"></div>
+                                }
+                                <div id="div_offers_accept_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix">
+                                    <div class="pull-left">
+                                        <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
+                                            <div class="client_profile_pic">
+                                                <div class="client_profile_pic_1"> <img src="@Url.Content("~/" + sub.PosterProfilePic.ToString().Replace("..", ""))" alt=""> </div>
+                                                <i class="profile_pic_star"></i>
+                                            </div>
+                                            <a href="@Url.Action("Index", "Profile",new { @id= sub.JobPosterId })">
+                                                <div class="client_profile_name">
+                                                    <h4>@sub.PosterFullName</h4>
+                                                    <span>@sub.JobsCompleted jobs completed</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="pull-right dash_time_allmenus">
+                                        @if (sub.JobId != 0)
+                                        {
+                                            <a href="#" onclick="LoadMessages('GigsRequest',@Html.Raw(Json.Encode(Session["UserId"])),'@sub.PosterFullName','',@sub.JobId,'@sub.Title',@sub.JobPosterId)" class="dash_time_right_menu">Send message</a>
+                                        }
+                                        @if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A" && sub.JobStatusSeeker != "C")
+                                        {
+                                            <a href="#" id="btnComplete" class="dash_time_right_menu decenabled" title="Mark as Complete">Mark as Complete</a>
+                                        }
+                                        else if (sub.GigSubscriptionStatus == "A")
+                                        {
+                                            <a href="#" id="btnCancel" class="dash_time_right_menu decenabled" title="Cancel Order">Cancel Order</a>
+                                        }
+                                        <input type="hidden" id="hfJobId_@sub.JobId" value="@sub.JobId">
+                                        <input type="hidden" id="hfJobPosterId_@sub.JobId" value="@sub.JobPosterId">
+                                        <input type="hidden" id="hfJobtitle_@sub.JobId" value="@sub.Title">
+                                        <input type="hidden" id="hfUserRole_@sub.JobId" value="S">
+                                        <input type="hidden" id="hfSeekerName_@sub.JobId" value="@Session["FullName"].ToString()">
+                                        <input type="hidden" id="hfPostername_@sub.JobId" value="@sub.PosterFullName">
+                                        <input type="hidden" id="hfSeekerId_@sub.JobId" value="@Session["UserId"].ToString()" />
+                                        <input type="hidden" id="hfGigId_@sub.JobId" value="@sub.GigId">
+                                        <input type="hidden" id="hfGigSubId_@sub.JobId" value="@sub.GigSubscriptionId">
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
                                         <div class="timeframe_budget_small clearfix">
-                                            @if (Model.GigDuration > 1)
+                                            <div class="timeframe_only"> <span class="dash_time_span_label">Purchase Date: @sub.PurchasedDateDisplay</span>&nbsp;&nbsp; <span class="dash_time_span_label">Delivery Deadline: @sub.JobCompletionDateDisplay</span> </div>
+                                        </div>
+                                        <h4 class="gig_sub_titleh4">@sub.Title</h4>
+                                        <div class="readmoretext comment more clearfix">
+                                            @if (sub.Description.Length > 100)
                                             {
-                                                <div class="timeframe_only"><span>Duration: </span>&nbsp;<span>@Model.GigDuration Days</span></div>
+                                                html = sub.Description.Substring(0, 100);
+                                                h = sub.Description.Substring(100 - 1, sub.Description.Length - 100);
                                             }
                                             else
                                             {
-                                                <div class="timeframe_only"><span>Duration: </span>&nbsp;<span>@Model.GigDuration Days</span></div>
+                                                html = sub.Description;
                                             }
-                                            @*<div class="timeframe_only posted_day">
-                        <span>Posted: </span>&nbsp;
-                        <span>@Model.PostedDays</span>
-                        @if (Model.PostedDays > 1)
-                        { <span> days ago</span>}
-                        else
-                        { <span> day ago</span>}
-                    </div>*@
-                                            <div class="timeframe_only"><span>Purchased: </span>&nbsp;<span>@Model.GigsCompleted Times</span></div>
-                                            <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(Model.BudgetASP.ToString("#,##0.00"), " AXPR ", "($", (Math.Round(Model.DollarCount, 2)).ToString("#,##0.00"), ")")</span></div>
-                                            <div class="axp_star_only">
-                                                <ul>
-                                                    @if (Model.BadgeCount == 1)
-                                                    {
-                                                        <li><i></i></li>
-                                                    }
-                                                    else if (Model.BadgeCount == 2)
-                                                    {
-                                                        <li><i></i></li>
-                                                        <li><i></i></li>
-                                                    }
-                                                    else if (Model.BadgeCount == 3)
-                                                    {
-                                                        <li><i></i></li>
-                                                        <li><i></i></li>
-                                                        <li><i></i></li>
-                                                    }
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div><!--box_paddleftright_15-->
-                                    <div class="border_buttom_only job_details_linewithspace"></div>
-                                    <div class="box_paddleftright_15 clearfix">
-                                        <div class="home_client_discription_small clearfix">
 
-                                            <h3 class="gig_dis_h3">
-                                                <span>About this service </span>
-                                            </h3>
-                                            <p>@Model.GigDescription</p>
-
-                                            <div class="gig_deliverable_box">
-                                                <div class="gig_deliverable_box_inn clearfix">
-                                                    <h3 class="">What will you get by purchasing this service</h3>
-                                                    <p>@Model.Deliverables</p>
-                                                </div>
-                                            </div>
-
-                                            <h5 class="job_skill_textshow">
-                                                <span>SKILL SET: </span>
-                                                @foreach (var item in Model.GigSkillsMappingList)
-                                                {
-                                                    <span>
-                                                        @if (Model.GigSkillsMappingList.IndexOf(item) == Model.GigSkillsMappingList.Count - 1)
-                                                        {
-                                                            @item.Description
-                                                        }
-                                                        else
-                                                        {
-                                                            @item.Description<span>, </span>
-                                                        }
-                                                    </span>
-                                                }
-                                            </h5>
-
-
-
-                                            <div class="job_tags_textshow" id="detailTagList">
-                                                <div class="home_trending_tags clearfix">
-                                                    <span class="job_tags_textlabel">Tags:</span>
-                                                    @foreach (var item in Model.GigTrendingTagsMappingList)
-                                                    {
-                                                        if (Model.GigTrendingTagsMappingList.IndexOf(item) == Model.GigTrendingTagsMappingList.Count - 1)
-                                                        {
-                                                            @item.Description
-                                                        }
-                                                        else
-                                                        {
-                                                            @item.Description<span>, </span>
-                                                        }
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div><!--box_paddleftright_15-->
-                                    <div class="border_buttom_only job_details_linewithspace"></div>
-                                    <div class="box_paddleftright_15 clearfix">
-                                        <div class="client_profile_imgname_bg clearfix">
-                                            <div class="pull-left">
-                                                <div class="client_profile_pic">
-                                                    <div class="client_profile_pic_1">
-                                                        <img src="@Model.ProfilePic" alt="">
-                                                    </div>
-                                                    <i class="profile_pic_star"></i>
-                                                </div>
-                                                <div class="client_profile_name">
-                                                    <a href="@Url.Action("Index", "Profile", new { @id = @Model.UserId })">
-                                                        <h4>@Model.FullName</h4>
-                                                    </a>
-                                                    <input type="hidden" id="hdnuserid" value="@Model.UserId" />
-                                                    <span>@Model.JobsCompleted jobs completed</span>
-                                                </div>
-                                            </div><!--pull-left-->
-                                            <div class="pull-right text-right">
-                                                <div class="company_profile_refedit">
-                                                    @*<div><span>Job reference:&nbsp;</span><span>@Model.JobReferanceId</span></div>*@
-                                                    @*<div><span>Last edited:&nbsp;</span><span>@Model.LastEdited</span></div>*@
-                                                    <div class="profile_public_banner_rate_only">
-                                                        <span class="">RATING (@TempData["RatingCount"])</span>
-                                                        <ul class="clearfix">
-                                                            @if (TempData["RatingWhole"].ToString() == "1")
-                                                            {
-                                                                if (TempData["RatingFraction"].ToString() == "5")
-                                                                {
-                                                                    <li><i></i></li>
-                                                                    <li class="half_star"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <li><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                }
-
-                                                            }
-                                                            else if (TempData["RatingWhole"].ToString() == "2")
-                                                            {
-                                                                if (TempData["RatingFraction"].ToString() == "5")
-                                                                {
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li class="half_star"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                }
-                                                            }
-                                                            else if (TempData["RatingWhole"].ToString() == "3")
-                                                            {
-                                                                if (TempData["RatingFraction"].ToString() == "5")
-                                                                {
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li class="half_star"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                }
-                                                            }
-                                                            else if (TempData["RatingWhole"].ToString() == "4")
-                                                            {
-                                                                if (TempData["RatingFraction"].ToString() == "5")
-                                                                {
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li class="half_star"><i></i></li>
-
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                }
-                                                            }
-                                                            else if (TempData["RatingWhole"].ToString() == "5")
-                                                            {
-                                                                <li><i></i></li>
-                                                                <li><i></i></li>
-                                                                <li><i></i></li>
-                                                                <li><i></i></li>
-                                                                <li><i></i></li>
-                                                            }
-                                                            else if (TempData["RatingWhole"].ToString() == "0")
-                                                            {
-                                                                if (TempData["RatingFraction"].ToString() == "5")
-                                                                {
-                                                                    <li class="half_star"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                }
-                                                            }
-
-                                                        </ul>
-
-                                                    </div>
-                                                </div>
-                                            </div><!--pull-right-->
-                                        </div>
-                                    </div><!--box_paddleftright_15-->
-                                    @if (Model.GigSubscriptionList != null && Model.GigSubscriptionList.Count > 0)
-                                    {
-                                        var first = Model.GigSubscriptionList.First();
-                                        <div class="border_buttom_only" id="bottom_Offer"></div>
-                                        <div class="dash_timeremain_corrent_offer_box_bg clearfix">
-                                            <h4 class="dash_time_corrent_offh3 clearfix">CURRENT OFFERS</h4>
-                                            @foreach (var sub in Model.GigSubscriptionList)
+                                            @html
+                                            @if (sub.Description.Length > 100)
                                             {
-                                                if (sub.GigSubscriptionId != first.GigSubscriptionId)
-                                                {
-                                                    <div id="border_buttom_@sub.GigSubscriptionId" class="col-md-12 border_buttom_only job_details_linewithspace padd_left_right_o"></div>
-                                                }
-                                                <div id="div_offers_accept_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix div_offers">
-                                                    <div class="pull-left">
-                                                        <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
-                                                            <div class="client_profile_pic">
-                                                                <div class="client_profile_pic_1">
-                                                                    <img src="@Url.Content("~/" + sub.PosterProfilePic.ToString().Replace("..", ""))" alt="">
-                                                                </div>
-                                                                <i class="profile_pic_star"></i>
-                                                            </div>
-                                                            <a href="@Url.Action("Index", "Profile",new { @id= sub.JobPosterId })">
-                                                                <div class="client_profile_name">
-                                                                    <h4>@sub.PosterFullName</h4>
-                                                                    <span>@sub.JobsCompleted jobs completed</span>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="pull-right dash_time_allmenus">
-                                                        @*<a href="#" onclick="LoadMessages('GigsRequest',@sub.JobPosterId,'@sub.PosterFullName','',@sub.GigId,'@Model.GigTitle')" class="dash_time_right_menu">Send message</a>*@
-                                                        <a href="#" id="btnDecline" class="dash_time_right_menu decenabled" title="Decline offer">Decline</a>
-                                                        <a href="#" id="btnAccept" class="btn button_all secondary_color_bg acptenabled">Accept</a>
-
-                                                        <input type="hidden" id="hfGigSubId_@sub.GigSubscriptionId" value="@sub.GigSubscriptionId">
-                                                        <input type="hidden" id="hfGigId_@sub.GigId" value="@sub.GigId">
-                                                        <input type="hidden" id="hfReqName_@sub.PosterFullName" value="@sub.PosterFullName">
-                                                        <input type="hidden" id="hfReqId_@sub.JobPosterId" value="@sub.JobPosterId">
-                                                    </div>
-                                                    <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
-                                                        <div class="timeframe_budget_small clearfix">
-                                                            <div class="timeframe_only">
-                                                                <span class="dash_time_span_label">Purchased on: @sub.SubscribedDateDisplay</span>&nbsp;&nbsp;
-                                                                <span class="dash_time_span_label">Job completion date: @sub.JobCompletionDateDisplay</span>
-                                                            </div>
-                                                        </div>
-                                                        <h4 class="gig_sub_titleh4">@sub.Title</h4>
-                                                        <div class="readmoretext comment more clearfix">
-                                                            @if (sub.Description.Length > 100)
-                                                            {
-                                                                html = sub.Description.Substring(0, 100);
-                                                                h = sub.Description.Substring(100 - 1, sub.Description.Length - 100);
-                                                            }
-                                                            else
-                                                            {
-                                                                html = sub.Description;
-                                                            }
-
-                                                            @html
-                                                            @if (sub.Description.Length > 100)
-                                                            {
-                                                                <span class="moreellipses">...&nbsp;</span>
-                                                                <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="#" class="morelink">Read More</a></span>
-                                                            }
-                                                        </div>
-                                                        <div class="coment_readmore_bgg">
-                                                            <input type="hidden" id="hfbidmessage_@sub.Description" value="@sub.Description">
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <span class="moreellipses">...&nbsp;</span>
+                                                <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="#" class="morelink">Read More</a></span>
                                             }
                                         </div>
-                                    }
-                                    @if (Model.GigActiveOrdersList != null && Model.GigActiveOrdersList.Count > 0)
-                                    {
-                                        var first = Model.GigActiveOrdersList.First();
-                                        <div class="border_buttom_only"></div>
-                                        <div class="dash_timeremain_corrent_offer_box_bg clearfix">
-                                            <h4 class="dash_time_corrent_offh3 clearfix">Active Orders</h4>
-                                            @foreach (var sub in Model.GigActiveOrdersList)
-                                            {
-                                                if (sub.GigSubscriptionId != first.GigSubscriptionId)
-                                                {
-                                                    <div id="border_buttom_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o border_buttom_only job_details_linewithspace"></div>
-                                                }
-                                                <div id="div_offers_accept_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix">
-                                                    <div class="pull-left">
-                                                        <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
-                                                            <div class="client_profile_pic">
-                                                                <div class="client_profile_pic_1"> <img src="@Url.Content("~/" + sub.PosterProfilePic.ToString().Replace("..", ""))" alt=""> </div>
-                                                                <i class="profile_pic_star"></i>
-                                                            </div>
-                                                            <a href="@Url.Action("Index", "Profile",new { @id= sub.JobPosterId })">
-                                                                <div class="client_profile_name">
-                                                                    <h4>@sub.PosterFullName</h4>
-                                                                    <span>@sub.JobsCompleted jobs completed</span>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="pull-right dash_time_allmenus">
-                                                        @if (sub.JobId != 0)
-                                                        {
-                                                            <a href="#" onclick="LoadMessages('GigsRequest',@Html.Raw(Json.Encode(Session["UserId"])),'@sub.PosterFullName','',@sub.JobId,'@sub.Title',@sub.JobPosterId)" class="dash_time_right_menu">Send message</a>
-                                                        }
-                                                        @if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A" && sub.JobStatusSeeker != "C")
-                                                        {
-                                                            <a href="#" id="btnComplete" class="dash_time_right_menu decenabled" title="Mark as Complete">Mark as Complete</a>
-                                                        }
-                                                        else if (sub.GigSubscriptionStatus == "A")
-                                                        {
-                                                            <a href="#" id="btnCancel" class="dash_time_right_menu decenabled" title="Cancel Order">Cancel Order</a>
-                                                        }
-                                                        <input type="hidden" id="hfJobId_@sub.JobId" value="@sub.JobId">
-                                                        <input type="hidden" id="hfJobPosterId_@sub.JobId" value="@sub.JobPosterId">
-                                                        <input type="hidden" id="hfJobtitle_@sub.JobId" value="@sub.Title">
-                                                        <input type="hidden" id="hfUserRole_@sub.JobId" value="S">
-                                                        <input type="hidden" id="hfSeekerName_@sub.JobId" value="@Session["FullName"].ToString()">
-                                                        <input type="hidden" id="hfPostername_@sub.JobId" value="@sub.PosterFullName">
-                                                        <input type="hidden" id="hfSeekerId_@sub.JobId" value="@Session["UserId"].ToString()" />
-                                                        <input type="hidden" id="hfGigId_@sub.JobId" value="@sub.GigId">
-                                                        <input type="hidden" id="hfGigSubId_@sub.JobId" value="@sub.GigSubscriptionId">
-                                                    </div>
-                                                    <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
-                                                        <div class="timeframe_budget_small clearfix">
-                                                            <div class="timeframe_only"> <span class="dash_time_span_label">Purchase Date: @sub.PurchasedDateDisplay</span>&nbsp;&nbsp; <span class="dash_time_span_label">Delivery Deadline: @sub.JobCompletionDateDisplay</span> </div>
-                                                        </div>
-                                                        <h4 class="gig_sub_titleh4">@sub.Title</h4>
-                                                        <div class="readmoretext comment more clearfix">
-                                                            @if (sub.Description.Length > 100)
-                                                            {
-                                                                html = sub.Description.Substring(0, 100);
-                                                                h = sub.Description.Substring(100 - 1, sub.Description.Length - 100);
-                                                            }
-                                                            else
-                                                            {
-                                                                html = sub.Description;
-                                                            }
-
-                                                            @html
-                                                            @if (sub.Description.Length > 100)
-                                                            {
-                                                                <span class="moreellipses">...&nbsp;</span>
-                                                                <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="#" class="morelink">Read More</a></span>
-                                                            }
-                                                        </div>
-                                                        <div class="coment_readmore_bgg">
-                                                            <input type="hidden" id="hfbidmessage_@sub.Description" value="@sub.Description">
-                                                        </div>
-                                                        <div class="gig_dash_mygig_bu padd_top_10px clearfix">
-                                                            <div class="pull-left gig_dash_admin_pendingbg">
-                                                                @if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A" && sub.JobStatusSeeker != "C")
-                                                                {
-                                                                    <div class="pending_box_alert progress_alert">In progress</div>
-                                                                }
-                                                                else if (sub.GigSubscriptionStatus == "A")
-                                                                {
-                                                                    <div class="pending_box_alert panding_alert">Pending Payment</div>
-                                                                }
-                                                                else if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A" && sub.JobStatusSeeker == "C")
-                                                                {
-                                                                    <div class="pending_box_alert panding_alert">Pending Client Review</div>
-                                                                }
-                                                            </div>
-                                                            <div class="pull-right dash_time_allmenus"> </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
-                                            <input type="hidden" id="hfjobtitle" />
-                                            <input type="hidden" id="hfuserid" />
-                                            <input type="hidden" id="hfrole" />
-                                            <input type="hidden" id="hfseekername" />
-                                            <input type="hidden" id="hfpostername" />
-                                            <input type="hidden" id="hfseekerId" />
-                                            <input type="hidden" id="hfgigSubId" />
+                                        <div class="coment_readmore_bgg">
+                                            <input type="hidden" id="hfbidmessage_@sub.Description" value="@sub.Description">
                                         </div>
-                                    }
-                                    @if (Model.GigCompletedOrdersList != null && Model.GigCompletedOrdersList.Count > 0)
-                                    {
-                                        var first = Model.GigCompletedOrdersList.First();
-                                        <div class="border_buttom_only"></div>
-                                        <div class="dash_timeremain_corrent_offer_box_bg clearfix">
-                                            <h4 class="dash_time_corrent_offh3 clearfix">Completed Orders</h4>
-                                            @foreach (var sub in Model.GigCompletedOrdersList)
-                                            {
-                                                if (sub.GigSubscriptionId != first.GigSubscriptionId)
+                                        <div class="gig_dash_mygig_bu padd_top_10px clearfix">
+                                            <div class="pull-left gig_dash_admin_pendingbg">
+                                                @if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A" && sub.JobStatusSeeker != "C")
                                                 {
-                                                    <div id="border_buttom_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o border_buttom_only job_details_linewithspace"></div>
+                                                    <div class="pending_box_alert progress_alert">In progress</div>
                                                 }
-                                                <div id="div_offers_accept_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix">
-                                                    <div class="pull-left">
-                                                        <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
-                                                            <div class="client_profile_pic">
-                                                                <div class="client_profile_pic_1"> <img src="@Url.Content("~/" + sub.PosterProfilePic.ToString().Replace("..", ""))" alt=""> </div>
-                                                                <i class="profile_pic_star"></i>
-                                                            </div>
-                                                            <a href="/Profile/Index/107">
-                                                                <div class="client_profile_name">
-                                                                    <h4>@sub.PosterFullName</h4>
-                                                                    <span>@sub.JobsCompleted jobs completed</span>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    @*<div class="pull-right dash_time_allmenus">
-                                                        <a href="#" onclick="LoadMessages('GigsRequest',@sub.JobPosterId,'@sub.PosterFullName','',@sub.GigId)" class="dash_time_right_menu">Send message</a>
-                                                        @if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A")
-                                                        {
-                                                            <a href="#" id="btnComplete" class="dash_time_right_menu decenabled" title="Mark as Complete">Mark as Complete</a>
-                                                        }
-                                                        else if (sub.GigSubscriptionStatus == "A")
-                                                        {
-                                                            <a href="#" id="btnCancel" class="dash_time_right_menu decenabled" title="Cancel Order">Cancel Order</a>
-                                                        }
-                                                        <input type="hidden" id="hfJobId_@sub.JobId" value="@sub.JobId">
-                                                        <input type="hidden" id="hfJobPosterId_@sub.JobId" value="@sub.JobPosterId">
-                                                        <input type="hidden" id="hfJobtitle_@sub.JobId" value="@sub.Title">
-                                                        <input type="hidden" id="hfUserRole_@sub.JobId" value="S">
-                                                        <input type="hidden" id="hfSeekerName_@sub.JobId" value="@Session["FullName"].ToString()">
-                                                        <input type="hidden" id="hfPostername_@sub.JobId" value="@sub.PosterFullName">
-                                                        <input type="hidden" id="hfSeekerId_@sub.JobId" value="@Session["UserId"].ToString()" />
-                                                        <input type="hidden" id="hfGigId_@sub.JobId" value="@sub.GigId">
-                                                        <input type="hidden" id="hfGigSubId_@sub.JobId" value="@sub.GigSubscriptionId">
-                                                    </div>*@
-                                                    <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
-                                                        <div class="timeframe_budget_small clearfix">
-                                                            <div class="timeframe_only"> <span class="dash_time_span_label">Purchase Date: @sub.PurchasedDateDisplay</span>&nbsp;&nbsp; <span class="dash_time_span_label">Completed Date: @sub.JobCompletionDateDisplay</span> </div>
-                                                        </div>
-                                                        <h4 class="gig_sub_titleh4">@sub.Title</h4>
-                                                        <div class="readmoretext comment more clearfix">
-                                                            @if (sub.Description.Length > 100)
-                                                            {
-                                                                html = sub.Description.Substring(0, 100);
-                                                                h = sub.Description.Substring(100 - 1, sub.Description.Length - 100);
-                                                            }
-                                                            else
-                                                            {
-                                                                html = sub.Description;
-                                                            }
-
-                                                            @html
-                                                            @if (sub.Description.Length > 100)
-                                                            {
-                                                                <span class="moreellipses">...&nbsp;</span>
-                                                                <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="#" class="morelink">Read More</a></span>
-                                                            }
-                                                        </div>
-                                                        <div class="coment_readmore_bgg">
-                                                            <input type="hidden" id="hfbidmessage_@sub.Description" value="@sub.Description">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
+                                                else if (sub.GigSubscriptionStatus == "A")
+                                                {
+                                                    <div class="pending_box_alert panding_alert">Pending Payment</div>
+                                                }
+                                                else if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A" && sub.JobStatusSeeker == "C")
+                                                {
+                                                    <div class="pending_box_alert panding_alert">Pending Client Review</div>
+                                                }
+                                            </div>
+                                            <div class="pull-right dash_time_allmenus"> </div>
                                         </div>
-                                    }
+                                    </div>
                                 </div>
-                                <!-- // box-->
-                                <!--Review section-->
-                                <div class="col-md-12 gig_review_view_outer">
-                                    <div class="col-md-12 home_user_box_1_bg bg_color_comen padd_left_right_o clearfix">
-                                        <div class="box_paddleftright_15 gig_review_view_mainheading clearfix">
-                                            <a href="javascript:;" class="gig_review_slidebu clearfix" title="View Review">
-                                                <h4>Review (@Html.Raw(Json.Encode(TempData["ReviewCount"])))</h4>
-                                                <i class="down-arrow"></i>
+                            }
+                            <input type="hidden" id="hfjobtitle" />
+                            <input type="hidden" id="hfuserid" />
+                            <input type="hidden" id="hfrole" />
+                            <input type="hidden" id="hfseekername" />
+                            <input type="hidden" id="hfpostername" />
+                            <input type="hidden" id="hfseekerId" />
+                            <input type="hidden" id="hfgigSubId" />
+                        </div>
+                    }
+                    @if (Model.GigCompletedOrdersList != null && Model.GigCompletedOrdersList.Count > 0)
+                    {
+                        var first = Model.GigCompletedOrdersList.First();
+                        <div class="border_buttom_only"></div>
+                        <div class="dash_timeremain_corrent_offer_box_bg clearfix">
+                            <h4 class="dash_time_corrent_offh3 clearfix">Completed Orders</h4>
+                            @foreach (var sub in Model.GigCompletedOrdersList)
+                            {
+                                if (sub.GigSubscriptionId != first.GigSubscriptionId)
+                                {
+                                    <div id="border_buttom_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o border_buttom_only job_details_linewithspace"></div>
+                                }
+                                <div id="div_offers_accept_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix">
+                                    <div class="pull-left">
+                                        <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
+                                            <div class="client_profile_pic">
+                                                <div class="client_profile_pic_1"> <img src="@Url.Content("~/" + sub.PosterProfilePic.ToString().Replace("..", ""))" alt=""> </div>
+                                                <i class="profile_pic_star"></i>
+                                            </div>
+                                            <a href="/Profile/Index/107">
+                                                <div class="client_profile_name">
+                                                    <h4>@sub.PosterFullName</h4>
+                                                    <span>@sub.JobsCompleted jobs completed</span>
+                                                </div>
                                             </a>
                                         </div>
-
-                                        <div id="divjobs" class="gig_review_all_bg clearfix">
-                                            <div class="border_buttom_only job_details_linewithspace"></div>
-                                            @foreach (var item in Model.GigReviewList)
-                                        {
-                                    <div class="box_paddleftright_15 clearfix">
-                                        <div class="client_profile_imgname_bg clearfix">
-                                            <div class="pull-left">
-                                                <div class="client_profile_pic">
-                                                    <div class="client_profile_pic_1">
-                                                        <img src="@item.ProfilePic" alt="">
-                                                    </div>
-                                                    <i class="profile_pic_star"></i>
-                                                </div>
-                                                <div class="client_profile_name">
-                                                    <a href="javascript:;">
-                                                        <h4>@item.FullName</h4>
-                                                    </a>
-                                                    <span>@item.CreatedDateDisplay</span>
-                                                </div>
-                                            </div><!--pull-left-->
-                                            <div class="pull-right text-right">
-                                                <div class="company_profile_refedit">
-                                                    <input type="hidden" id="hfgigreviewid_@item.GigReviewId" value="@item.GigReviewId" />
-                                                    <div class="profile_public_banner_rate_only">
-                                                        <ul class="clearfix">
-                                                            @if (item.JobSeekerRatingInt == 1)
-                                                                    {
-                                                                    <li><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    }
-                                                                    else if (item.JobSeekerRatingInt == 2)
-                                                                    {
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    }
-                                                                    else if (item.JobSeekerRatingInt == 3)
-                                                                    {
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    }
-                                                                    else if (item.JobSeekerRatingInt == 4)
-                                                                    {
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li class="star_gray"><i></i></li>
-                                                                    }
-                                                                    else if (item.JobSeekerRatingInt == 5)
-                                                                    {
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    <li><i></i></li>
-                                                                    }
-
-                                                        </ul>
-
-                                                    </div>
-                                                </div>
-                                            </div><!--pull-right-->
-                                        </div>
-                                        <div class="col-md-12 home_client_discription_small clearfix">
-                                            <div class="readmoretext more">@item.Review</div>
-
-                                        </div>
-                                    </div><!--box_paddleftright_15-->
-                                        }
-                                            <div id="loadMore">
-                                                @if (Model.GigReviewList != null && Model.GigReviewList.Count > 0 && Model.GigReviewList[0].Isloadmore == 1)
-                                            {
-                                            <div class="col-md-12 category_loadmore_bg clearfix" id="divloadmore">
-                                                <a href="javascript:;" class="btn button_all secondary_color_bg" id="btnloadmore">Load more</a>
-                                            </div>
-                                            }
-                                            </div>
-                                        </div><!--gig_review_all_bg-->
                                     </div>
+                                    <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
+                                        <div class="timeframe_budget_small clearfix">
+                                            <div class="timeframe_only"> <span class="dash_time_span_label">Purchase Date: @sub.PurchasedDateDisplay</span>&nbsp;&nbsp; <span class="dash_time_span_label">Completed Date: @sub.JobCompletionDateDisplay</span> </div>
+                                        </div>
+                                        <h4 class="gig_sub_titleh4">@sub.Title</h4>
+                                        <div class="readmoretext comment more clearfix">
+                                            @if (sub.Description.Length > 100)
+                                            {
+                                                html = sub.Description.Substring(0, 100);
+                                                h = sub.Description.Substring(100 - 1, sub.Description.Length - 100);
+                                            }
+                                            else
+                                            {
+                                                html = sub.Description;
+                                            }
 
+                                            @html
+                                            @if (sub.Description.Length > 100)
+                                            {
+                                                <span class="moreellipses">...&nbsp;</span>
+                                                <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="#" class="morelink">Read More</a></span>
+                                            }
+                                        </div>
+                                        <div class="coment_readmore_bgg">
+                                            <input type="hidden" id="hfbidmessage_@sub.Description" value="@sub.Description">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div><!-- //col-md-8-->
-                        }
-
-
-                        @if ((Convert.ToInt32(Session["UserId"]) != Model.UserId) && (Convert.ToInt32(Session["UserId"]) != 0))
+                            }
+                        </div>
+                    }
+                    *@
+                    -->
+                    <p>Monday, 1 July 2019</p>
+                    <h2>Skill(s) Required</h2>
+                    <p>
+                        @foreach (var item in Model.GigSkillsMappingList)
                         {
-                            //if ((Session["UserType"].ToString() != "1"))
-                            //{
-                            <div class="col-md-4 job_detail_right_4">
-
-                                <div class="col-md-12 bg_color_comen home_top_jobs_bg job_detail_right_bg clearfix">
-                                    <div class="home_top_jobs_heding heading_border_buttom">
-                                        <h2 id="headbid"></h2>
-                                        @Html.Hidden("hdnGigSubscriptionId", @TempData["GigSubscriptionId"], new { @id = "hdnGigSubscriptionId" })
-                                    </div>
-
-                                    <div class="job_detail_bidforjob_form_bg clearfix">
-                                        <div class="form-group clearfix">
-                                            <label for="" class="input_label_style">Give your job a title </label>
-                                            @Html.TextBox("GigTitle", TempData["GigTitle"].ToString(), new { @class = "form-control form_input form_textarea", @name = "GigTitle", @maxlength = "200" })
-                                        </div>
-
-
-                                        <div class="form-group clearfix">
-                                            <label for="" class="input_label_style">Tell us what you are looking for </label>
-                                            @Html.TextArea("bidmessage", TempData["BidMessage"].ToString(), new { @class = "form-control form_input form_textarea", @name = "bidmessage" })
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            <label for="" class="input_label_style">Project documents</label>
-
-                                            <div class="demo_container dropzone_bg">
-                                                <div class="dropzone" id="my-dropzone"></div>
-
-                                            </div>
-                                            @if (Convert.ToInt32(TempData["NoofDocuments"]) > 0)
-                                            {
-                                                <div class="home_trending_tags job_review_attach clearfix attachments" id="divviewattachment">
-                                                    <a href="#" title="View Attachment" id="view_attachment"><span class="job_tags_textlabel">View Attachment</span></a>
-                                                </div>
-                                            }
-                                        </div>
-
-                                        <div class="form-group clearfix">
-                                            <label for="" class="input_label_style">When do you need the job completed by? </label>
-                                            <div class='date' id='sandbox-container'>
-                                                @Html.TextBox("GigCompletionDate", TempData["JobCompletionDateDisplay"], new { @id = "jobcompletionDate", @placeholder = "Enter date", @class = "form-control form_input ", autocomplete = "off", @name = "GigCompletionDate" })
-                                            </div>
-                                            @*@Html.ValidationMessageFor("GigCompletionDate", "", new { @class = "error_span" })*@
-                                        </div>
-                                        <div class="form-group heading_border_buttom clearfix">
-                                            <label for="" class="input_label_style"><span>Service Fees: (</span><span id="BidAmountinDollar">@TempData["GigAmount"]</span><span>)</span></label>
-
-                                            @Html.TextBox("bidamount", "$ " + @TempData["BidAmountinDollar"], new { @readonly = "readonly", @class = "form-control form_input " })
-
-                                            <span id="errorMsg" class="error_span"></span>
-                                            <label class="input_label_style display_block small_fobtsize"><span id="axprfee" class="font_w_700">@TempData["AXPRFeeAmt"]</span><span> AXPR is taken from this and burnt (3% burn)</span></label>
-                                            <label class="input_label_style display_block"><span class="add_job_cost">Your service will cost: <span id="IdtotalBudget" class="font_w_700">@TempData["AXPRFeeTotAmt"]</span> AXPR</span></label>
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            @*<a href="#header" class="btn btn_banner secondary_color_bg button_fluid smothscroll" id="btnsubscribe"></a>*@
-                                            @if (TempData["GigSubscriptionStatus"].ToString() == "S")
-                                            {
-                                                <input type="submit" class="btn btn_banner secondary_color_bg button_fluid button_width100 smothscroll" id="btnsubscribe" />
-                                            }                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- // Top job posters section-->
-                            </div><!-- //col-md-4-->
-                            //}
-
+                            <span>
+                                @if (Model.GigSkillsMappingList.IndexOf(item) == Model.GigSkillsMappingList.Count - 1)
+                                {
+                                    @item.Description
+                                }
+                                else
+                                {
+                                    @item.Description<span>, </span>
+                                }
+                            </span>
                         }
-
-                    </div><!-- //row-->
-                </div>
+                    </p>
+                    <h2>Tags</h2>
+                    @foreach (var item in Model.GigTrendingTagsMappingList)
+                    {
+                        if (Model.GigTrendingTagsMappingList.IndexOf(item) == Model.GigTrendingTagsMappingList.Count - 1)
+                        {
+                            <span><a href="#" style="font-size:16px">@item.Description</a></span>
+                        }
+                        else
+                        {
+                            <span><a href="#" style="font-size:16px">@item.Description</a>, </span>
+                        }
+                    }
+                    <br /><br /><br />
+                    @*
+        <ul class="list-tags">
+            <li><a href="./">#Professional Proofreaders &amp; Copy Editors </a></li>
+        </ul>
+                    *@
+                    <h2>Attachments</h2>
+                    <ul class="list-file">
+                        <li><a href="./"><img src="http://placehold.it/110" alt="Placeholder" width="110" height="110"> Filename_can_goes_over_here.doc</a></li>
+                        <li><a href="./">Filename_can_goes_over_here.doc</a></li>
+                    </ul>
+                </article>
+                <aside>
+                    <form action="./" method="post" class="form-bid">
+                        <div>
+                            <h2>Bid for Job</h2>
+                            <ul class="list-col b">
+                                <li><span>Ending in:</span> 105 days, 0 hours, 22 mins</li>
+                                <li><span>Budget:</span> @Model.BudgetASP.ToString("#,##0.00") AXPR</li>
+                            </ul>
+                            <p class="input-number inline">
+                                <label for="fba">Days needed for completion</label>
+                                <input type="text" id="fba" name="fba" data-prefix="days" data-prefix-single="day">
+                            </p>
+                            <p class="input-number inline">
+                                <label for="fbb">Your bid <span class="text-right">$0.00</span></label>
+                                <input type="text" id="fbb" name="fbb" data-prefix="AXPR">
+                                <span class="small">3.69 AXPR is taken from this and burnt (3% burn) <a href="./" class="tip"><i class="icon-info"></i> <span class="hidden">Some more information</span></a></span>
+                            </p>
+                            <p class="total"><span>You will earn :</span> 119.31 AXPR</p>
+                            <p>
+                                <label for="fbc">Include a message (recommended) <a href="./" class="tip"><i class="icon-info"></i> <span class="hidden">Some more information</span></a></label>
+                                <textarea id="fbc" name="fbc"></textarea>
+                            </p>
+                        </div>
+                        <p class="submit"><button type="submit">Submit offer</button></p>
+                    </form>
+                </aside>
             </div>
-            <!--container_inner -->
         </div>
-        <!--/#container-->
-    </div>
+    </main>
+
+    @*
+        <div class="largebox_content_containerbg" id="detail_div">
+            <div class="">
+
+                <div id="loaderDiv" class="loaderDivclass " style="display:none"></div>
+                <div class="container_inner middile_con_inner_bg clearfix">
+
+                    <div class="col-md-12 catagory_con_top_bg clearfix">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="pull-left">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="@Url.Action("Home", "Dashboard")">MatchBX</a></li>
+                                        <li class="breadcrumb-item" id="category"></li>
+                                        <li class="breadcrumb-item active">@Model.GigTitle</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                        </div><!--row-->
+                    </div>
+                    <!-- // catagory_con_top_bg-->
+
+
+                    <div class="col-md-12 con_8_4_outer_bg clearfix">
+                        <div class="row con_row">
+                            @if (Model.GigId > 0)
+                            {
+                                <div class="col-md-8 home_left_8">
+
+                                    <div class="col-md-12 home_user_box_1_bg bg_color_comen padd_left_right_o clearfix">
+                                        <div class="box_paddleftright_15 clearfix">
+                                            @Html.Hidden("hdnGigId", Model.GigId, new { @id = "hdnGigId" })
+                                            <h3>@Model.GigTitle</h3>
+                                            <input type="hidden" id="hdngigtitle" value="@Model.GigTitle" />
+                                            <input type="hidden" id="hdnseekerid" value="@Model.UserId" />
+                                            <div class="timeframe_budget_small clearfix">
+                                                @if (Model.GigDuration > 1)
+                                                {
+                                                    <div class="timeframe_only"><span>Duration: </span>&nbsp;<span>@Model.GigDuration Days</span></div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="timeframe_only"><span>Duration: </span>&nbsp;<span>@Model.GigDuration Days</span></div>
+                                                }
+                                                <div class="timeframe_only"><span>Purchased: </span>&nbsp;<span>@Model.GigsCompleted Times</span></div>
+                                                <div class="budget_only"><span>Cost: </span>&nbsp;<span>@String.Concat(Model.BudgetASP.ToString("#,##0.00"), " AXPR ", "($", (Math.Round(Model.DollarCount, 2)).ToString("#,##0.00"), ")")</span></div>
+                                                <div class="axp_star_only">
+                                                    <ul>
+                                                        @if (Model.BadgeCount == 1)
+                                                        {
+                                                            <li><i></i></li>
+                                                        }
+                                                        else if (Model.BadgeCount == 2)
+                                                        {
+                                                            <li><i></i></li>
+                                                            <li><i></i></li>
+                                                        }
+                                                        else if (Model.BadgeCount == 3)
+                                                        {
+                                                            <li><i></i></li>
+                                                            <li><i></i></li>
+                                                            <li><i></i></li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div><!--box_paddleftright_15-->
+                                        <div class="border_buttom_only job_details_linewithspace"></div>
+                                        <div class="box_paddleftright_15 clearfix">
+                                            <div class="home_client_discription_small clearfix">
+
+                                                <h3 class="gig_dis_h3">
+                                                    <span>About this service </span>
+                                                </h3>
+                                                <p>@Model.GigDescription</p>
+
+                                                <div class="gig_deliverable_box">
+                                                    <div class="gig_deliverable_box_inn clearfix">
+                                                        <h3 class="">What will you get by purchasing this service</h3>
+                                                        <p>@Model.Deliverables</p>
+                                                    </div>
+                                                </div>
+
+                                                <h5 class="job_skill_textshow">
+                                                    <span>SKILL SET: </span>
+                                                    @foreach (var item in Model.GigSkillsMappingList)
+                                                    {
+                                                        <span>
+                                                            @if (Model.GigSkillsMappingList.IndexOf(item) == Model.GigSkillsMappingList.Count - 1)
+                                                            {
+                                                                @item.Description
+                                                            }
+                                                            else
+                                                            {
+                                                                @item.Description<span>, </span>
+                                                            }
+                                                        </span>
+                                                    }
+                                                </h5>
+
+
+
+                                                <div class="job_tags_textshow" id="detailTagList">
+                                                    <div class="home_trending_tags clearfix">
+                                                        <span class="job_tags_textlabel">Tags:</span>
+                                                        @foreach (var item in Model.GigTrendingTagsMappingList)
+                                                        {
+                                                            if (Model.GigTrendingTagsMappingList.IndexOf(item) == Model.GigTrendingTagsMappingList.Count - 1)
+                                                            {
+                                                                @item.Description
+                                                            }
+                                                            else
+                                                            {
+                                                                @item.Description<span>, </span>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!--box_paddleftright_15-->
+                                        <div class="border_buttom_only job_details_linewithspace"></div>
+                                        <div class="box_paddleftright_15 clearfix">
+                                            <div class="client_profile_imgname_bg clearfix">
+                                                <div class="pull-left">
+                                                    <div class="client_profile_pic">
+                                                        <div class="client_profile_pic_1">
+                                                            <img src="@Model.ProfilePic" alt="">
+                                                        </div>
+                                                        <i class="profile_pic_star"></i>
+                                                    </div>
+                                                    <div class="client_profile_name">
+                                                        <a href="@Url.Action("Index", "Profile", new { @id = @Model.UserId })">
+                                                            <h4>@Model.FullName</h4>
+                                                        </a>
+                                                        <input type="hidden" id="hdnuserid" value="@Model.UserId" />
+                                                        <span>@Model.JobsCompleted jobs completed</span>
+                                                    </div>
+                                                </div><!--pull-left-->
+                                                <div class="pull-right text-right">
+                                                    <div class="company_profile_refedit">
+                                                        <div class="profile_public_banner_rate_only">
+                                                            <span class="">RATING (@TempData["RatingCount"])</span>
+                                                            <ul class="clearfix">
+                                                                @if (TempData["RatingWhole"].ToString() == "1")
+                                                                {
+                                                                    if (TempData["RatingFraction"].ToString() == "5")
+                                                                    {
+                                                                        <li><i></i></li>
+                                                                        <li class="half_star"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <li><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                    }
+
+                                                                }
+                                                                else if (TempData["RatingWhole"].ToString() == "2")
+                                                                {
+                                                                    if (TempData["RatingFraction"].ToString() == "5")
+                                                                    {
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li class="half_star"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                    }
+                                                                }
+                                                                else if (TempData["RatingWhole"].ToString() == "3")
+                                                                {
+                                                                    if (TempData["RatingFraction"].ToString() == "5")
+                                                                    {
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li class="half_star"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                    }
+                                                                }
+                                                                else if (TempData["RatingWhole"].ToString() == "4")
+                                                                {
+                                                                    if (TempData["RatingFraction"].ToString() == "5")
+                                                                    {
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li class="half_star"><i></i></li>
+
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                    }
+                                                                }
+                                                                else if (TempData["RatingWhole"].ToString() == "5")
+                                                                {
+                                                                    <li><i></i></li>
+                                                                    <li><i></i></li>
+                                                                    <li><i></i></li>
+                                                                    <li><i></i></li>
+                                                                    <li><i></i></li>
+                                                                }
+                                                                else if (TempData["RatingWhole"].ToString() == "0")
+                                                                {
+                                                                    if (TempData["RatingFraction"].ToString() == "5")
+                                                                    {
+                                                                        <li class="half_star"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                    }
+                                                                }
+
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                </div><!--pull-right-->
+                                            </div>
+                                        </div><!--box_paddleftright_15-->
+                                        @if (Model.GigSubscriptionList != null && Model.GigSubscriptionList.Count > 0)
+                                        {
+                                            var first = Model.GigSubscriptionList.First();
+                                            <div class="border_buttom_only" id="bottom_Offer"></div>
+                                            <div class="dash_timeremain_corrent_offer_box_bg clearfix">
+                                                <h4 class="dash_time_corrent_offh3 clearfix">CURRENT OFFERS</h4>
+                                                @foreach (var sub in Model.GigSubscriptionList)
+                                                {
+                                                    if (sub.GigSubscriptionId != first.GigSubscriptionId)
+                                                    {
+                                                        <div id="border_buttom_@sub.GigSubscriptionId" class="col-md-12 border_buttom_only job_details_linewithspace padd_left_right_o"></div>
+                                                    }
+                                                    <div id="div_offers_accept_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix div_offers">
+                                                        <div class="pull-left">
+                                                            <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
+                                                                <div class="client_profile_pic">
+                                                                    <div class="client_profile_pic_1">
+                                                                        <img src="@Url.Content("~/" + sub.PosterProfilePic.ToString().Replace("..", ""))" alt="">
+                                                                    </div>
+                                                                    <i class="profile_pic_star"></i>
+                                                                </div>
+                                                                <a href="@Url.Action("Index", "Profile",new { @id= sub.JobPosterId })">
+                                                                    <div class="client_profile_name">
+                                                                        <h4>@sub.PosterFullName</h4>
+                                                                        <span>@sub.JobsCompleted jobs completed</span>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pull-right dash_time_allmenus">
+                                                            <a href="#" id="btnDecline" class="dash_time_right_menu decenabled" title="Decline offer">Decline</a>
+                                                            <a href="#" id="btnAccept" class="btn button_all secondary_color_bg acptenabled">Accept</a>
+
+                                                            <input type="hidden" id="hfGigSubId_@sub.GigSubscriptionId" value="@sub.GigSubscriptionId">
+                                                            <input type="hidden" id="hfGigId_@sub.GigId" value="@sub.GigId">
+                                                            <input type="hidden" id="hfReqName_@sub.PosterFullName" value="@sub.PosterFullName">
+                                                            <input type="hidden" id="hfReqId_@sub.JobPosterId" value="@sub.JobPosterId">
+                                                        </div>
+                                                        <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
+                                                            <div class="timeframe_budget_small clearfix">
+                                                                <div class="timeframe_only">
+                                                                    <span class="dash_time_span_label">Purchased on: @sub.SubscribedDateDisplay</span>&nbsp;&nbsp;
+                                                                    <span class="dash_time_span_label">Job completion date: @sub.JobCompletionDateDisplay</span>
+                                                                </div>
+                                                            </div>
+                                                            <h4 class="gig_sub_titleh4">@sub.Title</h4>
+                                                            <div class="readmoretext comment more clearfix">
+                                                                @if (sub.Description.Length > 100)
+                                                                {
+                                                                    html = sub.Description.Substring(0, 100);
+                                                                    h = sub.Description.Substring(100 - 1, sub.Description.Length - 100);
+                                                                }
+                                                                else
+                                                                {
+                                                                    html = sub.Description;
+                                                                }
+
+                                                                @html
+                                                                @if (sub.Description.Length > 100)
+                                                                {
+                                                                    <span class="moreellipses">...&nbsp;</span>
+                                                                    <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="#" class="morelink">Read More</a></span>
+                                                                }
+                                                            </div>
+                                                            <div class="coment_readmore_bgg">
+                                                                <input type="hidden" id="hfbidmessage_@sub.Description" value="@sub.Description">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        @if (Model.GigActiveOrdersList != null && Model.GigActiveOrdersList.Count > 0)
+                                        {
+                                            var first = Model.GigActiveOrdersList.First();
+                                            <div class="border_buttom_only"></div>
+                                            <div class="dash_timeremain_corrent_offer_box_bg clearfix">
+                                                <h4 class="dash_time_corrent_offh3 clearfix">Active Orders</h4>
+                                                @foreach (var sub in Model.GigActiveOrdersList)
+                                                {
+                                                    if (sub.GigSubscriptionId != first.GigSubscriptionId)
+                                                    {
+                                                        <div id="border_buttom_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o border_buttom_only job_details_linewithspace"></div>
+                                                    }
+                                                    <div id="div_offers_accept_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix">
+                                                        <div class="pull-left">
+                                                            <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
+                                                                <div class="client_profile_pic">
+                                                                    <div class="client_profile_pic_1"> <img src="@Url.Content("~/" + sub.PosterProfilePic.ToString().Replace("..", ""))" alt=""> </div>
+                                                                    <i class="profile_pic_star"></i>
+                                                                </div>
+                                                                <a href="@Url.Action("Index", "Profile",new { @id= sub.JobPosterId })">
+                                                                    <div class="client_profile_name">
+                                                                        <h4>@sub.PosterFullName</h4>
+                                                                        <span>@sub.JobsCompleted jobs completed</span>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pull-right dash_time_allmenus">
+                                                            @if (sub.JobId != 0)
+                                                            {
+                                                                <a href="#" onclick="LoadMessages('GigsRequest',@Html.Raw(Json.Encode(Session["UserId"])),'@sub.PosterFullName','',@sub.JobId,'@sub.Title',@sub.JobPosterId)" class="dash_time_right_menu">Send message</a>
+                                                            }
+                                                            @if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A" && sub.JobStatusSeeker != "C")
+                                                            {
+                                                                <a href="#" id="btnComplete" class="dash_time_right_menu decenabled" title="Mark as Complete">Mark as Complete</a>
+                                                            }
+                                                            else if (sub.GigSubscriptionStatus == "A")
+                                                            {
+                                                                <a href="#" id="btnCancel" class="dash_time_right_menu decenabled" title="Cancel Order">Cancel Order</a>
+                                                            }
+                                                            <input type="hidden" id="hfJobId_@sub.JobId" value="@sub.JobId">
+                                                            <input type="hidden" id="hfJobPosterId_@sub.JobId" value="@sub.JobPosterId">
+                                                            <input type="hidden" id="hfJobtitle_@sub.JobId" value="@sub.Title">
+                                                            <input type="hidden" id="hfUserRole_@sub.JobId" value="S">
+                                                            <input type="hidden" id="hfSeekerName_@sub.JobId" value="@Session["FullName"].ToString()">
+                                                            <input type="hidden" id="hfPostername_@sub.JobId" value="@sub.PosterFullName">
+                                                            <input type="hidden" id="hfSeekerId_@sub.JobId" value="@Session["UserId"].ToString()" />
+                                                            <input type="hidden" id="hfGigId_@sub.JobId" value="@sub.GigId">
+                                                            <input type="hidden" id="hfGigSubId_@sub.JobId" value="@sub.GigSubscriptionId">
+                                                        </div>
+                                                        <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
+                                                            <div class="timeframe_budget_small clearfix">
+                                                                <div class="timeframe_only"> <span class="dash_time_span_label">Purchase Date: @sub.PurchasedDateDisplay</span>&nbsp;&nbsp; <span class="dash_time_span_label">Delivery Deadline: @sub.JobCompletionDateDisplay</span> </div>
+                                                            </div>
+                                                            <h4 class="gig_sub_titleh4">@sub.Title</h4>
+                                                            <div class="readmoretext comment more clearfix">
+                                                                @if (sub.Description.Length > 100)
+                                                                {
+                                                                    html = sub.Description.Substring(0, 100);
+                                                                    h = sub.Description.Substring(100 - 1, sub.Description.Length - 100);
+                                                                }
+                                                                else
+                                                                {
+                                                                    html = sub.Description;
+                                                                }
+
+                                                                @html
+                                                                @if (sub.Description.Length > 100)
+                                                                {
+                                                                    <span class="moreellipses">...&nbsp;</span>
+                                                                    <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="#" class="morelink">Read More</a></span>
+                                                                }
+                                                            </div>
+                                                            <div class="coment_readmore_bgg">
+                                                                <input type="hidden" id="hfbidmessage_@sub.Description" value="@sub.Description">
+                                                            </div>
+                                                            <div class="gig_dash_mygig_bu padd_top_10px clearfix">
+                                                                <div class="pull-left gig_dash_admin_pendingbg">
+                                                                    @if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A" && sub.JobStatusSeeker != "C")
+                                                                    {
+                                                                        <div class="pending_box_alert progress_alert">In progress</div>
+                                                                    }
+                                                                    else if (sub.GigSubscriptionStatus == "A")
+                                                                    {
+                                                                        <div class="pending_box_alert panding_alert">Pending Payment</div>
+                                                                    }
+                                                                    else if (sub.GigSubscriptionStatus == "J" && sub.JobStatus == "A" && sub.JobStatusSeeker == "C")
+                                                                    {
+                                                                        <div class="pending_box_alert panding_alert">Pending Client Review</div>
+                                                                    }
+                                                                </div>
+                                                                <div class="pull-right dash_time_allmenus"> </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <input type="hidden" id="hfjobtitle" />
+                                                <input type="hidden" id="hfuserid" />
+                                                <input type="hidden" id="hfrole" />
+                                                <input type="hidden" id="hfseekername" />
+                                                <input type="hidden" id="hfpostername" />
+                                                <input type="hidden" id="hfseekerId" />
+                                                <input type="hidden" id="hfgigSubId" />
+                                            </div>
+                                        }
+                                        @if (Model.GigCompletedOrdersList != null && Model.GigCompletedOrdersList.Count > 0)
+                                        {
+                                            var first = Model.GigCompletedOrdersList.First();
+                                            <div class="border_buttom_only"></div>
+                                            <div class="dash_timeremain_corrent_offer_box_bg clearfix">
+                                                <h4 class="dash_time_corrent_offh3 clearfix">Completed Orders</h4>
+                                                @foreach (var sub in Model.GigCompletedOrdersList)
+                                                {
+                                                    if (sub.GigSubscriptionId != first.GigSubscriptionId)
+                                                    {
+                                                        <div id="border_buttom_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o border_buttom_only job_details_linewithspace"></div>
+                                                    }
+                                                    <div id="div_offers_accept_@sub.GigSubscriptionId" class="col-md-12 padd_left_right_o dash_time_corrent_off_proilebox clearfix">
+                                                        <div class="pull-left">
+                                                            <div class="client_profile_imgname_bg client_profile_imgname_bg_inline clearfix">
+                                                                <div class="client_profile_pic">
+                                                                    <div class="client_profile_pic_1"> <img src="@Url.Content("~/" + sub.PosterProfilePic.ToString().Replace("..", ""))" alt=""> </div>
+                                                                    <i class="profile_pic_star"></i>
+                                                                </div>
+                                                                <a href="/Profile/Index/107">
+                                                                    <div class="client_profile_name">
+                                                                        <h4>@sub.PosterFullName</h4>
+                                                                        <span>@sub.JobsCompleted jobs completed</span>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-xs-12 padd_left_right_o dash_time_corrent_off_message clearfix">
+                                                            <div class="timeframe_budget_small clearfix">
+                                                                <div class="timeframe_only"> <span class="dash_time_span_label">Purchase Date: @sub.PurchasedDateDisplay</span>&nbsp;&nbsp; <span class="dash_time_span_label">Completed Date: @sub.JobCompletionDateDisplay</span> </div>
+                                                            </div>
+                                                            <h4 class="gig_sub_titleh4">@sub.Title</h4>
+                                                            <div class="readmoretext comment more clearfix">
+                                                                @if (sub.Description.Length > 100)
+                                                                {
+                                                                    html = sub.Description.Substring(0, 100);
+                                                                    h = sub.Description.Substring(100 - 1, sub.Description.Length - 100);
+                                                                }
+                                                                else
+                                                                {
+                                                                    html = sub.Description;
+                                                                }
+
+                                                                @html
+                                                                @if (sub.Description.Length > 100)
+                                                                {
+                                                                    <span class="moreellipses">...&nbsp;</span>
+                                                                    <span class="morecontent"><span>@h</span>&nbsp;&nbsp;<a href="#" class="morelink">Read More</a></span>
+                                                                }
+                                                            </div>
+                                                            <div class="coment_readmore_bgg">
+                                                                <input type="hidden" id="hfbidmessage_@sub.Description" value="@sub.Description">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                    <!-- // box-->
+                                    <!--Review section-->
+                                    <div class="col-md-12 gig_review_view_outer">
+                                        <div class="col-md-12 home_user_box_1_bg bg_color_comen padd_left_right_o clearfix">
+                                            <div class="box_paddleftright_15 gig_review_view_mainheading clearfix">
+                                                <a href="javascript:;" class="gig_review_slidebu clearfix" title="View Review">
+                                                    <h4>Review (@Html.Raw(Json.Encode(TempData["ReviewCount"])))</h4>
+                                                    <i class="down-arrow"></i>
+                                                </a>
+                                            </div>
+
+                                            <div id="divjobs" class="gig_review_all_bg clearfix">
+                                                <div class="border_buttom_only job_details_linewithspace"></div>
+                                                @foreach (var item in Model.GigReviewList)
+                                            {
+                                        <div class="box_paddleftright_15 clearfix">
+                                            <div class="client_profile_imgname_bg clearfix">
+                                                <div class="pull-left">
+                                                    <div class="client_profile_pic">
+                                                        <div class="client_profile_pic_1">
+                                                            <img src="@item.ProfilePic" alt="">
+                                                        </div>
+                                                        <i class="profile_pic_star"></i>
+                                                    </div>
+                                                    <div class="client_profile_name">
+                                                        <a href="javascript:;">
+                                                            <h4>@item.FullName</h4>
+                                                        </a>
+                                                        <span>@item.CreatedDateDisplay</span>
+                                                    </div>
+                                                </div><!--pull-left-->
+                                                <div class="pull-right text-right">
+                                                    <div class="company_profile_refedit">
+                                                        <input type="hidden" id="hfgigreviewid_@item.GigReviewId" value="@item.GigReviewId" />
+                                                        <div class="profile_public_banner_rate_only">
+                                                            <ul class="clearfix">
+                                                                @if (item.JobSeekerRatingInt == 1)
+                                                                        {
+                                                                        <li><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        }
+                                                                        else if (item.JobSeekerRatingInt == 2)
+                                                                        {
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        }
+                                                                        else if (item.JobSeekerRatingInt == 3)
+                                                                        {
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        }
+                                                                        else if (item.JobSeekerRatingInt == 4)
+                                                                        {
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li class="star_gray"><i></i></li>
+                                                                        }
+                                                                        else if (item.JobSeekerRatingInt == 5)
+                                                                        {
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        <li><i></i></li>
+                                                                        }
+
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                </div><!--pull-right-->
+                                            </div>
+                                            <div class="col-md-12 home_client_discription_small clearfix">
+                                                <div class="readmoretext more">@item.Review</div>
+
+                                            </div>
+                                        </div><!--box_paddleftright_15-->
+                                            }
+                                                <div id="loadMore">
+                                                    @if (Model.GigReviewList != null && Model.GigReviewList.Count > 0 && Model.GigReviewList[0].Isloadmore == 1)
+                                                {
+                                                <div class="col-md-12 category_loadmore_bg clearfix" id="divloadmore">
+                                                    <a href="javascript:;" class="btn button_all secondary_color_bg" id="btnloadmore">Load more</a>
+                                                </div>
+                                                }
+                                                </div>
+                                            </div><!--gig_review_all_bg-->
+                                        </div>
+
+                                    </div>
+                                </div><!-- //col-md-8-->
+                            }
+
+
+                            @if ((Convert.ToInt32(Session["UserId"]) != Model.UserId) && (Convert.ToInt32(Session["UserId"]) != 0))
+                            {
+                                //if ((Session["UserType"].ToString() != "1"))
+                                //{
+                                <div class="col-md-4 job_detail_right_4">
+
+                                    <div class="col-md-12 bg_color_comen home_top_jobs_bg job_detail_right_bg clearfix">
+                                        <div class="home_top_jobs_heding heading_border_buttom">
+                                            <h2 id="headbid"></h2>
+                                            @Html.Hidden("hdnGigSubscriptionId", @TempData["GigSubscriptionId"], new { @id = "hdnGigSubscriptionId" })
+                                        </div>
+
+                                        <div class="job_detail_bidforjob_form_bg clearfix">
+                                            <div class="form-group clearfix">
+                                                <label for="" class="input_label_style">Give your job a title </label>
+                                                @Html.TextBox("GigTitle", TempData["GigTitle"].ToString(), new { @class = "form-control form_input form_textarea", @name = "GigTitle", @maxlength = "200" })
+                                            </div>
+
+
+                                            <div class="form-group clearfix">
+                                                <label for="" class="input_label_style">Tell us what you are looking for </label>
+                                                @Html.TextArea("bidmessage", TempData["BidMessage"].ToString(), new { @class = "form-control form_input form_textarea", @name = "bidmessage" })
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <label for="" class="input_label_style">Project documents</label>
+
+                                                <div class="demo_container dropzone_bg">
+                                                    <div class="dropzone" id="my-dropzone"></div>
+
+                                                </div>
+                                                @if (Convert.ToInt32(TempData["NoofDocuments"]) > 0)
+                                                {
+                                                    <div class="home_trending_tags job_review_attach clearfix attachments" id="divviewattachment">
+                                                        <a href="#" title="View Attachment" id="view_attachment"><span class="job_tags_textlabel">View Attachment</span></a>
+                                                    </div>
+                                                }
+                                            </div>
+
+                                            <div class="form-group clearfix">
+                                                <label for="" class="input_label_style">When do you need the job completed by? </label>
+                                                <div class='date' id='sandbox-container'>
+                                                    @Html.TextBox("GigCompletionDate", TempData["JobCompletionDateDisplay"], new { @id = "jobcompletionDate", @placeholder = "Enter date", @class = "form-control form_input ", autocomplete = "off", @name = "GigCompletionDate" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group heading_border_buttom clearfix">
+                                                <label for="" class="input_label_style"><span>Service Fees: (</span><span id="BidAmountinDollar">@TempData["GigAmount"]</span><span>)</span></label>
+
+                                                @Html.TextBox("bidamount", "$ " + @TempData["BidAmountinDollar"], new { @readonly = "readonly", @class = "form-control form_input " })
+
+                                                <span id="errorMsg" class="error_span"></span>
+                                                <label class="input_label_style display_block small_fobtsize"><span id="axprfee" class="font_w_700">@TempData["AXPRFeeAmt"]</span><span> AXPR is taken from this and burnt (3% burn)</span></label>
+                                                <label class="input_label_style display_block"><span class="add_job_cost">Your service will cost: <span id="IdtotalBudget" class="font_w_700">@TempData["AXPRFeeTotAmt"]</span> AXPR</span></label>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                @if (TempData["GigSubscriptionStatus"].ToString() == "S")
+                                                {
+                                                    <input type="submit" class="btn btn_banner secondary_color_bg button_fluid button_width100 smothscroll" id="btnsubscribe" />
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- // Top job posters section-->
+                                </div><!-- //col-md-4-->
+                                //}
+
+                            }
+
+                        </div><!-- //row-->
+                    </div>
+                </div>
+                <!--container_inner -->
+            </div>
+            <!--/#container-->
+        </div>
+    *@
 
     <div id="shadowing" class="shadowing_overlay myshadow"></div>
 
@@ -1478,7 +1742,7 @@
             </div>
         </div>
     </div>
-}
+@*}*@
 <script>
     (function() {
 

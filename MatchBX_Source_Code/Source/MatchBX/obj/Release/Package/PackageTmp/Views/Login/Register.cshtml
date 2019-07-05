@@ -485,29 +485,77 @@
     <a href="#" onClick="closebox('register_view_pop_id')" class="popup_close_bg" title="Close"></a>
 </span>
 
-<main XXXid="content" class="middle">
-    @*<figure class="mobile-hide text-center"><img src="http://placehold.it/190x50" alt="Placeholder" width="190" height="50"></figure>*@
-    @*<form action="./" method="post" class="form-a a">*@
+<main class="middle">
     @using (Html.BeginForm("Register", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-a a", role = "form", @id = "frmReg" }))
     {
         @Html.AntiForgeryToken()
-        @*<h1>Register</h1>*@
+
         <ul class="list-social a">
             <li class="fb"><a href="#"><i class="icon-facebook-circle"></i> Register with Facebook</a></li>
             <li class="gl"><a href="#"><i class="icon-google-plus-circle"></i> Register with Google+</a></li>
         </ul>
         <p XXXclass="hr" style="text-align:center"><span>or</span></p>
         <p>
+            <label for="FullName">Full Name</label>
+            <input type="text" id="FullName" name="FullName" class="text-center" maxlength="30" spellcheck="false">
+        </p>
+        <p>
             <label for="Email">Email address</label>
-            <input type="email" id="Email" name="Email" class="text-center" required>
+            <input type="email" id="Email" name="Email" class="text-center" spellcheck="false" maxlength="100" required>
+        </p>
+        <p>
+            <label for="username-name">Please create your username</label>
+            <input type="text" id="UserName" name="UserName" class="text-center" spellcheck="false" maxlength="30">
         </p>
         <p>
             <label for="Password">Password</label>
-            <input type="password" id="Password" name="Password" class="text-center" required>
+            <input type="password" id="Password" name="Password" class="text-center" maxlength="30" required>
         </p>
+        <div id="password_input_bg" class="password_input_bg" style="display: none;">
+            <div class="password_must_contain_bg clearfix">
+                <p>Password must contain</p>
+                <ul>
+                    <li class="letter pass_error_style">
+                        <i class="letter pass_error_style"></i>
+                        <span>
+                            A least
+                            <b>one letter</b>
+                        </span>
+                    </li>
+                    <li class="capital_letter pass_error_style">
+                        <i class="capital_letter pass_error_style"></i>
+                        <span>
+                            A least
+                            <b>one capital letter</b>
+                        </span>
+                    </li>
+                    <li class="number pass_error_style">
+                        <i class="number pass_error_style"></i>
+                        <span>
+                            A least
+                            <b>one number</b>
+                        </span>
+                    </li>
+                    <li class="minlength pass_error_style">
+                        <i class="minlength pass_error_style"></i>
+                        <span>
+                            A least
+                            <b>8 characters</b>
+                        </span>
+                    </li>
+                    <li class="special pass_error_style">
+                        <i class="special pass_error_style"></i>
+                        <span>
+                            A least
+                            <b>one special character</b>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <p class="m20">
             <label for="fac">Referral Code</label>
-            <input type="text" id="fac" name="fac" class="text-center">
+            <input type="text" id="fac" name="fac" class="text-center" spellcheck="false" maxlength="30">
         </p>
 
         <div class="form-group clearfix">
@@ -515,111 +563,15 @@
         </div>
 
         <p class="submit">
-            <button type="submit" id="btnregsumit">Join now</button>
+            <button type="submit" id="btnregsumit">Next step</button>
 
-            <span class="overlay-b m25">Already have an account? <a href="#" class="XXXlink_color_combo popuplogin" title="Login" id="loginmatchbx">Login</a></span>
+            <span class="overlay-b m25">Already have an account? <a href="#" class="popuplogin" title="Login" id="loginmatchbx">Login</a></span>
 
-            <span>By registering you confirm you accept the <br> <a href="./">Terms &amp; Conditions</a> and <a href="./">Privacy Policy</a></span>
+            <span>By registering you confirm you accept the <br> <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a></span>
         </p>
     }
-    @*</form>*@
 </main>
 
-@*
-<div class="col-md-12 pop_container_bg">
-    @Html.AntiForgeryToken()
-    <div class="form-group signup_fb clearfix">
-        <a href="#" class="btn btn-default register_small_button" id="Facebook" name="provider" value="Facebook" title="Sign up with facebook"><img src="~/Content/images/siginup_fb.png" alt=""></a>
-    </div>
-    @using (Html.BeginForm("Register", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "pp", role = "form", @id = "frmReg" }))
-    {
-        @Html.AntiForgeryToken()
-        <div class="form-group clearfix">
-            <label for="first-name" class="input_label_style">Full Name</label>
-            <input type="text" class="form-control form_input" name="FullName" id="FullName" maxlength="30">
-        </div>
-        <div class="form-group clearfix">
-            <label for="email" class="input_label_style">Email Address</label>
-            <input type="email" class="form-control form_input" name="Email" id="Email" maxlength="100">
-        </div>
-        <div class="form-group clearfix">
-            <label for="username-name" class="input_label_style">Please create your username</label>
-            <div class="user_rg_at_bg" id="divusername">
-                <span class="user_rg_at_span"><i class="fa fa-at"></i></span>
-                <input type="text" class="form-control form_input" name="UserName" id="UserName" maxlength="30">
-            </div>
-        </div>
-        <div class="form-group clearfix">
-            <label for="password_id" class="input_label_style">Create your password</label>
-            <input type="password" class="form-control form_input" name="Password" id="Password" maxlength="30">
-            <div id="password_input_bg" class="password_input_bg" style="display: none;">
-                <div class="password_must_contain_bg clearfix">
-                    <p>Password must contain</p>
-                    <ul>
-                        <!-- pass_style
-                        pass_error_style -->
-                        <li class="letter pass_error_style">
-                            <i class="letter pass_error_style"></i>
-                            <span>
-                                A least
-                                <b>one letter</b>
-                            </span>
-                        </li>
-                        <li class="capital_letter pass_error_style">
-                            <i class="capital_letter pass_error_style"></i>
-                            <span>
-                                A least
-                                <b>one capital letter</b>
-                            </span>
-                        </li>
-                        <li class="number pass_error_style">
-                            <i class="number pass_error_style"></i>
-                            <span>
-                                A least
-                                <b>one number</b>
-                            </span>
-                        </li>
-                        <li class="minlength pass_error_style">
-                            <!-- pass_error_style -->
-                            <i class="minlength pass_error_style"></i>
-                            <span>
-                                A least
-                                <b>8 characters</b>
-                            </span>
-                        </li>
-                        <li class="special pass_error_style">
-                            <i class="special pass_error_style"></i>
-                            <span>
-                                A least
-                                <b>one special character</b>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group clearfix">
-            <label class="input_label_style">By clicking the below button, you agree to MatchBX's <a class="link_color_combo" target="_blank" href="https://matchbx.zendesk.com/hc/en-us/articles/360010152433-MatchBX-s-Privacy-Policy">Privacy Policy</a> & <a class="link_color_combo" target="_blank" href="https://matchbx.zendesk.com/hc/en-us/articles/360010037534-MatchBX-Terms-of-Service">Terms & Conditions</a>.</label>
-        </div>
-
-        <div class="form-group clearfix">
-
-            <input type="submit" id="btnregsumit" class="btn btn-default register_small_button secondary_color_bg" title="NEXT STEP" value="NEXT STEP" />
-        </div>
-        <div class="form-group register_small_already_reg clearfix">
-            <p>
-                Already a member?
-
-                <a href="#" class="link_color_combo popuplogin" title="Login" id="loginmatchbx">Login</a>
-            </p>
-        </div>
-        <div class="form-group clearfix">
-            <span id="errorMsg" class="error_span"> </span>
-        </div>
-    }
-</div>
-*@
 <script type="text/javascript">
 
     $(document).ready(function () {

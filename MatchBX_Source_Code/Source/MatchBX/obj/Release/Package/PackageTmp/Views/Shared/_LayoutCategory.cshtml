@@ -1,5 +1,14 @@
 ﻿<!DOCTYPE html>
-<html lang="en" dir="ltr" class="theme-home">
+@{
+    string controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
+    string action = HttpContext.Current.Request.RequestContext.RouteData.Values["Action"].ToString();
+    string theme = controller == "Profile" || controller == "Gigs" ? "theme-a" : "theme-home";
+}
+@*
+<p>@controller</p>
+<p>@action</p>
+*@
+<html lang="en" dir="ltr" class="@theme">
 <head>
     <title>MatchBX</title>
     <meta charset="utf-8">
@@ -53,6 +62,53 @@
     <meta name="twitter:image" content="">
 
     <style>
+        .profile_public_banner_profileimage {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .profile_public_imgname_bg {
+            display: block;
+            margin: 5px 0;
+        }
+
+        .profile_public_pic {
+            display: inline-block;
+            position: relative;
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .profile_public_pic_1 {
+            display: inline-block;
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #fff;
+            -webkit-box-shadow: 3px 3px 10px -1px rgba(0,0,0,0.63);
+            -moz-box-shadow: 3px 3px 10px -1px rgba(0,0,0,0.63);
+            box-shadow: 3px 3px 10px -1px rgba(0,0,0,0.63);
+        }
+
+        i.profile_public_pic_star {
+            position: absolute;
+            z-index: 2;
+            right: 0;
+            bottom: 0;
+            margin-right: 10px;
+            margin-bottom: 3px;
+            width: 28px;
+            height: 28px;
+            background: url(../../images/profile_pic_star.png) no-repeat center;
+            background-size: 28px 28px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+        }
+
         .client_profile_pic {
             display: inline-block;
             position: relative;
@@ -98,10 +154,11 @@
         a.myjob:hover {
             text-decoration: none;
         }
-
+        /*
         p {
             color: #555555;
         }
+        */
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -131,7 +188,7 @@
 
             $("#ulcategory").on('click','a',function(){
                 debugger;
-                var _id=$(this).prop("id");
+                var _id = $(this).prop("id");
                 //if(_id!="")
                 //{
 
@@ -149,12 +206,11 @@
                     setCategoryAndLoad('J', 'job', '');
                 }
                 else if(_id=="view_gigs")
-                {  debugger;
-
+                {
+                    debugger;
                     //window.location.href="/Gigs/search";
                     setCategoryAndLoad('G', 'gig', '');
                 }
-
             })
 
             $("#ulcategoryfooter").on('click','a',function(){
@@ -259,7 +315,6 @@
 </head>
 <body>
     <div id="root">
-
         <header id="top">
             <p id="logo"><a href="./" accesskey="h">MatchBX</a> <span>Hire freelancers, pay in cryptocurrency</span></p>
             <nav id="skip">
@@ -293,16 +348,6 @@
                 </ul>
             </nav>
         </header>
-
-        @{
-            string controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
-            string action = HttpContext.Current.Request.RequestContext.RouteData.Values["Action"].ToString();
-        }
-        @*
-        <p>@controller</p>
-        <p>@action</p>
-        *@
-        @*<main id="content">*@
         @if ((controller == "Jobs" && action == "Index") || (controller == "Gigs" && action == "Search"))
         {
             @*
@@ -332,6 +377,7 @@
         }
         else if ((controller == "Jobs" && action == "Details") || (controller == "Gigs" && action == "Details"))
         {
+            @*
             <div class="top_heading_section">
                 <div class="container">
                     <div class="container_inner">
@@ -339,10 +385,6 @@
                             <div class="col-md-8 text-left">
                                 <h2><span>@Session["JobCategoryHeader"]</span></h2>
                             </div>
-                            @*<div id="" class="matchbx_topsection clearfix text-center">
-                                <h2 id="divcategory">&nbsp;&nbsp;&nbsp; </h2>
-                                <h3>Complete jobs to earn AXPR, or post a job and have great freelancers come to you</h3>
-                            </div>*@
                             <div class="col-md-4 text-right">
                                 @if ((Convert.ToInt32(Session["UserId"]) != 0))
                                 {
@@ -356,9 +398,33 @@
                     </div><!--container_inner-->
                 </div>
             </div>
+            *@
+            <nav id="nav" aria-label="Navigation">
+                <ul>
+                    <li><a href="#"><i class="icon-dashboard"></i> <span class="hidden">Dashboard</span></a></li>
+                    <li class="active"><a accesskey="1" href="#"><i class="icon-zoom"></i> <span class="hidden">Search</span></a> <em>(1)</em></li>
+                    <li><a accesskey="2" href="#"><i class="icon-plus-circle"></i> <span class="hidden">Add</span></a> <em>(2)</em></li>
+                    <li><a accesskey="3" href="#"><i class="icon-cup"></i> <span class="hidden">Awards</span></a> <em>(3)</em></li>
+                    <li><a accesskey="4" href="#"><i class="icon-user"></i> <span class="hidden">Profile</span></a> <em>(4)</em></li>
+                    <li><a accesskey="5" href="#"><i class="icon-cog"></i> <span class="hidden">Settings</span></a> <em>(5)</em></li>
+                    <li><a accesskey="6" href="#"><i class="icon-flag"></i> <span class="hidden">Notifications</span></a> <em>(6)</em></li>
+                </ul>
+            </nav>
         }
         else if (controller == "Profile")
         {
+            <nav id="nav" aria-label="Navigation">
+                <ul>
+                    <li><a href="#"><i class="icon-dashboard"></i> <span class="hidden">Dashboard</span></a></li>
+                    <li class="active"><a accesskey="1" href="#"><i class="icon-zoom"></i> <span class="hidden">Search</span></a> <em>(1)</em></li>
+                    <li><a accesskey="2" href="#"><i class="icon-plus-circle"></i> <span class="hidden">Add</span></a> <em>(2)</em></li>
+                    <li><a accesskey="3" href="#"><i class="icon-cup"></i> <span class="hidden">Awards</span></a> <em>(3)</em></li>
+                    <li><a accesskey="4" href="#"><i class="icon-user"></i> <span class="hidden">Profile</span></a> <em>(4)</em></li>
+                    <li><a accesskey="5" href="#"><i class="icon-cog"></i> <span class="hidden">Settings</span></a> <em>(5)</em></li>
+                    <li><a accesskey="6" href="#"><i class="icon-flag"></i> <span class="hidden">Notifications</span></a> <em>(6)</em></li>
+                </ul>
+            </nav>
+            @*
             <div class="top_heading_section">
                 <div class="container">
                     <div class="container_inner">
@@ -404,7 +470,6 @@
                                                 </span>
                                             </h1>
                                         }
-
                                         <p>@Model.Profile.Bio</p>
                                         <div class="profile_public_banner_memberrate clearfix">
                                             <div class="profile_public_banner_member_only"><span>MEMBER NO: </span>&nbsp;<span>@String.Concat(1000 + Convert.ToInt32(Session["MemberNo"]))</span></div>
@@ -429,7 +494,6 @@
                                                             <li class="star_gray"><i></i></li>
                                                             <li class="star_gray"><i></i></li>
                                                         }
-
                                                     }
                                                     else if (@TempData["RatingWhole"].ToString() == "2")
                                                     {
@@ -440,7 +504,6 @@
                                                             <li class="half_star"><i></i></li>
                                                             <li class="star_gray"><i></i></li>
                                                             <li class="star_gray"><i></i></li>
-
                                                         }
                                                         else
                                                         {
@@ -460,7 +523,6 @@
                                                             <li><i></i></li>
                                                             <li class="half_star"><i></i></li>
                                                             <li class="star_gray"><i></i></li>
-
                                                         }
                                                         else
                                                         {
@@ -480,8 +542,6 @@
                                                             <li><i></i></li>
                                                             <li><i></i></li>
                                                             <li class="half_star"><i></i></li>
-
-
                                                         }
                                                         else
                                                         {
@@ -509,8 +569,6 @@
                                                             <li class="star_gray"><i></i></li>
                                                             <li class="star_gray"><i></i></li>
                                                             <li class="star_gray"><i></i></li>
-
-
                                                         }
                                                         else
                                                         {
@@ -521,7 +579,6 @@
                                                             <li class="star_gray"><i></i></li>
                                                         }
                                                     }
-
                                                 </ul>
                                             </div>
                                         </div>
@@ -533,26 +590,18 @@
                                 {
                                     <a href="#" class="btn button_all secondary_color_bg">SEND MESSAGE</a>
                                 }
-
                             </div>
                         </div>
                     </div><!--container_inner-->
-
                 </div>
-            </div>
+            </div>*@
         }
         @if ((controller == "Jobs" && action == "Details") || (controller == "Profile" && action == "Index"))
         {
             @RenderBody()
-            @*Scripts.Render("~/bundles/jqueryval")*@
         }
         else
         {
-            @*
-            <div class="largebox_content_containerbg" style="background-color:red">
-                <div class="container">
-                    <div class="container_inner middile_con_inner_bg clearfix">
-            *@
             if (controller == "Category")
             {
                 <div class="col-md-12 catagory_con_top_bg clearfix">
@@ -578,7 +627,6 @@
                                     <select class="form-control" id="ddlpaid">
                                         <option value="H">Highest paid</option>
                                         <option value="N">Newest</option>
-
                                     </select>
                                 </div>
                             </div>
@@ -589,17 +637,8 @@
                     </div>
                 </div>
             }
-            @*<div class="col-md-12 con_8_4_outer_bg clearfix">*@
             @RenderBody()
-            @*Scripts.Render("~/bundles/jqueryval")*@
-            @*</div>*@
-            @*
-                    </div>
-                </div>
-            </div>
-            *@
         }
-        @*</main>*@
 
         <footer id="footer">
             <nav>
@@ -908,7 +947,7 @@
     <!--End of Tawk.to Script-->
 
     <script>
-        //alert('2-->' + $);
+                //alert('2-->' + $);
     </script>
 
     <script defer src="~/javascript/scripts.js"></script>

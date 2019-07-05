@@ -517,248 +517,275 @@
 
 </script>
 
-<header>
-    <div class="module-profile" style="background:red">
-        <div>
-            <figure><img src="http://placehold.it/110" alt="Placeholder" width="110" height="110"></figure>
-            <h1>Satoshi Nakamoto <span><i class="icon-badge-check overlay-e"></i>Prime Member</span></h1>
-            <p>23 completed transactions</p>
-            <p class="rating-a" data-val="4.5" data-of="5">4.5</p>
-        </div>
-        <hr>
-        <h2>Description:</h2>
-        <p>I am looking for e-commerce developer who can develop and design attractive website. etc</p>
-        <hr>
-        <p class="link-btn small">
-            <a class="a" href="./">Read Reviews</a>
-            <a class="b" href="./">Portfolio</a>
-        </p>
-        <hr>
-        <ul class="list-col">
-            <li>Freelancer Ranking: <span>#10</span></li>
-            <li>Employer Ranking: <span>#59</span></li>
-        </ul>
-        <hr>
-        <h2>Special Skills:</h2>
-        <ul class="list-double">
-            <li>PHP</li>
-            <li>Java</li>
-            <li>Magento</li>
-            <li>HTML5</li>
-            <li>Ajax Development</li>
-            <li>Others</li>
-        </ul>
-        <hr>
-        <p class="link-btn">
-            <a class="overlay-g" href="./">Message Freelancer</a>
-            <a class="overlay-k" href="./">Invite to Work</a>
-        </p>
-    </div>
-</header>
-<div class="tabs-a">
-    <nav>
-        <ul>
-            <li><a href="./">All Listings</a></li>
-            <li><a href="./">All Jobs</a></li>
-            <li><a href="./">All Services</a></li>
-        </ul>
-    </nav>
-    <div>
-        <div>
-            <form action="./" method="post" class="form-sort">
-                <p>
-                    <label for="taa" class="hidden">Sort by</label>
-                    <select id="taa" name="taa">
-                        <option value="./">Newest first</option>
-                        <option value="./">Position #1</option>
-                        <option value="./">Position #2</option>
-                        <option value="./">Position #3</option>
-                        <option value="./">Position #4</option>
-                        <option value="./">Position #5</option>
-                    </select>
+<main id="content" class="cols">
+    <header>
+        <div class="module-profile">
+
+            @if (Model.Profile != null)
+            {
+                string headername = @Model.Profile.FullName == null || @Model.Profile.FullName == "" ?
+                                    @Model.Profile.UserName :
+                                    Model.Profile.FullName;
+
+                string rating = TempData["RatingWhole"].ToString() + "." + TempData["RatingFraction"].ToString();
+
+                <div>
+                    <figure>
+                        @*
+                    <div class="profile_public_banner_profileimage">
+                        <div class="profile_public_imgname_bg clearfix">
+                            <div class="profile_public_pic">
+                                <div class="profile_public_pic_1">
+                        *@
+                        @if (Model.Profile != null)
+                        {
+                            <img src="@Model.Profile.ProfilePic" alt="Placeholder" width="110" height="110">
+                        }
+                        @*
+                                </div>
+                                <i class="profile_public_pic_star"></i>
+                            </div>
+                        </div>
+                    </div>
+                        *@
+                    </figure>
+                    <h1>@headername <span><i class="icon-badge-check overlay-e"></i>Prime Member</span></h1>
+                    @*
+                    if (Model.Profile.UserType == 1)
+                    {
+                    <ul class="nav nav-tabs">
+                        <li class="active" id="licompleted">
+                            <a data-toggle="tab" href="#completed_jobs" aria-expanded="true" id="completedjobcount">
+                                Total completed jobs
+                                @if (Model.CompletedJobCount != null)
+                                {<span id="spcc">(@Model.CompletedJobCount)</span>}
+                            else
+                            {<span id="spcc">(0)</span>}
+                            </a>
+                        </li>
+                        <li class="" id="ligigs">
+                            <a data-toggle="tab" href="#Listed_gigs" aria-expanded="false">
+                                Listed services
+                                @if (Model.ListedGigCount != null)
+                                {<span id="splg">(@Model.ListedGigCount)</span>}
+                            else
+                            {<span id="splg">(0)</span>}
+                            </a>
+                        </li>
+                    </ul>
+                    *@
+                    <p>@Model.CompletedJobCount completed jobs</p>
+                    <p class="rating-a" data-val="@rating" data-of="5">@rating</p>
+                </div>
+                <hr>
+                <h2>Description:</h2>
+                <p>@Model.Profile.Bio</p>
+                <hr>
+                <p class="link-btn small">
+                    <a class="a" href="./">Read Reviews</a>
+                    <a class="b" href="./">Portfolio</a>
                 </p>
-            </form>
-            <ul class="list-post">
-                <li>
-                    <h2><a href="./">Looking for professional translation of MatchBX.io</a></h2>
-                    <p>We're looking for professional translators to help us translate MatchBX into several new languages...</p>
-                    <ul class="list-icon">
-                        <li class="price">25,000 <span class="small">AXPR</span> <span>$180.25</span></li>
-                        <li><i class="icon-time"></i> 17 days remaining</li>
-                        <li><i class="icon-upload"></i> 2 submissions</li>
-                        <li><i class="icon-bulb"></i> Intermediate</li>
-                        <li><i class="icon-list"></i> Writing</li>
-                    </ul>
-                    <div class="module-author">
-                        <figure><img src="http://placehold.it/46" alt="Placeholder" width="46" height="46"></figure>
-                        <h3>aXpire <span>23 completed transactions</span></h3>
-                        <ul>
-                            <li><i class="icon-badge-check"></i> Administrator</li>
-                            <li class="rating-a" data-val="4.5" data-of="5">4.5</li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <h2><a href="./">Looking for professional translation of MatchBX.io</a></h2>
-                    <p>We're looking for professional translators to help us translate MatchBX into several new languages...</p>
-                    <ul class="list-icon">
-                        <li class="price">25,000 <span class="small">AXPR</span> <span>$180.25</span></li>
-                        <li><i class="icon-time"></i> 17 days remaining</li>
-                        <li><i class="icon-upload"></i> 2 submissions</li>
-                        <li><i class="icon-bulb"></i> Intermediate</li>
-                        <li><i class="icon-list"></i> Writing</li>
-                    </ul>
-                    <div class="module-author">
-                        <figure><img src="http://placehold.it/46" alt="Placeholder" width="46" height="46"></figure>
-                        <h3>aXpire <span>23 completed transactions</span></h3>
-                        <ul>
-                            <li><i class="icon-badge-check overlay-c"></i> Administrator</li>
-                            <li class="rating-a" data-val="4.5" data-of="5">4.5</li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <h2><a href="./">Looking for professional translation of MatchBX.io</a></h2>
-                    <p>We're looking for professional translators to help us translate MatchBX into several new languages...</p>
-                    <ul class="list-icon">
-                        <li class="price">25,000 <span class="small">AXPR</span> <span>$180.25</span></li>
-                        <li><i class="icon-time"></i> 17 days remaining</li>
-                        <li><i class="icon-upload"></i> 2 submissions</li>
-                        <li><i class="icon-bulb"></i> Intermediate</li>
-                        <li><i class="icon-list"></i> Writing</li>
-                    </ul>
-                    <div class="module-author">
-                        <figure><img src="http://placehold.it/46" alt="Placeholder" width="46" height="46"></figure>
-                        <h3>aXpire <span>23 completed transactions</span></h3>
-                        <ul>
-                            <li><i class="icon-badge-check overlay-d"></i> Administrator</li>
-                            <li class="rating-a" data-val="4.5" data-of="5">4.5</li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <h2><a href="./">Looking for professional translation of MatchBX.io</a></h2>
-                    <p>We're looking for professional translators to help us translate MatchBX into several new languages...</p>
-                    <ul class="list-icon">
-                        <li class="price">25,000 <span class="small">AXPR</span> <span>$180.25</span></li>
-                        <li><i class="icon-time"></i> 17 days remaining</li>
-                        <li><i class="icon-upload"></i> 2 submissions</li>
-                        <li><i class="icon-bulb"></i> Intermediate</li>
-                        <li><i class="icon-list"></i> Writing</li>
-                    </ul>
-                    <div class="module-author">
-                        <figure><img src="http://placehold.it/46" alt="Placeholder" width="46" height="46"></figure>
-                        <h3>aXpire <span>23 completed transactions</span></h3>
-                        <ul>
-                            <li><i class="icon-badge-check overlay-e"></i> Administrator</li>
-                            <li class="rating-a" data-val="4.5" data-of="5">4.5</li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <h2><a href="./">Looking for professional translation of MatchBX.io</a></h2>
-                    <p>We're looking for professional translators to help us translate MatchBX into several new languages...</p>
-                    <ul class="list-icon">
-                        <li class="price">25,000 <span class="small">AXPR</span> <span>$180.25</span></li>
-                        <li><i class="icon-time"></i> 17 days remaining</li>
-                        <li><i class="icon-upload"></i> 2 submissions</li>
-                        <li><i class="icon-bulb"></i> Intermediate</li>
-                        <li><i class="icon-list"></i> Writing</li>
-                    </ul>
-                    <div class="module-author">
-                        <figure><img src="http://placehold.it/46" alt="Placeholder" width="46" height="46"></figure>
-                        <h3>aXpire <span>23 completed transactions</span></h3>
-                        <ul>
-                            <li><i class="icon-badge-check overlay-f"></i> Administrator</li>
-                            <li class="rating-a" data-val="4.5" data-of="5">4.5</li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <h2><a href="./">Looking for professional translation of MatchBX.io</a></h2>
-                    <p>We're looking for professional translators to help us translate MatchBX into several new languages...</p>
-                    <ul class="list-icon">
-                        <li class="price">25,000 <span class="small">AXPR</span> <span>$180.25</span></li>
-                        <li><i class="icon-time"></i> 17 days remaining</li>
-                        <li><i class="icon-upload"></i> 2 submissions</li>
-                        <li><i class="icon-bulb"></i> Intermediate</li>
-                        <li><i class="icon-list"></i> Writing</li>
-                    </ul>
-                    <div class="module-author">
-                        <figure><img src="http://placehold.it/46" alt="Placeholder" width="46" height="46"></figure>
-                        <h3>aXpire <span>23 completed transactions</span></h3>
-                        <ul>
-                            <li><i class="icon-badge-check"></i> Administrator</li>
-                            <li class="rating-a" data-val="4.5" data-of="5">4.5</li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <h2><a href="./">Looking for professional translation of MatchBX.io</a></h2>
-                    <p>We're looking for professional translators to help us translate MatchBX into several new languages...</p>
-                    <ul class="list-icon">
-                        <li class="price">25,000 <span class="small">AXPR</span> <span>$180.25</span></li>
-                        <li><i class="icon-time"></i> 17 days remaining</li>
-                        <li><i class="icon-upload"></i> 2 submissions</li>
-                        <li><i class="icon-bulb"></i> Intermediate</li>
-                        <li><i class="icon-list"></i> Writing</li>
-                    </ul>
-                    <div class="module-author">
-                        <figure><img src="http://placehold.it/46" alt="Placeholder" width="46" height="46"></figure>
-                        <h3>aXpire <span>23 completed transactions</span></h3>
-                        <ul>
-                            <li><i class="icon-badge-check"></i> Administrator</li>
-                            <li class="rating-a" data-val="4.5" data-of="5">4.5</li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <h2><a href="./">Looking for professional translation of MatchBX.io</a></h2>
-                    <p>We're looking for professional translators to help us translate MatchBX into several new languages...</p>
-                    <ul class="list-icon">
-                        <li class="price">25,000 <span class="small">AXPR</span> <span>$180.25</span></li>
-                        <li><i class="icon-time"></i> 17 days remaining</li>
-                        <li><i class="icon-upload"></i> 2 submissions</li>
-                        <li><i class="icon-bulb"></i> Intermediate</li>
-                        <li><i class="icon-list"></i> Writing</li>
-                    </ul>
-                    <div class="module-author">
-                        <figure><img src="http://placehold.it/46" alt="Placeholder" width="46" height="46"></figure>
-                        <h3>aXpire <span>23 completed transactions</span></h3>
-                        <ul>
-                            <li><i class="icon-badge-check"></i> Administrator</li>
-                            <li class="rating-a" data-val="4.5" data-of="5">4.5</li>
-                        </ul>
-                    </div>
-                </li>
+                <hr>
+                <ul class="list-col">
+                    <li>Freelancer Ranking: <span>#10</span></li>
+                    <li>Employer Ranking: <span>#59</span></li>
+                </ul>
+                <hr>
+                <h2>Special Skills:</h2>
+                @*
+                <ul class="list-double">
+                    @if (Model.UserSkill != null)
+                    {
+                        if (Model.UserSkill.Count > 1)
+                        {
+                            foreach (var result in Model.UserSkill)
+                            {
+                                if (Model.UserSkill.IndexOf(result) == Model.UserSkill.Count - 1)
+                                {
+                                    <li><a href="#" id="@result.SkillsId"> @result.Description</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="#" id="@result.SkillsId"> @result.Description,</a></li>
+                                }
+                            }
+                        }
+                        else if (Model.UserSkill.Count == 1)
+                        {
+                            foreach (var result in Model.UserSkill)
+                            {
+                                <li><a href="#" id="@result.SkillsId">@result.Description</a></li>
+                            }
+                        }
+                    }
+                </ul>
+                *@
+                <div style="font-size:16px">
+                    @if (Model.UserSkill != null)
+                    {
+                        if (Model.UserSkill.Count > 1)
+                        {
+                            foreach (var result in Model.UserSkill)
+                            {
+                                if (Model.UserSkill.IndexOf(result) == Model.UserSkill.Count - 1)
+                                {
+                                    <a href="#" id="@result.SkillsId">@result.Description</a>
+                                }
+                                else
+                                {
+                                    <a href="#" id="@result.SkillsId">@result.Description,</a>
+                                }
+                            }
+                        }
+                        else if (Model.UserSkill.Count == 1)
+                        {
+                            foreach (var result in Model.UserSkill)
+                            {
+                                <a href="#" id="@result.SkillsId">@result.Description</a>
+                            }
+                        }
+                    }
+                </div>
+                <hr>
+                <p class="link-btn">
+                    <a class="overlay-g" href="#">Message Freelancer</a>
+                    <a class="overlay-k" href="#">Invite to Work</a>
+                </p>
+            }
+        </div>
+    </header>
+    <div class="tabs-a">
+        <nav>
+            <ul>
+                <li><a href="#">All Listings</a></li>
+                <li><a href="#">All Jobs</a></li>
+                <li><a href="#">All Services</a></li>
             </ul>
-            <nav class="nav-pagination">
-                <ol>
-                    <li class="prev"><a href="./">Prev</a></li>
-                    <li class="active"><a href="./">1</a></li>
-                    <li><a href="./">2</a></li>
-                    <li><a href="./">3</a></li>
-                    <li><a href="./">4</a></li>
-                    <li><a href="./">5</a></li>
-                    <li><a href="./">6</a></li>
-                    <li><a href="./">7</a></li>
-                    <li><a href="./">8</a></li>
-                    <li><a href="./">9</a></li>
-                    <li class="next"><a href="./">Next</a></li>
-                </ol>
-                <p class="link-btn"><a href="./">Load more</a></p>
-            </nav>
-        </div>
+        </nav>
         <div>
-            <p>Content for "All Jobs" tab...</p>
-        </div>
-        <div>
-            <p>Content for "All Services" tab...</p>
+            <div>
+                <form action="#" method="post" class="form-sort">
+                    <p>
+                        <label for="taa" class="hidden">Sort by</label>
+                        <select id="taa" name="taa">
+                            <option value="./">Newest first</option>
+                            <option value="./">Position #1</option>
+                            <option value="./">Position #2</option>
+                            <option value="./">Position #3</option>
+                            <option value="./">Position #4</option>
+                            <option value="./">Position #5</option>
+                        </select>
+                    </p>
+                </form>
+
+                <div id="divAllListings">&nbsp;</div>
+
+            </div>
+
+            <div>
+                <form action="#" method="post" class="form-sort">
+                    <p>
+                        <label for="taa" class="hidden">Sort by</label>
+                        <select id="taa" name="taa">
+                            <option value="./">Newest first</option>
+                            <option value="./">Position #1</option>
+                            <option value="./">Position #2</option>
+                            <option value="./">Position #3</option>
+                            <option value="./">Position #4</option>
+                            <option value="./">Position #5</option>
+                        </select>
+                    </p>
+                </form>
+
+                <div id="divAllJobs">&nbsp;</div>
+
+            </div>
+
+            <div>
+                <form action="#" method="post" class="form-sort">
+                    <p>
+                        <label for="taa" class="hidden">Sort by</label>
+                        <select id="taa" name="taa">
+                            <option value="./">Newest first</option>
+                            <option value="./">Position #1</option>
+                            <option value="./">Position #2</option>
+                            <option value="./">Position #3</option>
+                            <option value="./">Position #4</option>
+                            <option value="./">Position #5</option>
+                        </select>
+                    </p>
+                </form>
+
+                <div id="divAllServices">&nbsp;</div>
+
+            </div>
+
         </div>
     </div>
-</div>
+</main>
 
+<script>
 
+    $("document").ready(function () {
 
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("JobsListed", "Dashboard")',
+            data: "{ }",
+            success: function (response) {
 
+                $("#divAllListings").html(response)
+            },
+            error: function (jqXHR, exception) {
 
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+
+    });
+
+    $("document").ready(function () {
+
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("LoadMyJobs", "Dashboard")',
+            data: "{ }",
+            success: function (response) {
+
+                $("#divAllJobs").html(response)
+            },
+            error: function (jqXHR, exception) {
+
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+
+    });
+
+    $("document").ready(function () {
+
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("LoadMyServices", "Dashboard")',
+            data: "{ }",
+            success: function (response) {
+
+                console.log(response);
+
+                $("#divAllServices").html(response)
+            },
+            error: function (jqXHR, exception) {
+
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+
+    });
+
+</script>

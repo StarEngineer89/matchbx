@@ -54,12 +54,14 @@ namespace MatchBX.Controllers
         Gig objGig = new Gig();
         GigModel objGigMod = new GigModel();
 
+        /*
         int _RecordDisplay = 5;
         int _TotalRecord = 0;
         int _loadmore = 0;
         string category = string.Empty;
-
+        */
         [NoCache]
+        /*
         public ActionResult Index(int? id)
         {
             if (Session["IsEmailAlready"] != null)
@@ -192,10 +194,10 @@ namespace MatchBX.Controllers
 
             return strMetaTag.ToString();
         }
-
+        */
 
         [SessionExpire]
-        public ActionResult XXXIndex()
+        public ActionResult Index()
         {
            
             Session["JobCategoryId"] = 0;
@@ -2347,7 +2349,7 @@ namespace MatchBX.Controllers
             }
         }
 
-
+        /*
         [NonAction]
         public void GetCategory()
         {
@@ -2389,6 +2391,6 @@ namespace MatchBX.Controllers
 
 
         }
-
+        */
     }
 }

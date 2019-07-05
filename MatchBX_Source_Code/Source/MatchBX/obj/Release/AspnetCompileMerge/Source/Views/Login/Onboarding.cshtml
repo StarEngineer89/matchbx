@@ -3,35 +3,61 @@
     ViewBag.Title = "Onboarding";
     Layout = null;
 }
-
-
-
+@*
 <span id="" class="col-md-12 popup_box_title clearfix">
     What would you like to do?
-    
-
-    @*<a href="#" onclick="closebox('onboarding_view_pop_id')" class="popup_close_bg" title="Close"></a>*@
 </span>
-    <div class="col-md-12 pop_container_bg">
-        <div class="form-group clearfix">
-            <label for="email" class="input_label_style">What do you want to do?</label>
-            <select id="usrType" class="form-control form_input">
+<div class="col-md-12 pop_container_bg">
+    <div class="form-group clearfix">
+        <label for="email" class="input_label_style">What do you want to do?</label>
+        <select id="usrType" class="form-control form_input">
+            <option value="0" selected="">Select an option</option>
+            <option value="1">Get hired</option>
+            <option value="2">Post a job</option>
+            <option value="3">Get hired and post a job</option>
+        </select>
+        <span id="validType" class="error_span" style="display: none;"> </span>
+    </div>
+
+    <div class="form-group clearfix">
+        <input type="button" id="nxtStep" class="btn btn-default register_small_button secondary_color_bg" title="NEXT STEP" value="NEXT STEP" />
+    </div>
+    <div class="form-group clearfix" div="divmsg" style="display:none;">
+        <span id="errorMsg" class="error_span"> </span>
+    </div>
+</div>
+*@
+
+<main class="middle">
+
+    <span id="" class="col-md-12 popup_box_title clearfix">
+        What would you like to do?
+        @*<a href="#" onclick="closebox('onboarding_view_pop_id')" class="popup_close_bg" title="Close"></a>*@
+    </span>
+
+    <div class="container">
+        <p>
+            @*<label for="email" class="input_label_style">What do you want to do?</label>*@
+            <select id="usrType" XXXclass="form-control form_input">
                 <option value="0" selected="">Select an option</option>
                 <option value="1">Get hired</option>
                 <option value="2">Post a job</option>
                 <option value="3">Get hired and post a job</option>
-            </select>
-            <span id="validType" class="error_span" style="display: none;"> </span>
-        </div>
+            </select>            
+            <span id="validType" class="error_span" style="display: none; padding-left:20px"> </span>
+        </p>
 
-        <div class="form-group clearfix">
-            <input type="button" id="nxtStep" class="btn btn-default register_small_button secondary_color_bg" title="NEXT STEP" value="NEXT STEP" />
-        </div>
         <div class="form-group clearfix" div="divmsg" style="display:none;">
             <span id="errorMsg" class="error_span"> </span>
         </div>
+
+        <p class="submit">
+            <button id="nxtStep" title="Next step">NEXT STEP</button>
+            @*<input type="button" id="nxtStep" XXXclass="btn btn-default register_small_button secondary_color_bg" title="NEXT STEP" value="NEXT STEP" />*@
+        </p>
     </div>
 
+</main>
 
 <script>
     $(document).ready(function () {        

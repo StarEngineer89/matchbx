@@ -57,7 +57,6 @@ namespace MatchBX.Controllers
                 var setupinfo = tfa.GenerateSetupCode("MatchBX-" + Session["email"], useruniquekey, 280, 280);
                 ViewBag.qrcode = setupinfo.QrCodeSetupImageUrl;
                 ViewBag.manualcode = setupinfo.ManualEntryKey;
-
             }
             
             objProfile = objProfileMod.LoadUserProfile(userid).FirstOrDefault();
@@ -97,7 +96,6 @@ namespace MatchBX.Controllers
             string userskilllist = "";
             foreach(var item in objUserSkillList)
             {
-
                 if (objUserSkillList.IndexOf(item) == objUserSkillList.Count - 1)
                 {
                     userskilllist += item.Description;

@@ -56,7 +56,14 @@
     }
     else if(controller=="home")
     {
-        cLayout = "~/Views/Shared/_LayoutProfile.cshtml";
+        if (UserId == 0)
+        {
+            cLayout = "~/Views/Shared/_LayoutCategory.cshtml";
+        }
+        else
+        {
+            cLayout = "~/Views/Shared/_LayoutProfile.cshtml";
+        }
     }
     else if (controller == "admin")
     {

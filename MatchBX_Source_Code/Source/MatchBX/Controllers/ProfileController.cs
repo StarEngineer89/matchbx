@@ -295,6 +295,19 @@ namespace MatchBX.Controllers
             
             return Json(message, JsonRequestBehavior.AllowGet);
         }
+        [NoCache]
+        //[SessionExpire]
+        public ActionResult CryptoExchange(int? id)
+        {
+            return View();
+        }
+
+        [NoCache]
+        //[SessionExpire]
+        public ActionResult Arbitration(int? id)
+        {
+            return View();
+        }
 
     }
 }

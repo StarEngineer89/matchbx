@@ -1,0 +1,69 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Arbitration";
+    //Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+    Layout = Layout;
+}
+
+    <main id="content" class="middle">
+        <figure class="mobile-hide text-center"><img src="http://placehold.it/190x50" alt="Placeholder" width="190" height="50"></figure>
+        <form action="./" method="post" class="form-a">
+            <h1>Arbitration</h1>
+            <p>
+                <label for="faa">Select relevan job</label>
+                <select id="faa" name="faa">
+                    <option value="./" selected>Looking for a logo</option>
+                    <option value="./">Position #2</option>
+                    <option value="./">Position #3</option>
+                    <option value="./">Position #4</option>
+                    <option value="./">Position #5</option>
+                </select>
+            </p>
+            <p>
+                <label for="fab">Select Issue</label>
+                <select id="fab" name="fab">
+                    <option value="./" selected>Deadline missed</option>
+                    <option value="./">Position #2</option>
+                    <option value="./">Position #3</option>
+                    <option value="./">Position #4</option>
+                    <option value="./">Position #5</option>
+                </select>
+            </p>
+            <p>
+                <label for="fac">Select desired outcome</label>
+                <select id="fac" name="fac">
+                    <option value="./" selected>100% refund</option>
+                    <option value="./">Position #2</option>
+                    <option value="./">Position #3</option>
+                    <option value="./">Position #4</option>
+                    <option value="./">Position #5</option>
+                </select>
+            </p>
+            <p>
+                <span class="label">Required stake</span>
+                <span class="input-multiple">
+                    <span>
+                        <label for="fad" class="hidden">Hidden label</label>
+                        <input type="text" id="fad" name="fad">
+                    </span>
+                    <span>
+                        <label for="fae" class="hidden">Hidden label</label>
+                        <input type="text" id="fae" name="fae">
+                    </span>
+                    <span>
+                        <label for="faf" class="hidden">Hidden label</label>
+                        <input type="number" id="faf" name="faf" value="0" min="0">
+                    </span>
+                    <span>
+                        <label for="fag" class="hidden">Hidden label</label>
+                        <input type="text" id="fag" name="fag" value="ETH">
+                    </span>
+                </span>
+            </p>
+            <p class="submit">
+                <a href="./">Connect Metamask</a>
+                <button type="submit">Stake</button>
+            </p>
+        </form>
+    </main>
+

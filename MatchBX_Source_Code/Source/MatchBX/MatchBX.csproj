@@ -628,8 +628,8 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\MatchBX.pubxml" />
+    <None Include="Properties\PublishProfiles\MatchBX_IIS_Publish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -775,6 +775,8 @@
       <DependentUpon>Web_SRVR.config</DependentUpon>
     </Content>
     <Content Include="Views\Gigs\Details_OLD.cshtml" />
+    <Content Include="Views\Profile\CryptoExchange.cshtml" />
+    <Content Include="Views\Profile\Arbitration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

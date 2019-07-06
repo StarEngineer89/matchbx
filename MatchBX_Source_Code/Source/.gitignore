@@ -223,9 +223,3 @@ project.lock.json
 #####
 # End of core ignore list, below put you custom 'per project' settings (patterns or path)
 #####
-
-
-Business/bin/
-Business/obj/
-MatchBX/bin/
-MatchBX/obj/

@@ -187,9 +187,35 @@ namespace MatchBX.Controllers
         public JsonResult PostedJobs(string _searchtext, string trendingtagsid)
         {
             dynamic model = new ExpandoObject();
-            objJob.TrendingTagsIdList = trendingtagsid;
+
+            //
+            //if (id.GetValueOrDefault() == 0)
+            //{
+                objJob.TrendingTagsIdList = "0";
+            //}
+            //else
+            //{
+                objJob.TrendingTagsIdList = "0";    //id.GetValueOrDefault().ToString();
+                //ViewBag.CurrentTag = id.GetValueOrDefault().ToString();
+            //}
             objJob.SkillsList = "0";
-            objJob.SortBy = "N";
+            //List<Job> _JobList = new List<Job>();
+            objJob.SortBy = "B";    // "N";    // "B";
+            //GetCategory();
+            objJob.FromPage = "B";  // category;
+            //if (Session["UserId"] != null)
+            //{
+            //    objJob.FromPage = "J";
+            //}
+            //else
+            //{
+            //    objJob.FromPage = "B";
+            //}
+            //
+
+            ////objJob.TrendingTagsIdList = trendingtagsid;
+            ////objJob.SkillsList = "0";
+            ////objJob.SortBy = "N";
 
             //if (Session["UserId"] != null)
             //{
@@ -199,8 +225,9 @@ namespace MatchBX.Controllers
             //{
             //    objJob.FromPage = "B";
             //}
-            GetCategory();
-            objTrending.FromPage = category;
+            ////GetCategory();
+            ////objTrending.FromPage = category;
+
             List<Job> _JobList = new List<Job>();
             
             objJobList = MatchBxCommon.GenerateBadge(objJobMod.GetJobDetails(objJob).OrderByDescending(x => x.Rownumber).ToList());
@@ -377,7 +404,6 @@ namespace MatchBX.Controllers
 
         }
 
-
         [NoCache]
         [SessionExpire]
         [HttpPost]
@@ -517,7 +543,6 @@ namespace MatchBX.Controllers
              return Json(message, JsonRequestBehavior.AllowGet);
            
         }
-
 
         [NoCache]
         [SessionExpire]

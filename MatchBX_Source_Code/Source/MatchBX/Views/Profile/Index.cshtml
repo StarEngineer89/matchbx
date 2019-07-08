@@ -678,8 +678,7 @@
                     </p>
                 </form>
 
-                <div id="divAllListings">&nbsp;</div>
-
+                <div id="divAllListings" class="hidden">&nbsp;</div>
             </div>
 
             <div>
@@ -697,8 +696,7 @@
                     </p>
                 </form>
 
-                <div id="divAllJobs">&nbsp;</div>
-
+                <div id="divAllJobs" class="hidden">&nbsp;</div>
             </div>
 
             <div>
@@ -716,10 +714,8 @@
                     </p>
                 </form>
 
-                <div id="divAllServices">&nbsp;</div>
-
+                <div id="divAllServices" class="hidden">&nbsp;</div>
             </div>
-
         </div>
     </div>
 </main>
@@ -735,7 +731,8 @@
             data: "{ }",
             success: function (response) {
 
-                $("#divAllListings").html(response)
+                $("#divAllListings").html(response);
+                $("#divAllListings").removeClass('hidden');
             },
             error: function (jqXHR, exception) {
 
@@ -755,7 +752,8 @@
             data: "{ }",
             success: function (response) {
 
-                $("#divAllJobs").html(response)
+                $("#divAllJobs").html(response);
+                $("#divAllJobs").removeClass('hidden');
             },
             error: function (jqXHR, exception) {
 
@@ -775,9 +773,8 @@
             data: "{ }",
             success: function (response) {
 
-                console.log(response);
-
-                $("#divAllServices").html(response)
+                $("#divAllServices").html(response);
+                $("#divAllServices").removeClass('hidden');
             },
             error: function (jqXHR, exception) {
 

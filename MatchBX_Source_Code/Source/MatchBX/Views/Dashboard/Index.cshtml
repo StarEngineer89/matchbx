@@ -40,11 +40,15 @@
                 <label for="ffh">Category</label>
                 <select id="ffh" name="ffh">
                     <option value="./" selected disabled>Select Category</option>
-                    <option value="./">Position #1</option>
-                    <option value="./">Position #2</option>
-                    <option value="./">Position #3</option>
-                    <option value="./">Position #4</option>
-                    <option value="./">Position #5</option>
+                    <option value="./">MARKETING</option>
+                    <option value="./">DEVELOPMENT</option>
+                    <option value="./">CREATIVE</option>
+                    <option value="./">WRITING</option>
+                    <option value="./">ADMIN</option>
+                    <option value="./">TOKEN SALE</option>
+                    <option value="./">TRANSLATION</option>
+                    <option value="./">OTHER</option>
+                    <option value="./">ALL JOBS</option>
                 </select>
             </p>
             <p>
@@ -105,70 +109,72 @@
                     </p>
                 </form>
                 @*
-                @if (Model.Job != null)
-                {
-                    <ul class="list-post">
-                        @foreach (var item in Model.Job)
-                        {
-                            <li id="@item.Rownumber">
-                                <input name="JobId" type="hidden" id="hdnJobId" value=@item.JobId />
-                                <h2><a class="myjob" href="@item.RedirectUrl">@item.JobTitle</a></h2>
-                                <p>@item.JobDescriptionDisplay</p>                                
-                                <ul class="list-icon">
-                                    <li class="price">
-                                        @item.BudgetASP.ToString("#,##0.00")&nbsp;<span class=small>AXPR</span>
-                                        <span>$@item.DollarCount.ToString("#,##0.00")</span>
-                                    </li>
-                                    <li><i class="icon-time"></i> @item.JobCompletionDateDisplay days remaining</li>
-                                    <li><i class="icon-upload"></i> 2 submissions</li>
-                                    <li><i class="icon-bulb"></i> Intermediate</li>
-                                    <li><i class="icon-list"></i> Writing</li>
-                                </ul>
-                                <div class="module-author">
-                                    <figure>
-                                        <div class="client_profile_pic">
-                                            <div class="client_profile_pic_1">
-                                                <img src="@item.ProfilePic" alt="Placeholder" width="46" height="46">
-                                            </div>
-                                        </div>
-                                    </figure>
-                                    @{
-                                        string verified = item.VerifiedPartner == "Y" ? "overlay-c" : "";
-                                    }
-                                    <h3><a href="@Url.Action("Index", "Profile", new { @id = @item.UserId })">@item.FullName</a> <span><i class="icon-badge-check @verified"></i> Administrator</span></h3>
-                                    <ul>
-                                        <li>@item.JobsCompleted jobs completed</li>
-                                        <li class="rating-a" data-val="@item.BadgeCount" data-of="5">@item.BadgeCount</li>
+                    @if (Model.Job != null)
+                    {
+                        <ul class="list-post">
+                            @foreach (var item in Model.Job)
+                            {
+                                <li id="@item.Rownumber">
+                                    <input name="JobId" type="hidden" id="hdnJobId" value=@item.JobId />
+                                    <h2><a class="myjob" href="@item.RedirectUrl">@item.JobTitle</a></h2>
+                                    <p>@item.JobDescriptionDisplay</p>
+                                    <ul class="list-icon">
+                                        <li class="price">
+                                            @item.BudgetASP.ToString("#,##0.00")&nbsp;<span class=small>AXPR</span>
+                                            <span>$@item.DollarCount.ToString("#,##0.00")</span>
+                                        </li>
+                                        <li><i class="icon-time"></i> @item.JobCompletionDateDisplay days remaining</li>
+                                        <li><i class="icon-upload"></i> 2 submissions</li>
+                                        <li><i class="icon-bulb"></i> Intermediate</li>
+                                        <li><i class="icon-list"></i> Writing</li>
                                     </ul>
-                                </div>
-                            </li>
-                        }
-                    </ul>
-                }
+                                    <div class="module-author">
+                                        <figure>
+                                            <div class="client_profile_pic">
+                                                <div class="client_profile_pic_1">
+                                                    <img src="@item.ProfilePic" alt="Placeholder" width="46" height="46">
+                                                </div>
+                                            </div>
+                                        </figure>
+                                        @{
+                                            string verified = item.VerifiedPartner == "Y" ? "overlay-c" : "";
+                                        }
+                                        <h3><a href="@Url.Action("Index", "Profile", new { @id = @item.UserId })">@item.FullName</a> <span><i class="icon-badge-check @verified"></i> Administrator</span></h3>
+                                        <ul>
+                                            <li>@item.JobsCompleted jobs completed</li>
+                                            <li class="rating-a" data-val="@item.BadgeCount" data-of="5">@item.BadgeCount</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    }
                 *@
                 @*
-                <nav class="nav-pagination">                    
-                    <ol>
-                        <li class="prev"><a href="./">Prev</a></li>
-                        <li class="active"><a href="./">1</a></li>
-                        <li><a href="./">2</a></li>
-                        <li><a href="./">3</a></li>
-                        <li><a href="./">4</a></li>
-                        <li><a href="./">5</a></li>
-                        <li><a href="./">6</a></li>
-                        <li><a href="./">7</a></li>
-                        <li><a href="./">8</a></li>
-                        <li><a href="./">9</a></li>
-                        <li class="next"><a href="./">Next</a></li>
-                    </ol>
-                    <p class="link-btn"><a href="./">Load more</a></p>
-                </nav>
+                    <nav class="nav-pagination">
+                        <ol>
+                            <li class="prev"><a href="./">Prev</a></li>
+                            <li class="active"><a href="./">1</a></li>
+                            <li><a href="./">2</a></li>
+                            <li><a href="./">3</a></li>
+                            <li><a href="./">4</a></li>
+                            <li><a href="./">5</a></li>
+                            <li><a href="./">6</a></li>
+                            <li><a href="./">7</a></li>
+                            <li><a href="./">8</a></li>
+                            <li><a href="./">9</a></li>
+                            <li class="next"><a href="./">Next</a></li>
+                        </ol>
+                        <p class="link-btn"><a href="./">Load more</a></p>
+                    </nav>
                 *@
 
-                <div id="divAllListings">&nbsp;</div>
+                @*<div id="divAllListings" class="hidden">&nbsp;</div>*@
+
+                <div id="divjobs">&nbsp;</div>
+                <div id="divloadmore">&nbsp;</div>
 
             </div>
-
             <div>
                 <form action="#" method="post" class="form-sort">
                     <p>
@@ -184,10 +190,8 @@
                     </p>
                 </form>
 
-                <div id="divAllJobs">&nbsp;</div>
-
+                <div id="divAllJobs" class="hidden">&nbsp;</div>
             </div>
-
             <div>
                 <form action="#" method="post" class="form-sort">
                     <p>
@@ -203,26 +207,184 @@
                     </p>
                 </form>
 
-                <div id="divAllServices">&nbsp;</div>
-
+                <div id="divAllServices" class="hidden">&nbsp;</div>
             </div>
-
         </div>
     </div>
 </main>
+
+
+<script>
+
+    function LoadJobs(_searchtext,tagId)
+    {
+        //debugger
+        $("#divnorecord").empty();
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("PostedJobs", "Jobs")',
+            data: { '_searchtext': _searchtext, 'trendingtagsid': tagId },
+            success: function (response) {
+
+                $("#divjobs").empty();
+                $("#divloadmore").empty();
+
+                if (response != null) {
+                    if (response.length == 0) {
+                        var _Msg = "";
+                        _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
+                        $("#divjobs").append(_Msg);
+                    }
+                    else {
+
+                        var elem = "<ul class='list-post'>";
+
+                        $.each(response, function (key, value) {
+
+                            var _profilehref = "/Profile/Index?id=" + response[key].UserId;
+
+                            elem += `<li id=` + response[key].Rownumber + `>
+                                        <h2><a class="myjob" href="` + response[key].RedirectUrl + `">` + response[key].JobTitle + `</a></h2>
+                                        <p>` + response[key].JobDescriptionDisplay + `</p>
+                                        <ul class="list-icon">
+                                        <li class="price">` +
+                                            response[key].BudgetASP.toFixed(2).toLocaleString() + `&nbsp;<span class=small>AXPR</span>
+                                            <span>$` + response[key].DollarCount.toLocaleString() + `</span>
+                                        </li>
+                                        <li><i class="icon-time"></i> ` + response[key].JobCompletionDateDisplay + ` days remaining</li>
+                                        <li><i class="icon-upload"></i> 2 submissions</li>
+                                        <li><i class="icon-bulb"></i> Intermediate</li>
+                                        <li><i class="icon-list"></i> Writing</li>
+                                    </ul>
+                                    <div class="module-author">
+                                        <figure>
+                                            <div class="client_profile_pic">
+                                                <div class="client_profile_pic_1">
+                                                    <img src="` + response[key].ProfilePic + `" alt="Placeholder" width="46" height="46">
+                                                </div>
+                                                @*<i class="profile_pic_star"></i>*@
+                                            </div>
+                                        </figure>
+                                        @{
+                                            @*string verified = item.VerifiedPartner == "Y" ? "overlay-c" : "";*@
+                                        }
+                                        <h3><a href="` + _profilehref + `">` + response[key].FullName + `</a> <span><i class="icon-badge-check @*verified*@"></i> Administrator</span></h3>
+                                        <ul>
+                                            <li>` + response[key].JobsCompleted + ` jobs completed</li>
+                                            <li class="rating-a" data-val="` + response[key].BadgeCount + `" data-of="5">` + response[key].BadgeCount + `</li>
+                                        </ul>
+                                    </div>
+                                </li>`;
+
+                        })
+                        elem += "</ul>";
+
+                        $("#divjobs").append(elem);
+
+                        @*
+                        $.each(response, function (key, value) {
+                            var elem = " ";
+                            elem = "<div class='"+response[key].CssClass+"' id=" + response[key].Rownumber + "  >";
+                            if (response[key].VerifiedPartner == "Y")
+                            {
+                                elem += "<div class='verified_partner_box'><span>Verified Partner</span></div>";
+                            }
+                            var _href =response[key].RedirectUrl;
+                            // _href = _href + "id=" + response[key].JobId;
+                            elem = elem + "<a class='myjob' href=" + _href + "><h3>" + response[key].JobTitle + "</h3></a>";
+                            elem = elem + "<div class='timeframe_budget_small clearfix'>";
+                            if(response[key].Type=="J")
+                            {
+                                elem = elem + "<div class='timeframe_only'><span>Deadline: </span>&nbsp;<span>" + response[key].JobCompletionDateDisplay + "</span></div>";
+                                elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[key].BudgetASP.toFixed(2).toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
+                            }
+                            else
+                            {
+                                elem = elem + "<div class='timeframe_only'><span>Deadline: </span>&nbsp;<span>" + response[key].JobCompletionDateDisplay + "</span><span>&nbsp;Days</span></div>";
+                                elem = elem + "<div class='budget_only'><span>Budget: </span>&nbsp;<span>" + response[key].BudgetASP.toFixed(2).toLocaleString() + " AXPR ($" + response[key].DollarCount.toLocaleString() + " ) </span></div>";
+                            }
+                            elem = elem + "<div class='axp_star_only'><ul>";
+                            if (response[key].BadgeCount == 1)
+                            {
+                                elem = elem+"<li><i></i></li>";
+                            }
+                            else if (response[key].BadgeCount ==2)
+                            {
+                                elem = elem+"<li><li><i></i></li><li><i></i></li>";
+                            }
+                            else if (response[key].BadgeCount ==3)
+                            {
+                                elem = elem+"<li><i></i></li><li><i></i></li><li><i></i></li>";
+                            }
+                            elem=elem+"</ul></div>";
+                            elem = elem + "</div>";
+                            elem = elem + "<div class='home_client_discription_small clearfix'><p>" + response[key].JobDescriptionDisplay + "</p></div>";
+                            elem = elem + "<div class='client_profile_imgname_bg clearfix'> <div class='client_profile_pic'><div class='client_profile_pic_1'>";
+                            elem = elem + "<img src=" + response[key].ProfilePic + " alt='' /></div> <i class='profile_pic_star'></i></div>";
+                            var _profilehref = "/Profile/Index?";
+                            _profilehref = _profilehref + "id=" + response[key].UserId;
+                            elem = elem + "<a href=" + _profilehref + "><div class='client_profile_name verified_user_checkbg'><h4>" + response[key].FullName;
+                            if (response[key].VerifiedPartner == "Y")
+                            {
+                                elem += "<i class='verified_user_check'></i>";
+                            }
+                            elem += "</h4><span> " + response[key].JobsCompleted + " jobs completed</span> </div></a></div></div>";
+                            $("#divjobs").append(elem);
+                            elem = " ";
+                        });
+                        var _morebutton = response[0].Isloadmore;
+                        if (_morebutton == 1) {
+                            var _elment2 = " ";
+                            _elment2 = _elment2 + "<div class='col-md-12 category_loadmore_bg clearfix' id='divloadmore'>";
+                            _elment2 = _elment2 + " <a href='javascript:' class='btn button_all secondary_color_bg' id='btnloadmore'>Load more</a></div>";
+                            $("#divjobs").append(_elment2)
+                        }
+                        *@
+                    }
+
+                }
+                else
+                {
+                    $("#divjobs").empty();
+                    var _Msg = "";
+                    _Msg = "<div class='col-md-12 category_nojob_bg clearfix'><h3>There doesn't seem to be any live jobs for this category</h3></div>"
+                    $("#divjobs").append(_Msg);
+                }
+
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
+    }
+
+</script>
 
 <script>
 
     $("document").ready(function () {
 
+        LoadJobs("", "0");
+        //var _searchtext = null;
+        //var tagId = "0";
+
+        @*
         $.ajax({
             type: 'POST',
             cache: false,
-            url: '@Url.Action("JobsListed", "Dashboard")',
-            data: "{ }",
+            url: '@Url.Action("PostedJobs", "Jobs")',
+            data: {
+                '_searchtext': _searchtext,
+                'trendingtagsid': tagId
+            },
             success: function (response) {
 
-                $("#divAllListings").html(response)
+                console.log(response);
+
+                $("#divAllListings").html(response);
+                $("#divAllListings").removeClass('hidden');
             },
             error: function (jqXHR, exception) {
 
@@ -230,10 +392,24 @@
                 console.log(exception);
             }
         });
+        *@
+        @*
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '@Url.Action("JobsListed", "Dashboard")',
+            data: "{ }",
+            success: function (response) {
 
-    });
+                $("#divAllListings").html(response);
+                $("#divAllListings").removeClass('hidden');
+            },
+            error: function (jqXHR, exception) {
 
-    $("document").ready(function () {
+                console.log(jqXHR.status);
+                console.log(exception);
+            }
+        });
 
         $.ajax({
             type: 'POST',
@@ -242,7 +418,8 @@
             data: "{ }",
             success: function (response) {
 
-                $("#divAllJobs").html(response)
+                $("#divAllJobs").html(response);
+                $("#divAllJobs").removeClass('hidden');
             },
             error: function (jqXHR, exception) {
 
@@ -250,11 +427,7 @@
                 console.log(exception);
             }
         });
-
-    });
-
-    $("document").ready(function () {
-
+        *@
         $.ajax({
             type: 'POST',
             cache: false,
@@ -262,9 +435,8 @@
             data: "{ }",
             success: function (response) {
 
-                console.log(response);
-
-                $("#divAllServices").html(response)
+                $("#divAllServices").html(response);
+                $("#divAllServices").removeClass('hidden');
             },
             error: function (jqXHR, exception) {
 
@@ -272,7 +444,11 @@
                 console.log(exception);
             }
         });
-
+        
     });
 
 </script>
+@*
+<script defer src="~/javascript/scripts.js"></script>
+<script defer src="~/javascript/custom.js"></script>
+*@

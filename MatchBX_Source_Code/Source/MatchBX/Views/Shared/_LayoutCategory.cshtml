@@ -62,6 +62,10 @@
     <meta name="twitter:image" content="">
 
     <style>
+        .hidden {
+            display: none;
+        }
+
         .profile_public_banner_profileimage {
             position: absolute;
             left: 0;
@@ -273,13 +277,18 @@
                     url: '@Url.Action("SetSearchCategory", "category")',
                     data: {"cat":_SortDirCat},
                     success: function (response) {
+
+                        window.location.href = "/Dashboard/index";
+
                         debugger;
                         if(type == 'job') {
-                            window.location.href = "/Jobs/index";
+                            ////window.location.href = "/Jobs/index";
+
                         } else if(type == "gig") {
-                            window.location.href = "/Gigs/search";
+                            ////window.location.href = "/Gigs/search";
+
                         } else if(type == "category" && urls != null) {
-                            window.location.href = urls;
+                            ////window.location.href = urls;
                         }
                         //SetSearchCriteria();
                     },
@@ -316,7 +325,7 @@
 <body>
     <div id="root">
         <header id="top">
-            <p id="logo"><a href="./" accesskey="h">MatchBX</a> <span>Hire freelancers, pay in cryptocurrency</span></p>
+            <p id="logo"><a href="../../" accesskey="h">MatchBX</a> <span>Hire freelancers, pay in cryptocurrency</span></p>
             <nav id="skip">
                 <ul>
                     <li><a href="#up" accesskey="n">Skip to navigation (n)</a></li>
@@ -833,10 +842,14 @@
 
         });
 
-        var messageSender=@Html.Raw(Json.Encode(Model.messageSender));
-        if(messageSender!=0){
-            OpenLogin();
+        @*
+        if (@Model.messageSender != null) {
+            var messageSender =@Html.Raw(Json.Encode(Model.messageSender));
+            if (messageSender != 0) {
+                OpenLogin();
+            }
         }
+        *@
 
         function OpenLogin() {
             $.ajax({
@@ -946,11 +959,10 @@
     </script>
     <!--End of Tawk.to Script-->
 
-    <script>
-                //alert('2-->' + $);
-    </script>
-
+    @*
     <script defer src="~/javascript/scripts.js"></script>
     <script defer src="~/javascript/custom.js"></script>
+    *@
+
 </body>
 </html>

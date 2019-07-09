@@ -201,7 +201,7 @@ ul, ol, dd, blockquote { padding-left: 40px; }
 			#footer > ul li a[href*="#"] { display: block; position: relative; padding: 0 21px 0 7px; color: var(--white); }
 				#footer > ul li a[href*="#"]:before { content: "\e956"; left: auto; right: 0; width: auto; color: var(--picton); font-size: 12px; }
 		
-.theme-a #root { background: var(--porcelain); }
+/*.theme-a #root { background: var(--porcelain); }*/
 .theme-home #root { padding: 209px 0 0; background: var(--whisper); }
 	.theme-home #top { left: 50%; width: 1240px; margin-left: -620px; padding-left: 0; padding-right: 0; background: none; }
 		.theme-home #top:before { left: 50%; right: auto; width: 100vw; margin-left: -50vw; }

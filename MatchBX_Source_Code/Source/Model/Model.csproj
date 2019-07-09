@@ -201,6 +201,7 @@
   <ItemGroup>
     <Compile Include="AdminFeatureModel.cs" />
     <Compile Include="AjaxSessionModel.cs" />
+    <Compile Include="CoinViewModel.cs" />
     <Compile Include="ContractDetailModel.cs" />
     <Compile Include="EmailPreferenceModel.cs" />
     <Compile Include="ErrorLogModel.cs" />

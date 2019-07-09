@@ -3,15 +3,21 @@ using Google.Authenticator;
 using MatchBx.Utilities;
 using MatchBX.Models;
 using Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services;
+
+
 
 namespace MatchBX.Controllers
 {
@@ -45,7 +51,7 @@ namespace MatchBX.Controllers
             TempData["RecordDisplay"] = _RecordDisplay;
             //Session["ProfilePic"] = "/Content/images/client_pic_1.png";
             int userid = id.GetValueOrDefault();
-            if(userid.ToString() != null)
+            if (userid.ToString() != null)
             {
                 Session["MemberNo"] = userid;
                 Session["PublicProfileId"] = userid;
@@ -58,9 +64,9 @@ namespace MatchBX.Controllers
                 ViewBag.qrcode = setupinfo.QrCodeSetupImageUrl;
                 ViewBag.manualcode = setupinfo.ManualEntryKey;
             }
-            
+
             objProfile = objProfileMod.LoadUserProfile(userid).FirstOrDefault();
-            
+
             try
             {
                 string rating = Adjust(decimal.ToDouble(objProfile.Rating)).ToString();
@@ -90,11 +96,11 @@ namespace MatchBX.Controllers
 
             model.Profile = objProfile;
 
-            objUserSkillList= objUserSkill.SkillsByUserId(userid);
+            objUserSkillList = objUserSkill.SkillsByUserId(userid);
             objUserSkillList.ToList().ForEach(x => x.Description = "#" + x.Description.ToString());
 
             string userskilllist = "";
-            foreach(var item in objUserSkillList)
+            foreach (var item in objUserSkillList)
             {
                 if (objUserSkillList.IndexOf(item) == objUserSkillList.Count - 1)
                 {
@@ -103,7 +109,7 @@ namespace MatchBX.Controllers
                 else
                 {
                     userskilllist += item.Description + ", ";
-                }    
+                }
             }
 
             model.UserSkill = objUserSkillList;
@@ -123,7 +129,7 @@ namespace MatchBX.Controllers
                 //objGig.TrendingTagsIdList = "0";
                 //objGig.SkillsList = "0";
                 objGig.UserId = userid;
-                objGig.LoginUserId=Convert.ToInt32(Session["UserId"]);
+                objGig.LoginUserId = Convert.ToInt32(Session["UserId"]);
                 objPurchasedGig.UserId = userid;
                 objCompletedJobList = objJobMod.GetJobDetails(objCompletedJob);
                 model.CompletedJobCount = objCompletedJobList.Count();
@@ -135,9 +141,9 @@ namespace MatchBX.Controllers
                 model.ListedGigCount = objGigList.Count();
                 model.ListedGig = MatchBxCommon.GenerateBadgeForGig(objGigList.Take(_RecordDisplay).ToList());
                 //model.UserSkill = objUserSkill.LoadSkillsByUserId(userid);
-                objPurchasedGigList= objGigMod.GetPurchasedGig(objPurchasedGig);
+                objPurchasedGigList = objGigMod.GetPurchasedGig(objPurchasedGig);
                 model.PurchasedGigCount = objPurchasedGigList.Count();
-                model.PurchasedGig= MatchBxCommon.GenerateBadgeForGig(objPurchasedGigList.Take(_RecordDisplay).ToList());
+                model.PurchasedGig = MatchBxCommon.GenerateBadgeForGig(objPurchasedGigList.Take(_RecordDisplay).ToList());
                 model.WithID = "Y";
             }
             else
@@ -155,7 +161,7 @@ namespace MatchBX.Controllers
         {
             TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
             string useruniquekey = Convert.ToString(Session["UserId"]) + Session["UserName"];
-            bool isvalid = tfa.ValidateTwoFactorPIN(useruniquekey, code);            
+            bool isvalid = tfa.ValidateTwoFactorPIN(useruniquekey, code);
             return isvalid && objProfileMod.Save2FA(Convert.ToInt32(Session["UserId"]), isvalid) > 0;
         }
 
@@ -233,7 +239,7 @@ namespace MatchBX.Controllers
         [HttpPost]
         public JsonResult UploadProfilePic()
         {
-            
+
             string sourceFolderPath = ConfigurationManager.AppSettings["PathForProfilePic"].ToString();
             string message = "";
             if (Request.Files.Count > 0)
@@ -259,12 +265,12 @@ namespace MatchBX.Controllers
                     file.SaveAs(path);
                     Session["TempProfilePic"] = fileName;
                     message = fileName;
-                    
+
                 }
                 catch (Exception ex)
                 {
                     message = "failed";
-                    
+
                 }
             }
             else
@@ -279,7 +285,7 @@ namespace MatchBX.Controllers
         {
             string message = "";
             string sourceFolderPath = ConfigurationManager.AppSettings["PathForProfilePic"].ToString();
-            string fileName= DateTime.Now.ToString("-yyyy-MM-dd-HH-mm-ss") + Session["UserName"].ToString() + ".png";
+            string fileName = DateTime.Now.ToString("-yyyy-MM-dd-HH-mm-ss") + Session["UserName"].ToString() + ".png";
             string fileNameWithPath = sourceFolderPath + fileName;
             using (FileStream fs = new FileStream(fileNameWithPath, FileMode.Create))
             {
@@ -292,14 +298,40 @@ namespace MatchBX.Controllers
                     Session["TempProfilePic"] = fileName;
                 }
             }
-            
+
             return Json(message, JsonRequestBehavior.AllowGet);
         }
         [NoCache]
         //[SessionExpire]
         public ActionResult CryptoExchange(int? id)
         {
-            return View();
+            var Coins = GetOnlyUsefullCoins();
+
+            return View("CryptoExchange", Coins);
+        }
+
+
+
+
+        [NoCache]
+        [HttpPost]
+        public ActionResult CryptoExchange(int? id, FormCollection form)
+        {
+
+
+            string fba = form["fba"];
+            string fbb = form["fbb"];
+            string fbc = form["fbc"];
+           
+
+           
+            var price = CoinConverter(fba, fbc, Convert.ToDecimal(fbb));
+            ViewBag.fba = fba;
+            ViewBag.fbb = fbb;
+            ViewBag.fbc = fbc;
+            ViewBag.fbd = price;
+            var Coins = GetOnlyUsefullCoins();
+            return View("CryptoExchange", Coins);
         }
 
         [NoCache]
@@ -307,6 +339,114 @@ namespace MatchBX.Controllers
         public ActionResult Arbitration(int? id)
         {
             return View();
+        }
+
+        public List<CoinViewModel> GetOnlyUsefullCoins()
+        {
+
+            List<CoinViewModel> lstCoinsList = new List<CoinViewModel>();
+            List<SelectListItem> allCrypto = new List<SelectListItem>();
+
+            string URL = ConfigurationManager.AppSettings["SwitchCoinListAPI"];
+            string urlParameters = "";
+            //string urlParameters = "?api_key=123";
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(URL);
+
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // List data response.
+            HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+            if (response.IsSuccessStatusCode)
+            {
+                var dataObjects = response.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<dynamic>(dataObjects);
+                foreach (var d in result)
+                {
+                    allCrypto.Add(new SelectListItem
+                    {
+                        Text = d.symbol,
+                        Value = d.name
+                    });
+                }
+
+            }
+
+            //Make any other calls using HttpClient here.
+
+            //Dispose once all HttpClient calls are complete. This is not necessary if the containing object will be disposed of; for example in this case the HttpClient instance will be disposed automatically when the application terminates so the following call is superfluous.
+            client.Dispose();
+            ViewBag.allCrypto = allCrypto;
+
+            string CPURL = ConfigurationManager.AppSettings["CoinpaprikaCoinListTickersAPI"];
+            string CPurlParameters = "";
+            //string urlParameters = "?api_key=123";
+            HttpClient CPclient = new HttpClient();
+            CPclient.BaseAddress = new Uri(CPURL);
+
+            // Add an Accept header for JSON format.
+            CPclient.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // List data response.
+            HttpResponseMessage CPresponse = CPclient.GetAsync(CPurlParameters).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+            if (CPresponse.IsSuccessStatusCode)
+            {
+                var dataObjects = CPresponse.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<dynamic>(dataObjects);
+
+                foreach (var d in result)
+
+                {
+                    string dataSymbol = d.symbol;
+                    var has = allCrypto.Any(cr => cr.Text == dataSymbol);
+                    if (has)
+                    {
+                        CoinViewModel coin = new CoinViewModel();
+                        coin.id = d.id;
+                        coin.name = d.name;
+                        coin.symbol = d.symbol;
+                        coin.total_supply = d.total_supply;
+                        coin.max_supply = d.max_supply;
+                        coin.last_updated = d.last_updated;
+                        coin.price = d.quotes.USD.price;
+                        coin.percent_change_24h = d.quotes.USD.percent_change_24h;
+                        lstCoinsList.Add(coin);
+                    }
+
+                }
+
+            }
+            CPclient.Dispose();
+
+            return lstCoinsList.OrderBy(s => s.symbol).ToList();
+        }
+
+        public decimal? CoinConverter(string baseCurrencyId, string quoteCurrencyId, decimal amount)
+        {
+            Decimal? ConvertedAmount = 0;
+            string CPURL = ConfigurationManager.AppSettings["CoinpaprikaConverterAPI"];
+            string CPurlParameters = "?base_currency_id=" + baseCurrencyId + "&quote_currency_id=" + quoteCurrencyId + "&amount=" + amount;  
+           
+            HttpClient CPclient = new HttpClient();
+            CPclient.BaseAddress = new Uri(CPURL);
+
+            // Add an Accept header for JSON format.
+            CPclient.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // List data response.
+            HttpResponseMessage CPresponse = CPclient.GetAsync(CPurlParameters).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+            if (CPresponse.IsSuccessStatusCode)
+            {
+                var dataObjects = CPresponse.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<dynamic>(dataObjects);
+                ConvertedAmount = Convert.ToDecimal(result.price);
+            }
+            CPclient.Dispose();
+            return ConvertedAmount;
         }
 
     }

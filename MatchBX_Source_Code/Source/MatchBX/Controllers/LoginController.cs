@@ -765,7 +765,7 @@ namespace MatchBX.Controllers
             FormsAuthentication.SignOut();
             HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
             // return RedirectToAction("Login", "Login");
-            return RedirectToAction("Index", "Jobs");
+            return RedirectToAction("Index", "Jobs");            
         }
 
 

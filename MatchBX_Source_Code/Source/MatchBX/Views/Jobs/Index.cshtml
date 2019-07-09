@@ -297,13 +297,11 @@
 
     function AutoSeach(_AutoText)
     {
-
         if (_AutoText) {
 
             var _TagsId= sessionStorage.getItem("tagsId");
             LoadJobs(_AutoText, _TagsId);
             sessionStorage.setItem("tagsId", '0');
-
         }
         else
         {
@@ -314,6 +312,8 @@
     function LoadJobs(_searchtext,tagId)
     {
         //debugger
+        //alert(_searchtext)
+
         $("#divnorecord").empty();
         $.ajax({
             type: 'POST',
@@ -321,6 +321,9 @@
             url: '@Url.Action("PostedJobs", "Jobs")',
             data: { '_searchtext': _searchtext, 'trendingtagsid': tagId },
             success: function (response) {
+
+                //console.log(response);
+
                 $("#divjobs").empty();
                 $("#divloadmore").empty();
                 if (response != null) {
@@ -418,8 +421,8 @@
         <h1>Hire freelancers,<br> pay in cryptocurrency</h1>
         <p>Complete freelance work to earn crypto, or post a job and have great freelancers come to you</p>
         <p class="link-btn" id="ulcategory">
-            <a href="#" XXXid="view_jobs" class="signuplogin">Get hired</a>
-            <a href="#" XXXid="view_gigs" class="signuplogin d">Hire freelancers</a>
+            <a href="#" id="view_jobs" XXXclass="signuplogin">Get hired</a>
+            <a href="#" id="view_gigs" class="XXXsignuplogin d">Hire freelancers</a>
         </p>
         <figure><img src="images/content/a.png" alt="Placeholder" width="823" height="500"></figure>
         <figure class="bg"><img src="images/content/map.png" alt="Placeholder" width="744" height="304"></figure>
@@ -635,3 +638,13 @@
     });
     /* // email placeholder*/
 </script>
+
+<script>
+
+    LoadJobs()
+
+</script>
+
+<script defer src="~/javascript/scripts.js"></script>
+<script defer src="~/javascript/custom.js"></script>
+

@@ -54,6 +54,10 @@
     <meta name="twitter:image" content="">
 
     <style>
+        .hidden {
+            display: none;
+        }
+
         .client_profile_pic {
             display: inline-block;
             position: relative;
@@ -255,7 +259,8 @@
                         if (Backlen > 0) history.go(-Backlen);
                         if(window.history.forward(1) != null)
                             window.history.forward(1);
-                        window.location.href="/Jobs/Index";
+                        //window.location.href="/Jobs/Index";
+                        window.location.href = "../../";
                     },
                     error: function (jqXHR, exception) {
 
@@ -314,13 +319,19 @@
                     url: '@Url.Action("SetSearchCategory", "category")',
                     data: {"cat":_SortDirCat},
                     success: function (response) {
+
+                        window.location.href = "/Dashboard/index";
+
                         debugger;
                         if(type == 'job') {
-                            window.location.href = "/Jobs/index";
+                            ////window.location.href = "/Jobs/index";
+
                         } else if(type == "gig") {
-                            window.location.href = "/Gigs/search";
+                            ////window.location.href = "/Gigs/search";
+
                         } else if(type == "category" && urls != null) {
-                            window.location.href = urls;
+                            ////window.location.href = urls;
+
                         }
                         //SetSearchCriteria();
                     },
@@ -414,7 +425,7 @@
     <div id="root">
 
         <header id="top">
-            <p id="logo"><a href="./" accesskey="h">MatchBX</a> <span>Hire freelancers, pay in cryptocurrency</span></p>
+            <p id="logo"><a href="../../" accesskey="h">MatchBX</a> <span>Hire freelancers, pay in cryptocurrency</span></p>
             <nav id="skip">
                 <ul>
                     <li><a href="#nav" accesskey="n">Skip to navigation (n)</a></li>
@@ -506,7 +517,7 @@
                             <li><a href="#">Services</a></li>
                             <li><a href="/Profile/Arbitration">Arbitration</a></li>
                             <li><a href="#">Help</a></li>
-                            <li><a href="#">Logout</a></li>
+                            <li><a href="@Url.Action("LogOff", "Login")">Logout</a></li>
                         </ul>
                     </li>
                     <li>
@@ -1847,8 +1858,10 @@
     <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.css" rel="stylesheet">-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" type="text/javascript"></script>
 
+    @*
     <script defer src="~/javascript/scripts.js"></script>
     <script defer src="~/javascript/custom.js"></script>
+    *@
 
 </body>
 

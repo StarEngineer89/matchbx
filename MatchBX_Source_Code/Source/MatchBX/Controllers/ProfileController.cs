@@ -305,7 +305,7 @@ namespace MatchBX.Controllers
         //[SessionExpire]
         public ActionResult CryptoExchange(int? id)
         {
-            var Coins = GetOnlyUsefullCoins();
+            var Coins = MatchBxCommon.GetOnlyUsefullCoins();
 
             return View("CryptoExchange", Coins);
         }
@@ -317,20 +317,19 @@ namespace MatchBX.Controllers
         [HttpPost]
         public ActionResult CryptoExchange(int? id, FormCollection form)
         {
-
-
+ 
             string fba = form["fba"];
             string fbb = form["fbb"];
             string fbc = form["fbc"];
-           
 
-           
-            var price = CoinConverter(fba, fbc, Convert.ToDecimal(fbb));
+
+
+            var price = MatchBxCommon.CoinConverter(fba, fbc, Convert.ToDecimal(fbb));
             ViewBag.fba = fba;
             ViewBag.fbb = fbb;
             ViewBag.fbc = fbc;
             ViewBag.fbd = price;
-            var Coins = GetOnlyUsefullCoins();
+            var Coins = MatchBxCommon.GetOnlyUsefullCoins();
             return View("CryptoExchange", Coins);
         }
 
@@ -341,113 +340,7 @@ namespace MatchBX.Controllers
             return View();
         }
 
-        public List<CoinViewModel> GetOnlyUsefullCoins()
-        {
 
-            List<CoinViewModel> lstCoinsList = new List<CoinViewModel>();
-            List<SelectListItem> allCrypto = new List<SelectListItem>();
-
-            string URL = ConfigurationManager.AppSettings["SwitchCoinListAPI"];
-            string urlParameters = "";
-            //string urlParameters = "?api_key=123";
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(URL);
-
-            // Add an Accept header for JSON format.
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-
-            // List data response.
-            HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
-            if (response.IsSuccessStatusCode)
-            {
-                var dataObjects = response.Content.ReadAsStringAsync().Result;
-                var result = JsonConvert.DeserializeObject<dynamic>(dataObjects);
-                foreach (var d in result)
-                {
-                    allCrypto.Add(new SelectListItem
-                    {
-                        Text = d.symbol,
-                        Value = d.name
-                    });
-                }
-
-            }
-
-            //Make any other calls using HttpClient here.
-
-            //Dispose once all HttpClient calls are complete. This is not necessary if the containing object will be disposed of; for example in this case the HttpClient instance will be disposed automatically when the application terminates so the following call is superfluous.
-            client.Dispose();
-            ViewBag.allCrypto = allCrypto;
-
-            string CPURL = ConfigurationManager.AppSettings["CoinpaprikaCoinListTickersAPI"];
-            string CPurlParameters = "";
-            //string urlParameters = "?api_key=123";
-            HttpClient CPclient = new HttpClient();
-            CPclient.BaseAddress = new Uri(CPURL);
-
-            // Add an Accept header for JSON format.
-            CPclient.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-
-            // List data response.
-            HttpResponseMessage CPresponse = CPclient.GetAsync(CPurlParameters).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
-            if (CPresponse.IsSuccessStatusCode)
-            {
-                var dataObjects = CPresponse.Content.ReadAsStringAsync().Result;
-                var result = JsonConvert.DeserializeObject<dynamic>(dataObjects);
-
-                foreach (var d in result)
-
-                {
-                    string dataSymbol = d.symbol;
-                    var has = allCrypto.Any(cr => cr.Text == dataSymbol);
-                    if (has)
-                    {
-                        CoinViewModel coin = new CoinViewModel();
-                        coin.id = d.id;
-                        coin.name = d.name;
-                        coin.symbol = d.symbol;
-                        coin.total_supply = d.total_supply;
-                        coin.max_supply = d.max_supply;
-                        coin.last_updated = d.last_updated;
-                        coin.price = d.quotes.USD.price;
-                        coin.percent_change_24h = d.quotes.USD.percent_change_24h;
-                        lstCoinsList.Add(coin);
-                    }
-
-                }
-
-            }
-            CPclient.Dispose();
-
-            return lstCoinsList.OrderBy(s => s.symbol).ToList();
-        }
-
-        public decimal? CoinConverter(string baseCurrencyId, string quoteCurrencyId, decimal amount)
-        {
-            Decimal? ConvertedAmount = 0;
-            string CPURL = ConfigurationManager.AppSettings["CoinpaprikaConverterAPI"];
-            string CPurlParameters = "?base_currency_id=" + baseCurrencyId + "&quote_currency_id=" + quoteCurrencyId + "&amount=" + amount;  
-           
-            HttpClient CPclient = new HttpClient();
-            CPclient.BaseAddress = new Uri(CPURL);
-
-            // Add an Accept header for JSON format.
-            CPclient.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-
-            // List data response.
-            HttpResponseMessage CPresponse = CPclient.GetAsync(CPurlParameters).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
-            if (CPresponse.IsSuccessStatusCode)
-            {
-                var dataObjects = CPresponse.Content.ReadAsStringAsync().Result;
-                var result = JsonConvert.DeserializeObject<dynamic>(dataObjects);
-                ConvertedAmount = Convert.ToDecimal(result.price);
-            }
-            CPclient.Dispose();
-            return ConvertedAmount;
-        }
 
     }
 }

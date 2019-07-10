@@ -15,6 +15,8 @@ using System.Web;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace MatchBx.Utilities
 {
@@ -41,13 +43,13 @@ namespace MatchBx.Utilities
                     {
                         string str = "";
                         StreamReader reader = new StreamReader((strMailTemplate));
-                        if(objUserInfo.FullName == null || objUserInfo.FullName == "")
+                        if (objUserInfo.FullName == null || objUserInfo.FullName == "")
                         {
                             str = reader.ReadToEnd().Replace("#userFullName#", objUserInfo.UserName).Replace("#username#", objUserInfo.UserName).Replace("#password#", objUserInfo.Password).Replace("#SiteURL#", siteurl).Replace("[SiteURL]", siteurl).Replace("#imgURL#", imgUrl);
                         }
                         else
-                        {  str = reader.ReadToEnd().Replace("#userFullName#", objUserInfo.FullName).Replace("#username#", objUserInfo.UserName).Replace("#password#", objUserInfo.Password).Replace("#SiteURL#", siteurl).Replace("[SiteURL]", siteurl).Replace("#imgURL#", imgUrl); }
-                        
+                        { str = reader.ReadToEnd().Replace("#userFullName#", objUserInfo.FullName).Replace("#username#", objUserInfo.UserName).Replace("#password#", objUserInfo.Password).Replace("#SiteURL#", siteurl).Replace("[SiteURL]", siteurl).Replace("#imgURL#", imgUrl); }
+
                         if (isInternal)
                         {
                             mailMessage.CC.Add(ConfigurationManager.AppSettings["Mailcc"].ToString());
@@ -123,7 +125,7 @@ namespace MatchBx.Utilities
                     //TimeZoneInfo infotime = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time (US)");
                     //DateTime thisDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.Now, infotime);
                     string dateandtime = DateTime.UtcNow.ToString();
-                        string imgUrl = ConfigurationManager.AppSettings["ImgURL"].ToString();
+                    string imgUrl = ConfigurationManager.AppSettings["ImgURL"].ToString();
                     string siteurl = GetPasswordRestUrl() + "?email=" + objUserInfo.Email;
                     MailMessage mailMessage = new MailMessage(ConfigurationManager.AppSettings["FromEmail"].ToString(), isInternal ? ConfigurationManager.AppSettings["ContactUsToEmail"].ToString() : objUserInfo.Email);
                     SmtpClient smtpClient = new SmtpClient();
@@ -132,18 +134,18 @@ namespace MatchBx.Utilities
                     string TimeZone = ConfigurationManager.AppSettings["TimeZone"].ToString();
                     if (File.Exists((strMailTemplate)))
                     {
-                        
+
                         string str = "";
                         StreamReader reader = new StreamReader((strMailTemplate));
                         if (objUserInfo.FullName == null || objUserInfo.FullName == "")
                         {
-                            str = reader.ReadToEnd().Replace("#userFullName#", objUserInfo.UserName).Replace("#username#", objUserInfo.UserName).Replace("#password#", objUserInfo.Password).Replace("#SiteURL#", siteurl).Replace("[SiteURL]", siteurl).Replace("#imgURL#", imgUrl).Replace("#time#", DateTime.Now.ToString("hh:mm tt", CultureInfo.GetCultureInfo("en-US"))).Replace("#Timezone#", TimeZone).Replace("#date#", String.Format("{0:MM MMM, yyyy}",DateTime.Now));
+                            str = reader.ReadToEnd().Replace("#userFullName#", objUserInfo.UserName).Replace("#username#", objUserInfo.UserName).Replace("#password#", objUserInfo.Password).Replace("#SiteURL#", siteurl).Replace("[SiteURL]", siteurl).Replace("#imgURL#", imgUrl).Replace("#time#", DateTime.Now.ToString("hh:mm tt", CultureInfo.GetCultureInfo("en-US"))).Replace("#Timezone#", TimeZone).Replace("#date#", String.Format("{0:MM MMM, yyyy}", DateTime.Now));
                         }
                         else
                         {
-                            str = reader.ReadToEnd().Replace("#userFullName#", objUserInfo.FullName).Replace("#username#", objUserInfo.UserName).Replace("#password#", objUserInfo.Password).Replace("#SiteURL#", siteurl).Replace("[SiteURL]", siteurl).Replace("#imgURL#", imgUrl).Replace("#time#", DateTime.Now.ToString("hh:mm tt", CultureInfo.GetCultureInfo("en-US"))).Replace("#Timezone#", TimeZone).Replace("#date#", String.Format("{0:MM MMM, yyyy}",DateTime.Now));
+                            str = reader.ReadToEnd().Replace("#userFullName#", objUserInfo.FullName).Replace("#username#", objUserInfo.UserName).Replace("#password#", objUserInfo.Password).Replace("#SiteURL#", siteurl).Replace("[SiteURL]", siteurl).Replace("#imgURL#", imgUrl).Replace("#time#", DateTime.Now.ToString("hh:mm tt", CultureInfo.GetCultureInfo("en-US"))).Replace("#Timezone#", TimeZone).Replace("#date#", String.Format("{0:MM MMM, yyyy}", DateTime.Now));
                         }
-                            
+
                         if (isInternal)
                         {
                             mailMessage.CC.Add(ConfigurationManager.AppSettings["Mailcc"].ToString());
@@ -214,14 +216,14 @@ namespace MatchBx.Utilities
                 {
                     return 0.001m;
                 }
-             
+
             }
         }
         public static List<Job> GenerateBadge(List<Job> job)
         {
             decimal exchangerate = GetExchangeRate();
             HttpContext.Current.Session["Exchange"] = exchangerate;
-            job.ToList().ForEach(s => s.DollarCount = Math.Round((s.BudgetASP * exchangerate),2));
+            job.ToList().ForEach(s => s.DollarCount = Math.Round((s.BudgetASP * exchangerate), 2));
             job.ToList().ForEach(s => s.BudgetASP = Decimal.Parse((s.BudgetASP).ToString("0.00")));
             job.Where(s => s.DollarCount < 50).ToList().ForEach(s => s.BadgeCount = 1);
             job.Where(s => s.DollarCount >= 50 && s.DollarCount < 150).ToList().ForEach(s => s.BadgeCount = 2);
@@ -243,7 +245,7 @@ namespace MatchBx.Utilities
         {
             decimal exchangerate = 0.001M;
             if (HttpContext.Current.Session["Exchange"] != null)
-             exchangerate =Convert.ToDecimal( HttpContext.Current.Session["Exchange"].ToString());
+                exchangerate = Convert.ToDecimal(HttpContext.Current.Session["Exchange"].ToString());
 
             job.ToList().ForEach(s => s.DollarCount = Math.Round((s.BudgetASP * exchangerate), 2));
             job.ToList().ForEach(s => s.BudgetASP = Decimal.Parse((s.BudgetASP).ToString("0.00")));
@@ -260,7 +262,7 @@ namespace MatchBx.Utilities
             List<TrendingTags> objTrendingTagsList = new List<TrendingTags>();
             List<TrendingTags> objTrendingTags = new List<TrendingTags>();
             objTrendingTagsList = objTrendingMod.GetTrendingTags(objTrending);
-            if(objTrendingTagsList.Count()>8)
+            if (objTrendingTagsList.Count() > 8)
             {
                 objTrendingTags = objTrendingTagsList.Take(8).ToList();
             }
@@ -270,29 +272,29 @@ namespace MatchBx.Utilities
             }
             return objTrendingTags;
         }
-        public static void sendMarkasCompleteEmail(string email,bool isInternal, string postername,string seekername, string jobtitle)
+        public static void sendMarkasCompleteEmail(string email, bool isInternal, string postername, string seekername, string jobtitle)
         {
             try
             {
                 string startupPath = AppDomain.CurrentDomain.BaseDirectory;
                 string targetPath = startupPath + "Template\\Email\\";
-                string siteurl = ConfigurationManager.AppSettings["SiteURL"].ToString() + "?redirecturl="+ "Y";
+                string siteurl = ConfigurationManager.AppSettings["SiteURL"].ToString() + "?redirecturl=" + "Y";
                 string strMailTemplate = (ConfigurationManager.AppSettings["MarkAsComplete"].ToString() == "") ? "" : (targetPath + ConfigurationManager.AppSettings["MarkAsComplete"].ToString());
                 if (strMailTemplate != "")
                 {
                     string imgUrl = ConfigurationManager.AppSettings["ImgURL"].ToString();
                     MailMessage mailMessage = new MailMessage(ConfigurationManager.AppSettings["FromEmail"].ToString(), isInternal ? ConfigurationManager.AppSettings["ContactUsToEmail"].ToString() : email);
                     SmtpClient smtpClient = new SmtpClient();
-                   mailMessage.Subject = seekername + " has finished your job: " + (jobtitle);
+                    mailMessage.Subject = seekername + " has finished your job: " + (jobtitle);
                     mailMessage.IsBodyHtml = true;
                     if (File.Exists((strMailTemplate)))
                     {
                         StreamReader reader = new StreamReader((strMailTemplate));
                         string str = "";
-                        str = reader.ReadToEnd().Replace("[username]", seekername).Replace("[jobtitle]", jobtitle).Replace("[SiteURL]", siteurl).Replace("[postername]", postername).Replace("[imgUrl]",imgUrl);
+                        str = reader.ReadToEnd().Replace("[username]", seekername).Replace("[jobtitle]", jobtitle).Replace("[SiteURL]", siteurl).Replace("[postername]", postername).Replace("[imgUrl]", imgUrl);
                         if (isInternal)
                         {
-                           // str = reader.ReadToEnd().Replace("[username]", username).Replace("[jobtitle]", jobtitle).Replace("[SiteURL]", siteurl);
+                            // str = reader.ReadToEnd().Replace("[username]", username).Replace("[jobtitle]", jobtitle).Replace("[SiteURL]", siteurl);
                             mailMessage.CC.Add(ConfigurationManager.AppSettings["Mailcc"].ToString());
                         }
                         mailMessage.Bcc.Add(ConfigurationManager.AppSettings["MailBcc"].ToString());
@@ -307,11 +309,11 @@ namespace MatchBx.Utilities
             }
         }
 
-        public static void sendBidOfferEmail(string email, bool isInternal,string username,string jobtitle,decimal bidamount,string fullname )
+        public static void sendBidOfferEmail(string email, bool isInternal, string username, string jobtitle, decimal bidamount, string fullname)
         {
             try
             {
-                string siteurl = ConfigurationManager.AppSettings["SiteURL"].ToString() + "?redirecturl=" + "Y"; 
+                string siteurl = ConfigurationManager.AppSettings["SiteURL"].ToString() + "?redirecturl=" + "Y";
                 string startupPath = AppDomain.CurrentDomain.BaseDirectory;
                 string targetPath = startupPath + "Template\\Email\\";
                 decimal exchangerate = GetExchangeRate();
@@ -324,15 +326,15 @@ namespace MatchBx.Utilities
                     SmtpClient smtpClient = new SmtpClient();
                     //mailMessage.Subject = ConfigurationManager.AppSettings["ContactEmailSubject"].ToString();
                     mailMessage.Subject = username + " has bid for your job: " + jobtitle;
-                     mailMessage.IsBodyHtml = true;
+                    mailMessage.IsBodyHtml = true;
                     if (File.Exists((strMailTemplate)))
                     {
                         StreamReader reader = new StreamReader((strMailTemplate));
                         string str = "";
-                        str = reader.ReadToEnd().Replace("[username]", username).Replace("[jobtitle]", jobtitle).Replace("[bidamount]", bidamount.ToString()).Replace("[bidamtinusd]", amountinUSD.ToString()).Replace("[SiteURL]", siteurl).Replace("[fullname]",fullname).Replace("#imgURL#", imgUrl);
+                        str = reader.ReadToEnd().Replace("[username]", username).Replace("[jobtitle]", jobtitle).Replace("[bidamount]", bidamount.ToString()).Replace("[bidamtinusd]", amountinUSD.ToString()).Replace("[SiteURL]", siteurl).Replace("[fullname]", fullname).Replace("#imgURL#", imgUrl);
                         if (isInternal)
                         {
-                            
+
                             mailMessage.CC.Add(ConfigurationManager.AppSettings["Mailcc"].ToString());
                         }
                         mailMessage.Bcc.Add(ConfigurationManager.AppSettings["MailBcc"].ToString());
@@ -348,7 +350,7 @@ namespace MatchBx.Utilities
         }
 
 
-        public static void sendBidAcceptanceEmail(string fullname, string username, string JobTitle, int JobId, string email,decimal BidAmount, bool isInternal)
+        public static void sendBidAcceptanceEmail(string fullname, string username, string JobTitle, int JobId, string email, decimal BidAmount, bool isInternal)
         {
             try
             {
@@ -369,7 +371,7 @@ namespace MatchBx.Utilities
                     {
                         StreamReader reader = new StreamReader((strMailTemplate));
                         string str = "";
-                        str = reader.ReadToEnd().Replace("[FullName]", fullname).Replace("[Username]", username).Replace("[Job Title]", JobTitle).Replace("[BidAmountAXPR1]", BidAmount.ToString("G29")).Replace("[BidAmountinUSD]", amountinUSD.ToString()).Replace("[SiteURL]",siteurl).Replace("[imgUrl]",imgUrl);
+                        str = reader.ReadToEnd().Replace("[FullName]", fullname).Replace("[Username]", username).Replace("[Job Title]", JobTitle).Replace("[BidAmountAXPR1]", BidAmount.ToString("G29")).Replace("[BidAmountinUSD]", amountinUSD.ToString()).Replace("[SiteURL]", siteurl).Replace("[imgUrl]", imgUrl);
                         if (isInternal)
                         {
                             mailMessage.CC.Add(ConfigurationManager.AppSettings["Mailcc"].ToString());
@@ -426,9 +428,9 @@ namespace MatchBx.Utilities
 
 
         public static void sendGigDeclineEmail(string seekerfullname, string posterusername, string GigTitle, string seekeremail, bool isInternal)
-        { 
+        {
             try
-            {                
+            {
                 string startupPath = AppDomain.CurrentDomain.BaseDirectory;
                 string targetPath = startupPath + "Template\\Email\\";
                 string strMailTemplate = (ConfigurationManager.AppSettings["GigDeclineOfferMailTemplate"].ToString() == "") ? "" : (targetPath + ConfigurationManager.AppSettings["GigDeclineOfferMailTemplate"].ToString());
@@ -444,7 +446,7 @@ namespace MatchBx.Utilities
                     {
                         StreamReader reader = new StreamReader((strMailTemplate));
                         string str = "";
-                        str = reader.ReadToEnd().Replace("[FullName]", seekerfullname).Replace("[Job Title]", GigTitle).Replace("[SiteURL]",siteurl).Replace("[imgUrl]",imgUrl);
+                        str = reader.ReadToEnd().Replace("[FullName]", seekerfullname).Replace("[Job Title]", GigTitle).Replace("[SiteURL]", siteurl).Replace("[imgUrl]", imgUrl);
                         if (isInternal)
                         {
                             mailMessage.CC.Add(ConfigurationManager.AppSettings["Mailcc"].ToString());
@@ -468,7 +470,7 @@ namespace MatchBx.Utilities
 
             return emailPref;
         }
-        public static bool checkuseremailpreferences(string preferences,int userid)
+        public static bool checkuseremailpreferences(string preferences, int userid)
         {
             UserEmailPreferenceMapping objemailPref = new UserEmailPreferenceMapping();
             //List<UserEmailPreferenceMapping> objemailPrefList = new List<UserEmailPreferenceMapping>();
@@ -487,7 +489,7 @@ namespace MatchBx.Utilities
             }
 
         }
-        public static void verificationmail(string fullname,string verificationcode, string email, bool isInternal)
+        public static void verificationmail(string fullname, string verificationcode, string email, bool isInternal)
         {
             try
             {
@@ -497,7 +499,7 @@ namespace MatchBx.Utilities
                 if (strMailTemplate != "")
                 {
                     string imgUrl = ConfigurationManager.AppSettings["ImgURL"].ToString();
-                    string verificationurl = GetEmailVerificationUrl() + "?email=" + email+ "&code="+verificationcode;
+                    string verificationurl = GetEmailVerificationUrl() + "?email=" + email + "&code=" + verificationcode;
                     MailMessage mailMessage = new MailMessage(ConfigurationManager.AppSettings["FromEmail"].ToString(), isInternal ? ConfigurationManager.AppSettings["ContactUsToEmail"].ToString() : email);
                     SmtpClient smtpClient = new SmtpClient();
                     mailMessage.Subject = ConfigurationManager.AppSettings["VerificationMailSubject"].ToString();
@@ -543,7 +545,7 @@ namespace MatchBx.Utilities
                     {
                         StreamReader reader = new StreamReader((strMailTemplate));
                         string str = "";
-                        str = reader.ReadToEnd().Replace("[FIRSTNAME]", FullName).Replace("[JOBNAME]", jobtitle).Replace("[SiteURL]", siteurl).Replace("[imgURL]",imgUrl);
+                        str = reader.ReadToEnd().Replace("[FIRSTNAME]", FullName).Replace("[JOBNAME]", jobtitle).Replace("[SiteURL]", siteurl).Replace("[imgURL]", imgUrl);
                         if (isInternal)
                         {
                             mailMessage.CC.Add(ConfigurationManager.AppSettings["Mailcc"].ToString());
@@ -561,28 +563,28 @@ namespace MatchBx.Utilities
         }
 
 
-        public static void OfflineMessageMail(int _senderId, int _receiverId,int _MatchBXMessageId)
+        public static void OfflineMessageMail(int _senderId, int _receiverId, int _MatchBXMessageId)
         {
             try
             {
                 string startupPath = AppDomain.CurrentDomain.BaseDirectory;
                 string strMailTemplate = startupPath + "Template\\Email\\OfflineMessage.html";
-                string siteurl = ConfigurationManager.AppSettings["SiteURL"].ToString()+@"\login?mailMessagId="+ _senderId;
-              //  string strMailTemplate = (ConfigurationManager.AppSettings["JobCancel"].ToString() == "") ? "" : (targetPath + ConfigurationManager.AppSettings["JobCancel"].ToString());
+                string siteurl = ConfigurationManager.AppSettings["SiteURL"].ToString() + @"\login?mailMessagId=" + _senderId;
+                //  string strMailTemplate = (ConfigurationManager.AppSettings["JobCancel"].ToString() == "") ? "" : (targetPath + ConfigurationManager.AppSettings["JobCancel"].ToString());
                 if (strMailTemplate != "")
                 {
                     string imgUrl = ConfigurationManager.AppSettings["ImgURL"].ToString();
                     UsersModel _objModel = new UsersModel();
                     Users _objReceiver = _objModel.GetList("*", " UserId=" + _receiverId).FirstOrDefault();
-                    Users _objSender= _objModel.GetList("*", " UserId=" + _senderId).FirstOrDefault();
+                    Users _objSender = _objModel.GetList("*", " UserId=" + _senderId).FirstOrDefault();
 
-                    MailMessage mailMessage = new MailMessage(ConfigurationManager.AppSettings["FromEmail"].ToString(),_objReceiver.Email );
+                    MailMessage mailMessage = new MailMessage(ConfigurationManager.AppSettings["FromEmail"].ToString(), _objReceiver.Email);
                     SmtpClient smtpClient = new SmtpClient();
-                    mailMessage.Subject = "You have a message from "+ _objSender.FullName;
+                    mailMessage.Subject = "You have a message from " + _objSender.FullName;
                     mailMessage.IsBodyHtml = true;
                     if (File.Exists((strMailTemplate)))
                     {
-                        
+
                         StreamReader reader = new StreamReader((strMailTemplate));
                         string str = "";
                         str = reader.ReadToEnd().Replace("#username#", _objReceiver.FullName).Replace("#sender#", _objSender.FullName).Replace("[SiteURL]", siteurl).Replace("#imgURL#", imgUrl);
@@ -685,7 +687,7 @@ namespace MatchBx.Utilities
                 throw;
             }
         }
-        public static int  sendPendingApprovalEmailToAdmin(int type, string jobtitle, int jobId,string emails,string date)
+        public static int sendPendingApprovalEmailToAdmin(int type, string jobtitle, int jobId, string emails, string date)
         {
             try
             {
@@ -706,7 +708,7 @@ namespace MatchBx.Utilities
                     {
                         StreamReader reader = new StreamReader((strMailTemplate));
                         string str = "";
-                        str = reader.ReadToEnd().Replace("[TITLE]", jobtitle).Replace("[jobtitle]", jobtitle).Replace("[JobURL]", jobUrl).Replace("[imgUrl]", imgUrl).Replace("[DATE]",date);
+                        str = reader.ReadToEnd().Replace("[TITLE]", jobtitle).Replace("[jobtitle]", jobtitle).Replace("[JobURL]", jobUrl).Replace("[imgUrl]", imgUrl).Replace("[DATE]", date);
                         mailMessage.Body = str;
                         smtpClient.Send(mailMessage);
                         return 1;
@@ -716,7 +718,8 @@ namespace MatchBx.Utilities
                         return 0;
                     }
                 }
-                else {
+                else
+                {
                     return 0;
                 }
             }
@@ -939,8 +942,8 @@ namespace MatchBx.Utilities
                 string siteurl = ConfigurationManager.AppSettings["SiteURL"].ToString() + "?redirecturl=" + "Y";
                 string startupPath = AppDomain.CurrentDomain.BaseDirectory;
                 string targetPath = startupPath + "Template\\Email\\";
-             
-              
+
+
                 string strMailTemplate = (ConfigurationManager.AppSettings["GigSubcriptionMailTemplate"].ToString() == "") ? "" : (targetPath + ConfigurationManager.AppSettings["GigSubcriptionMailTemplate"].ToString());
                 if (strMailTemplate != "")
                 {
@@ -1056,7 +1059,114 @@ namespace MatchBx.Utilities
         }
 
 
+        public static List<CoinViewModel> GetOnlyUsefullCoins()
+        {
+
+            List<CoinViewModel> lstCoinsList = new List<CoinViewModel>();
+            List<SelectListItem> allCrypto = new List<SelectListItem>();
+
+            string URL = ConfigurationManager.AppSettings["SwitchCoinListAPI"];
+            string urlParameters = "";
+            //string urlParameters = "?api_key=123";
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(URL);
+
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // List data response.
+            HttpResponseMessage response = client.GetAsync(urlParameters).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+            if (response.IsSuccessStatusCode)
+            {
+                var dataObjects = response.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<dynamic>(dataObjects);
+                foreach (var d in result)
+                {
+                    allCrypto.Add(new SelectListItem
+                    {
+                        Text = d.symbol,
+                        Value = d.name
+                    });
+                }
+
+            }
+
+            //Make any other calls using HttpClient here.
+
+            //Dispose once all HttpClient calls are complete. This is not necessary if the containing object will be disposed of; for example in this case the HttpClient instance will be disposed automatically when the application terminates so the following call is superfluous.
+            client.Dispose();
+            //ViewBag.allCrypto = allCrypto;
+
+            string CPURL = ConfigurationManager.AppSettings["CoinpaprikaCoinListTickersAPI"];
+            //string urlParameters = "?api_key=123";
+            HttpClient CPclient = new HttpClient();
+            CPclient.BaseAddress = new Uri(CPURL);
+            string CPurlParameters = "";
+
+            // Add an Accept header for JSON format.
+            CPclient.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // List data response.
+            HttpResponseMessage CPresponse = CPclient.GetAsync(CPurlParameters).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+            if (CPresponse.IsSuccessStatusCode)
+            {
+                var dataObjects = CPresponse.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<dynamic>(dataObjects);
+
+                foreach (var d in result)
+
+                {
+                    string dataSymbol = d.symbol;
+                    var has = allCrypto.Any(cr => cr.Text == dataSymbol);
+                    if (has)
+                    {
+                        CoinViewModel coin = new CoinViewModel();
+                        coin.id = d.id;
+                        coin.name = d.name;
+                        coin.symbol = d.symbol;
+                        coin.total_supply = d.total_supply;
+                        coin.max_supply = d.max_supply;
+                        coin.last_updated = d.last_updated;
+                        coin.price = d.quotes.USD.price;
+                        coin.percent_change_24h = d.quotes.USD.percent_change_24h;
+                        lstCoinsList.Add(coin);
+                    }
+
+                }
+
+            }
+            CPclient.Dispose();
+
+            return lstCoinsList.OrderBy(s => s.symbol).ToList();
+        }
+
+        public static decimal? CoinConverter(string baseCurrencyId, string quoteCurrencyId, decimal amount)
+        {
+            Decimal? ConvertedAmount = 0;
+            string CPURL = ConfigurationManager.AppSettings["CoinpaprikaConverterAPI"];
+            string CPurlParameters = "?base_currency_id=" + baseCurrencyId + "&quote_currency_id=" + quoteCurrencyId + "&amount=" + amount;
+
+            HttpClient CPclient = new HttpClient();
+            CPclient.BaseAddress = new Uri(CPURL);
+
+            // Add an Accept header for JSON format.
+            CPclient.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // List data response.
+            HttpResponseMessage CPresponse = CPclient.GetAsync(CPurlParameters).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+            if (CPresponse.IsSuccessStatusCode)
+            {
+                var dataObjects = CPresponse.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<dynamic>(dataObjects);
+                ConvertedAmount = Convert.ToDecimal(result.price);
+            }
+            CPclient.Dispose();
+            return ConvertedAmount;
+        }
+
     }
 
 }
-   

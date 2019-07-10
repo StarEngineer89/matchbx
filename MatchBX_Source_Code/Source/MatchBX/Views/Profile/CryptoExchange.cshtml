@@ -32,7 +32,7 @@
         <form action="" method="post" class="form-b">
             <p>
                 <label for="fba">Pay with</label>
-             
+
                 @*<select id="fba" name="fba">
                         @foreach (var item in Model)
                         {
@@ -52,41 +52,44 @@
                 <label for="fbd" class="hidden">Amount</label>
                 <input type="number" id="fbd" name="fbd" value="@ViewBag.fbd">
             </p>
-            <p class="submit"><
-                button type="submit">Convert</button></p>
+            <p> <button type="submit">Convert</button></p>
         </form>
         <table id="table-money" class="table-money">
-
-            <tr>
-                <th colspan="2">Name</th>
-                <th>Balance <a href="./" class="small">Hide Zero</a></th>
-                <th>Price</th>
-                <th>24H Change</th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+            <thead>
                 <tr>
-                    <td><img src="http://placehold.it/30" alt="Placeholder" width="30" height="30"></td>
-                    <td>
-                        @item.symbol   <span class="small">@item.name</span>
-                    </td>
-                    <td>
-                        0.00
-                    </td>
-                    <td>
-                        $ @item.price
-                    </td>
-                    <td>
-                        @item.percent_change_24h  %
-                    </td>
-                   
+                    <th colspan="2">Name</th>
+                    <th>Balance <a href="#" class="small">Hide Zero</a></th>
+                    <th>Price</th>
+                    <th>24H Change</th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><img src="http://placehold.it/30" alt="Placeholder" width="30" height="30"></td>
+                        <td>
+                            @item.symbol   <span class="small">@item.name</span>
+                        </td>
+                        <td>
+                            0.00
+                        </td>
+                        <td>
+                            $ @item.price
+                        </td>
+                        <td>
+                            @item.percent_change_24h  %
+                        </td>
 
-                    </table>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
     </article>
 </main>
+<script defer src="~/javascript/scripts.js"></script>
+<script defer src="~/javascript/custom.js"></script>
 <script type="text/javascript">
     //$(document).ready(function () {
     //    SwitchList();

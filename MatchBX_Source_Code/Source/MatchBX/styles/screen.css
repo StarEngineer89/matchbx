@@ -1246,6 +1246,28 @@ svg:not(:root) { overflow: hidden; }
 @-webkit-keyframes anim-close { 0% { visibility: visible; opacity: 1; -webkit-transform: none; transform: none; } 100% { visibility: hidden; opacity: 0; -webkit-transform: scale3d(0.9, 0.9, 1); } }
 @keyframes anim-close { 0% { visibility: visible; opacity: 1; -webkit-transform: none; transform: none; } 100% { visibility: hidden; opacity: 0; -webkit-transform: scale3d(0.9, 0.9, 1); transform: scale3d(0.9, 0.9, 1); } }
 
+.table-money {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.table-money tbody {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    height: 400px;
+}
+
+.table-money thead tr {
+    display: block;
+}
+
+
+.table-money th, .table-money td {
+    width: 220px;
+}
+
 
 /* Responsive --------- */
 @media only screen and (max-width: 93.75em) { /* 1500 */

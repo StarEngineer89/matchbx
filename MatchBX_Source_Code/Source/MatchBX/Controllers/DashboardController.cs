@@ -264,6 +264,15 @@ namespace MatchBX.Controllers
             model.MyJobs = objJobMod.GetMyJobs(objJob);
             model.JobsBidOn = objJobMod.GetJobsBidOn(objJob);
 
+            //
+            var Coins = MatchBxCommon.GetOnlyUsefullCoins();
+             
+            ViewBag.Payments = Coins;
+
+            //
+
+
+
             if (objUser.UserId == 0)
             {
                 Session.Clear();

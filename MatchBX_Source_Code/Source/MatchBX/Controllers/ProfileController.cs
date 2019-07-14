@@ -47,6 +47,7 @@ namespace MatchBX.Controllers
         //[SessionExpire]
         public ActionResult Index(int? id)
         {
+
             TempData["TrendingTagsFooter"] = MatchBxCommon.GetTrendingTagsFooter();
             TempData["RecordDisplay"] = _RecordDisplay;
             //Session["ProfilePic"] = "/Content/images/client_pic_1.png";
@@ -317,7 +318,7 @@ namespace MatchBX.Controllers
         [HttpPost]
         public ActionResult CryptoExchange(int? id, FormCollection form)
         {
- 
+
             string fba = form["fba"];
             string fbb = form["fbb"];
             string fbc = form["fbc"];
@@ -337,9 +338,56 @@ namespace MatchBX.Controllers
         //[SessionExpire]
         public ActionResult Arbitration(int? id)
         {
-            return View();
-        }
 
+            JobArbitration _objArbitration = new JobArbitration();
+
+            var userId = Convert.ToInt32(Session["UserId"]);
+            objJob = new Job()
+            {
+                UserId = userId,
+                CreatedDate = DateTime.Now
+            };
+            _objArbitration.MyJobs = objJobMod.GetMyJobs(objJob);
+            return View("Arbitration", _objArbitration);
+        }
+        [NoCache]
+        [HttpPost]
+        public ActionResult Arbitration(int? id, FormCollection form)
+        {
+            JobArbitration _objArbitration = new JobArbitration();
+            var userId = Convert.ToInt32(Session["UserId"]);
+            objJob = new Job()
+            {
+                UserId = userId,
+                CreatedDate = DateTime.Now
+            };
+            _objArbitration.MyJobs = objJobMod.GetMyJobs(objJob);
+            _objArbitration.JobId = Convert.ToInt32(form["jobs"]);
+            _objArbitration.CreatedBy = Convert.ToInt32(Session["UserId"]);
+            _objArbitration.CreatedDate = DateTime.Now;
+            _objArbitration.Issue = form["issue"];
+            _objArbitration.Outcome = form["outcome"];
+            _objArbitration.Stake = Convert.ToDecimal(form["stakeAmount"]);
+            _objArbitration.CryptoSymbol =Convert.ToString (form["stakeCrypto"]);
+            _objArbitration.IsActive = true; 
+
+            ArbitrationModel _objModelArbitation = new ArbitrationModel();
+
+            try
+            {
+                _objModelArbitation.Save(_objArbitration);
+                ViewBag.Success = true;
+
+            }
+            catch (Exception Ex)
+            {
+                ViewBag.Success = false;
+
+
+            }
+
+            return View("Arbitration", _objArbitration);
+        }
 
 
     }

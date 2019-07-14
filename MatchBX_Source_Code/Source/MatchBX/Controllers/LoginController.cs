@@ -94,6 +94,7 @@ namespace MatchBX.Controllers
             MessageDetails _MessageModel = new MessageDetails();
             if (ModelState.IsValid)
             {
+               
                 objUsers.Email = model.UserName;
                 objUsers.Password = model.Password;
                 objUsers.HubId = model.HubId;

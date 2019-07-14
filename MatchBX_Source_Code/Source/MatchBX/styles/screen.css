@@ -1267,7 +1267,7 @@ svg:not(:root) { overflow: hidden; }
 .table-money th, .table-money td {
     width: 220px;
 }
-
+.input-danger { border: 1px solid red !important;}
 
 /* Responsive --------- */
 @media only screen and (max-width: 93.75em) { /* 1500 */

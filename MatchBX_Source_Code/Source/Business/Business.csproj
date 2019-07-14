@@ -215,6 +215,7 @@
     <Compile Include="GigSubscription.cs" />
     <Compile Include="GigSubscriptionDocument.cs" />
     <Compile Include="GigTrendingTagsMapping.cs" />
+    <Compile Include="JobArbitration.cs" />
     <Compile Include="JobAudit.cs" />
     <Compile Include="JobCancellation.cs" />
     <Compile Include="ManageJob.cs" />
